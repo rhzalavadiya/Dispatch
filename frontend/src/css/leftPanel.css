@@ -1,0 +1,176 @@
+.menu-item {
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  column-gap: 6px !important;
+}
+
+.accordion-header {
+  padding: 10px 3px;
+  background-color: #194364;
+  color: #7a9bb5;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+  text-align: center;
+  width: 155px;
+  height: 45px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submenu {
+  padding: 10px 0px;
+  color: #fff;
+  margin-left: 13px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.accordion-header:hover {
+  background-color: #356f9c;
+  color: #fff;
+  border-left: 5px solid #ff7f00;
+}
+
+.accordion-body {
+  padding: 5px 0;
+}
+
+.arrow {
+  float: right;
+  margin-right: 10px;
+  margin-top: 3px;
+}
+
+.menu-options-container .accordion-body {
+  padding: 5px 0;
+}
+
+.accordion {
+  background-color: #295a80;
+}
+
+.accordion-item {
+  background-color: #295a80;
+  border: none;
+}
+.react-datepicker__close-icon {
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0 6px 0 0;
+  position: absolute;
+  top: 0;
+  right: 45px;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+
+/* --------------------------------------
+   NAVBAR RESPONSIVE FIX
+-------------------------------------- */
+
+/* Make navbar flexible */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Left logo section */
+.select_logo {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo image */
+.shubhamlogo {
+  height: 55px;
+  width: auto;
+}
+
+/* Right side container */
+.rightnav {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+/* Profile image */
+.proimage {
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 50%;
+}
+
+/* Bell icon */
+.bell {
+  height: 28px;
+  width: 28px;
+}
+
+/* --------------------------------------
+   TABLET VIEW (max-width: 992px)
+-------------------------------------- */
+@media (max-width: 992px) {
+  nav {
+    padding: 10px 15px;
+  }
+
+  .shubhamlogo {
+    height: 48px;
+  }
+
+  .proimage {
+    height: 36px !important;
+    width: 36px !important;
+  }
+
+  .bell {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+/* --------------------------------------
+   MOBILE VIEW (max-width: 600px)
+-------------------------------------- */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 12px;
+  }
+
+  /* Logo smaller */
+  .shubhamlogo {
+    height: 38px;
+  }
+
+  .rightnav {
+    column-gap: 12px;
+  }
+
+  .proimage {
+    height: 32px !important;
+    width: 32px !important;
+  }
+
+  .bell {
+    height: 22px;
+    width: 22px;
+  }
+}

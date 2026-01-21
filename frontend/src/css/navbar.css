@@ -1,0 +1,337 @@
+body {
+  background-color: #f0f5f9;
+}
+.loginerror {
+  color: red;
+  position: absolute;
+  top: 14px;
+  left: 450px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.no-records {
+  display: flex;
+  text-align: center;
+}
+
+.Leftpanel {
+  float: left;
+  min-width: 187px;
+  max-width: 187px;
+  min-height: 91vh;
+  background-color: #295a80;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cccccc #f4f4f4;
+}
+
+.Leftpanel:-webkit-scrollbar {
+  height: 5px;
+  width: 5px;
+  border: 1px solid #ddd;
+}
+
+.Leftpanel:-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 4px;
+}
+
+.Leftpanel:-webkit-scrollbar-thumb:hover {
+  background: #aaaaaa;
+}
+
+.Rightpanel {
+  width: 80%;
+  float: right;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #295a80;
+  width: 100%;
+  height: 70px;
+}
+
+.select_logo {
+  display: flex;
+  gap: 160px;
+}
+
+.shubhamlogo {
+  width: 150px;
+  height: 45px;
+  margin-left: 8px;
+}
+
+.rightnav {
+  gap: 30px;
+  display: flex;
+  margin-right: 20px;
+}
+
+.notification {
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.profilename {
+  color: #ffffff;
+  align-items: center;
+}
+
+.proimage {
+  width: 50px;
+  height: 50px;
+}
+
+.bell {
+  width: 24px;
+  height: 25px;
+  margin-top: 4px;
+}
+
+.logout {
+  background-color: #295a80;
+}
+.menu {
+  width: 15px;
+  height: 30px;
+}
+
+.logout_btn {
+  padding: 10px 3px;
+  background-color: #ffffff;
+  color: #6b6b6b;
+  text-decoration: none;
+  border-radius: 5px;
+  border: 2px solid #6b6b6b;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+  text-align: center;
+  width: 105px;
+  height: 45px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  float: right;
+  position: absolute;
+  top: 54px;
+  right: 24px;
+  border-left: 5px solid #356f9c;
+  animation: fadeIn 0.5s ease;
+}
+
+.proimage {
+  width: 50px;
+  height: 50px;
+}
+
+.profilename {
+  color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.notification {
+  position: relative;
+}
+
+.notification-popup {
+  position: absolute;
+  top: 131%;
+  right: 0px;
+  width: 417px;
+  max-height: 260px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  animation: buttonOpen 0.7s ease;
+}
+
+.notification-popup.show {
+  opacity: 1;
+  transform: translateY(0);
+  border: 5px;
+  border-color: #295a80;
+  border-radius: 10px;
+  border-style: solid;
+}
+
+.notification-popup ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-popup ul li {
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  background-color: #ffffff;
+  color: #465a64;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.notification_hover:hover {
+  background-color: #bfbfbf;
+}
+.notification-popup p {
+  padding: 10px;
+  margin: 0;
+}
+.notification .notCount {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 2px;
+  position: relative;
+  background-color: #ff7f00;
+  left: -14px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #ffffff;
+  top: -6px;
+  font-weight: 500;
+}
+.notificationblink {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  text-decoration: none;
+  position: absolute;
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+
+
+/* --------------------------------------
+   NAVBAR RESPONSIVE FIX
+-------------------------------------- */
+
+/* Make navbar flexible */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Left logo section */
+.select_logo {
+  display: flex;
+  align-items: center;
+}
+
+/* Logo image */
+.shubhamlogo {
+  height: 55px;
+  width: auto;
+}
+
+/* Right side container */
+.rightnav {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+/* Profile image */
+.proimage {
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 50%;
+}
+
+/* Bell icon */
+.bell {
+  height: 28px;
+  width: 28px;
+}
+
+/* --------------------------------------
+   TABLET VIEW (max-width: 992px)
+-------------------------------------- */
+@media (max-width: 992px) {
+  nav {
+    padding: 10px 15px;
+  }
+
+  .shubhamlogo {
+    height: 48px;
+  }
+
+  .proimage {
+    height: 36px !important;
+    width: 36px !important;
+  }
+
+  .bell {
+    height: 24px;
+    width: 24px;
+  }
+}
+
+/* --------------------------------------
+   MOBILE VIEW (max-width: 600px)
+-------------------------------------- */
+@media (max-width: 600px) {
+  nav {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 12px;
+  }
+
+  /* Logo smaller */
+  .shubhamlogo {
+    height: 38px;
+  }
+
+  .rightnav {
+    column-gap: 12px;
+  }
+
+  .proimage {
+    height: 32px !important;
+    width: 32px !important;
+  }
+
+  .bell {
+    height: 22px;
+    width: 22px;
+  }
+}

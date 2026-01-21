@@ -1,0 +1,496 @@
+HEAD
+header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* padding: 20px 100px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #295a80;
+}
+
+
+.container-1{
+  position: relative;
+  background-color: #295a80 ;
+  width: 497px;
+  height: 646px;
+  max-height: auto;
+  min-height: auto;
+  max-width: auto;
+  min-height: auto;
+  border-top-right-radius: 5px;
+}
+.logo-Shubham {
+   
+   display: flex;
+   position: relative;
+   width: 497px;
+   height: 125px;
+   max-height: auto;
+   min-height: auto;
+   max-width: auto;
+   min-height: auto;
+   background-color: white;
+   /* text-decoration: none; */
+   margin-bottom: 95px;
+   align-items: center;
+   justify-content: center;
+   flex-wrap: wrap;
+}
+
+.form-1{
+  position: relative;
+  background-color: white;
+  width: 497px;
+  height: 521px;
+  max-height: auto;
+  min-height: auto;
+  max-width: auto;
+  min-height: auto;
+  margin-top: -90px;
+  /* border-bottom-left-radius: 7px; */
+  /* border-bottom-right-radius: 7px; */
+}
+.Login-heading {
+  position: relative;
+  width: 111px;
+  height: 63px;
+  font-size: 42px;
+  color: #295a80;
+  font-weight: 500;
+}
+.checkbox {
+  width: 24px;
+  height: 24px;
+  margin-top: 30px;
+  margin-right: 10px;
+  margin-left: 44px;
+  font-size: 18px;
+  justify-content: space-between;
+ 
+}
+
+
+.logo-img{
+  position: relative;
+  height: 64px;
+  width: 214px;
+}
+.Login-text {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.input-box input {
+  display: flex;
+  width: 412px;
+  height: 50px;
+  border-radius: 4px;
+  margin-left: 30px;
+  outline: none;
+  font-size: 18px;
+  color:  #8a8e92;
+  font-weight: 600;
+  border-width: 1px;
+  border-color: #b9b9b9 ;
+}
+
+.password_input {
+  padding-right: 40px; /* Ensure space for the eye button */
+}
+
+.eye_btn {
+  position: absolute;
+  top: 50%;
+  right: 75px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.password-box {
+  position: relative;
+}
+
+.button-spacing {
+  margin-right: 8px; /* Adjust the value as needed */
+  width: 201px;
+  height: 72px;
+}
+
+.btnLogin {
+  background-color: #325880;
+  border-radius: 7px ;
+  color: #ffffff;
+  font-size: 20px;
+  border: none;
+  
+}
+.btnCancel{
+  background-color: #a7a7a7;
+  border-radius: 7px;
+  color: #ffffff;
+  font-size: 20px;
+  border: none;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+}
+
+.message-container{
+ align-items: center;
+ text-align: center;
+ /* margin-top: 10%; */
+}
+.form-check-input{
+  margin-left: 40px;
+  margin-right: 8px;
+  border-color: #b2b2b2;
+  /* width: 24px;
+  height: 24px; */
+}
+.text-change-password{
+  margin-top: 2px;
+  color: #8a8e92;
+}
+.password_reset_btn{
+  border-radius: 7px;
+  height: 50px;
+  width: 153px;
+  background-color: #212c37;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+.change_btn{
+  border-radius: 7px;
+  height: 50px;
+  /* width: 100px; */
+  background-color: #212c37;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+}
+.ok_loginbtn{
+  border-radius: 7px;
+  height: 50px;
+  /* width: 211px; */
+  width: 60px;
+  background-color: #325880;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: none;
+}
+
+
+
+/* login-toaster */
+.custom-toast{
+  width: 600px;
+  position:relative;
+  right: 279%;
+}
+
+
+.change-password{
+  display: flex;
+}
+
+  header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* padding: 20px 100px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .background{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #295a80;
+  }
+  
+  
+  .container-1{
+    position: relative;
+    background-color: #295a80 ;
+    width: 497px;
+    height: 646px;
+    max-height: auto;
+    min-height: auto;
+    max-width: auto;
+    min-height: auto;
+    border-top-right-radius: 5px;
+  }
+  .logo-Shubham {
+     
+     display: flex;
+     position: relative;
+     width: 497px;
+     height: 125px;
+     max-height: auto;
+     min-height: auto;
+     max-width: auto;
+     min-height: auto;
+     background-color: white;
+     /* text-decoration: none; */
+     margin-bottom: 95px;
+     align-items: center;
+     justify-content: center;
+     flex-wrap: wrap;
+  }
+  
+  .form-1{
+    position: relative;
+    background-color: white;
+    width: 497px;
+    height: 450px;
+    max-height: auto;
+    min-height: auto;
+    max-width: auto;
+    min-height: auto;
+    margin-top: -90px;
+    /* border-bottom-left-radius: 7px; */
+    /* border-bottom-right-radius: 7px; */
+  }
+  .Login-heading {
+    position: relative;
+    width: 111px;
+    height: 63px;
+    font-size: 42px;
+    color: #295a80;
+    font-weight: 500;
+  }
+  .checkbox {
+    width: 24px;
+    height: 24px;
+    margin-top: 30px;
+    margin-right: 10px;
+    margin-left: 44px;
+    font-size: 18px;
+    justify-content: space-between;
+   
+  }
+  
+  
+  .logo-img{
+    position: relative;
+    height: 64px;
+    width: 214px;
+  }
+  .Login-text {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+  }
+  
+  
+  .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+     margin-bottom: 10px;
+  }
+   
+  
+  .input-box input {
+    display: flex;
+    width: 412px;
+    height: 50px;
+    border-radius: 4px;
+    /* margin-left: 30px; */
+    outline: none;
+    font-size: 18px;
+    color:  #8a8e92;
+    font-weight: 600;
+    border-width: 1px;
+    border-color: #b9b9b9 ;
+    margin: auto;
+  }
+  
+  
+    
+  .input-box {
+      /* margin: 10px; Optional: Add margin for spacing */
+  }
+  
+  .password_input {
+    padding-right: 40px; /* Ensure space for the eye button */
+  }
+  
+  .eye_btn {
+    position: absolute;
+    top: 50%;
+    right: 75px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .password-box {
+    position: relative;
+  }
+  
+  .button-spacing {
+    margin-right: 8px;
+    width: 180px;
+    height: 60px;
+  }
+  
+  .btnLogin {
+    background-color: #325880;
+    border-radius: 7px ;
+    color: #ffffff;
+    font-size: 20px;
+    border: none;
+    
+  }
+
+  .retryBtn{
+    background-color: #325880;
+    border-radius: 7px ;
+    color: #ffffff;
+    font-size: 20px;
+    border: none;
+  }
+
+  .pwdBtn{
+    background-color: #325880;
+    border-radius: 7px ;
+    color: #ffffff;
+    font-size: 12px;
+    border: none;
+  }
+  .login_with_pwd{
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  .btnCancel{
+    background-color: #a7a7a7;
+    border-radius: 7px;
+    color: #ffffff;
+    font-size: 20px;
+    border: none;
+  }
+  
+  /* .buttons {
+    margin-top: 140px;
+    margin-left: 40px;
+  }
+   */
+  .message-container{
+   align-items: center;
+   text-align: center;
+   /* margin-top: 10%; */
+  }
+  .form-check-input{
+    margin-left: 40px;
+    margin-right: 8px;
+    border-color: #b2b2b2;
+    /* width: 24px;
+    height: 24px; */
+  }
+  .text-change-password{
+    margin-top: 2px;
+    color: #8a8e92;
+  }
+  .password_reset_btn{
+    border-radius: 7px;
+    height: 50px;
+    width: 153px;
+    background-color: #212c37;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .change_btn{
+    border-radius: 7px;
+    height: 50px;
+    /* width: 100px; */
+    background-color: #212c37;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+  }
+  .ok_loginbtn{
+    border-radius: 7px;
+    height: 50px;
+    /* width: 211px; */
+    width: 60px;
+    background-color: #325880;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    border: none;
+  }
+
+
+
+  /* login-toaster */
+  .custom-toast{
+    width: 600px;
+    position:relative;
+    right: 279%;
+  }
+
+
+  /* Spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* Spinner styling */
+.spinner {
+  border: 4px solid #e4e2e2; /* Light grey */
+  border-top: 4px solid #295a80;; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.7s linear infinite;
+}
+
+
+
+input:-webkit-autofill::placeholder,
+input:-moz-autofill::placeholder,
+input:-ms-autofill::placeholder {
+    opacity: 1 !important; /* Force placeholder visibility */
+    color: #999; /* Placeholder color */
+}
+
+/* Reset styles for autofilled inputs */
+input:-webkit-autofill {
+    background-color: transparent !important; /* Reset background */
+    color: inherit !important;
+    transition: background-color 5000s ease-in-out 0s;
+}

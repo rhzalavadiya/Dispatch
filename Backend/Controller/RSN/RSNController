@@ -1,0 +1,263 @@
+const conn = require("../../Database/database");
+const axios = require("axios");
+const fs = require("fs");
+const csvParser = require("csv-parser");
+const { createObjectCsvWriter } = require("csv-writer");
+require("dotenv").config();
+
+const fetchRSNFromVPS = async () => {
+    try {
+        const response = await axios.get(`${process.env.VPS_URL}/rsndata`);
+        
+        if (!response.data || !response.data.success) {  // Add check for response.data existence
+            throw new Error("Invalid response from VPS: " + JSON.stringify(response.data));
+        }
+        
+       // console.log("RSN Data fetched successfully");
+        return response.data.data;
+        
+    } catch (error) {
+        if (error.response) {
+            // Server responded with error status (like 500)
+            console.error(`VPS request failed: ${error.response.status} - ${error.response.statusText}`);
+            console.error("Response data:", error.response.data);
+        } else if (error.request) {
+            // No response received (network issue, timeout, etc.)
+            console.error("No response from VPS:", error.request);
+        } else {
+            // Other error
+            console.error("Axios setup error:", error.message);
+        }
+        throw error;  // Re-throw so cron catch handles it
+    }
+};
+
+const RSNtoLocal = async (data) => {
+    const tablesToSync = [
+        { name: "importrsnshipment", key: "IRS_ID" },
+    ];
+
+    try {
+        for (const table of tablesToSync) {
+            const records = data[table.name] || [];
+            if (!Array.isArray(records) || records.length === 0) {
+                console.log(`No records to sync for table: ${table.name}`);
+                continue;
+            }
+
+            // Log first record keys to debug column mismatch
+            //console.log(`First record keys:`, Object.keys(records[0]));
+
+            // Get schema
+            const [schema] = await conn.query(
+                `SELECT COLUMN_NAME, DATA_TYPE 
+                 FROM INFORMATION_SCHEMA.COLUMNS 
+                 WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?`,
+                [process.env.DB_NAME, table.name]
+            );
+
+            const existingColumns = schema.map(col => col.COLUMN_NAME);
+           // console.log(`Existing columns in DB:`, existingColumns);
+
+            const dateColumns = schema
+                .filter(col => ["datetime", "timestamp"].includes(col.DATA_TYPE.toLowerCase()))
+                .map(col => col.COLUMN_NAME);
+
+            // Get and filter columns from incoming data
+            let dataColumns = Object.keys(records[0]);
+            const matchingColumns = dataColumns.filter(c => existingColumns.includes(c));
+
+           // console.log(`Matching columns:`, matchingColumns);
+
+            // Critical check
+            if (matchingColumns.length === 0 || !matchingColumns.includes(table.key)) {
+                //console.log(`Skipping table ${table.name}: Missing key ${table.key} or no matching columns`);
+               // console.log(`Available data keys:`, dataColumns);
+                //console.log(`Required key: ${table.key}`);
+                continue;
+            }
+
+            dataColumns = matchingColumns; // Use only valid ones
+
+            // Convert datetime fields
+            for (const record of records) {
+                for (const col of dateColumns) {
+                    if (record[col] && typeof record[col] === "string" && record[col].includes("T")) {
+                        const d = new Date(record[col]);
+                        if (!isNaN(d)) {
+                            record[col] = d.toISOString().slice(0, 19).replace("T", " ");
+                        }
+                    }
+                }
+            }
+
+            // Build INSERT ... ON DUPLICATE KEY UPDATE
+            const placeholders = dataColumns.map(() => "?").join(", ");
+            const updateClause = dataColumns.map(c => `${c} = VALUES(${c})`).join(", ");
+            const insertSQL = `
+                INSERT INTO ${table.name} (${dataColumns.join(", ")})
+                VALUES ${records.map(() => `(${placeholders})`).join(", ")}
+                ON DUPLICATE KEY UPDATE ${updateClause}
+            `;
+
+            const values = records.flatMap(r => dataColumns.map(c => r[c] ?? null));
+
+            await conn.query(insertSQL, values);
+            console.log(`Synced ${records.length} records into ${table.name}`);
+        }
+
+        // Success — no res.json needed
+       // console.log("RSN Data synced successfully to local DB");
+        return { success: true, message: "RSN Data synced successfully" };
+
+    } catch (err) {
+        console.error("Sync failed:", err.message);
+        throw err; // Let caller handle it
+    }
+};
+
+
+const getRSNForCSV = async (physicalLocationId) => {
+    const [rows] = await conn.query(
+        `SELECT 
+    IRS_ID,
+    IRS_ProductID,
+    productmaster.PM_GrossWeight,
+    productmaster.PM_MaxOffset,
+    productmaster.PM_MinOffset,
+	IRS_PackSize,
+    IRS_BatchID,
+    IRS_PhysicalLocation,
+    IRS_CompanyID,
+    IRS_RandomNo,
+    IRS_ParentRandomNo,
+    batchlist.BL_ExpDate,
+    IRS_ToSCP,
+    CASE 
+        WHEN batchlist.BL_ExpDate < CURDATE() THEN TRUE
+        ELSE FALSE
+    END AS isExpired
+FROM importrsnshipment
+JOIN batchlist 
+    ON batchlist.BL_BatchID = importrsnshipment.IRS_BatchID
+join productmaster on productmaster.PM_ProductId=importrsnshipment.IRS_ProductID
+AND productmaster.PM_PackSize=importrsnshipment.IRS_PackSize
+WHERE IRS_PhysicalLocation = ?
+  AND IRS_Status = 6`, [physicalLocationId]);
+
+    return rows;
+};
+
+
+
+// csv dump data :
+
+
+
+/**
+ * Read CSV headers dynamically
+ */
+const getCsvHeaders = () => {
+  return new Promise((resolve, reject) => {
+    if (!fs.existsSync(process.env.CSV_PATH)) {
+      return resolve(null);
+    }
+
+    const stream = fs.createReadStream(process.env.CSV_PATH);
+
+    stream
+      .pipe(csvParser())
+      .once("headers", (headers) => {
+        stream.destroy(); // stop reading after headers
+        resolve(headers);
+      })
+      .on("error", reject);
+  });
+};
+
+/**
+ * Read existing IRS_IDs
+ */
+const getExistingIds = () => {
+  return new Promise((resolve, reject) => {
+    const ids = new Set();
+
+    if (!fs.existsSync(process.env.CSV_PATH)) {
+      return resolve(ids);
+    }
+
+    fs.createReadStream(process.env.CSV_PATH)
+      .pipe(csvParser())
+      .on("data", (row) => {
+        if (row.IRS_ID) {
+          ids.add(String(row.IRS_ID));
+        }
+      })
+      .on("end", () => resolve(ids))
+      .on("error", reject);
+  });
+};
+
+/**
+ * Dump data dynamically using existing CSV structure
+ */
+const dumpToCSV = async (rows) => {
+  try {
+    // ❗ Strict rule
+    if (!fs.existsSync(process.env.CSV_PATH)) {
+      console.log("⚠️ CSV not found. Skipping dump.");
+      return;
+    }
+
+    if (!rows || rows.length === 0) return;
+
+    const [headers, existingIds] = await Promise.all([
+      getCsvHeaders(),
+      getExistingIds()
+    ]);
+
+    if (!headers || headers.length === 0) {
+      console.log("⚠️ CSV headers not found.");
+      return;
+    }
+
+    // Filter new rows only
+    const newRows = rows.filter(
+      (r) => !existingIds.has(String(r.IRS_ID))
+    );
+
+    if (newRows.length === 0) {
+      console.log("ℹ️ No new RSN data for CSV");
+      return;
+    }
+
+    // Convert headers to csv-writer format
+    const csvHeaders = headers.map((h) => ({
+      id: h,
+      title: h
+    }));
+
+    // Map DB rows dynamically to CSV structure
+    const formattedRows = newRows.map((row) => {
+      const obj = {};
+      headers.forEach((h) => {
+        obj[h] = row[h] ?? ""; // empty if missing
+      });
+      return obj;
+    });
+
+    const writer = createObjectCsvWriter({
+      path: process.env.CSV_PATH,
+      append: true,
+      header: csvHeaders
+    });
+
+    await writer.writeRecords(formattedRows);
+
+    console.log(`✅ CSV updated dynamically: ${formattedRows.length} rows added`);
+  } catch (err) {
+    console.error("CSV dump error:", err.message);
+  }
+};
+
+module.exports = { fetchRSNFromVPS, RSNtoLocal,getRSNForCSV,dumpToCSV};

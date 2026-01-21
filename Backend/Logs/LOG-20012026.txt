@@ -1,0 +1,155 @@
+[17:52:14.340] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
+[17:52:14.355] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
+[17:52:14.364] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
+[17:52:14.366] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
+[17:52:14.383] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
+[17:52:14.384] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
+[17:52:14.415] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
+[17:52:16.571] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
+[17:52:16.578] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
+[17:52:17.066] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
+[17:52:17.067] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
+[17:52:17.079] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : WH1 : User : Login successful - Session data stored
+[17:52:17.091] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : WH1 : User : LOGIN SUCCESSFUL - Navigated to shipmentscanning
+[17:52:17.109] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
+[17:52:17.110] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:52:17.112] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
+[17:52:17.115] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
+[17:52:17.139] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:52:17.141] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
+[17:52:17.142] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
+[17:52:17.143] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[17:52:17.144] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[17:52:17.145] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
+[17:52:17.175] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:52:17.259] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[17:52:17.260] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[17:52:17.310] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[17:52:17.312] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:52:17.315] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
+[17:52:17.316] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:52:17.321] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:52:17.337] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:52:17.339] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:52:17.351] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:52:17.373] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:52:17.374] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:53:32.576] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:53:32.578] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:55:24.703] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:55:24.704] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:56:27.841] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:56:27.842] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:57:30.912] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:57:30.912] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:58:34.014] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:58:34.015] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:59:37.119] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:59:37.120] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:00:41.567] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:00:41.568] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:01:28.416] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:01:28.418] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
+[18:01:28.419] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
+[18:01:28.421] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
+[18:01:28.422] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[18:01:28.423] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[18:01:28.452] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:01:28.720] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[18:01:28.722] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[18:01:28.778] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[18:01:28.779] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:01:28.782] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:01:28.785] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
+[18:01:28.789] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:01:28.796] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:01:28.798] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:01:28.808] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:01:44.863] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:01:44.864] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:01:55.738] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
+[18:02:18.399] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
+[18:02:18.401] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
+[18:02:18.403] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
+[18:02:18.407] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
+[18:02:18.446] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
+[18:02:18.444] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
+[18:02:18.466] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
+[18:02:21.831] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
+[18:02:21.837] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
+[18:02:22.342] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
+[18:02:22.344] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
+[18:02:22.352] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : WH1 : User : Login successful - Session data stored
+[18:02:22.365] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : WH1 : User : LOGIN SUCCESSFUL - Navigated to shipmentscanning
+[18:02:22.382] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
+[18:02:22.383] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:02:22.385] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
+[18:02:22.387] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
+[18:02:22.412] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:02:22.414] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
+[18:02:22.415] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
+[18:02:22.417] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[18:02:22.418] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
+[18:02:22.419] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[18:02:22.461] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:02:22.577] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[18:02:22.588] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[18:02:22.928] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[18:02:22.940] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:02:22.957] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
+[18:02:22.963] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:02:22.978] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:02:23.020] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:02:23.025] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:02:23.050] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:02:47.967] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:02:47.968] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:03:52.927] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:03:52.928] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:14:16.936] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
+[18:14:16.941] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
+[18:14:16.953] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : WH1 : User : Login successful - Session data stored
+[18:14:16.966] [::ffff:192.168.7.7] : Login : [1.0.0] : [LOG] : WH1 : User : LOGIN SUCCESSFUL - Navigated to shipmentscanning
+[18:14:16.985] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
+[18:14:16.987] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:14:16.989] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
+[18:14:16.993] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
+[18:14:17.017] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:14:17.020] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
+[18:14:17.022] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
+[18:14:17.023] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[18:14:17.025] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
+[18:14:17.027] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[18:14:17.066] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:14:17.307] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[18:14:17.308] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[18:14:17.361] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[18:14:17.363] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:14:17.365] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
+[18:14:17.366] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[18:14:17.373] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:14:17.382] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[18:14:17.384] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:14:17.392] [::ffff:192.168.7.7] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[18:14:28.831] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:14:28.832] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:15:31.935] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:15:31.937] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:16:35.039] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:16:35.040] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:17:38.180] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:17:38.181] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:18:41.283] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:18:41.284] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:19:44.352] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:19:44.353] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:20:47.491] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:20:47.492] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:21:50.560] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:21:50.561] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:22:53.664] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:22:53.665] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:23:56.803] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:23:56.804] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:24:59.871] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:24:59.872] [::ffff:192.168.7.7] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...

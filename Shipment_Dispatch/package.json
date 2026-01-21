@@ -1,0 +1,21 @@
+{
+  "name": "shipment_dispatch",
+  "version": "1.0.0",
+  "main": "app.js",
+  "bin": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "build": "pkg . --targets node16-linux-x64 --output shipment-dispatch-linux"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0",
+    "js-crypto-utils": "^1.0.7",
+    "mysql2": "^3.15.3",
+    "nodemon": "^3.1.11",
+    "util": "^0.12.5"
+  }
+}
+

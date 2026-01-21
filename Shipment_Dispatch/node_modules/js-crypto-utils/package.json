@@ -1,0 +1,49 @@
+{
+  "name": "js-crypto-utils",
+  "version": "1.0.7",
+  "description": "JavaScript cryptographic utilities for OpenSSL-WebCrypto compatibility including PEM/X509-JWK converter.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "yarn jest",
+    "karma": "karma start",
+    "karma:window": "yarn webpack && cross-env TEST_ENV=window karma start",
+    "babel": "cross-env NODE_ENV=production tsc --build ./tsconfig.json",
+    "webpack": "webpack --mode development --config webpack.config.js",
+    "webpack:prod": "webpack --mode production --config webpack.config.js",
+    "build": "rm -rf ./dist && yarn babel && yarn webpack:prod",
+    "cleanup": "rm -rf ./dist coverage ./node_modules"
+  },
+  "author": "Jun Kurihara",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/junkurihara/jscu.git"
+  },
+  "bugs": {
+    "url": "https://github.com/junkurihara/jscu/issues"
+  },
+  "homepage": "https://github.com/junkurihara/jscu/tree/master/packages/js-crypto-utils#readme",
+  "keywords": [
+    "webcrypto",
+    "jwk",
+    "pem",
+    "x509",
+    "ec",
+    "es6",
+    "openssl"
+  ],
+  "dependencies": {
+    "js-crypto-aes": "^1.0.6",
+    "js-crypto-ec": "^1.0.7",
+    "js-crypto-hash": "^1.0.7",
+    "js-crypto-hkdf": "^1.0.7",
+    "js-crypto-hmac": "^1.0.7",
+    "js-crypto-key-utils": "^1.0.7",
+    "js-crypto-pbkdf": "^1.0.7",
+    "js-crypto-random": "^1.0.5",
+    "js-crypto-rsa": "^1.0.7",
+    "js-encoding-utils": "0.7.3",
+    "js-x509-utils": "^1.0.7",
+    "lodash.clonedeep": "~4.5.0"
+  }
+}
