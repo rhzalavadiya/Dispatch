@@ -1,820 +1,143 @@
-[14:58:31.083] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
-[14:58:31.116] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
-[14:58:31.117] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
-[14:58:31.121] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
-[14:58:31.234] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
-[14:58:31.236] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
-[14:58:31.256] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
-[14:58:52.182] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : null : User : GLOBAL WS Error — closing
-[14:58:52.183] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User : GLOBAL WS Disconnected. Reconnecting...
-[14:58:52.755] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
-[14:58:52.762] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:53.721] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
-[14:58:55.464] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:56.040] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:56.304] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:56.592] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:56.800] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:56.953] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:57.433] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:57.640] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:57.841] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:58:58.032] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[14:59:00.338] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
-[14:59:00.340] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
-[14:59:00.349] [::ffff:192.168.1.2] : Login : [1.0.0] : [ERROR] : null : User : Login failed: Invalid username
-[15:00:01.189] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : null : User : GLOBAL WS Error — closing
-[15:00:01.189] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User : GLOBAL WS Disconnected. Reconnecting...
-[15:00:25.657] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
-[15:00:25.660] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
-[15:00:25.664] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
-[15:00:25.665] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
-[15:00:25.768] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
-[15:00:25.771] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
-[15:00:25.797] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
-[15:00:27.808] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
-[15:00:27.812] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:00:27.910] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
-[15:00:27.912] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH
-[15:00:27.923] [::ffff:192.168.1.2] : Login : [1.0.0] : [ERROR] : null : User : Login failed: Invalid username
-[15:00:46.704] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : null : User : GLOBAL WS Error — closing
-[15:00:46.706] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User : GLOBAL WS Disconnected. Reconnecting...
-[15:05:28.306] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
-[15:05:28.407] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
-[15:05:28.409] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
-[15:05:28.410] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
-[15:05:28.422] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
-[15:05:28.425] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
-[15:05:28.462] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
-[15:05:32.364] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
-[15:05:32.366] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
-[15:05:32.388] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
-[15:05:32.389] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
-[15:05:32.495] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
-[15:05:32.496] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
-[15:05:32.508] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
-[15:05:34.054] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
-[15:05:34.058] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:36.224] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
-[15:05:38.589] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:39.270] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:39.513] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:39.796] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:39.985] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:40.140] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:40.672] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:40.874] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:41.080] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:41.281] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:05:43.198] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
-[15:05:43.200] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
-[15:05:43.213] [::ffff:192.168.1.2] : Login : [1.0.0] : [ERROR] : null : User : Login failed: Invalid username
-[15:05:53.414] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : null : User : GLOBAL WS Error — closing
-[15:05:53.416] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User : GLOBAL WS Disconnected. Reconnecting...
-[15:07:02.201] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : null : User : GLOBAL WS Error — closing
-[15:07:02.202] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User : GLOBAL WS Disconnected. Reconnecting...
-[15:07:57.971] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
-[15:07:57.974] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
-[15:07:57.976] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
-[15:07:57.982] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
-[15:07:58.091] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
-[15:07:58.092] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
-[15:07:58.116] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
-[15:07:58.567] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
-[15:07:58.572] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:07:59.415] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
-[15:08:00.644] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
-[15:08:00.645] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
-[15:08:00.664] [::ffff:192.168.1.2] : Login : [1.0.0] : [ERROR] : null : User : Login failed: Invalid password
-[15:08:02.584] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:03.132] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:03.440] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:03.694] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:03.846] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:04.008] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:04.441] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:04.635] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:04.828] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:05.032] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
-[15:08:06.548] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
-[15:08:06.551] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
-[15:08:06.563] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : WH1 : User : Login successful - Session data stored
-[15:08:06.570] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : WH1 : User : LOGIN SUCCESSFUL - Navigated to shipmentscanning
-[15:08:06.622] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
-[15:08:06.623] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:06.625] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
-[15:08:06.626] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
-[15:08:06.675] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:06.677] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
-[15:08:06.678] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
-[15:08:06.680] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
-[15:08:06.683] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
-[15:08:06.681] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
-[15:08:06.763] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:07.261] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
-[15:08:07.263] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
-[15:08:07.412] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
-[15:08:07.414] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:07.418] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:07.416] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
-[15:08:07.423] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:07.444] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:07.453] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:07.483] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:08.461] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
-[15:08:08.458] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
-[15:08:08.455] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:08.452] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
-[15:08:08.463] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[15:08:08.488] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:08.494] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
-[15:08:08.496] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
-[15:08:08.492] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
-[15:08:08.490] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
-[15:08:08.497] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
-[15:08:08.562] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:09.068] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
-[15:08:09.069] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
-[15:08:09.114] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
-[15:08:09.115] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:09.116] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
-[15:08:09.117] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:09.124] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:09.147] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:09.154] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:09.183] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:11.955] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 21
-[15:08:11.957] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 21
-[15:08:11.959] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 21
-[15:08:11.962] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 21
-[15:08:11.976] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 21 | Products: 1 | Status: 2
-[15:08:11.983] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:08:11.995] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_4
-[15:08:12.003] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:08:13.452] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Back to list
-[15:08:13.478] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
-[15:08:13.479] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:13.480] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
-[15:08:13.481] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
-[15:08:13.502] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:13.504] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
-[15:08:13.506] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
-[15:08:13.507] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
-[15:08:13.508] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
-[15:08:13.510] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
-[15:08:13.554] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:14.005] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
-[15:08:14.006] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
-[15:08:14.045] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
-[15:08:14.046] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:14.049] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:08:14.048] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
-[15:08:14.055] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:14.056] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:08:14.081] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:08:15.510] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:08:15.511] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:08:15.515] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:08:15.514] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:08:15.523] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:08:15.528] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:08:15.531] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:08:15.537] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:08:29.500] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:08:29.505] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:09:30.141] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:09:30.142] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:09:30.144] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:09:30.146] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:09:30.147] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:09:30.154] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:09:30.155] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:09:30.161] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:09:38.132] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:09:38.137] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:09:38.136] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:09:38.140] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:09:38.139] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:09:38.145] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:09:38.146] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:09:38.147] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:09:38.156] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:09:38.157] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:09:47.140] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:09:47.142] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:09:47.144] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:09:47.146] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:09:47.148] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:09:47.156] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:09:47.159] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:09:47.158] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:09:48.139] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:09:48.142] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:09:48.146] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:09:48.152] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:09:48.156] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:09:48.160] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:09:48.169] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:09:48.171] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:09:55.130] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:09:55.131] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:09:55.132] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:09:55.134] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:09:55.135] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:09:55.142] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:09:55.143] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:09:55.147] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:10:27.129] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:10:27.131] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:10:27.134] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:10:27.136] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:10:27.138] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:10:27.143] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:10:27.144] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:10:27.146] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:10:47.230] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:10:47.231] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:11:56.221] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:11:56.222] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:12:15.144] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:12:15.145] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:12:15.148] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:12:15.150] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:12:15.153] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:12:15.167] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:12:15.174] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:12:15.176] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:12:40.128] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:12:40.133] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:12:40.131] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:12:40.135] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:12:40.139] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:12:40.145] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:12:40.146] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:12:40.152] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:13:05.220] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:13:05.221] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:13:12.456] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[15:13:12.460] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[15:13:12.461] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[15:13:12.465] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[15:13:12.468] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[15:13:12.478] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[15:13:12.481] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[15:13:12.493] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[15:13:12.503] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[15:13:15.299] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Back to list
-[15:13:15.355] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
-[15:13:15.356] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:13:15.357] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
-[15:13:15.358] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
-[15:13:15.387] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:13:15.388] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
-[15:13:15.390] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
-[15:13:15.393] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
-[15:13:15.394] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
-[15:13:15.395] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
-[15:13:15.461] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:13:15.904] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
-[15:13:15.906] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
-[15:13:15.950] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
-[15:13:15.952] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:13:15.954] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
-[15:13:15.955] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[15:13:15.959] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:13:15.960] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[15:13:15.990] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[15:13:33.676] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:13:33.677] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:14:43.234] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:14:43.235] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:15:52.225] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:15:52.225] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:17:01.257] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:17:01.259] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:18:10.239] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:18:10.240] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:19:19.270] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:19:19.272] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:20:28.268] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:20:28.268] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:21:37.273] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:21:37.275] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:22:46.250] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:22:46.252] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:23:55.243] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:23:55.245] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:25:04.260] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:25:04.263] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:26:13.234] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:26:13.234] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:27:22.237] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:27:22.239] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:28:31.217] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:28:31.220] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:29:40.259] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:29:40.261] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:30:49.237] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:30:49.239] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:31:58.230] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:31:58.232] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:33:07.261] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:33:07.263] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:34:16.229] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:34:16.231] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:35:25.275] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:35:25.276] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:36:34.221] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:36:34.223] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:37:43.306] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:37:43.308] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:38:52.236] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:38:52.238] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:40:01.216] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:40:01.218] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:41:10.252] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:41:10.254] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:42:19.241] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:42:19.242] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:43:28.320] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:43:28.322] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:44:37.226] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:44:37.228] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:45:46.241] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:45:46.243] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:46:55.248] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:46:55.249] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:48:04.221] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:48:04.223] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:49:13.274] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:49:13.276] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:50:22.246] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:50:22.248] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:51:31.288] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:51:31.289] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:52:40.237] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:52:40.237] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:53:49.374] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:53:49.375] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:54:58.270] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:54:58.272] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:56:07.252] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:56:07.253] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:57:16.265] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:57:16.267] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:58:25.235] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:58:25.237] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[15:59:34.235] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[15:59:34.236] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:00:43.245] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:00:43.246] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:01:52.225] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:01:52.227] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:03:01.200] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:03:01.202] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:04:10.213] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:04:10.214] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:05:19.272] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:05:19.273] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:06:28.251] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:06:28.252] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:07:37.276] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:07:37.277] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:08:46.233] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:08:46.233] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:09:55.245] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:09:55.245] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:11:04.271] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:11:04.273] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:12:13.234] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:12:13.234] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:13:22.241] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:13:22.241] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:14:31.278] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:14:31.279] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:15:40.220] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:15:40.223] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:31:45.718] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
-[16:31:45.722] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[16:31:45.736] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
-[16:31:45.738] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:31:45.734] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
-[16:31:45.801] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[16:31:45.802] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
-[16:31:45.803] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
-[16:31:45.804] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
-[16:31:45.805] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
-[16:31:45.808] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
-[16:31:45.871] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[16:31:47.784] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[16:31:47.782] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
-[16:31:47.790] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
-[16:31:47.792] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
-[16:31:47.795] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:31:47.828] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[16:31:47.830] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
-[16:31:47.833] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
-[16:31:47.835] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
-[16:31:47.837] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
-[16:31:47.838] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
-[16:31:47.911] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[16:31:48.476] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
-[16:31:48.480] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
-[16:31:48.656] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
-[16:31:48.657] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[16:31:48.659] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
-[16:31:48.660] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
-[16:31:48.664] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[16:31:48.687] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
-[16:31:48.693] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[16:31:48.718] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
-[16:31:49.337] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:31:49.338] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:31:49.342] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:31:49.339] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:31:49.365] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:31:49.369] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:31:49.384] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:31:49.392] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:32:08.873] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:32:08.875] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:32:09.529] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:32:09.531] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:32:09.534] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:32:09.536] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:32:09.541] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:32:09.549] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:32:09.551] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:32:09.556] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:32:12.079] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:32:12.080] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:32:12.082] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:32:12.087] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:32:12.085] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:32:12.099] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:32:12.107] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:32:12.112] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:32:12.120] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:32:33.133] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:32:33.138] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:32:50.156] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:32:50.158] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:32:50.160] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:32:50.165] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:32:50.168] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:32:50.174] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:32:50.178] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:32:50.180] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:32:53.738] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:32:53.740] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:32:53.745] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:32:53.750] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:32:53.754] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:32:53.761] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:32:53.766] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:32:53.771] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:32:57.776] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:32:57.778] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:32:57.785] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:32:57.781] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:32:57.790] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:32:57.829] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:32:57.862] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:32:57.867] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:32:57.883] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:33:18.829] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:33:18.832] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:34:26.601] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:34:26.603] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:34:29.460] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : WS not connected. Cannot send: {"message":"BYPASS_ON"}
-[16:35:00.662] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:35:00.664] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:35:00.673] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:35:00.683] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:35:00.696] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:35:00.729] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:35:00.737] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:35:00.774] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:35:00.908] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:35:15.976] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:35:15.982] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:35:15.986] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:35:15.979] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:35:16.001] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:35:16.010] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:35:16.014] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:35:16.034] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:35:16.061] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:35:22.441] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:35:22.446] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:35:22.454] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:35:22.462] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:35:22.472] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:35:22.497] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:35:22.513] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:35:22.548] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:35:22.585] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:35:40.136] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:35:40.137] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:35:40.154] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:35:40.143] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:35:40.146] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:35:40.227] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:35:40.224] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:35:40.244] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:35:40.459] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:36:01.206] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:36:01.208] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:37:08.893] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:37:08.895] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:38:16.605] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:38:16.608] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:39:24.334] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:39:24.336] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:39:39.024] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:39:39.026] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:39:39.037] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:39:39.043] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:39:39.055] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:39:39.091] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:39:39.094] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:39:39.147] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:39:39.214] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:39:45.167] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:39:45.170] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:39:45.175] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:39:45.178] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:39:45.183] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
-[16:39:45.202] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:39:45.206] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:39:45.226] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:39:45.244] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:39:55.863] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : WS not connected. Cannot send: {"message":"BYPASS_ON"}
-[16:40:06.229] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:40:06.232] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:41:13.916] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:41:13.917] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:42:21.765] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:42:21.766] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:42:44.964] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:42:44.967] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:42:44.972] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:42:44.986] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:42:44.993] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:42:45.006] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:42:45.031] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:42:45.033] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:42:47.166] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:42:47.168] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:42:47.171] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:42:47.176] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:42:47.180] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:42:47.186] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:42:47.188] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:42:47.190] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:42:47.256] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:42:47.258] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:42:47.263] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:42:47.267] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:42:47.271] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:42:47.278] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:42:47.280] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:42:47.281] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:42:59.820] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:42:59.822] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:42:59.825] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:42:59.830] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:42:59.833] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:42:59.843] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:42:59.850] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:42:59.853] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:16.603] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:43:16.604] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:43:16.610] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:43:16.613] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:43:16.617] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:43:16.623] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:43:16.625] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:43:16.628] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:16.676] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:43:16.679] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:43:16.684] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:43:16.689] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:43:16.693] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:43:16.697] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:43:16.699] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:43:16.702] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:20.522] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:43:20.527] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:43:20.534] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:43:20.545] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:43:20.557] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:43:20.574] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:43:20.585] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:43:20.590] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:22.731] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:43:22.732] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:43:22.738] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:43:22.744] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:43:22.748] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:43:22.755] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:43:22.758] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:43:22.763] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:23.594] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:43:23.595] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:43:23.600] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:43:23.604] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:43:23.608] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:43:23.615] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:43:23.617] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:43:23.619] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:23.654] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:43:23.655] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:43:23.658] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:43:23.662] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:43:23.665] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:43:23.670] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:43:23.672] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:43:23.673] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:28.460] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:43:28.461] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:43:28.468] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:43:28.475] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:43:28.481] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:43:28.487] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:43:28.489] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:43:28.493] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:43:29.487] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:43:29.488] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:44:37.450] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:44:37.451] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:44:59.918] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:44:59.921] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:44:59.922] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:44:59.929] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:44:59.933] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:44:59.938] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:44:59.940] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:44:59.942] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:45:07.041] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:45:07.043] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:45:07.047] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:45:07.052] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:45:07.058] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:45:07.065] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:45:07.067] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:45:07.072] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:45:09.202] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:45:09.204] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:45:09.212] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:45:09.217] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:45:09.222] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:45:09.229] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:45:09.231] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:45:09.232] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:45:45.300] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:45:45.302] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:46:03.888] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:46:03.893] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:46:03.902] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:46:03.908] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:46:03.911] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:46:03.916] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:46:03.918] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:46:03.920] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:46:53.114] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:46:53.118] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:48:01.004] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:48:01.005] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:49:08.912] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:49:08.914] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:50:16.913] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:50:16.914] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:51:10.547] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:51:10.550] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:51:10.551] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:51:10.555] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:51:10.559] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:51:10.564] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:51:10.566] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:51:10.567] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:51:12.027] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:51:12.028] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:51:12.031] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:51:12.035] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:51:12.039] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:51:12.043] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:51:12.045] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:51:12.048] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:51:13.471] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:51:13.474] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:51:13.480] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:51:13.485] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:51:13.489] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:51:13.495] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:51:13.497] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:51:13.500] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:51:15.238] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:51:15.240] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:51:15.244] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:51:15.248] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:51:15.253] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:51:15.258] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:51:15.260] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:51:15.263] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:51:24.734] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:51:24.737] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:51:24.767] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:51:24.770] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:51:24.775] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:51:24.779] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:51:24.782] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:51:24.794] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:51:24.812] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:51:24.815] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:52:32.663] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:52:32.664] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:53:40.741] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:53:40.744] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:54:48.753] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:54:48.754] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:55:11.905] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:55:11.907] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:55:11.910] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:55:11.917] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:55:11.923] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:55:11.932] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:55:11.934] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:55:11.941] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:55:43.019] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:55:43.020] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:55:43.024] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:55:43.027] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:55:43.033] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:55:43.041] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:55:43.042] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:55:43.044] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:55:50.552] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:55:50.554] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:55:50.558] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:55:50.564] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:55:50.569] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:55:50.575] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:55:50.579] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:55:50.582] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:55:50.807] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:55:50.809] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:55:50.814] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:55:50.817] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:55:50.820] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:55:50.825] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:55:50.827] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:55:50.829] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:55:56.760] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:55:56.761] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:57:04.701] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:57:04.704] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:58:12.640] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:58:12.640] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[16:58:56.836] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[16:58:56.838] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[16:58:56.845] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[16:58:56.850] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[16:58:56.854] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[16:58:56.861] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[16:58:56.863] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[16:58:56.866] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[16:59:20.530] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[16:59:20.532] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:00:28.452] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:00:28.453] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:01:36.446] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:01:36.449] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:02:44.423] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:02:44.424] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:03:52.398] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:03:52.401] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:05:00.235] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:05:00.236] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:06:08.151] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:06:08.151] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:07:16.010] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:07:16.011] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:08:23.863] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:08:23.956] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:09:31.716] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:09:31.718] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:10:39.615] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:10:39.616] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:11:47.560] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:11:47.591] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
-[17:11:59.564] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
-[17:11:59.569] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
-[17:11:59.571] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
-[17:11:59.581] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
-[17:11:59.583] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
-[17:11:59.592] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
-[17:11:59.606] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
-[17:11:59.608] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
-[17:12:55.363] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
-[17:12:55.365] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:32:20.509] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:32:20.582] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:32:32.063] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login Accessed
+[17:32:32.068] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Session cleared on login page load
+[17:32:32.071] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
+[17:32:32.073] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
+[17:32:34.731] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login sync data received from VPS
+[17:32:34.732] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
+[17:32:34.811] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Login data successfully synced from VPS to local
+[17:33:04.154] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : null : User : GLOBAL WS Error — closing
+[17:33:04.155] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : null : User : GLOBAL WS Disconnected. Reconnecting...
+[17:33:09.155] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
+[17:33:09.160] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
+[17:33:10.010] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Username entered
+[17:33:10.848] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
+[17:33:10.849] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
+[17:33:10.865] [::ffff:192.168.1.2] : Login : [1.0.0] : [ERROR] : null : User : Login failed: Invalid password
+[17:33:13.121] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Input: Password field interacted
+[17:33:13.959] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Executing API: /login | Username: WH1
+[17:33:13.959] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : null : User : Button Clicked: LOGIN
+[17:33:13.970] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : WH1 : User : Login successful - Session data stored
+[17:33:13.976] [::ffff:192.168.1.2] : Login : [1.0.0] : [LOG] : WH1 : User : LOGIN SUCCESSFUL - Navigated to shipmentscanning
+[17:33:14.033] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
+[17:33:14.035] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:14.037] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
+[17:33:14.039] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
+[17:33:14.090] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:14.092] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
+[17:33:14.094] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
+[17:33:14.097] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[17:33:14.098] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
+[17:33:14.099] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[17:33:14.170] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:14.546] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[17:33:14.547] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[17:33:14.646] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[17:33:14.648] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:14.652] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:14.650] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
+[17:33:14.656] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:14.678] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:14.688] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:14.721] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:16.595] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
+[17:33:16.596] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:16.601] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
+[17:33:16.602] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
+[17:33:16.625] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User :  ⌛ Connecting GLOBAL WebSocket...
+[17:33:16.656] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:16.657] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
+[17:33:16.658] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
+[17:33:16.661] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
+[17:33:16.659] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[17:33:16.662] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[17:33:16.723] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:17.033] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[17:33:17.031] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[17:33:17.071] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[17:33:17.072] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:17.073] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
+[17:33:17.075] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:17.082] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:17.106] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:17.113] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:17.143] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:18.755] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment Edit page accessed - ShipmentID: 27
+[17:33:18.756] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching shipment data - ID: 27
+[17:33:18.757] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching scheme data - ShipmentID: 27
+[17:33:18.759] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Fetching RSN data - Location: 38 27
+[17:33:18.775] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Shipment loaded - ID: 27 | Products: 1 | Status: 2
+[17:33:18.781] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: RSN loaded - Count: 0
+[17:33:18.783] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Reading CSV progress - Code: BW_10
+[17:33:18.797] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [ERROR] : WH1 : User: Failed to read CSV progress - Request failed with status code 404
+[17:33:25.164] [::ffff:192.168.1.2] : Shipment Edit : [1.0.0] : [LOG] : WH1 : User: Back to list
+[17:33:25.187] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
+[17:33:25.189] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:25.192] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
+[17:33:25.193] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : No records found after filtering
+[17:33:25.212] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:25.216] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[17:33:25.215] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting full sync process (auto)
+[17:33:25.214] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Page load → starting initial sync
+[17:33:25.218] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Starting normal forward sync : 
+[17:33:25.220] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[17:33:25.265] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:25.579] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[17:33:25.580] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[17:33:25.621] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[17:33:25.622] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:25.623] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Sync process completed (auto)
+[17:33:25.625] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:33:25.629] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:25.647] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 7
+[17:33:25.654] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:25.680] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0] : [LOG] : WH1 : User : Filtering applied - Total: 7, After filter: 7
+[17:33:37.706] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:33:37.720] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:34:47.235] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:34:47.236] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:35:56.228] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:35:56.229] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:37:05.260] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:37:05.261] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:38:14.218] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:38:14.220] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:39:23.231] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:39:23.232] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:40:32.245] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:40:32.246] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:41:41.217] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:41:41.219] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:42:50.235] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:42:50.237] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:43:59.285] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:43:59.287] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:45:08.263] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:45:08.298] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:46:17.235] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:46:17.236] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:47:26.249] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:47:26.250] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:48:35.248] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:48:35.277] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:49:44.266] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:49:44.294] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:50:53.255] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:50:53.283] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:52:02.388] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:52:02.390] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:53:11.268] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:53:11.295] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:54:20.236] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:54:20.263] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:55:29.287] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:55:29.314] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:56:38.272] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:56:38.274] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:57:47.300] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:57:47.301] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[17:58:56.232] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:58:56.233] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...
+[18:00:05.226] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[18:00:05.228] [::ffff:192.168.1.2] : Websocket context : [1.0.0] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...

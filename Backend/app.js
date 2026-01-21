@@ -761,7 +761,7 @@ app.post("/delete-dispatch-files", (req, res) => {
 
   res.json({ success: true, message: "Shipment folder deleted successfully" });
 });
- 
+
 // 4. Check AutoClose.csv existence
 app.get("/check-autoclose/:shipmentCode", (req, res) => {
   const { shipmentCode } = req.params;
@@ -867,11 +867,11 @@ app.post("/process-pause", async (req, res) => {
     return res.status(400).json({ success: false, error: "Missing required fields" });
   }
 
-  // const basePath = process.env.DISPATCH_BASE_PATH;
-  // const fileName = process.env.RSNFile;
-
-  const basePath = 'D:/ProjectWorkspace/LOg/React/'
+  const basePath = process.env.DISPATCH_BASE_PATH;
   const fileName = process.env.RSNFile;
+
+  // const basePath = 'D:/ProjectWorkspace/LOg/React/'
+  // const fileName = process.env.RSNFile;
 
   const tryFolders = [`${shipmentCode.trim()}-1`, shipmentCode.trim()];
   let filePath = null;
@@ -882,7 +882,7 @@ app.post("/process-pause", async (req, res) => {
       filePath = p;
       break;
     }
-  }
+  } re
 
   if (!filePath) {
     return res.status(200).json({ success: false, message: "Outward_RSN.csv not found" });
@@ -1041,25 +1041,27 @@ app.post("/process-pause", async (req, res) => {
 
       const match = scpMap[row.SCPM_Code];
       const shipmentType = match?.shipmentType === "New Order" ? 1 : 2;
-
-      console.log(`Updating importrsnshipment for IRS_ID: ${row.IRS_ID}`);
+      const shipmentWeightKg = row.CurrentWeight ? Number(row.CurrentWeight) / 1000 : null;
+      console.log(`Updating importrsnshipment for IRS_ID: ${row.IRS_ID} with weight: ${shipmentWeightKg}`);
       try {
         // Try with corrected column name (check if it's IRS_LastModifiedBy or IRS_LastModifedBy)
         const [importResult] = await conn.query(
           `UPDATE importrsnshipment SET
-            IRS_ShipmentID = ?,
-            IRS_ShipmentType = ?,
-            IRS_Status = ?,
-            IRS_ToSCP = (SELECT SCPM_Id FROM scpmaster WHERE SCPM_Code = ?),
-            IRS_LastModifedBy = ?,  -- Note: single 'f' based on common naming
-            IRS_LastModifiedTimeStamp = NOW()
-          WHERE IRS_ID = ?`,
+        IRS_ShipmentID = ?,
+        IRS_ShipmentType = ?,
+        IRS_Status = ?,
+        IRS_ToSCP = (SELECT SCPM_Id FROM scpmaster WHERE SCPM_Code = ?),
+        IRS_LastModifedBy = ?,    -- or IRS_ModifiedBy based on your column
+        IRS_LastModifiedTimeStamp = NOW(),
+        IRS_ShipmentWeight = COALESCE(IRS_ShipmentWeight, 0) + ?   -- add the current weight
+      WHERE IRS_ID = ?`,
           [
             shipmentId,
             shipmentType,
             status,
             row.SCPM_Code,
             userId,
+            shipmentWeightKg,
             row.IRS_ID
           ]
         );
@@ -1078,63 +1080,6 @@ app.post("/process-pause", async (req, res) => {
         }
       } catch (err) {
         console.error(`Error updating importrsnshipment for IRS_ID ${row.IRS_ID}:`, err.message);
-
-        // Try alternative column names if the first fails
-        try {
-          console.log("Trying alternative column names...");
-          const [altResult] = await conn.query(
-            `UPDATE importrsnshipment SET
-              IRS_ShipmentID = ?,
-              IRS_ShipmentType = ?,
-              IRS_Status = ?,
-              IRS_ToSCP = (SELECT SCPM_Id FROM scpmaster WHERE SCPM_Code = ?),
-              IRS_ModifiedBy = ?,  -- Alternative column name
-              IRS_ModifiedTimeStamp = NOW()
-            WHERE IRS_ID = ?`,
-            [
-              shipmentId,
-              shipmentType,
-              status,
-              row.SCPM_Code,
-              userId,
-              row.IRS_ID
-            ]
-          );
-
-          if (altResult.affectedRows > 0) {
-            updatedImportCount++;
-            console.log("Alternative update successful");
-          }
-        } catch (altErr) {
-          console.error("Alternative update also failed:", altErr.message);
-
-          // Last attempt - update without modified by columns
-          try {
-            const [simpleResult] = await conn.query(
-              `UPDATE importrsnshipment SET
-                IRS_ShipmentID = ?,
-                IRS_ShipmentType = ?,
-                IRS_Status = ?,
-                IRS_ToSCP = (SELECT SCPM_Id FROM scpmaster WHERE SCPM_Code = ?),
-                IRS_LastModifiedTimeStamp = NOW()
-              WHERE IRS_ID = ?`,
-              [
-                shipmentId,
-                shipmentType,
-                status,
-                row.SCPM_Code,
-                row.IRS_ID
-              ]
-            );
-
-            if (simpleResult.affectedRows > 0) {
-              updatedImportCount++;
-              console.log("Simple update successful (without modified by)");
-            }
-          } catch (simpleErr) {
-            console.error("Simple update also failed:", simpleErr.message);
-          }
-        }
       }
     }
 
