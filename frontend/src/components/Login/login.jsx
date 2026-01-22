@@ -161,8 +161,9 @@ const NewLogin = () => {
                     setPwdChangeModal(true);
                     logAction("User requested password change - Opening modal", false, { source: val.wantChangePassword ? "backend" : "checkbox" });
                 } else {
-                    navigate("/shipmentscanning");
-                    logAction("LOGIN SUCCESSFUL - Navigated to shipmentscanning", false);
+                   // navigate("/shipmentscanning");
+                   await redirectResumeShipment();
+                    //logAction("LOGIN SUCCESSFUL - Navigated to shipmentscanning", false);
                 }
             }
         } catch (error) {
@@ -385,6 +386,28 @@ const NewLogin = () => {
         };
         callLoginSync();
     }, []);
+
+    //-------------------------check if shipment running status for login---------------------------
+const redirectResumeShipment = async () => {
+  try {
+    const res = await localApi.get("/check-resume-shipments");
+    console.log("Resume shipment check response:", res);
+
+    const id = res.data?.data?.SHPH_ShipmentID;
+
+    if (id) {
+      logAction(`Resuming shipment detected - Redirecting to editShipment/${id}`, false);
+      navigate(`/editShipment/${id}`);   // ✅ FIXED
+    } else {
+      logAction(`No resume shipment - Redirecting to shipmentscanning`, false);
+      navigate("/shipmentscanning");
+    }
+  } catch (err) {
+    console.error("Resume redirect failed:", err);
+    navigate("/shipmentscanning");
+  }
+};
+
 
     return (
         <>

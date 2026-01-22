@@ -11,6 +11,22 @@ import { useShipmentStatus } from '../../contexts/ShipmentStatusContext';   // a
 import { MdOutlineToggleOn } from "react-icons/md";
 import { FaToggleOff } from "react-icons/fa6";
 
+// ─── Cookie Helpers ───────────────────────────────
+const setCookie = (name, value, minutes) => {
+    const d = new Date();
+    d.setTime(d.getTime() + minutes * 60 * 1000);
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${d.toUTCString()}; path=/`;
+};
+
+const getCookie = (name) => {
+    const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return match ? decodeURIComponent(match[2]) : null;
+};
+
+const deleteCookie = (name) => {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+};
+
 
 export default function ShipmentEdit() {
     const autoCloseTriggeredRef = useRef(false);
@@ -316,6 +332,12 @@ export default function ShipmentEdit() {
                     setBypassRemark("");
                     setBypassError("");
                     setShowBypassModal(true);
+
+                    // 👉 store bypass in cookie (1 year)
+                    const ONE_YEAR_MINUTES = 365 * 24 * 60;
+                    setCookie("BYPASS_PENDING", "true", ONE_YEAR_MINUTES);
+                    setCookie("BYPASS_RSN", rsn, ONE_YEAR_MINUTES);
+
                 }
 
                 // ─── Existing handlers ─────────────────────────────────────────
@@ -479,6 +501,9 @@ export default function ShipmentEdit() {
 
                 // Tell Python it's okay to continue
                 send({ message: "BYPASS_YES" });
+
+                deleteCookie("BYPASS_PENDING");
+                deleteCookie("BYPASS_RSN");
 
                 // Clean up
                 setShowBypassModal(false);
@@ -717,6 +742,17 @@ export default function ShipmentEdit() {
     }, [shipmentStatus, setGlobalShipmentStatus]);
 
 
+    // ─── Restore BYPASS modal after reload ─────────────────────────
+    useEffect(() => {
+        const pending = getCookie("BYPASS_PENDING");
+        const rsn = getCookie("BYPASS_RSN");
+
+        if (pending === "true" && rsn) {
+            setCurrentBypassRsnId(rsn);
+            setShowBypassModal(true);
+        }
+    }, []);
+
     return (
         <>
             <div className="page-wrapper">
@@ -848,17 +884,8 @@ export default function ShipmentEdit() {
 
             {/* ─── Bypass Confirmation Modal ──────────────────────────────────────── */}
 
-            <Modal show={showBypassModal} centered backdrop="static">
-                <Modal.Header
-                    closeButton
-                    onHide={() => {
-                        setShowBypassModal(false);
-                        setBypassRemark("");
-                        setBypassError("");
-                        setCurrentBypassRsnId(null);
-
-                    }}
-                >
+            <Modal show={showBypassModal} centered backdrop="static" keyboard={false}>
+                <Modal.Header>
                     <Modal.Title style={{ fontWeight: "bold", color: "#465a64" }}>
                         :: Bypass Confirmation ::
                     </Modal.Title>
@@ -895,7 +922,7 @@ export default function ShipmentEdit() {
                             } else if (value !== trimmed) {
                                 setBypassError("Remarks cannot start or end with spaces");
                             } else {
-                                setBypassError(""); 
+                                setBypassError("");
                             }
                         }}
                     />
@@ -916,7 +943,8 @@ export default function ShipmentEdit() {
                             setBypassRemark("");
                             setBypassError("");
                             setCurrentBypassRsnId(null);
-
+                            deleteCookie("BYPASS_PENDING");
+                            deleteCookie("BYPASS_RSN");
                             send({ message: "BYPASS_NO" });
                         }}
                     >

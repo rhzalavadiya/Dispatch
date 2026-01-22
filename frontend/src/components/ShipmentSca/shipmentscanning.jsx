@@ -55,11 +55,24 @@ export default function ShipmentScanning() {
     logAction("Shipment Scanning Page Accessed");
   }, []);
 
+  const hasStatus6 = shipmentData.some(item => item.SHPH_Status === 6);
+
+  // const canEdit = (row) => {
+  //   const allowed = row.SHPH_Status === 2 || row.SHPH_Status === 6 || row.SHPH_Status === 10;
+  //   //logAction(`Edit permission check - ShipmentID: ${row.SHPH_ShipmentID}, Status: ${row.SHPH_Status}, Allowed: ${allowed}`);
+  //   return allowed;
+  // };
+
   const canEdit = (row) => {
-    const allowed = row.SHPH_Status === 2 || row.SHPH_Status === 6 || row.SHPH_Status === 10;
-    //logAction(`Edit permission check - ShipmentID: ${row.SHPH_ShipmentID}, Status: ${row.SHPH_Status}, Allowed: ${allowed}`);
-    return allowed;
+    if (hasStatus6) {
+      // If any shipment has status 6 → only status 6 is editable
+      return row.SHPH_Status === 6;
+    } else {
+      // Otherwise → allow status 2 and 10
+      return row.SHPH_Status === 2 || row.SHPH_Status === 10;
+    }
   };
+
 
   const fetchShipmentList = async () => {
     try {
@@ -237,7 +250,7 @@ export default function ShipmentScanning() {
   // 1) Load data when page mounts
   useEffect(() => {
     const initLoad = async () => {
-      await fetchShipmentList(); 
+      await fetchShipmentList();
       logAction("Page load → starting initial sync");
       if (navigator.onLine) {
         await performSync(false);   // ✅ first sync from VPS
@@ -318,7 +331,7 @@ export default function ShipmentScanning() {
           .toLowerCase()
           .includes(search2.toLowerCase());
 
-     // logAction(`Filtering ShipmentID ${item.SHPH_ShipmentID}: DateMatch=${dateMatch}, Match1=${match1}, Match2=${match2}`);
+      // logAction(`Filtering ShipmentID ${item.SHPH_ShipmentID}: DateMatch=${dateMatch}, Match1=${match1}, Match2=${match2}`);
       return dateMatch && match1 && match2;
     });
 
@@ -671,6 +684,7 @@ export default function ShipmentScanning() {
                       width: "19px",
                       height: "19px",
                       cursor: "pointer",
+
                     }}
                     onClick={() =>
                       navigate(`/viewShipment/${rowData.SHPH_ShipmentID}`)

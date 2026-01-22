@@ -1180,7 +1180,7 @@ app.post("/process-pause", async (req, res) => {
 
 // ---------------------------camera Setup---------------------------
 
-router.get('/machine-info/', async (req, res) => {
+app.get('/machine-info/', async (req, res) => {
   try {
     const [machineData] = await conn.query(`SELECT MM_ID,MM_Machine_Name,MM_Machine_Code,MM_Cameraip FROM machinemaster`);
     return res.status(200).json({
@@ -1198,7 +1198,7 @@ router.get('/machine-info/', async (req, res) => {
 });
 
 
-router.get('/check-camera', async (req, res) => {
+app.get('/check-camera', async (req, res) => {
   const { ip } = req.query;
 
   if (!ip) {
@@ -1237,6 +1237,67 @@ router.get('/check-camera', async (req, res) => {
   }
 });
 
+//-------------------------Check  shipment running status for login ---------------------------
+
+app.get("/check-resume-shipments", async (req, res) => {
+  //const BASE_PATH = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  const BASE_PATH = process.env.DISPATCH_BASE_PATH;
+  try {
+    const folders = fs
+      .readdirSync(BASE_PATH, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name);
+      console.log("Found folders:", folders);
+    let resumeShipment = null;
+
+    for (const folder of folders) {
+      const isDash1 = folder.endsWith("-1");
+      console.log(`Checking folder: ${folder}, isDash1: ${isDash1}`);
+      const shipmentCode = isDash1 ? folder.replace("-1", "") : folder;
+      console.log(`Derived shipmentCode: ${shipmentCode}`);
+
+      // 🔎 Find shipment in MySQL
+      const [rows] = await conn.query(
+        "SELECT SHPH_ShipmentID, SHPH_Status FROM shipmentlist WHERE SHPH_ShipmentCode = ? LIMIT 1",
+        [shipmentCode]
+      );
+      console.log(`Shipment query result for code ${shipmentCode}:`, rows);
+      if (!rows.length) continue;
+      const shipment = rows[0];
+
+      // ✅ RULE 1 & 2 → shipmentCode-1
+      if (isDash1) {
+        if (shipment.SHPH_Status !== 6) {
+          await conn.query(
+            "UPDATE shipmentlist SET SHPH_Status = 6 WHERE SHPH_ShipmentID = ?",
+            [shipment.SHPH_ShipmentID]
+          );
+        }
+        resumeShipment = shipment;
+        console.log("Resumable shipment found (dash-1):", shipment);
+        break;
+      }
+
+      // ✅ RULE 3 → shipmentCode only
+      if (!isDash1 && shipment.SHPH_Status === 6) {
+        await conn.query(
+          "UPDATE shipmentlist SET SHPH_Status = 10 WHERE SHPH_ShipmentID = ?",
+          [shipment.SHPH_ShipmentID]
+        );
+      }
+    }
+
+    return res.json({
+      success: true,
+      data: resumeShipment, // null or shipment
+    });
+  } catch (err) {
+    console.error("Resume shipment error:", err);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+//---------------------------Routing Setup---------------------------
 routing.routes(app);
 
 app.listen(process.env.PORT, () => {
