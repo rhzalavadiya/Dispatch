@@ -1550,6 +1550,7 @@ select:focus {
   margin-bottom: 10px;
 }
 .queue-card-wrapper {
+  flex: 1;
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 24px;
@@ -1842,4 +1843,96 @@ button:disabled {
   0% { box-shadow: 0 0 0 rgba(220,53,69,0.0); }
   50% { box-shadow: 0 0 12px rgba(220,53,69,0.6); }
   100% { box-shadow: 0 0 0 rgba(220,53,69,0.0); }
+}
+
+.content-with-fail-panel {
+    display: flex;
+    gap: 12px;
+}
+
+/* RIGHT FAIL PANEL */
+.failcount-panel {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        max-height: 66vh;
+    overflow: auto
+}
+
+.failcount-title {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.queue-listf {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.queue-itemf {
+  position: relative;
+  background: #f9fafb;
+  border-left: 8px solid #d1d5db;
+  border-radius: 16px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.item-contentf {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+}
+
+/* top row: RSN left, Time right */
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rsn-line {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.time-line {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* bottom row */
+.row-bottom {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.value {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.fail-highlight {
+  background: #ffe9e9 !important;
+  border-left: 8px solid #961b1b !important;
+  animation: pulseFail 1s ease-in-out 2;
+}
+
+@keyframes pulseFail {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }

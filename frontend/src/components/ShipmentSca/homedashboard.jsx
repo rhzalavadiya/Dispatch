@@ -17,6 +17,9 @@ export default function HomeDashboard() {
 	const { wsRef } = useWebSocket();
 	const [isMachineRunning, setIsMachineRunning] = useState(false);
 
+	const [prevOrderLength, setPrevOrderLength] = useState(0);
+const [prevShipmentCode, setPrevShipmentCode] = useState("");
+
 	// === DERIVED DATA ===
 	const vehicleNumber = order[0]?.LGCVM_VehicleNumber || "N/A";
 	const vehicalCompany = order[0]?.LGCM_Name || "N/A";
@@ -170,38 +173,89 @@ export default function HomeDashboard() {
 	useEffect(() => {
 		let pollInterval = null;
 
+		// const fetchRunning = async () => {
+		// 	logAction(`Executing fallback API: ${config.apiBaseUrl}/get-running-csv`);
+		// 	try {
+		// 		const res = await axios.get(`${config.apiBaseUrl}/get-running-csv`);
+		// 		logAction(`Fallback CSV data received Lenght : ${res.data.data?.length || 0} items`);
+
+		// 		if (res.data.data?.length > 0) {
+		// 			const processedData = res.data.data.map(row => ({
+		// 				...row,
+		// 				pass: parseInt(row.pass || 0),
+		// 				fail: parseInt(row.fail || 0),
+		// 				status: (row.status || "").trim().toUpperCase() || "PENDING",
+		// 				SHPD_ShipQty: parseInt(row.SHPD_ShipQty || 0)
+		// 			}));
+
+		// 			setOrder(processedData);
+		// 			setCurrentShipmentCode(res.data.shipmentCode || "Active Shipment");
+		// 			const hasActive = processedData.some(r => r.status?.toUpperCase() === "RUNNING");
+		// 			setIsMachineRunning(hasActive || processedData.length > 0);
+		// 			logAction(`Fallback update applied: ${processedData.length} items | Shipment Code: ${res.data.shipmentCode}`);
+		// 		} else {
+		// 			setOrder([]);
+		// 			setCurrentShipmentCode("No Active Shipment");
+		// 			logAction("Fallback CSV reports no active data - clearing queue");
+		// 			setIsMachineRunning(false);
+		// 		}
+		// 	} catch (err) {
+		// 		logAction(`CSV fallback fetch failed: ${err.message}`, true);
+		// 		console.error("CSV fetch error:", err);
+		// 	}
+		// };
+
 		const fetchRunning = async () => {
-			logAction(`Executing fallback API: ${config.apiBaseUrl}/get-running-csv`);
-			try {
-				const res = await axios.get(`${config.apiBaseUrl}/get-running-csv`);
-				logAction(`Fallback CSV data received Lenght : ${res.data.data?.length || 0} items`);
+  try {
+    const res = await axios.get(`${config.apiBaseUrl}/get-running-csv`);
+    const currentLength = res.data.data?.length || 0;
+    const currentShipment = res.data.shipmentCode || "No Active Shipment";
 
-				if (res.data.data?.length > 0) {
-					const processedData = res.data.data.map(row => ({
-						...row,
-						pass: parseInt(row.pass || 0),
-						fail: parseInt(row.fail || 0),
-						status: (row.status || "").trim().toUpperCase() || "PENDING",
-						SHPD_ShipQty: parseInt(row.SHPD_ShipQty || 0)
-					}));
+    let dataChanged = false;
 
-					setOrder(processedData);
-					setCurrentShipmentCode(res.data.shipmentCode || "Active Shipment");
-					const hasActive = processedData.some(r => r.status?.toUpperCase() === "RUNNING");
-					setIsMachineRunning(hasActive || processedData.length > 0);
-					logAction(`Fallback update applied: ${processedData.length} items | Shipment Code: ${res.data.shipmentCode}`);
-				} else {
-					setOrder([]);
-					setCurrentShipmentCode("No Active Shipment");
-					logAction("Fallback CSV reports no active data - clearing queue");
-					setIsMachineRunning(false);
-				}
-			} catch (err) {
-				logAction(`CSV fallback fetch failed: ${err.message}`, true);
-				console.error("CSV fetch error:", err);
-			}
-		};
+    if (currentLength > 0) {
+      const processedData = res.data.data.map(row => ({
+        ...row,
+        pass: parseInt(row.pass || 0),
+        fail: parseInt(row.fail || 0),
+        status: (row.status || "").trim().toUpperCase() || "PENDING",
+        SHPD_ShipQty: parseInt(row.SHPD_ShipQty || 0)
+      }));
 
+      setOrder(processedData);
+      setCurrentShipmentCode(currentShipment);
+
+      const hasActive = processedData.some(r => r.status?.toUpperCase() === "RUNNING");
+      setIsMachineRunning(hasActive || processedData.length > 0);
+
+      dataChanged = true;
+    } else {
+      setOrder([]);
+      setCurrentShipmentCode("No Active Shipment");
+      setIsMachineRunning(false);
+
+      // Only consider changed if previously had data
+      if (prevOrderLength > 0) dataChanged = true;
+    }
+
+    // ── Only log when something meaningful changed ──
+    if (dataChanged) {
+      logAction(
+        currentLength > 0
+          ? `Fallback update: ${currentLength} items | Shipment: ${currentShipment}`
+          : `Fallback: queue cleared (no active shipments)`
+      );
+    }
+
+    // Remember current state for next comparison
+    setPrevOrderLength(currentLength);
+    setPrevShipmentCode(currentShipment);
+
+  } catch (err) {
+    logAction(`CSV fallback fetch failed: ${err.message}`, true);
+    console.error("CSV fetch error:", err);
+  }
+};
 		const startPolling = () => {
 			if (!pollInterval) {
 				logAction("Starting CSV fallback polling (every 1 second)");
@@ -273,7 +327,7 @@ export default function HomeDashboard() {
 	useEffect(() => {
 		const running = order.find(i => i.status === "RUNNING");
 		const runningInfo = running ? `${running.SCPM_Name} - ${running.SHPD_ProductName}` : "None";
-		logAction(`Queue Update - Total: ${order.length}, Queued: ${queuedItems.length}, Running: ${runningInfo}, Completed: ${order.filter(i => i.status === "COMPLETED").length}`);
+		//logAction(`Queue Update - Total: ${order.length}, Queued: ${queuedItems.length}, Running: ${runningInfo}, Completed: ${order.filter(i => i.status === "COMPLETED").length}`);
 	}, [order, queuedItems.length]);
 	return (
 		<>

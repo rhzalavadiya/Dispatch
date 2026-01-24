@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataTable } from "primereact/datatable";
 import DatePicker from "react-datepicker";
@@ -89,7 +89,7 @@ export default function ShipmentScanning() {
         // ────────────────────────────────────────────────
         // DEBUG: Check real raw data for reverse sync candidates
         console.log("=== RAW shipmentData just loaded ===");
-        shipmentData.forEach((item, index) => {
+        (response.data.shipment || []).forEach((item, index) => {
           console.log(
             `#${index + 1} | ID:${item.SHPH_ShipmentID} | ` +
             `Status:${item.SHPH_Status} | IsSync:${item.SHPH_IsSync} | ` +
@@ -248,18 +248,28 @@ export default function ShipmentScanning() {
 
   // ────────────────────────────────────────────────
   // 1) Load data when page mounts
-  useEffect(() => {
-    const initLoad = async () => {
-      await fetchShipmentList();
-      logAction("Page load → starting initial sync");
-      if (navigator.onLine) {
-        await performSync(false);   // ✅ first sync from VPS
-      }
-      await fetchShipmentList();    // ✅ then load local data
-    };
+useEffect(() => {
+  logAction("Page load → fetching local shipment list");
+  fetchShipmentList();
+}, []);
 
-    initLoad();
-  }, []);
+
+const autoSyncDoneRef = useRef(false);
+
+useEffect(() => {
+  if (autoSyncDoneRef.current) return;
+
+  // shipmentData may be empty — still do forward sync
+  autoSyncDoneRef.current = true;
+
+  if (navigator.onLine) {
+    logAction("Shipment data loaded → starting auto sync");
+    performSync(false);
+  } else {
+    logAction("Offline → auto sync skipped");
+  }
+}, [shipmentData]);
+
 
 
   // 2) Auto-sync AFTER data is actually loaded (when shipmentData changes)

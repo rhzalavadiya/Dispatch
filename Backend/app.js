@@ -762,6 +762,64 @@ app.post("/delete-dispatch-files", (req, res) => {
   res.json({ success: true, message: "Shipment folder deleted successfully" });
 });
 
+//------------------ Read CSV File For Fail Reason From the Shipment code folder ---------------------
+
+app.get("/api/read-fail-csv", (req, res) => {
+  const { shipmentCode } = req.query;
+  if (!shipmentCode) {
+    return res.status(400).json({ error: "shipmentCode is required" });
+  }
+  //console.log("Shipment Code for Fail CSV : ", shipmentCode);
+  //const basePath = process.env.DISPATCH_BASE_PATH;
+  const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+
+  // 👉 FAIL data file (rowData.csv)
+  const fileName = process.env.RowDataFile;
+
+  const tryPaths = [
+    path.join(basePath, `${shipmentCode.trim()}-1`, fileName),
+    path.join(basePath, shipmentCode.trim(), fileName)
+  ];
+
+  let filePath = null;
+  for (const p of tryPaths) {
+    if (fs.existsSync(p)) {
+      filePath = p;
+      break;
+    }
+  }
+
+  if (!filePath) {
+    return res.status(404).json({ error: "rowData.csv not found" });
+  }
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Unable to read file" });
+     //console.log("Complete Result for Fail CSV : ", data);
+    Papa.parse(data, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (result) => {
+       
+        // ✅ ONLY FAIL ROWS
+        const onlyFail = result.data.filter(
+          r => String(r.Status).toUpperCase() === "FAIL"
+        );
+
+        // ✅ SEND ONLY REQUIRED FIELDS
+        const formatted = onlyFail.map(r => ({
+          rsn: r.RSN,
+          reason: r.ReasonDescription || r.ReasonCode || "FAIL",
+          timestamp: r.Timestamp
+        }));
+       // console.log("Fail CSV Data : ", formatted);
+        res.json(formatted);
+      },
+    });
+  });
+});
+
+
 // 4. Check AutoClose.csv existence
 app.get("/check-autoclose/:shipmentCode", (req, res) => {
   const { shipmentCode } = req.params;
@@ -882,7 +940,7 @@ app.post("/process-pause", async (req, res) => {
       filePath = p;
       break;
     }
-  } re
+  } 
 
   if (!filePath) {
     return res.status(200).json({ success: false, message: "Outward_RSN.csv not found" });
@@ -1240,8 +1298,8 @@ app.get('/check-camera', async (req, res) => {
 //-------------------------Check  shipment running status for login ---------------------------
 
 app.get("/check-resume-shipments", async (req, res) => {
-  //const BASE_PATH = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
-  const BASE_PATH = process.env.DISPATCH_BASE_PATH;
+  const BASE_PATH = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  //const BASE_PATH = process.env.DISPATCH_BASE_PATH;
   try {
     const folders = fs
       .readdirSync(BASE_PATH, { withFileTypes: true })

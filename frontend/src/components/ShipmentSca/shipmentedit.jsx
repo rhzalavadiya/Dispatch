@@ -70,6 +70,11 @@ export default function ShipmentEdit() {
     const CompanyID = sessionStorage.getItem("CompanyId");
     const FromSCPId = sessionStorage.getItem("SCPId");
 
+    //faild data 
+    const [failRsnList, setFailRsnList] = useState([]);
+    const [highlightRsn, setHighlightRsn] = useState(null);
+
+
     const logAction = async (action, isError = false) => {
         try {
             const formattedAction = `User: ${action}`;
@@ -753,6 +758,123 @@ export default function ShipmentEdit() {
         }
     }, []);
 
+
+    // const fetchFailCsv = async () => {
+    //     if (!shipmentCode) return;
+
+    //     try {
+    //         logAction(`Reading FAIL CSV - Code: ${shipmentCode}`);
+    //         const res = await localApi.get("/api/read-fail-csv", {
+    //             params: { shipmentCode },
+    //         });
+
+    //         const sorted = (res.data || [])
+    //             .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+    //             .slice(0, 5); // ✅ only latest 5
+
+    //         if (sorted.length > 0) {
+    //             const newestRsn = sorted[0].rsn;
+
+    //             setFailRsnList(prev => {
+    //                 // ✅ if new FAIL comes
+    //                 if (!prev.length || prev[0]?.rsn !== newestRsn) {
+    //                     setHighlightRsn(newestRsn);
+
+    //                     setTimeout(() => {
+    //                         setHighlightRsn(null);
+    //                     }, 2000); // highlight for 2 sec
+    //                 }
+
+    //                 return sorted.map(r => ({
+    //                     rsn: r.rsn,
+    //                     reason: r.reason,
+    //                     time: formatCsvTime(r.timestamp),
+    //                 }));
+    //             });
+    //         }
+
+    //     } catch (err) {
+    //         console.error("Fail CSV read error", err);
+    //     }
+    // };
+
+
+    const isFetchingRef = useRef(false);
+
+    const fetchFailCsv = async () => {
+        if (!shipmentCode || isFetchingRef.current) return;
+        isFetchingRef.current = true;
+
+        //logAction(`Polling FAIL CSV - Code: ${shipmentCode}`);
+
+        try {
+            const res = await localApi.get("/api/read-fail-csv", { params: { shipmentCode } });
+
+            const sorted = (res.data || [])
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 5);
+
+            if (sorted.length > 0) {
+                const newestRsn = sorted[0].rsn;
+
+                setFailRsnList(prev => {
+                    if (!prev.length || prev[0]?.rsn !== newestRsn) {
+                        setHighlightRsn(newestRsn);
+                        setTimeout(() => setHighlightRsn(null), 2000);
+                    }
+
+                    return sorted.map(r => ({
+                        rsn: r.rsn || '-',
+                        reason: r.reason,
+                        time: formatCsvTime(r.timestamp),
+                    }));
+                });
+            }
+        } catch (err) {
+            console.error("Fail CSV read error", err);
+        } finally {
+            isFetchingRef.current = false;
+        }
+    };
+
+    const formatCsvTime = (ts) => {
+        if (!ts) return "";
+
+        // "2026-01-22 14:56:45"
+        const [date, time] = ts.split(" ");
+        const [yyyy, mm, dd] = date.split("-");
+        const [hh, min, ss] = time.split(":");
+
+        return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+    };
+    useEffect(() => {
+        if (!isShipmentLoaded || !shipmentCode) return;
+
+        // Initial fetch immediately
+        fetchFailCsv();
+
+        // Set interval for polling every 1 second
+        const interval = setInterval(() => {
+            fetchFailCsv();
+        }, 1000);
+
+        return () => clearInterval(interval); // cleanup on unmount
+    }, [isShipmentLoaded, shipmentCode]);
+
+
+    // useEffect(() => {
+    //     if (!isShipmentLoaded || !shipmentCode) return;
+
+    //     fetchFailCsv();
+
+    //     const interval = setInterval(() => {
+    //         fetchFailCsv();
+    //     }, 1000); // every 1 second
+
+    //     return () => clearInterval(interval);
+    // }, [isShipmentLoaded, shipmentCode]);
+
+
     return (
         <>
             <div className="page-wrapper">
@@ -767,80 +889,125 @@ export default function ShipmentEdit() {
                     <div className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"}`}></div>
                 </div>
 
-                <div className="queue-card-wrapper">
-                    {schemeData?.length > 0 && (
-                        <div className="scheme-info">
-                            Hope you have packed{" "}
-                            <strong>{schemeData.OSM_SM_Value}</strong> ×{" "}
-                            <strong>{schemeData.SM_GiftArticle}</strong>{" "}
-                            for SCP <strong>{schemeData.SCPM_Name}</strong>
-                        </div>
-                    )}
+                <div className="content-with-fail-panel">
+                    <div className="queue-card-wrapper">
+                        {schemeData?.length > 0 && (
+                            <div className="scheme-info">
+                                Hope you have packed{" "}
+                                <strong>{schemeData.OSM_SM_Value}</strong> ×{" "}
+                                <strong>{schemeData.SM_GiftArticle}</strong>{" "}
+                                for SCP <strong>{schemeData.SCPM_Name}</strong>
+                            </div>
+                        )}
 
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="shipmentQueue">
-                            {(provided) => (
-                                <div className="queue-list" ref={provided.innerRef} {...provided.droppableProps}>
-                                    {shipmentData.map((item, index) => {
-                                        const prog = productProgress[item.SHPD_ShipmentMID] || {};
-                                        const isCurrent = progress?.mid === item.SHPD_ShipmentMID;
-                                        const isInProgress = isCurrent || prog.status === "RUNNING";
-                                        const isCompleted = prog.status === "COMPLETED";
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId="shipmentQueue">
+                                {(provided) => (
+                                    <div className="queue-list" ref={provided.innerRef} {...provided.droppableProps}>
+                                        {shipmentData.map((item, index) => {
+                                            const prog = productProgress[item.SHPD_ShipmentMID] || {};
+                                            const isCurrent = progress?.mid === item.SHPD_ShipmentMID;
+                                            const isInProgress = isCurrent || prog.status === "RUNNING";
+                                            const isCompleted = prog.status === "COMPLETED";
 
-                                        return (
-                                            <Draggable
-                                                key={item.SHPD_ShipmentMID}
-                                                draggableId={String(item.SHPD_ShipmentMID)}
-                                                index={index}
-                                                isDragDisabled={!canDrag || isCompleted}
-                                            >
-                                                {(provided, snapshot) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                        className={`
+                                            return (
+                                                <Draggable
+                                                    key={item.SHPD_ShipmentMID}
+                                                    draggableId={String(item.SHPD_ShipmentMID)}
+                                                    index={index}
+                                                    isDragDisabled={!canDrag || isCompleted}
+                                                >
+                                                    {(provided, snapshot) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                            className={`
                                                             queue-item
                                                             ${isInProgress ? "in-progress" : ""}
                                                             ${isCurrent ? "current-scanning" : ""}
                                                             ${isCompleted ? "completed" : ""}
                                                             ${snapshot.isDragging ? "dragging" : ""}
                                                         `}
-                                                    >
-                                                        <div className="left-border"></div>
-                                                        <div className="item-content">
-                                                            <div className="col-scp">
-                                                                <span className="label">SCP</span>
-                                                                <div className="scp-name">{item.SCPM_Name}</div>
-                                                                <span className="label mt">Product</span>
-                                                                <div className="product-name">{item.SHPD_ProductName}</div>
-                                                            </div>
-                                                            <div className="col-qty">
-                                                                <span className="label">SHIP QUANTITY</span>
-                                                                <div className="quantity">
-                                                                    {prog.pass !== undefined
-                                                                        ? `${prog.pass} / ${prog.total || item.SHPD_ShipQty}`
-                                                                        : `0 / ${item.SHPD_ShipQty}`}
+                                                        >
+                                                            <div className="left-border"></div>
+                                                            <div className="item-content">
+                                                                <div className="col-scp">
+                                                                    <span className="label">SCP</span>
+                                                                    <div className="scp-name">{item.SCPM_Name}</div>
+                                                                    <span className="label mt">Product</span>
+                                                                    <div className="product-name">{item.SHPD_ProductName}</div>
+                                                                </div>
+                                                                <div className="col-qty">
+                                                                    <span className="label">SHIP QUANTITY</span>
+                                                                    <div className="quantity">
+                                                                        {prog.pass !== undefined
+                                                                            ? `${prog.pass} / ${prog.total || item.SHPD_ShipQty}`
+                                                                            : `0 / ${item.SHPD_ShipQty}`}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="col-spacer"></div>
+                                                                <div className="col-status">
+                                                                    <span className={`status-pill ${isInProgress || isCompleted ? "active" : "pending"}`}>
+                                                                        {isInProgress ? "IN PROGRESS" : isCompleted ? "COMPLETED" : "PENDING"}
+                                                                    </span>
                                                                 </div>
                                                             </div>
-                                                            <div className="col-spacer"></div>
-                                                            <div className="col-status">
-                                                                <span className={`status-pill ${isInProgress || isCompleted ? "active" : "pending"}`}>
-                                                                    {isInProgress ? "IN PROGRESS" : isCompleted ? "COMPLETED" : "PENDING"}
-                                                                </span>
-                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )}
-                                            </Draggable>
-                                        );
-                                    })}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    </DragDropContext>
+                                                    )}
+                                                </Draggable>
+                                            );
+                                        })}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                    </div>
+
+                    {/* ✅ NEW — FAIL COUNT DATA PANEL */}
+                    {failRsnList.length > 0 && (
+                        <div className="failcount-panel">
+
+                            <div className="queue-listf">
+                                {failRsnList.map((item, index) => (
+                                    <div
+                                        key={index}
+                                        className={`queue-itemf ${index === 0 ? "fail-highlight" : ""}`}
+                                    >
+                                        <div className={`left-border ${index === 0 ? "fail-highlight" : ""}`}></div>
+
+                                        <div className="item-contentf">
+
+                                            {/* FIRST ROW */}
+                                            <div className="row-top">
+                                                <div className="rsn-line">
+                                                    <span className="label">RSN :</span>
+                                                    <span className="value">{item.rsn}</span>
+                                                </div>
+
+                                                <div className="time-line">
+                                                    <span className="value">{item.time}</span>
+                                                </div>
+                                            </div>
+
+                                            {/* SECOND ROW */}
+                                            <div className="row-bottom">
+                                                <span className="label">Status :</span>
+                                                <span className="value">{item.reason}</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    )}
+
+
                 </div>
+
             </div>
 
             <div className="button-container">
