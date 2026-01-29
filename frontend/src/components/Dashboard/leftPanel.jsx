@@ -1,68 +1,10 @@
-// import React from "react";
-// import "../../css/leftPanel.css";
-// import { useNavigate } from "react-router-dom";
-
-// const LeftPanel = () => {
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="Leftpanel">
-//       <div className="menu-options-container">
-//         <div className="accordion">
-//           <div className="menu-item">
-//             <a
-//               href="/dashboard"           // ← use href instead of onClick + navigate
-//               target="_blank"             // ← this opens new tab
-//               rel="noopener noreferrer"  // ← important security best practice
-//               className="accordion-header"
-//               style={{ cursor: "pointer", display: "block", textDecoration: "none" }}
-//             >
-//               <div style={{ width: "85%" }}>Dashboard</div>
-//             </a>
-//           </div>
-//           <div className="menu-item">
-//             <div
-//               className="accordion-header"
-//               onClick={() => navigate("/shipmentscanning")}  // This works because it's nested!
-//               style={{ cursor: "pointer" }}
-//             >
-//               <div style={{ width: "85%" }}>Shipment Scanning</div>
-//             </div>
-//           </div>
-
-//           <div className="menu-item">
-//             <div
-//               className="accordion-header"
-//               onClick={() => navigate("/camerasetup")}  // This works because it's nested!
-//               style={{ cursor: "pointer" }}
-//             >
-//               <div style={{ width: "85%" }}>Camera Setup</div>
-//             </div>
-//           </div>
-
-//           <div className="menu-item">
-//             <div
-//               className="accordion-header"
-//               onClick={() => navigate("/aboutus")}  // This works because it's nested!
-//               style={{ cursor: "pointer" }}
-//             >
-//               <div style={{ width: "85%" }}>About Us</div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LeftPanel;
-
-
-
 import React from "react";
 import "../../css/leftPanel.css";
 import { useNavigate } from "react-router-dom";
 import { useShipmentStatus } from "../../contexts/ShipmentStatusContext";  // ← adjust path
+import { config } from "../config/config";
+import { toast } from "react-toastify";
+
 
 const LeftPanel = () => {
   const navigate = useNavigate();
@@ -82,11 +24,45 @@ const LeftPanel = () => {
     pointerEvents: "none",
   };
 
+  const handleCameraDirectOpen = async () => {
+  try {
+    // 1. get machine list
+    const res = await fetch(`${config.apiBaseUrl}/machine-info`);
+    if (!res.ok) throw new Error("Failed to fetch machines");
+    const data = await res.json();
+
+    const machine = data.machineData?.[0]; // 👉 first machine
+    if (!machine) {
+      alert("No machine found");
+      return;
+    }
+
+    // open blank window immediately (avoid popup block)
+    const camWindow = window.open("", "_blank");
+
+    // 2. check camera connection
+    const check = await fetch(
+      `${config.apiBaseUrl}/check-camera?ip=${machine.MM_Cameraip}`
+    );
+    const checkRes = await check.json();
+
+    if (checkRes.status === "connected") {
+      camWindow.location.href = `http://${machine.MM_Cameraip}`;
+    } else {
+      toast.error("Camera disconnected");
+      camWindow.close();
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Unable to open camera");
+  }
+};
+
   return (
     <div className="Leftpanel">
       <div className="menu-options-container">
         <div className="accordion">
-          <div className="menu-item">
+          {/*<div className="menu-item">
             <a
               href="/dashboard"
               target="_blank"
@@ -96,7 +72,7 @@ const LeftPanel = () => {
             >
               <div style={{ width: "85%" }}>Dashboard</div>
             </a>
-          </div>
+          </div>*/}
 
           <div className="menu-item">
             <div
@@ -108,15 +84,15 @@ const LeftPanel = () => {
             </div>
           </div>
 
-          <div className="menu-item">
-            <div
-              className="accordion-header"
-              onClick={() => navigate("/camerasetup")}
-              style={{ cursor: "pointer" }}
-            >
-              <div style={{ width: "85%" }}>Camera Setup</div>
-            </div>
-          </div>
+         <div className="menu-item">
+  <div
+    className="accordion-header"
+    onClick={handleCameraDirectOpen}
+    style={{ cursor: "pointer" }}
+  >
+    <div style={{ width: "85%" }}>Camera Setup</div>
+  </div>
+</div>
 
           <div className="menu-item">
             <div

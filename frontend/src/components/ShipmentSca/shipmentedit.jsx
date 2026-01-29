@@ -10,6 +10,9 @@ import { useShipmentStatus } from '../../contexts/ShipmentStatusContext';   // a
 
 import { MdOutlineToggleOn } from "react-icons/md";
 import { FaToggleOff } from "react-icons/fa6";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+
 
 // ─── Cookie Helpers ───────────────────────────────
 const setCookie = (name, value, minutes) => {
@@ -33,6 +36,9 @@ export default function ShipmentEdit() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { wsRef, send, isConnected } = useWebSocket();
+
+    const isFetchingProgressRef = useRef(false);
+    const isFetchingFailRef = useRef(false);
 
     const [shipmentData, setShipmentData] = useState([]);
     const [schemeData, setSchemeData] = useState([]);
@@ -169,62 +175,138 @@ export default function ShipmentEdit() {
     useEffect(() => {
         getRSN();
     }, []);
+    const fetchCsvProgress = async () => {
+        if (!shipmentCode || isFetchingProgressRef.current) return;
+        isFetchingProgressRef.current = true;
+
+        try {
+            const res = await localApi.get("/api/read-csv", { params: { shipmentCode } });
+            const csv = res.data || [];
+            if (!csv.length) return;
+
+            // ✅ TAKE LATEST ROW PER MID
+            const latestByMid = {};
+            csv.forEach(r => {
+                const mid = String(r.SHPD_ShipmentMID);
+                latestByMid[mid] = r;   // overwrite → last row wins
+            });
+
+            const progressMap = {};
+            const completedSet = new Set();
+
+            Object.values(latestByMid).forEach(r => {
+                const mid = String(r.SHPD_ShipmentMID);
+
+                const pass = Number(r.pass) || 0;
+                const total = Number(r.total) || Number(r.SHPD_ShipQty) || 0;
+
+                let status = (r.status || "").toUpperCase();
+
+                // fallback if status empty
+                if (!status) {
+                    if (pass > 0 && pass < total) status = "RUNNING";
+                    else if (pass >= total && total > 0) status = "COMPLETED";
+                    else status = "PENDING";
+                }
+
+                progressMap[mid] = { pass, total, status };
+
+                if (status === "COMPLETED") completedSet.add(mid);
+            });
+
+            // ✅ UPDATE COUNTS + STATUS
+            setProductProgress(progressMap);
+
+            // ✅ MOVE COMPLETED TO BOTTOM
+            setShipmentData(prev => {
+                const active = [];
+                const completed = [];
+
+                prev.forEach(item => {
+                    const mid = String(item.SHPD_ShipmentMID);
+                    if (completedSet.has(mid)) completed.push(item);
+                    else active.push(item);
+                });
+
+                return [...active, ...completed];
+            });
+
+            // ✅ AUTO CLOSE SHIPMENT
+            const allCompleted =
+                Object.values(progressMap).length > 0 &&
+                Object.values(progressMap).every(p => p.status === "COMPLETED");
+
+            // if (allCompleted && !autoClosed && !isClosing) {
+            //     setAutoClosed(true);
+            //     handleClose();
+            // }
+
+        } catch (err) {
+            console.error("CSV read error", err);
+        } finally {
+            isFetchingProgressRef.current = false;
+        }
+    };
 
     useEffect(() => {
         if (!isShipmentLoaded || !shipmentCode) return;
+        // const fetchCsvProgress = async () => {
+        //     try {
+        //         logAction(`Reading CSV progress - Code: ${shipmentCode}`);
+        //         const res = await localApi.get("/api/read-csv", { params: { shipmentCode } });
+        //         const csv = res.data || [];
+        //         setCsvData(csv);
 
-        const fetchCsvProgress = async () => {
-            try {
-                logAction(`Reading CSV progress - Code: ${shipmentCode}`);
-                const res = await localApi.get("/api/read-csv", { params: { shipmentCode } });
-                const csv = res.data || [];
-                setCsvData(csv);
-
-                // ─── FULL BYPASS ───────────────────────────────────────
-                // ✅ SET FULL BYPASS FROM CSV
-                const bypassFromCsv = csv.some(
-                    r => String(r.BypassMode).toLowerCase() === "true"
-                );
-                setIsFullBypassOn(bypassFromCsv);
+        //         // ─── FULL BYPASS ───────────────────────────────────────
+        //         // ✅ SET FULL BYPASS FROM CSV
+        //         const bypassFromCsv = csv.some(
+        //             r => String(r.BypassMode).toLowerCase() === "true"
+        //         );
+        //         setIsFullBypassOn(bypassFromCsv);
 
 
-                if (csv.length === 0) return;
+        //         if (csv.length === 0) return;
 
-                const hasProgress = csv.some(r => Number(r.pass) > 0 || Number(r.fail) > 0);
-                if (!hasProgress) return;
+        //         const hasProgress = csv.some(r => Number(r.pass) > 0 || Number(r.fail) > 0);
+        //         if (!hasProgress) return;
 
-                logAction(`Applying CSV progress - Entries: ${csv.length}`);
+        //         logAction(`Applying CSV progress - Entries: ${csv.length}`);
 
-                setShipmentData(prev =>
-                    prev.map(item => {
-                        const match = csv.find(r => String(r.SHPD_ShipmentMID) === String(item.SHPD_ShipmentMID));
-                        if (!match) return item;
-                        return {
-                            ...item,
-                            pass: Number(match.pass || 0),
-                            fail: Number(match.fail || 0),
-                            total: Number(match.total || item.SHPD_ShipQty),
-                            status: match.status || item.status,
-                        };
-                    })
-                );
+        //         setShipmentData(prev =>
+        //             prev.map(item => {
+        //                 const match = csv.find(r => String(r.SHPD_ShipmentMID) === String(item.SHPD_ShipmentMID));
+        //                 if (!match) return item;
+        //                 return {
+        //                     ...item,
+        //                     pass: Number(match.pass || 0),
+        //                     fail: Number(match.fail || 0),
+        //                     total: Number(match.total || item.SHPD_ShipQty),
+        //                     status: match.status || item.status,
+        //                 };
+        //             })
+        //         );
 
-                const progressMap = {};
-                csv.forEach(item => {
-                    progressMap[item.SHPD_ShipmentMID] = {
-                        pass: Number(item.pass) || 0,
-                        fail: Number(item.fail) || 0,
-                        total: Number(item.total || item.SHPD_ShipQty),
-                        status: item.status || "",
-                    };
-                });
-                setProductProgress(progressMap);
-            } catch (err) {
-                logAction(`Failed to read CSV progress - ${err.message}`, true);
-            }
-        };
-
+        //         const progressMap = {};
+        //         csv.forEach(item => {
+        //             progressMap[item.SHPD_ShipmentMID] = {
+        //                 pass: Number(item.pass) || 0,
+        //                 fail: Number(item.fail) || 0,
+        //                 total: Number(item.total || item.SHPD_ShipQty),
+        //                 status: item.status || "",
+        //             };
+        //         });
+        //         setProductProgress(progressMap);
+        //     } catch (err) {
+        //         logAction(`Failed to read CSV progress - ${err.message}`, true);
+        //     }
+        // };
         fetchCsvProgress();
+        const interval = setInterval(() => {
+            fetchCsvProgress();
+        }, 1000);
+
+
+        return () => clearInterval(interval);
     }, [isShipmentLoaded, shipmentCode]);
 
     const saveDispatchJson = () => {
@@ -415,48 +497,58 @@ export default function ShipmentEdit() {
                     setLoadingAction("");
                 }
 
-                if (msg.type === "progress" && Array.isArray(msg.order)) {
-                    const total = msg.order.length;
-                    const completed = msg.order.filter(i => i.status === "COMPLETED").length;
-                    logAction(`Progress update - ${completed}/${total} completed`);
+                // ─── Auto Closed ─────────────────────────────────────────
 
-                    const activeItem = msg.order.find(item => item.SHPD_ShipmentMID === msg.active_mid);
-                    if (activeItem) {
-                        setCurrentActiveMID(activeItem.SHPD_ShipmentMID);   // ← important!
-
-                        setProgress({
-                            mid: activeItem.SHPD_ShipmentMID,
-                            product: activeItem.SHPD_ProductName,
-                            pass: activeItem.pass || 0,
-                            fail: activeItem.fail || 0,
-                            total: parseInt(activeItem.total || activeItem.SHPD_ShipQty),
-                        });
-                    } else {
-                        setProgress(null);
-                    }
-
-                    const progressMap = {};
-                    msg.order.forEach(p => {
-                        progressMap[p.SHPD_ShipmentMID] = {
-                            pass: p.pass || 0,
-                            fail: p.fail || 0,
-                            total: parseInt(p.total || p.SHPD_ShipQty),
-                            status: p.status || "",
-                        };
-                    });
-                    setProductProgress(progressMap);
-
-                    const activeAndPending = msg.order.filter(i => i.status !== "COMPLETED");
-                    const completedItems = msg.order.filter(i => i.status === "COMPLETED");
-                    setShipmentData([...activeAndPending, ...completedItems]);
-
-                    const allCompleted = msg.order.every(i => i.status === "COMPLETED");
-                    if (allCompleted && !autoClosed && !isClosing) {
-                        logAction("All products completed → triggering auto-close");
-                        setAutoClosed(true);
+                if (msg.ack === "AUTO_CLOSED") {
+                    logAction("AUTO_CLOSED received → closing shipment");
+                    if (!isClosing) {
                         handleClose();
                     }
+                    return;
                 }
+
+                // if (msg.type === "progress" && Array.isArray(msg.order)) {
+                //     const total = msg.order.length;
+                //     const completed = msg.order.filter(i => i.status === "COMPLETED").length;
+                //     logAction(`Progress update - ${completed}/${total} completed`);
+
+                //     const activeItem = msg.order.find(item => item.SHPD_ShipmentMID === msg.active_mid);
+                //     if (activeItem) {
+                //         setCurrentActiveMID(activeItem.SHPD_ShipmentMID);   // ← important!
+
+                //         setProgress({
+                //             mid: activeItem.SHPD_ShipmentMID,
+                //             product: activeItem.SHPD_ProductName,
+                //             pass: activeItem.pass || 0,
+                //             fail: activeItem.fail || 0,
+                //             total: parseInt(activeItem.total || activeItem.SHPD_ShipQty),
+                //         });
+                //     } else {
+                //         setProgress(null);
+                //     }
+
+                //     const progressMap = {};
+                //     msg.order.forEach(p => {
+                //         progressMap[p.SHPD_ShipmentMID] = {
+                //             pass: p.pass || 0,
+                //             fail: p.fail || 0,
+                //             total: parseInt(p.total || p.SHPD_ShipQty),
+                //             status: p.status || "",
+                //         };
+                //     });
+                //     setProductProgress(progressMap);
+
+                //     const activeAndPending = msg.order.filter(i => i.status !== "COMPLETED");
+                //     const completedItems = msg.order.filter(i => i.status === "COMPLETED");
+                //     setShipmentData([...activeAndPending, ...completedItems]);
+
+                //     const allCompleted = msg.order.every(i => i.status === "COMPLETED");
+                //     if (allCompleted && !autoClosed && !isClosing) {
+                //         logAction("All products completed → triggering auto-close");
+                //         setAutoClosed(true);
+                //         handleClose();
+                //     }
+                // }
             } catch (e) {
                 logAction(`WebSocket message error - ${e.message}`, true);
                 setIsMainOperationLoading(false);
@@ -578,6 +670,7 @@ export default function ShipmentEdit() {
         logAction("Back to list");
         navigate("/shipmentscanning");
     };
+
     const handleFullBypassToggle = () => {
         const newState = !isFullBypassOn;
         setIsFullBypassOn(newState);
@@ -594,32 +687,32 @@ export default function ShipmentEdit() {
     };
 
 
-    const waitForCloseAck = () => {
-        return new Promise((resolve, reject) => {
-            const ws = wsRef.current;
-            if (!ws) return reject(new Error("No WebSocket"));
+    // const waitForCloseAck = () => {
+    //     return new Promise((resolve, reject) => {
+    //         const ws = wsRef.current;
+    //         if (!ws) return reject(new Error("No WebSocket"));
 
-            const timeout = setTimeout(() => {
-                ws.removeEventListener("message", handler);
-                logAction("AUTO_CLOSED ack timeout", true);
-                reject(new Error("CLOSE ACK timeout"));
-            }, 15000);
+    //         const timeout = setTimeout(() => {
+    //             ws.removeEventListener("message", handler);
+    //             logAction("AUTO_CLOSED ack timeout", true);
+    //             reject(new Error("CLOSE ACK timeout"));
+    //         }, 15000);
 
-            const handler = (ev) => {
-                try {
-                    const msg = JSON.parse(ev.data);
-                    if (msg.ack === "AUTO_CLOSED") {
-                        logAction("AUTO_CLOSED ack received");
-                        clearTimeout(timeout);
-                        ws.removeEventListener("message", handler);
-                        logAction("AUTO_CLOSED ack received");
-                        resolve(true);
-                    }
-                } catch { }
-            };
-            ws.addEventListener("message", handler);
-        });
-    };
+    //         const handler = (ev) => {
+    //             try {
+    //                 const msg = JSON.parse(ev.data);
+    //                 if (msg.ack === "AUTO_CLOSED") {
+    //                     logAction("AUTO_CLOSED ack received");
+    //                     clearTimeout(timeout);
+    //                     ws.removeEventListener("message", handler);
+    //                     logAction("AUTO_CLOSED ack received");
+    //                     resolve(true);
+    //                 }
+    //             } catch { }
+    //         };
+    //         ws.addEventListener("message", handler);
+    //     });
+    // };
 
     const performFullSyncAfterStopOrClose = async () => {
         if (!navigator.onLine) {
@@ -678,7 +771,7 @@ export default function ShipmentEdit() {
         setLoadingAction("close");
 
         try {
-            await waitForCloseAck();
+            // await waitForCloseAck();
 
             logAction(`executing api : ${config.apiBaseUrl}/process-pause for shipment ${shipmentCode}`);
             const res = await localApi.post("/process-pause", {
@@ -759,81 +852,54 @@ export default function ShipmentEdit() {
     }, []);
 
 
-    // const fetchFailCsv = async () => {
-    //     if (!shipmentCode) return;
-
-    //     try {
-    //         logAction(`Reading FAIL CSV - Code: ${shipmentCode}`);
-    //         const res = await localApi.get("/api/read-fail-csv", {
-    //             params: { shipmentCode },
-    //         });
-
-    //         const sorted = (res.data || [])
-    //             .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-    //             .slice(0, 5); // ✅ only latest 5
-
-    //         if (sorted.length > 0) {
-    //             const newestRsn = sorted[0].rsn;
-
-    //             setFailRsnList(prev => {
-    //                 // ✅ if new FAIL comes
-    //                 if (!prev.length || prev[0]?.rsn !== newestRsn) {
-    //                     setHighlightRsn(newestRsn);
-
-    //                     setTimeout(() => {
-    //                         setHighlightRsn(null);
-    //                     }, 2000); // highlight for 2 sec
-    //                 }
-
-    //                 return sorted.map(r => ({
-    //                     rsn: r.rsn,
-    //                     reason: r.reason,
-    //                     time: formatCsvTime(r.timestamp),
-    //                 }));
-    //             });
-    //         }
-
-    //     } catch (err) {
-    //         console.error("Fail CSV read error", err);
-    //     }
-    // };
-
-
-    const isFetchingRef = useRef(false);
 
     const fetchFailCsv = async () => {
-        if (!shipmentCode || isFetchingRef.current) return;
-        isFetchingRef.current = true;
-
+        if (!shipmentCode || isFetchingFailRef.current) return;
+        isFetchingFailRef.current = true;
         //logAction(`Polling FAIL CSV - Code: ${shipmentCode}`);
 
         try {
             const res = await localApi.get("/api/read-fail-csv", { params: { shipmentCode } });
 
             const sorted = (res.data || [])
-                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-                .slice(0, 5);
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            //    .slice(0, 5);
 
             if (sorted.length > 0) {
                 const newestRsn = sorted[0].rsn;
 
-                setFailRsnList(prev => {
-                    if (!prev.length || prev[0]?.rsn !== newestRsn) {
-                        setHighlightRsn(newestRsn);
-                        setTimeout(() => setHighlightRsn(null), 2000);
-                    }
-
-                    return sorted.map(r => ({
-                        rsn: r.rsn || '-',
+                setFailRsnList(
+                    sorted.map(r => ({
+                        rsn: r.rsn || "-",
                         reason: r.reason,
                         time: formatCsvTime(r.timestamp),
-                    }));
-                });
+                        status: r.status || "-"
+                    }))
+                );
+
+                if (sorted[0]?.rsn !== highlightRsn) {
+                    setHighlightRsn(sorted[0]?.rsn);
+                    setTimeout(() => setHighlightRsn(null), 1500);
+                }
+
+                // setFailRsnList(prev => {
+                //     if (!prev.length || prev[0]?.rsn !== newestRsn) {
+                //         setHighlightRsn(newestRsn);
+                //         setTimeout(() => setHighlightRsn(null), 2000);
+                //     }
+
+                //     return sorted.map(r => ({
+                //         rsn: r.rsn || '-',
+                //         reason: r.reason,
+                //         time: formatCsvTime(r.timestamp),
+                //         status: r.status || '-',
+                //     }));
+                // });
             }
         } catch (err) {
             console.error("Fail CSV read error", err);
         } finally {
-            isFetchingRef.current = false;
+            isFetchingFailRef.current = false;
         }
     };
 
@@ -860,20 +926,6 @@ export default function ShipmentEdit() {
 
         return () => clearInterval(interval); // cleanup on unmount
     }, [isShipmentLoaded, shipmentCode]);
-
-
-    // useEffect(() => {
-    //     if (!isShipmentLoaded || !shipmentCode) return;
-
-    //     fetchFailCsv();
-
-    //     const interval = setInterval(() => {
-    //         fetchFailCsv();
-    //     }, 1000); // every 1 second
-
-    //     return () => clearInterval(interval);
-    // }, [isShipmentLoaded, shipmentCode]);
-
 
     return (
         <>
@@ -968,43 +1020,44 @@ export default function ShipmentEdit() {
                     {/* ✅ NEW — FAIL COUNT DATA PANEL */}
                     {failRsnList.length > 0 && (
                         <div className="failcount-panel">
+                            <DataTable
+                                value={failRsnList}
+                                scrollable
+                                scrollHeight="52vh"
+                                className="fail-datatable"
+                                size="large"
+                                stripedRows
+                                rowClassName={(rowData) =>
+                                    rowData.status === "PASS" ? "row-pass" : "row-fail"
+                                }
+                            >
+                                <Column
+                                    header="Sr No"
+                                    body={(rowData, options) => options.rowIndex + 1}
+                                    bodyClassName="custom-description"
+                                    headerClassName="custom-header"
+                                />
 
-                            <div className="queue-listf">
-                                {failRsnList.map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className={`queue-itemf ${index === 0 ? "fail-highlight" : ""}`}
-                                    >
-                                        <div className={`left-border ${index === 0 ? "fail-highlight" : ""}`}></div>
+                                <Column field="rsn" header="RSN"
+                                    bodyClassName="custom-description"
+                                    headerClassName="custom-header" />
 
-                                        <div className="item-contentf">
+                                <Column
+                                    field="reason"
+                                    header="Status"
+                                    body={(row) => row.reason || "-"}
+                                    bodyClassName="custom-description"
+                                    headerClassName="custom-header"
+                                    style={{ whiteSpace: 'break-spaces' }}
+                                />
 
-                                            {/* FIRST ROW */}
-                                            <div className="row-top">
-                                                <div className="rsn-line">
-                                                    <span className="label">RSN :</span>
-                                                    <span className="value">{item.rsn}</span>
-                                                </div>
-
-                                                <div className="time-line">
-                                                    <span className="value">{item.time}</span>
-                                                </div>
-                                            </div>
-
-                                            {/* SECOND ROW */}
-                                            <div className="row-bottom">
-                                                <span className="label">Status :</span>
-                                                <span className="value">{item.reason}</span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
+                                <Column field="time" header="Time"
+                                    bodyClassName="custom-description"
+                                    headerClassName="custom-header"
+                                    style={{ whiteSpace: 'break-spaces' }} />
+                            </DataTable>
                         </div>
                     )}
-
 
                 </div>
 
@@ -1051,58 +1104,93 @@ export default function ShipmentEdit() {
 
             {/* ─── Bypass Confirmation Modal ──────────────────────────────────────── */}
 
-            <Modal show={showBypassModal} centered backdrop="static" keyboard={false}>
-                <Modal.Header>
-                    <Modal.Title style={{ fontWeight: "bold", color: "#465a64" }}>
+            <Modal
+                show={showBypassModal}
+                centered
+                backdrop="static"
+                keyboard={false}
+                size="lg"
+            >
+                <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
+                    <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
                         :: Bypass Confirmation ::
                     </Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body>
-                    <div style={{ marginBottom: "12px", fontWeight: "600" }}>
+                <Modal.Body style={{ textAlign: "center" }}>
+                    <div
+                        style={{
+                            marginBottom: "18px",
+                            fontWeight: "600",
+                            fontSize: "20px",
+                            color: "#4a5568",
+                        }}
+                    >
                         Are you sure you want to Bypass this item?
                     </div>
-                    <label style={{ fontWeight: "500", fontSize: "16px", display: "block", marginBottom: "6px" }}>
-                        Remarks <span style={{ color: "#dc3545" }}>{bypassError}</span>
-                    </label>
-                    <textarea
-                        rows={4}
-                        style={{
-                            width: "100%",
-                            border: `1px solid ${bypassError ? "#dc3545" : "#ced4da"}`,  // red border when error
-                            padding: "10px",
-                            borderRadius: "6px",
-                            resize: "vertical",
-                            fontSize: "15px",
-                            outline: "none",
-                        }}
-                        placeholder="Enter reason for bypass..."
-                        value={bypassRemark}
-                        onChange={(e) => {
-                            const value = e.target.value;
-                            setBypassRemark(value);
 
-                            // Live validation
-                            const trimmed = value.trim();
-                            if (!trimmed) {
-                                setBypassError("*");
-                            } else if (value !== trimmed) {
-                                setBypassError("Remarks cannot start or end with spaces");
-                            } else {
-                                setBypassError("");
-                            }
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "6px",
                         }}
-                    />
+                    >
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <label style={{ fontWeight: "600", fontSize: "18px" }}>
+                                Remark:
+                            </label>
+
+                            <textarea
+                                rows={2}
+                                style={{
+                                    width: "420px",
+                                    border: `1px solid ${bypassError ? "#dc3545" : "#ced4da"}`,
+                                    padding: "10px",
+                                    borderRadius: "6px",
+                                    resize: "none",
+                                    fontSize: "15px",
+                                    outline: "none",
+                                }}
+                                placeholder="Enter reason for bypass..."
+                                value={bypassRemark}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setBypassRemark(value);
+
+                                    const trimmed = value.trim();
+                                    if (!trimmed) {
+                                        setBypassError("* Remark is required");
+                                    } else if (value !== trimmed) {
+                                        setBypassError("Remarks cannot start or end with spaces");
+                                    } else {
+                                        setBypassError("");
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        {/* ✅ Error Text */}
+                        {bypassError && (
+                            <div style={{ color: "#dc3545", fontSize: "13px" }}>
+                                {bypassError}
+                            </div>
+                        )}
+                    </div>
                 </Modal.Body>
 
-                <Modal.Footer style={{ justifyContent: "center", borderTop: "none", gap: "24px" }}>
+                <Modal.Footer
+                    style={{ justifyContent: "center", borderTop: "none", gap: "24px" }}
+                >
                     <button
                         className="acceptButton"
                         onClick={handleConfirmBypass}
-                        disabled={!bypassRemark.trim()}
+                        disabled={!bypassRemark.trim() || !!bypassError}
                     >
                         YES
                     </button>
+
                     <button
                         className="rejectButton"
                         onClick={() => {

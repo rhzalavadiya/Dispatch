@@ -26,6 +26,8 @@ app.use(express.urlencoded({ limit: "1000mb", extended: true }));
 const allowedOrigins = [
   `${process.env.HTTP_HOST_IP_MAIN}`,
   `${process.env.HTTP_HOST_IP_LOCAL}`,
+  `${process.env.Dashboard_IP}`,
+  `${process.env.Dashboard_LOCAL}`,
 ];
 
 const corsOptions = {
@@ -592,7 +594,7 @@ app.get("/api/read-csv", (req, res) => {
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) return res.status(500).json({ error: "Unable to read file" });
-
+    console.log("CSV File Path : ", data);
     Papa.parse(data, {
       header: true,
       skipEmptyLines: true,
@@ -770,8 +772,8 @@ app.get("/api/read-fail-csv", (req, res) => {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
   //console.log("Shipment Code for Fail CSV : ", shipmentCode);
-  //const basePath = process.env.DISPATCH_BASE_PATH;
-  const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  const basePath = process.env.DISPATCH_BASE_PATH;
+  //const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
 
   // 👉 FAIL data file (rowData.csv)
   const fileName = process.env.RowDataFile;
@@ -801,18 +803,20 @@ app.get("/api/read-fail-csv", (req, res) => {
       skipEmptyLines: true,
       complete: (result) => {
        
-        // ✅ ONLY FAIL ROWS
-        const onlyFail = result.data.filter(
-          r => String(r.Status).toUpperCase() === "FAIL"
-        );
+        // // ✅ ONLY FAIL ROWS
+        // const onlyFail = result.data.filter(
+        //   r => String(r.Status).toUpperCase() === "FAIL"
+        // );
 
         // ✅ SEND ONLY REQUIRED FIELDS
-        const formatted = onlyFail.map(r => ({
+        const formatted = result.data.map(r => ({
           rsn: r.RSN,
-          reason: r.ReasonDescription || r.ReasonCode || "FAIL",
-          timestamp: r.Timestamp
+          reason: r.ReasonDescription || r.ReasonCode || "-",
+         // timestamp: r.Timestamp,
+         status:r.Status,
+         timestamp: r.BatchStatus
         }));
-       // console.log("Fail CSV Data : ", formatted);
+       //console.log("Fail CSV Data : ", formatted);
         res.json(formatted);
       },
     });
@@ -845,6 +849,7 @@ app.get("/check-autoclose/:shipmentCode", (req, res) => {
 // 5. Get currently running shipment (for Home Dashboard)
 app.get("/get-running-csv", (req, res) => {
   const basePath = process.env.DISPATCH_BASE_PATH;
+  //const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
   const dispatchFile = process.env.DispatchFile || "Dispatch_SCP.csv"; // fallback if not set
 
   if (!basePath) {
@@ -894,7 +899,7 @@ app.get("/get-running-csv", (req, res) => {
     const cleanCode = runningFolder.slice(0, -2); // "WH_7-1" → "WH_7"
 
     const shipmentCode = rows[0]?.SHPH_ShipmentCode?.trim() || cleanCode;
-
+//console.log("Running Shipment Code : ", shipmentCode);
     // Success: return current running data
     res.json({
       shipmentCode,

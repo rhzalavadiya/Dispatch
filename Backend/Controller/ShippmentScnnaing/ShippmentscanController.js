@@ -949,7 +949,6 @@ const getSchemeData = async (req, res) => {
 
 const rsnRemark = async (req, res) => {
 	const { rsn, remark, userId } = req.body;
-
 	if (!rsn || !remark?.trim() || !userId) {
 		return res.status(400).json({
 			success: false,
