@@ -22,14 +22,16 @@ export default function HomeDashboard() {
 	const [prevOrderLength, setPrevOrderLength] = useState(0);
 	const [prevShipmentCode, setPrevShipmentCode] = useState("");
 
-	
+
 
 	// === DERIVED DATA ===
 	// const vehicleNumber = order[0]?.LGCVM_VehicleNumber || "N/A";
 	// const vehicalCompany = order[0]?.LGCM_Name || "N/A";
 
 	const vehicleNumber = csvOrder[0]?.LGCVM_VehicleNumber || "N/A";
-const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
+	const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
+	//SHPH_ShipmentCode
+	const shipmentCodeVal = csvOrder[0]?.SHPH_ShipmentCode || "N/A";
 
 	const totalProcessed = order.reduce((sum, item) =>
 		sum + (parseInt(item.pass || 0) + parseInt(item.fail || 0)), 0);
@@ -37,28 +39,29 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 		sum + parseInt(item.pass || 0), 0);
 	const totalFailed = order.reduce((sum, item) =>
 		sum + parseInt(item.fail || 0), 0);
+
 	const totalTarget = order.reduce((sum, item) =>
 		sum + (parseInt(item.SHPD_ShipQty || 0)), 0);
 
-// 	const totalProcessed = csvOrder.reduce((sum, item) =>
-//   sum + (parseInt(item.pass || 0) + parseInt(item.fail || 0)), 0);
+	// 	const totalProcessed = csvOrder.reduce((sum, item) =>
+	//   sum + (parseInt(item.pass || 0) + parseInt(item.fail || 0)), 0);
 
-// const totalPassed = csvOrder.reduce((sum, item) =>
-//   sum + parseInt(item.pass || 0), 0);
+	// const totalPassed = csvOrder.reduce((sum, item) =>
+	//   sum + parseInt(item.pass || 0), 0);
 
-// const totalFailed = csvOrder.reduce((sum, item) =>
-//   sum + parseInt(item.fail || 0), 0);
+	// const totalFailed = csvOrder.reduce((sum, item) =>
+	//   sum + parseInt(item.fail || 0), 0);
 
-// const totalTarget = csvOrder.reduce((sum, item) =>
-//   sum + parseInt(item.SHPD_ShipQty || 0), 0);
+	// const totalTarget = csvOrder.reduce((sum, item) =>
+	//   sum + parseInt(item.SHPD_ShipQty || 0), 0);
 
 	//const completedShipments = order.filter(item => item.status === "COMPLETED");
 
 	const efficiency = totalProcessed > 0 ? ((totalPassed / totalProcessed) * 100).toFixed(1) : "0.0";
 	const overallProgress = totalTarget > 0 ? ((totalPassed / totalTarget) * 100).toFixed(1) : "0.0";
 	const overallPass = totalPassed > 0 ? ((totalPassed / totalProcessed) * 100).toFixed(1) : "0.0";
-	const overallFail = totalTarget > 0 ? ((totalFailed / totalProcessed) * 100).toFixed(1) : "0.0";
-	//const currentProcessing = order[currentIndex] || null;
+	const overallFail = totalFailed > 0 ? ((totalFailed / totalProcessed) * 100).toFixed(1) : "0.0";
+
 
 	const currentProcessing = order[currentIndex] || null;
 	const logAction = async (action, isError = false) => {
@@ -212,7 +215,7 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 					setCurrentShipmentCode(currentShipment);
 
 					const hasActive = processedData.some(r => r.status?.toUpperCase() === "RUNNING");
-					setIsMachineRunning(hasActive || processedData.length > 0);
+					setIsMachineRunning(res.data.shipmentSatus);
 
 					dataChanged = true;
 				} else {
@@ -306,16 +309,16 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 		item => item.status !== "RUNNING" && item.status !== "COMPLETED"
 	);
 
-// 	const queuedItems = csvOrder.filter(
-//   item => item.status !== "RUNNING" && item.status !== "COMPLETED"
-// );
+	// 	const queuedItems = csvOrder.filter(
+	//   item => item.status !== "RUNNING" && item.status !== "COMPLETED"
+	// );
 
 	// 2️⃣ Check if the last shipment is currently running
 	const lastItemIsRunning =
 		order.length > 0 && order[order.length - 1].status === "RUNNING";
 
-// 	const lastItemIsRunning =
-//   csvOrder.length > 0 && csvOrder[csvOrder.length - 1].status === "RUNNING";
+	// 	const lastItemIsRunning =
+	//   csvOrder.length > 0 && csvOrder[csvOrder.length - 1].status === "RUNNING";
 
 	// Optional: Log queue changes for monitoring
 	useEffect(() => {
@@ -338,28 +341,34 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 				}}
 			>
 				{/* Top Vehicle Bar */}
-				<div
-					style={{
-						background: "#ffffff",
-						padding: "14px 10px",
-						display: "flex",
-						alignItems: "center",
-						gap: "5px",
-						fontSize: "18px",
-						fontWeight: "600",
-						color: "#1e293b",
-						flexShrink: 0, // Prevent shrinking
-					}}
-				>
-					<LiaShippingFastSolid style={{ fontSize: "26px", color: "#1e293b" }} />
-					VEHICLE INFO : {" "}
-					<span style={{ marginLeft: "8px" }}>
-						No. {vehicleNumber} &nbsp; | &nbsp;
-					</span>
-					<span style={{ marginLeft: "8px" }}>
-						{vehicalCompany}
-					</span>
-				</div>
+				{shipmentCodeVal !== "N/A" && (
+					<div
+						style={{
+							background: "#ffffff",
+							padding: "14px 10px",
+							display: "flex",
+							alignItems: "center",
+							gap: "5px",
+							fontSize: "18px",
+							fontWeight: "600",
+							color: "#1e293b",
+							flexShrink: 0, // Prevent shrinking
+						}}
+					>
+						<span style={{ marginLeft: "8px" }}>
+							{shipmentCodeVal} &nbsp; | &nbsp;
+						</span>
+						<LiaShippingFastSolid style={{ fontSize: "26px", color: "#1e293b" }} />
+						VEHICLE INFO : {" "}
+						<span style={{ marginLeft: "8px" }}>
+							No. {vehicleNumber} &nbsp; | &nbsp;
+						</span>
+						<span style={{ marginLeft: "8px" }}>
+							{vehicalCompany}
+						</span>
+
+					</div>
+				)}
 
 				<div style={{
 					flex: 1,
@@ -371,7 +380,7 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 					{/* Top Row: MACHINE ON + Stats */}
 					<div style={{
 						display: "grid",
-						gridTemplateColumns: "300px 1fr",
+						gridTemplateColumns: "270px 1fr",
 						gap: "30px",
 						marginBottom: "25px",
 						flexShrink: 0, // Prevent shrinking
@@ -379,7 +388,7 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 						{/* MACHINE ON Card */}
 						<div
 							style={{
-								background: "#0E9A6D",
+								background: isMachineRunning ? "#0E9A6D" : "#A53331",
 								color: "white",
 								borderRadius: "20px",
 								padding: "15px",
@@ -438,12 +447,13 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 										color: "#000203",
 										overflow: "hidden",
 										boxShadow: "0 10px 25px rgba(59, 130, 246, 0.25)",
-										width: "100%"
+										width: "100%",
+										height: '100%',
 									}}
 								>
 									{/* Small label */}
 									<div style={{ fontSize: "20px", fontWeight: "600", opacity: 0.9, marginBottom: "8px" }}>
-										TOTAL : {totalTarget.toLocaleString()}
+										TOTAL
 									</div>
 
 									{/* Big number */}
@@ -460,7 +470,7 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 
 									{/* Progress text */}
 									<div style={{ fontSize: "22px", fontWeight: "400", opacity: 0.95 }}>
-										{overallProgress}% Completed
+										{overallProgress}%
 									</div>
 								</div>
 							</div>
@@ -533,7 +543,7 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 
 									{/* Percentage */}
 									<div style={{ fontSize: "22px", color: "#63AD94", fontWeight: "400", opacity: 0.95 }}>
-										{overallPass}% Passed
+										{overallPass}%
 									</div>
 								</div>
 							</div>
@@ -601,7 +611,7 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 										{totalFailed.toLocaleString()}
 									</div>
 									<div style={{ fontSize: "22px", fontWeight: "400", color: "#C3383F", opacity: 0.95 }}>
-										{overallFail}% Failed
+										{overallFail}%
 									</div>
 								</div>
 							</div>
@@ -852,12 +862,12 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 												padding: "30px",
 												borderRadius: "12px",
 												textAlign: "center",
-												color: "#0E9A6D",
+												color: isMachineRunning ? "#0E9A6D" : "#A53331",
 												fontSize: "28px",
 												fontWeight: "600",
 											}}
 										>
-											Last shipment is currently running
+											Last shipment is currently {isMachineRunning ? 'running' : "pause"}
 										</div>
 									) : (
 										// ✅ Nothing in queue at all
@@ -941,7 +951,7 @@ const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 					>
 						<img src={logo} alt="Shubham Automation" style={{ height: "32px" }} />
 						<span style={{ fontSize: "12px", fontWeight: "bolder", color: "#383838" }}>
-							POWERED BY SHUBHAM AUTOMATION
+							Shubham Automation Pvt. Ltd.
 						</span>
 					</footer>
 				</div>

@@ -457,10 +457,12 @@ export default function CompletedOutward() {
 
       logAction(`PDF generation completed for ShipmentID: ${shipmentId} - ${data.result.length} file(s) created + combined`);
     } catch (error) {
-      logAction(`PDF generation failed for ShipmentID: ${shipmentId} - ${error.message}`, true);
-      console.error("Error generating PDF:", error);
-      toast.error("Failed to generate PDF");
-    }
+  const msg =
+    error.response?.data?.message ||
+    "Failed to generate PDF";
+  toast.error(msg);
+  logAction(`PDF generation failed - ${msg}`, true);
+}
   };
 
   const generateDeliveryChallanPDF = (doc, shipment, products, toScpName) => {

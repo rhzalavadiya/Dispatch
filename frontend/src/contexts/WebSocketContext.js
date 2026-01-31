@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useRef, useCallback, useState } from "react";
 import { config } from "../components/config/config";
+import { toast } from "react-toastify";
 const WebSocketContext = createContext(null);
+
 
 export const WebSocketProvider = ({ children }) => {
   const wsRef = useRef(null);
@@ -138,6 +140,11 @@ export const WebSocketProvider = ({ children }) => {
     }
     wsRef.current.send(JSON.stringify(data));
   };
+   useEffect(() => {
+      if (!isConnected) {
+          toast.error("Please check the Python service.");
+      }
+  }, [isConnected]);
 
   return (
     <WebSocketContext.Provider value={{ wsRef, send, isConnected }}>

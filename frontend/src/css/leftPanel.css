@@ -75,6 +75,11 @@
   vertical-align: middle;
 }
 
+  .bell {
+    height: 30px;
+    width: 27px;
+    cursor: pointer;
+  }
 
 /* --------------------------------------
    NAVBAR RESPONSIVE FIX
@@ -116,11 +121,7 @@ nav {
   border-radius: 50%;
 }
 
-/* Bell icon */
-.bell {
-  height: 28px;
-  width: 28px;
-}
+
 
 /* --------------------------------------
    TABLET VIEW (max-width: 992px)
@@ -139,10 +140,7 @@ nav {
     width: 36px !important;
   }
 
-  .bell {
-    height: 24px;
-    width: 24px;
-  }
+
 }
 
 /* --------------------------------------
@@ -167,10 +165,5 @@ nav {
   .proimage {
     height: 32px !important;
     width: 32px !important;
-  }
-
-  .bell {
-    height: 22px;
-    width: 22px;
   }
 }

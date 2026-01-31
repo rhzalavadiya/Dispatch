@@ -1,0 +1,957 @@
+Timestamp,BatchId,UserId,CurrentAlarm,MachineStatus,TotalProductCount,TotalPassCount,ProductDynamicWeight,OffsetPlus,OffsetMinus,CurrentWeight,CurrentWeightStatus,UnderWeightCount,OverWeightCount,DoubleCounts,BatchStatus,RSN,RSN_JSON,Status,SCPM_Code
+1245,68160,0,0,1,1,1.633,0.164,0.24,1.481,2,0,0,0,1,2026-01-24 17:25:26,0101001000THXT,"{""IRS_ID"": 685, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001000THXT"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6696,61535,0,1,2,2,1.219,0.062,0.276,1.548,2,0,0,0,1,2026-01-24 17:25:27,010100100ARK7N,"{""IRS_ID"": 530, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100100ARK7N"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+2152,90160,0,1,3,3,1.453,0.102,0.273,1.644,2,0,0,0,1,2026-01-24 17:25:27,010100100MM3GZ,"{""IRS_ID"": 358, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100100MM3GZ"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8183,10754,0,0,4,4,1.481,0.095,0.141,1.621,2,0,0,0,1,2026-01-24 17:25:28,010100104J82GS,"{""IRS_ID"": 222, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100104J82GS"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9110,81383,0,0,5,5,1.682,0.086,0.082,1.365,2,0,0,0,1,2026-01-24 17:25:28,01010010CPQBMM,"{""IRS_ID"": 712, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010CPQBMM"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+3286,73643,0,1,6,6,1.488,0.266,0.208,1.626,2,0,0,0,1,2026-01-24 17:25:29,01010010F65IDE,"{""IRS_ID"": 278, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010F65IDE"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+2898,43121,0,0,7,7,1.609,0.13,0.073,1.664,2,0,0,0,1,2026-01-24 17:25:29,01010010GEWNRQ,"{""IRS_ID"": 193, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010GEWNRQ"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+3918,14780,0,2,8,8,1.442,0.134,0.174,1.571,2,0,0,0,1,2026-01-24 17:25:30,01010010GJXP50,"{""IRS_ID"": 346, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010GJXP50"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5146,91197,0,3,9,9,1.234,0.153,0.126,1.348,2,0,0,0,1,2026-01-24 17:25:31,01010010GN0Y1D,"{""IRS_ID"": 737, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010GN0Y1D"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+2318,16024,0,1,10,10,1.535,0.085,0.251,1.517,2,0,0,0,1,2026-01-24 17:25:31,01010010HRZGY1,"{""IRS_ID"": 265, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010HRZGY1"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+1051,67880,0,0,11,11,1.438,0.291,0.23,1.422,2,0,0,0,1,2026-01-24 17:25:32,01010010JEH6RW,"{""IRS_ID"": 255, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010JEH6RW"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7936,25753,0,0,12,12,1.718,0.097,0.08,1.585,2,0,0,0,1,2026-01-24 17:25:32,01010010M38YLE,"{""IRS_ID"": 131, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010M38YLE"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9050,22185,0,0,13,13,1.226,0.109,0.118,1.575,2,0,0,0,1,2026-01-24 17:25:33,01010010N44WV1,"{""IRS_ID"": 513, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010N44WV1"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+1207,29000,0,0,14,14,1.403,0.163,0.055,1.467,2,0,0,0,1,2026-01-24 17:25:33,01010010QDU9D0,"{""IRS_ID"": 594, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010QDU9D0"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4253,97412,0,3,15,15,1.341,0.112,0.099,1.384,2,0,0,0,1,2026-01-24 17:25:34,01010010RINUZV,"{""IRS_ID"": 323, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010RINUZV"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8756,62330,0,2,16,16,1.638,0.136,0.069,1.371,2,0,0,0,1,2026-01-24 17:25:35,01010010SEOCVS,"{""IRS_ID"": 292, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010SEOCVS"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5411,56282,0,0,17,17,1.691,0.052,0.122,1.553,2,0,0,0,1,2026-01-24 17:25:35,01010010SP0KFE,"{""IRS_ID"": 718, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010SP0KFE"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4672,84395,0,0,18,18,1.614,0.244,0.297,1.439,2,0,0,0,1,2026-01-24 17:25:36,01010010TKI8EU,"{""IRS_ID"": 478, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010TKI8EU"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7733,64136,0,1,19,19,1.485,0.065,0.094,1.331,2,0,0,0,1,2026-01-24 17:25:36,01010010W9SKV8,"{""IRS_ID"": 671, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010W9SKV8"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5205,37460,0,2,20,20,1.491,0.167,0.256,1.688,2,0,0,0,1,2026-01-24 17:25:37,01010010ZQEE64,"{""IRS_ID"": 691, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010010ZQEE64"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5520,19711,0,0,21,21,1.604,0.163,0.141,1.699,2,0,0,0,1,2026-01-24 17:25:37,0101001188ERKX,"{""IRS_ID"": 741, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001188ERKX"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6493,95662,0,1,22,22,1.43,0.252,0.229,1.443,2,0,0,0,1,2026-01-24 17:25:38,01010011C0NP7L,"{""IRS_ID"": 682, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011C0NP7L"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+3911,91267,0,2,23,23,1.325,0.262,0.095,1.456,2,0,0,0,1,2026-01-24 17:25:39,01010011EOYMSL,"{""IRS_ID"": 724, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011EOYMSL"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8547,18533,0,2,24,24,1.332,0.086,0.242,1.684,2,0,0,0,1,2026-01-24 17:25:39,01010011FG0XXH,"{""IRS_ID"": 139, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011FG0XXH"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5297,47892,0,0,25,25,1.293,0.12,0.102,1.633,2,0,0,0,1,2026-01-24 17:25:40,01010011J6YOK0,"{""IRS_ID"": 248, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011J6YOK0"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8128,16669,0,3,26,26,1.224,0.06,0.235,1.342,2,0,0,0,1,2026-01-24 17:25:40,01010011JL9IFN,"{""IRS_ID"": 610, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011JL9IFN"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9112,34568,0,2,27,27,1.506,0.224,0.105,1.652,2,0,0,0,1,2026-01-24 17:25:41,01010011KEIF6L,"{""IRS_ID"": 134, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011KEIF6L"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+3786,64952,0,0,28,28,1.777,0.123,0.124,1.551,2,0,0,0,1,2026-01-24 17:25:41,01010011LYY78Q,"{""IRS_ID"": 477, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011LYY78Q"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+1924,47645,0,0,29,29,1.307,0.064,0.2,1.383,2,0,0,0,1,2026-01-24 17:25:42,01010011Q0DHWB,"{""IRS_ID"": 689, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011Q0DHWB"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+2067,14803,0,2,30,30,1.532,0.206,0.279,1.415,2,0,0,0,1,2026-01-24 17:25:43,01010011RC9NGA,"{""IRS_ID"": 344, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011RC9NGA"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7744,39325,0,0,31,31,1.529,0.133,0.157,1.535,2,0,0,0,1,2026-01-24 17:25:43,01010011WTKYGL,"{""IRS_ID"": 405, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011WTKYGL"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+1795,46801,0,1,32,31,1.713,0.269,0.257,1.386,4,0,0,1,1,2026-01-24 17:25:44,01010011YGW8T4,"{""IRS_ID"": 237, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011YGW8T4"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",FAIL,RM01
+4262,78284,0,2,33,32,1.305,0.272,0.097,1.689,2,0,0,1,1,2026-01-24 17:25:44,01010011Z5A097,"{""IRS_ID"": 173, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011Z5A097"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6034,10189,0,0,34,33,1.684,0.199,0.265,1.583,2,0,0,1,1,2026-01-24 17:25:45,01010011ZQ27HH,"{""IRS_ID"": 367, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011ZQ27HH"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6944,40046,0,2,35,34,1.415,0.167,0.264,1.375,2,0,0,1,1,2026-01-24 17:25:45,0101001211930X,"{""IRS_ID"": 215, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001211930X"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9319,14402,0,2,36,35,1.779,0.054,0.246,1.493,2,0,0,1,1,2026-01-24 17:25:46,0101001214A9N7,"{""IRS_ID"": 373, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001214A9N7"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7985,48022,0,0,37,36,1.331,0.269,0.253,1.628,2,0,0,1,1,2026-01-24 17:25:46,0101001220C3CF,"{""IRS_ID"": 502, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001220C3CF"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7421,78640,0,1,38,37,1.658,0.181,0.105,1.657,2,0,0,1,1,2026-01-24 17:25:47,010100123F85N3,"{""IRS_ID"": 312, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100123F85N3"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9629,35100,0,2,39,38,1.603,0.15,0.21,1.443,2,0,0,1,1,2026-01-24 17:25:48,0101001281R6P2,"{""IRS_ID"": 249, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001281R6P2"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9143,59745,0,3,40,39,1.677,0.062,0.17,1.371,2,0,0,1,1,2026-01-24 17:25:48,010100129NGZC6,"{""IRS_ID"": 643, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100129NGZC6"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9114,86315,0,2,41,40,1.212,0.202,0.184,1.585,2,0,0,1,1,2026-01-24 17:25:49,010100129RT62K,"{""IRS_ID"": 303, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100129RT62K"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5816,83353,0,3,42,41,1.339,0.093,0.074,1.308,2,0,0,1,1,2026-01-24 17:25:49,01010012BXCKNT,"{""IRS_ID"": 740, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012BXCKNT"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8632,82361,0,2,43,42,1.375,0.129,0.199,1.631,2,0,0,1,1,2026-01-24 17:25:50,01010012BZTH2J,"{""IRS_ID"": 491, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012BZTH2J"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9444,18873,0,2,44,43,1.764,0.28,0.124,1.589,2,0,0,1,1,2026-01-24 17:25:51,01010012DAV1FF,"{""IRS_ID"": 707, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012DAV1FF"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8120,85181,0,1,45,44,1.571,0.233,0.104,1.341,2,0,0,1,1,2026-01-24 17:25:51,01010012EJ32UB,"{""IRS_ID"": 186, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012EJ32UB"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4528,91446,0,3,46,45,1.325,0.109,0.165,1.696,2,0,0,1,1,2026-01-24 17:25:52,01010012HC5J8T,"{""IRS_ID"": 585, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012HC5J8T"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5516,63475,0,2,47,46,1.324,0.103,0.287,1.634,2,0,0,1,1,2026-01-24 17:25:52,01010012JWQFI9,"{""IRS_ID"": 307, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012JWQFI9"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9380,66440,0,2,48,47,1.734,0.051,0.291,1.342,2,0,0,1,1,2026-01-24 17:25:53,01010012NN2TLT,"{""IRS_ID"": 382, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012NN2TLT"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5075,98141,0,1,49,48,1.585,0.126,0.071,1.465,2,0,0,1,1,2026-01-24 17:25:53,01010012OEY6JA,"{""IRS_ID"": 481, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012OEY6JA"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4048,11677,0,2,50,49,1.646,0.273,0.062,1.336,2,0,0,1,1,2026-01-24 17:25:54,01010012RQOJY9,"{""IRS_ID"": 313, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012RQOJY9"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8495,66250,0,1,51,50,1.601,0.295,0.05,1.556,2,0,0,1,1,2026-01-24 17:25:54,01010012WLJBGK,"{""IRS_ID"": 497, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012WLJBGK"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9843,26979,0,1,52,51,1.504,0.172,0.051,1.688,2,0,0,1,1,2026-01-24 17:25:55,01010012XL8DNU,"{""IRS_ID"": 613, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012XL8DNU"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7831,17358,0,3,53,52,1.227,0.288,0.233,1.439,2,0,0,1,1,2026-01-24 17:25:56,01010012Y1SW25,"{""IRS_ID"": 556, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012Y1SW25"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+3880,61319,0,3,54,53,1.775,0.207,0.173,1.652,2,0,0,1,1,2026-01-24 17:25:56,01010012ZN4OUH,"{""IRS_ID"": 345, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010012ZN4OUH"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6893,98240,0,2,55,54,1.367,0.165,0.209,1.55,2,0,0,1,1,2026-01-24 17:25:57,010100131EVGIG,"{""IRS_ID"": 425, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100131EVGIG"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4059,83206,0,3,56,55,1.494,0.16,0.111,1.342,2,0,0,1,1,2026-01-24 17:25:57,010100131IXL0Y,"{""IRS_ID"": 362, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100131IXL0Y"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4221,18691,0,1,57,55,1.713,0.243,0.138,1.462,4,0,0,2,1,2026-01-24 17:25:58,0101001357HR7R,"{""IRS_ID"": 263, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001357HR7R"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",FAIL,RM01
+5141,81535,0,3,58,56,1.619,0.172,0.24,1.517,2,0,0,2,1,2026-01-24 17:25:58,010100135MW3ZE,"{""IRS_ID"": 239, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100135MW3ZE"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4710,78534,0,1,59,57,1.743,0.08,0.186,1.336,2,0,0,2,1,2026-01-24 17:25:59,010100138AXX19,"{""IRS_ID"": 734, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100138AXX19"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4480,41473,0,2,60,58,1.743,0.219,0.252,1.593,2,0,0,2,1,2026-01-24 17:26:00,010100139V5MOJ,"{""IRS_ID"": 655, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100139V5MOJ"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+1424,87985,0,2,61,59,1.303,0.275,0.111,1.371,2,0,0,2,1,2026-01-24 17:26:00,01010013AGNE3N,"{""IRS_ID"": 257, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013AGNE3N"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6560,80621,0,1,62,60,1.283,0.255,0.197,1.548,2,0,0,2,1,2026-01-24 17:26:01,01010013BIZC4X,"{""IRS_ID"": 411, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013BIZC4X"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4695,80489,0,2,63,61,1.47,0.242,0.125,1.533,2,0,0,2,1,2026-01-24 17:26:01,01010013C4PIAH,"{""IRS_ID"": 721, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013C4PIAH"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5753,65167,0,0,64,62,1.429,0.268,0.252,1.453,2,0,0,2,1,2026-01-24 17:26:02,01010013D32JHK,"{""IRS_ID"": 432, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013D32JHK"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8062,10899,0,0,65,63,1.289,0.128,0.13,1.309,2,0,0,2,1,2026-01-24 17:26:02,01010013HCPL03,"{""IRS_ID"": 299, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013HCPL03"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6312,12458,0,3,66,64,1.762,0.247,0.086,1.697,2,0,0,2,1,2026-01-24 17:26:03,01010013LE0BB9,"{""IRS_ID"": 399, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013LE0BB9"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8827,95174,0,3,67,65,1.725,0.201,0.232,1.62,2,0,0,2,1,2026-01-24 17:26:03,01010013PEB0RA,"{""IRS_ID"": 587, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013PEB0RA"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4931,77789,0,0,68,66,1.662,0.107,0.108,1.577,2,0,0,2,1,2026-01-24 17:26:04,01010013PM3VW8,"{""IRS_ID"": 280, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013PM3VW8"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6436,19190,0,1,69,67,1.629,0.251,0.092,1.412,2,0,0,2,1,2026-01-24 17:26:05,01010013Q4SEOG,"{""IRS_ID"": 599, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013Q4SEOG"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4579,73913,0,3,70,68,1.389,0.194,0.063,1.529,2,0,0,2,1,2026-01-24 17:26:05,01010013RN95CG,"{""IRS_ID"": 256, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013RN95CG"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7497,49664,0,3,71,69,1.528,0.228,0.053,1.471,2,0,0,2,1,2026-01-24 17:26:06,01010013S9UO82,"{""IRS_ID"": 647, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013S9UO82"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5045,16805,0,1,72,70,1.357,0.206,0.225,1.654,2,0,0,2,1,2026-01-24 17:26:06,01010013T1Z5P0,"{""IRS_ID"": 172, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010013T1Z5P0"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7059,76971,0,2,73,71,1.761,0.061,0.239,1.353,2,0,0,2,1,2026-01-24 17:26:07,010100141N4BRK,"{""IRS_ID"": 435, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100141N4BRK"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9275,23306,0,2,74,72,1.234,0.2,0.284,1.435,2,0,0,2,1,2026-01-24 17:26:07,0101001450RDY0,"{""IRS_ID"": 572, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001450RDY0"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5442,72117,0,1,75,73,1.718,0.075,0.164,1.447,2,0,0,2,1,2026-01-24 17:26:08,010100145K0VO7,"{""IRS_ID"": 552, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100145K0VO7"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+5084,36378,0,0,76,74,1.318,0.125,0.268,1.608,2,0,0,2,1,2026-01-24 17:26:09,010100146IIQAU,"{""IRS_ID"": 119, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""010100146IIQAU"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7345,45702,0,3,77,75,1.243,0.175,0.276,1.308,2,0,0,2,1,2026-01-24 17:26:09,01010014DDRD73,"{""IRS_ID"": 665, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014DDRD73"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9389,26374,0,1,78,76,1.304,0.112,0.272,1.617,2,0,0,2,1,2026-01-24 17:26:10,01010014GGG7L7,"{""IRS_ID"": 648, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014GGG7L7"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+2921,50477,0,2,79,77,1.573,0.234,0.137,1.373,2,0,0,2,1,2026-01-24 17:26:10,01010014HGORIX,"{""IRS_ID"": 542, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014HGORIX"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9327,97549,0,1,80,78,1.415,0.131,0.179,1.389,2,0,0,2,1,2026-01-24 17:26:11,01010014HOI2KJ,"{""IRS_ID"": 336, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014HOI2KJ"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+2957,19200,0,0,81,79,1.694,0.239,0.264,1.596,2,0,0,2,1,2026-01-24 17:26:11,01010014K6URTG,"{""IRS_ID"": 128, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014K6URTG"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+1249,43993,0,2,82,80,1.661,0.193,0.189,1.501,2,0,0,2,1,2026-01-24 17:26:12,01010014NWZ99E,"{""IRS_ID"": 565, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014NWZ99E"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+9025,21932,0,2,83,81,1.352,0.23,0.215,1.363,2,0,0,2,1,2026-01-24 17:26:13,01010014P2UF80,"{""IRS_ID"": 539, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014P2UF80"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+2728,63060,0,3,84,82,1.698,0.076,0.085,1.534,2,0,0,2,1,2026-01-24 17:26:13,01010014PFV93X,"{""IRS_ID"": 743, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014PFV93X"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+3285,51711,0,2,85,83,1.237,0.056,0.192,1.563,2,0,0,2,1,2026-01-24 17:26:14,01010014PJSTAJ,"{""IRS_ID"": 522, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014PJSTAJ"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+8857,26694,0,0,86,83,1.542,0.186,0.078,1.462,1,1,0,2,1,2026-01-24 17:26:14,01010014PQ8QSP,"{""IRS_ID"": 476, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014PQ8QSP"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",FAIL,RM01
+2007,16952,0,1,87,84,1.249,0.156,0.152,1.624,2,1,0,2,1,2026-01-24 17:26:15,01010014RWYHB4,"{""IRS_ID"": 650, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010014RWYHB4"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7582,10060,0,0,88,85,1.673,0.205,0.173,1.546,2,1,0,2,1,2026-01-24 17:26:15,,,PASS,RM01
+5171,94751,0,2,89,86,1.612,0.104,0.154,1.422,2,1,0,2,1,2026-01-24 17:26:16,,,PASS,RM01
+8560,17169,0,0,90,87,1.295,0.268,0.134,1.552,2,1,0,2,1,2026-01-24 17:26:16,,,PASS,RM01
+1715,45988,0,0,91,88,1.668,0.291,0.229,1.368,2,1,0,2,1,2026-01-24 17:26:17,,,PASS,RM01
+1713,43382,0,1,92,89,1.676,0.08,0.191,1.388,2,1,0,2,1,2026-01-24 17:26:18,,,PASS,RM01
+6640,46959,0,2,93,90,1.745,0.056,0.137,1.7,2,1,0,2,1,2026-01-24 17:26:18,,,PASS,RM01
+5089,23881,0,2,94,91,1.342,0.119,0.21,1.555,2,1,0,2,1,2026-01-24 17:26:19,,,PASS,RM01
+4454,99353,0,2,95,92,1.788,0.218,0.279,1.52,2,1,0,2,1,2026-01-24 17:26:19,,,PASS,RM01
+2207,70376,0,2,96,93,1.219,0.057,0.248,1.686,2,1,0,2,1,2026-01-24 17:26:20,,,PASS,RM01
+2168,56572,0,2,97,94,1.76,0.173,0.119,1.442,2,1,0,2,1,2026-01-24 17:26:20,,,PASS,RM01
+3964,46558,0,2,98,95,1.794,0.18,0.117,1.633,2,1,0,2,1,2026-01-24 17:26:21,,,PASS,RM01
+8820,98690,0,0,99,96,1.674,0.236,0.217,1.377,2,1,0,2,1,2026-01-24 17:26:21,,,PASS,RM01
+3474,81738,0,3,100,97,1.497,0.08,0.283,1.584,2,1,0,2,1,2026-01-24 17:26:22,,,PASS,RM01
+2661,58569,0,1,101,97,1.702,0.064,0.279,1.308,1,2,0,2,1,2026-01-24 17:26:23,,,FAIL,RM01
+4694,94943,0,2,102,98,1.451,0.124,0.136,1.417,2,2,0,2,1,2026-01-24 17:26:23,,,PASS,RM01
+1112,98399,0,1,103,99,1.304,0.104,0.155,1.653,2,2,0,2,1,2026-01-24 17:26:24,,,PASS,RM01
+8769,15524,0,3,104,100,1.429,0.062,0.269,1.363,2,2,0,2,1,2026-01-24 17:26:24,,,PASS,RM01
+9545,73814,0,2,105,101,1.79,0.081,0.098,1.412,2,2,0,2,1,2026-01-24 17:26:25,,,PASS,RM01
+8897,46498,0,1,106,102,1.612,0.065,0.278,1.597,2,2,0,2,1,2026-01-24 17:26:25,,,PASS,RM01
+2976,35273,0,1,107,103,1.225,0.113,0.114,1.324,2,2,0,2,1,2026-01-24 17:26:26,,,PASS,RM01
+7137,43709,0,1,108,104,1.227,0.071,0.225,1.454,2,2,0,2,1,2026-01-24 17:26:26,,,PASS,RM01
+9064,15059,0,3,109,105,1.762,0.288,0.218,1.432,2,2,0,2,1,2026-01-24 17:26:27,,,PASS,RM01
+4129,98597,0,2,110,106,1.46,0.066,0.091,1.317,2,2,0,2,1,2026-01-24 17:26:28,,,PASS,RM01
+4762,20255,0,0,111,107,1.344,0.2,0.248,1.667,2,2,0,2,1,2026-01-24 17:26:28,,,PASS,RM01
+2584,29707,0,1,112,108,1.792,0.185,0.215,1.371,2,2,0,2,1,2026-01-24 17:26:29,,,PASS,RM01
+3079,63831,0,3,113,109,1.551,0.208,0.175,1.563,2,2,0,2,1,2026-01-24 17:26:29,,,PASS,RM01
+9019,41217,0,3,114,110,1.283,0.274,0.289,1.302,2,2,0,2,1,2026-01-24 17:26:30,,,PASS,RM01
+8969,22824,0,3,115,111,1.311,0.149,0.16,1.684,2,2,0,2,1,2026-01-24 17:26:30,,,PASS,RM01
+6249,72142,0,2,116,112,1.311,0.159,0.181,1.344,2,2,0,2,1,2026-01-24 17:26:31,,,PASS,RM01
+1205,58033,0,3,117,113,1.236,0.058,0.29,1.392,2,2,0,2,1,2026-01-24 17:26:31,,,PASS,RM01
+4006,13388,0,2,118,114,1.785,0.172,0.1,1.507,2,2,0,2,1,2026-01-24 17:26:32,,,PASS,RM01
+6208,83555,0,3,119,115,1.248,0.148,0.182,1.397,2,2,0,2,1,2026-01-24 17:26:33,,,PASS,RM01
+5381,28569,0,3,120,116,1.254,0.069,0.119,1.565,2,2,0,2,1,2026-01-24 17:26:33,,,PASS,RM01
+3233,53510,0,0,121,117,1.637,0.222,0.258,1.694,2,2,0,2,1,2026-01-24 17:26:34,,,PASS,RM01
+2514,31682,0,3,122,118,1.351,0.251,0.144,1.577,2,2,0,2,1,2026-01-24 17:26:34,,,PASS,RM01
+3060,33440,0,1,123,119,1.381,0.272,0.123,1.377,2,2,0,2,1,2026-01-24 17:26:35,,,PASS,RM01
+4505,33618,0,1,124,120,1.401,0.225,0.063,1.336,2,2,0,2,1,2026-01-24 17:26:35,,,PASS,RM01
+8295,14709,0,0,125,121,1.601,0.074,0.292,1.432,2,2,0,2,1,2026-01-24 17:26:36,,,PASS,RM01
+6298,53154,0,3,126,122,1.659,0.078,0.287,1.49,2,2,0,2,1,2026-01-24 17:26:37,,,PASS,RM01
+3736,80076,0,2,127,123,1.41,0.288,0.29,1.377,2,2,0,2,1,2026-01-24 17:26:37,,,PASS,RM01
+7417,37412,0,0,128,124,1.755,0.22,0.116,1.459,2,2,0,2,1,2026-01-24 17:26:38,,,PASS,RM01
+7758,17111,0,3,129,125,1.383,0.085,0.053,1.483,2,2,0,2,1,2026-01-24 17:26:38,,,PASS,RM01
+9375,19804,0,2,130,125,1.396,0.064,0.144,1.489,3,2,1,2,1,2026-01-24 17:26:39,,,FAIL,RM01
+7008,33595,0,2,131,126,1.435,0.088,0.104,1.444,2,2,1,2,1,2026-01-24 17:26:39,,,PASS,RM01
+3795,67608,0,0,132,127,1.646,0.179,0.289,1.473,2,2,1,2,1,2026-01-24 17:26:40,,,PASS,RM01
+7447,39488,0,3,133,128,1.389,0.083,0.241,1.488,2,2,1,2,1,2026-01-24 17:26:40,,,PASS,RM01
+7040,95475,0,2,134,129,1.218,0.136,0.087,1.612,2,2,1,2,1,2026-01-24 17:26:41,,,PASS,RM01
+8589,45077,0,3,135,130,1.247,0.195,0.268,1.505,2,2,1,2,1,2026-01-24 17:26:42,,,PASS,RM01
+8941,77375,0,2,136,131,1.342,0.212,0.075,1.666,2,2,1,2,1,2026-01-24 17:26:42,,,PASS,RM01
+1597,30069,0,3,137,132,1.746,0.161,0.075,1.353,2,2,1,2,1,2026-01-24 17:26:43,,,PASS,RM01
+2296,17595,0,3,138,133,1.272,0.153,0.171,1.582,2,2,1,2,1,2026-01-24 17:26:43,,,PASS,RM01
+7750,45329,0,1,139,134,1.689,0.083,0.288,1.468,2,2,1,2,1,2026-01-24 17:26:44,,,PASS,RM01
+5427,32718,0,1,140,135,1.543,0.23,0.246,1.535,2,2,1,2,1,2026-01-24 17:26:44,,,PASS,RM01
+5510,64033,0,2,141,136,1.716,0.131,0.07,1.597,2,2,1,2,1,2026-01-24 17:26:45,,,PASS,RM01
+1507,46253,0,2,142,137,1.56,0.24,0.216,1.448,2,2,1,2,1,2026-01-24 17:26:45,,,PASS,RM01
+1288,17329,0,3,143,138,1.533,0.147,0.187,1.399,2,2,1,2,1,2026-01-24 17:26:46,,,PASS,RM01
+9024,90590,0,0,144,139,1.376,0.225,0.216,1.389,2,2,1,2,1,2026-01-24 17:26:47,,,PASS,RM01
+2427,30832,0,1,145,139,1.217,0.09,0.206,1.481,1,3,1,2,1,2026-01-24 17:26:47,,,FAIL,RM01
+8507,14959,0,1,146,140,1.662,0.253,0.138,1.384,2,3,1,2,1,2026-01-24 17:26:48,,,PASS,RM01
+3244,66202,0,1,147,141,1.444,0.298,0.173,1.321,2,3,1,2,1,2026-01-24 17:26:48,,,PASS,RM01
+4062,12109,0,2,148,142,1.696,0.174,0.266,1.319,2,3,1,2,1,2026-01-24 17:26:49,,,PASS,RM01
+4958,57549,0,0,149,143,1.508,0.254,0.277,1.642,2,3,1,2,1,2026-01-24 17:26:49,,,PASS,RM01
+4777,28133,0,1,150,144,1.243,0.165,0.122,1.445,2,3,1,2,1,2026-01-24 17:26:50,,,PASS,RM01
+7076,19176,0,3,151,145,1.233,0.262,0.165,1.49,2,3,1,2,1,2026-01-24 17:26:50,,,PASS,RM01
+8937,89654,0,3,152,146,1.377,0.155,0.196,1.375,2,3,1,2,1,2026-01-24 17:26:51,,,PASS,RM01
+2569,33009,0,3,153,147,1.758,0.172,0.091,1.604,2,3,1,2,1,2026-01-24 17:26:52,,,PASS,RM01
+6884,53663,0,1,154,148,1.588,0.091,0.131,1.43,2,3,1,2,1,2026-01-24 17:26:52,,,PASS,RM01
+8686,78050,0,2,155,149,1.306,0.055,0.275,1.602,2,3,1,2,1,2026-01-24 17:26:53,,,PASS,RM01
+2530,21552,0,1,156,150,1.4,0.248,0.284,1.682,2,3,1,2,1,2026-01-24 17:26:53,,,PASS,RM01
+8425,14262,0,0,157,151,1.609,0.064,0.155,1.388,2,3,1,2,1,2026-01-24 17:26:54,,,PASS,RM01
+4567,26648,0,2,158,152,1.304,0.14,0.079,1.409,2,3,1,2,1,2026-01-24 17:26:54,,,PASS,RM01
+8367,20644,0,3,159,153,1.63,0.114,0.098,1.693,2,3,1,2,1,2026-01-24 17:26:55,,,PASS,RM01
+7093,76837,0,0,160,154,1.382,0.267,0.266,1.421,2,3,1,2,1,2026-01-24 17:26:55,,,PASS,RM01
+8425,65953,0,0,161,155,1.343,0.129,0.185,1.455,2,3,1,2,1,2026-01-24 17:26:56,,,PASS,RM01
+7388,96346,0,2,162,156,1.4,0.29,0.124,1.428,2,3,1,2,1,2026-01-24 17:26:56,,,PASS,RM01
+3398,11045,0,2,163,157,1.676,0.097,0.126,1.57,2,3,1,2,1,2026-01-24 17:26:57,,,PASS,RM01
+8078,22766,0,2,164,158,1.575,0.292,0.115,1.435,2,3,1,2,1,2026-01-24 17:26:58,,,PASS,RM01
+4332,37666,0,0,165,159,1.523,0.112,0.253,1.457,2,3,1,2,1,2026-01-24 17:26:58,,,PASS,RM01
+8987,15323,0,0,166,160,1.571,0.172,0.159,1.488,2,3,1,2,1,2026-01-24 17:26:59,,,PASS,RM01
+3336,20154,0,1,167,161,1.339,0.245,0.192,1.388,2,3,1,2,1,2026-01-24 17:26:59,,,PASS,RM01
+9628,56206,0,2,168,162,1.296,0.134,0.29,1.495,2,3,1,2,1,2026-01-24 17:27:00,,,PASS,RM01
+1523,90533,0,2,169,163,1.234,0.144,0.298,1.609,2,3,1,2,1,2026-01-24 17:27:00,,,PASS,RM01
+8289,87973,0,1,170,164,1.425,0.173,0.16,1.358,2,3,1,2,1,2026-01-24 17:27:01,,,PASS,RM01
+6244,37592,0,2,171,165,1.76,0.296,0.086,1.585,2,3,1,2,1,2026-01-24 17:27:02,,,PASS,RM01
+2164,28764,0,0,172,166,1.792,0.076,0.103,1.341,2,3,1,2,1,2026-01-24 17:27:02,,,PASS,RM01
+4498,13741,0,3,173,167,1.794,0.135,0.296,1.569,2,3,1,2,1,2026-01-24 17:27:03,,,PASS,RM01
+2252,29432,0,0,174,168,1.407,0.114,0.211,1.429,2,3,1,2,1,2026-01-24 17:27:03,,,PASS,RM01
+1411,75539,0,3,175,168,1.74,0.149,0.241,1.423,1,4,1,2,1,2026-01-24 17:27:04,,,FAIL,RM01
+2151,80843,0,0,176,169,1.788,0.163,0.105,1.677,2,4,1,2,1,2026-01-24 17:27:04,,,PASS,RM01
+5739,75868,0,3,177,170,1.249,0.216,0.174,1.573,2,4,1,2,1,2026-01-24 17:27:05,,,PASS,RM01
+7955,10320,0,0,178,171,1.759,0.178,0.14,1.672,2,4,1,2,1,2026-01-24 17:27:05,,,PASS,RM01
+4455,28466,0,2,179,172,1.681,0.116,0.106,1.54,2,4,1,2,1,2026-01-24 17:27:06,,,PASS,RM01
+8073,82294,0,1,180,173,1.714,0.211,0.139,1.504,2,4,1,2,1,2026-01-24 17:27:06,,,PASS,RM01
+9616,85973,0,1,181,174,1.393,0.074,0.195,1.337,2,4,1,2,1,2026-01-24 17:27:07,,,PASS,RM01
+3045,49799,0,1,182,175,1.31,0.056,0.188,1.646,2,4,1,2,1,2026-01-24 17:27:08,,,PASS,RM01
+9462,25716,0,1,183,176,1.6,0.16,0.257,1.542,2,4,1,2,1,2026-01-24 17:27:08,,,PASS,RM01
+9738,63166,0,1,184,177,1.643,0.086,0.143,1.355,2,4,1,2,1,2026-01-24 17:27:09,,,PASS,RM01
+4040,78836,0,3,185,178,1.611,0.222,0.119,1.698,2,4,1,2,1,2026-01-24 17:27:09,,,PASS,RM01
+4768,68058,0,2,186,179,1.374,0.161,0.207,1.513,2,4,1,2,1,2026-01-24 17:27:10,,,PASS,RM01
+1800,82973,0,2,187,180,1.257,0.288,0.272,1.496,2,4,1,2,1,2026-01-24 17:27:10,,,PASS,RM01
+9506,21686,0,1,188,181,1.663,0.087,0.06,1.514,2,4,1,2,1,2026-01-24 17:27:11,,,PASS,RM01
+9768,31297,0,1,189,182,1.298,0.104,0.111,1.342,2,4,1,2,1,2026-01-24 17:27:11,,,PASS,RM01
+2911,33414,0,2,190,183,1.334,0.221,0.214,1.681,2,4,1,2,1,2026-01-24 17:27:12,,,PASS,RM01
+4092,14274,0,2,191,184,1.436,0.186,0.211,1.594,2,4,1,2,1,2026-01-24 17:27:12,,,PASS,RM01
+2312,54702,0,3,192,185,1.297,0.072,0.06,1.494,2,4,1,2,1,2026-01-24 17:27:13,,,PASS,RM01
+6665,79403,0,2,193,186,1.254,0.051,0.132,1.395,2,4,1,2,1,2026-01-24 17:27:14,,,PASS,RM01
+7381,86982,0,2,194,187,1.532,0.17,0.294,1.521,2,4,1,2,1,2026-01-24 17:27:14,,,PASS,RM01
+6038,72645,0,1,195,188,1.796,0.255,0.177,1.347,2,4,1,2,1,2026-01-24 17:27:15,,,PASS,RM01
+6534,28358,0,1,196,189,1.64,0.205,0.072,1.693,2,4,1,2,1,2026-01-24 17:27:15,,,PASS,RM01
+5524,85018,0,3,197,190,1.265,0.285,0.207,1.487,2,4,1,2,1,2026-01-24 17:27:16,,,PASS,RM01
+5103,24611,0,1,198,191,1.553,0.074,0.154,1.333,2,4,1,2,1,2026-01-24 17:27:16,,,PASS,RM01
+4830,64224,0,0,199,192,1.552,0.144,0.21,1.331,2,4,1,2,1,2026-01-24 17:27:17,,,PASS,RM01
+7262,59231,0,2,200,193,1.753,0.076,0.25,1.698,2,4,1,2,1,2026-01-24 17:27:17,,,PASS,RM01
+2186,85431,0,0,201,194,1.392,0.231,0.175,1.341,2,4,1,2,1,2026-01-24 17:27:18,,,PASS,RM01
+3646,14804,0,2,202,195,1.654,0.103,0.169,1.566,2,4,1,2,1,2026-01-24 17:27:19,,,PASS,RM01
+9472,52654,0,0,203,195,1.606,0.154,0.281,1.602,1,5,1,2,1,2026-01-24 17:27:19,,,FAIL,RM01
+6231,37758,0,1,204,196,1.332,0.199,0.066,1.383,2,5,1,2,1,2026-01-24 17:27:20,,,PASS,RM01
+4353,68452,0,1,205,196,1.687,0.138,0.269,1.398,4,5,1,3,1,2026-01-24 17:27:20,,,FAIL,RM01
+2394,31715,0,3,206,197,1.644,0.06,0.256,1.418,2,5,1,3,1,2026-01-24 17:27:21,,,PASS,RM01
+2458,33031,0,1,207,198,1.689,0.266,0.291,1.683,2,5,1,3,1,2026-01-24 17:27:21,,,PASS,RM01
+1570,79052,0,0,208,199,1.572,0.164,0.062,1.533,2,5,1,3,1,2026-01-24 17:27:22,,,PASS,RM01
+9382,58783,0,3,209,200,1.464,0.153,0.102,1.483,2,5,1,3,1,2026-01-24 17:27:22,,,PASS,RM01
+7733,56754,0,1,210,201,1.704,0.258,0.293,1.501,2,5,1,3,1,2026-01-24 17:27:23,,,PASS,RM01
+7928,16590,0,1,211,202,1.379,0.159,0.224,1.363,2,5,1,3,1,2026-01-24 17:27:24,,,PASS,RM01
+8470,89311,0,0,212,203,1.553,0.202,0.244,1.694,2,5,1,3,1,2026-01-24 17:27:24,,,PASS,RM01
+1724,43520,0,2,213,204,1.669,0.061,0.071,1.464,2,5,1,3,1,2026-01-24 17:27:25,,,PASS,RM01
+2285,42540,0,2,214,205,1.424,0.201,0.188,1.337,2,5,1,3,1,2026-01-24 17:27:25,,,PASS,RM01
+9043,28849,0,1,215,206,1.444,0.097,0.119,1.501,2,5,1,3,1,2026-01-24 17:27:26,,,PASS,RM01
+3909,96175,0,3,216,207,1.44,0.249,0.086,1.636,2,5,1,3,1,2026-01-24 17:27:26,,,PASS,RM01
+9985,41633,0,3,217,208,1.494,0.074,0.274,1.396,2,5,1,3,1,2026-01-24 17:27:27,,,PASS,RM01
+7761,67302,0,1,218,209,1.409,0.192,0.091,1.419,2,5,1,3,1,2026-01-24 17:27:27,,,PASS,RM01
+5713,12130,0,2,219,210,1.671,0.223,0.182,1.385,2,5,1,3,1,2026-01-24 17:27:28,,,PASS,RM01
+3577,87783,0,2,220,211,1.331,0.061,0.219,1.536,2,5,1,3,1,2026-01-24 17:27:28,,,PASS,RM01
+2865,78869,0,0,221,212,1.513,0.097,0.283,1.379,2,5,1,3,1,2026-01-24 17:27:29,,,PASS,RM01
+1909,72455,0,2,222,213,1.617,0.216,0.06,1.557,2,5,1,3,1,2026-01-24 17:27:30,,,PASS,RM01
+5012,97913,0,0,223,214,1.571,0.156,0.246,1.53,2,5,1,3,1,2026-01-24 17:27:30,,,PASS,RM01
+2300,58361,0,1,224,215,1.245,0.178,0.075,1.521,2,5,1,3,1,2026-01-24 17:27:31,,,PASS,RM01
+1729,68124,0,0,225,216,1.496,0.112,0.135,1.534,2,5,1,3,1,2026-01-24 17:27:31,,,PASS,RM01
+2401,69862,0,2,226,217,1.753,0.14,0.21,1.467,2,5,1,3,1,2026-01-24 17:27:32,,,PASS,RM01
+3137,56650,0,0,227,218,1.697,0.156,0.214,1.417,2,5,1,3,1,2026-01-24 17:27:32,,,PASS,RM01
+7868,13983,0,1,228,219,1.48,0.131,0.084,1.452,2,5,1,3,1,2026-01-24 17:27:33,,,PASS,RM01
+8412,98147,0,3,229,220,1.444,0.067,0.089,1.461,2,5,1,3,1,2026-01-24 17:27:34,,,PASS,RM01
+7039,25398,0,2,230,221,1.785,0.182,0.116,1.617,2,5,1,3,1,2026-01-24 17:27:34,,,PASS,RM01
+3080,24115,0,3,231,222,1.335,0.265,0.264,1.359,2,5,1,3,1,2026-01-24 17:27:35,,,PASS,RM01
+4935,63280,0,3,232,223,1.446,0.232,0.155,1.597,2,5,1,3,1,2026-01-24 17:27:35,,,PASS,RM01
+9963,30245,0,1,233,224,1.613,0.11,0.164,1.646,2,5,1,3,1,2026-01-24 17:27:36,,,PASS,RM01
+9860,41499,0,3,234,225,1.343,0.148,0.234,1.621,2,5,1,3,1,2026-01-24 17:27:36,,,PASS,RM01
+4906,33653,0,3,235,226,1.483,0.052,0.182,1.584,2,5,1,3,1,2026-01-24 17:27:37,,,PASS,RM01
+1601,86986,0,0,236,227,1.52,0.239,0.253,1.377,2,5,1,3,1,2026-01-24 17:27:37,,,PASS,RM01
+9785,17952,0,2,237,228,1.474,0.106,0.063,1.566,2,5,1,3,1,2026-01-24 17:27:38,,,PASS,RM01
+4794,52601,0,2,238,229,1.552,0.186,0.1,1.353,2,5,1,3,1,2026-01-24 17:27:39,,,PASS,RM01
+3348,74962,0,3,239,230,1.425,0.053,0.299,1.364,2,5,1,3,1,2026-01-24 17:27:39,,,PASS,RM01
+8237,72693,0,3,240,231,1.631,0.236,0.2,1.598,2,5,1,3,1,2026-01-24 17:27:40,,,PASS,RM01
+6814,35770,0,0,241,232,1.458,0.168,0.283,1.415,2,5,1,3,1,2026-01-24 17:27:40,,,PASS,RM01
+9875,71927,0,2,242,233,1.41,0.238,0.129,1.513,2,5,1,3,1,2026-01-24 17:27:41,,,PASS,RM01
+5863,53941,0,1,243,234,1.398,0.248,0.171,1.673,2,5,1,3,1,2026-01-24 17:27:41,,,PASS,RM01
+1166,96706,0,3,244,234,1.336,0.195,0.245,1.34,4,5,1,4,1,2026-01-24 17:27:42,,,FAIL,RM01
+9118,15308,0,2,245,235,1.298,0.11,0.219,1.449,2,5,1,4,1,2026-01-24 17:27:42,,,PASS,RM01
+6361,31080,0,0,246,236,1.25,0.267,0.112,1.588,2,5,1,4,1,2026-01-24 17:27:43,,,PASS,RM01
+4074,69564,0,0,247,237,1.68,0.266,0.271,1.596,2,5,1,4,1,2026-01-24 17:27:43,,,PASS,RM01
+5014,27224,0,1,248,238,1.774,0.238,0.127,1.46,2,5,1,4,1,2026-01-24 17:27:44,,,PASS,RM01
+9856,88716,0,0,249,239,1.437,0.099,0.1,1.564,2,5,1,4,1,2026-01-24 17:27:45,,,PASS,RM01
+5214,55762,0,3,250,240,1.249,0.052,0.162,1.603,2,5,1,4,1,2026-01-24 17:27:45,,,PASS,RM01
+9903,56822,0,1,251,241,1.765,0.248,0.06,1.399,2,5,1,4,1,2026-01-24 17:27:46,,,PASS,RM01
+3080,28446,0,1,252,242,1.646,0.108,0.173,1.55,2,5,1,4,1,2026-01-24 17:27:46,,,PASS,RM01
+6053,59435,0,2,253,242,1.725,0.27,0.129,1.301,1,6,1,4,1,2026-01-24 17:27:47,,,FAIL,RM01
+4828,73010,0,0,254,243,1.269,0.271,0.227,1.51,2,6,1,4,1,2026-01-24 17:27:47,,,PASS,RM01
+4384,80159,0,2,255,244,1.67,0.272,0.123,1.531,2,6,1,4,1,2026-01-24 17:27:48,,,PASS,RM01
+7265,38201,0,0,256,245,1.656,0.215,0.195,1.608,2,6,1,4,1,2026-01-24 17:27:48,,,PASS,RM01
+8602,18936,0,0,257,246,1.555,0.081,0.118,1.423,2,6,1,4,1,2026-01-24 17:27:49,,,PASS,RM01
+4217,75360,0,1,258,247,1.423,0.242,0.226,1.332,2,6,1,4,1,2026-01-24 17:27:50,,,PASS,RM01
+6727,38824,0,2,259,248,1.468,0.217,0.205,1.49,2,6,1,4,1,2026-01-24 17:27:50,,,PASS,RM01
+3808,14996,0,1,260,249,1.692,0.237,0.223,1.604,2,6,1,4,1,2026-01-24 17:27:51,,,PASS,RM01
+3947,62737,0,3,261,250,1.552,0.144,0.254,1.697,2,6,1,4,1,2026-01-24 17:27:51,,,PASS,RM01
+9300,78075,0,0,262,251,1.592,0.234,0.13,1.647,2,6,1,4,1,2026-01-24 17:27:52,,,PASS,RM01
+4876,20389,0,1,263,252,1.241,0.268,0.08,1.533,2,6,1,4,1,2026-01-24 17:27:52,,,PASS,RM01
+2094,10968,0,1,264,253,1.661,0.154,0.227,1.62,2,6,1,4,1,2026-01-24 17:27:53,,,PASS,RM01
+2513,41860,0,0,265,254,1.393,0.16,0.237,1.563,2,6,1,4,1,2026-01-24 17:27:53,,,PASS,RM01
+5011,39322,0,3,266,255,1.761,0.057,0.284,1.444,2,6,1,4,1,2026-01-24 17:27:54,,,PASS,RM01
+1336,63291,0,3,267,256,1.402,0.257,0.1,1.38,2,6,1,4,1,2026-01-24 17:27:55,,,PASS,RM01
+3991,85122,0,1,268,256,1.332,0.236,0.199,1.544,1,7,1,4,1,2026-01-24 17:27:55,,,FAIL,RM01
+5547,12830,0,2,269,257,1.671,0.166,0.159,1.628,2,7,1,4,1,2026-01-24 17:27:56,,,PASS,RM01
+4561,92183,0,3,270,257,1.254,0.103,0.186,1.595,1,8,1,4,1,2026-01-24 17:27:56,,,FAIL,RM01
+8664,21549,0,0,271,258,1.365,0.272,0.294,1.41,2,8,1,4,1,2026-01-24 17:27:57,,,PASS,RM01
+1848,19537,0,0,272,259,1.554,0.293,0.249,1.607,2,8,1,4,1,2026-01-24 17:27:57,,,PASS,RM01
+4597,59131,0,0,273,260,1.731,0.282,0.283,1.497,2,8,1,4,1,2026-01-24 17:27:58,,,PASS,RM01
+6254,60680,0,1,274,261,1.725,0.255,0.225,1.614,2,8,1,4,1,2026-01-24 17:27:58,,,PASS,RM01
+6546,89897,0,1,275,262,1.343,0.164,0.064,1.461,2,8,1,4,1,2026-01-24 17:27:59,,,PASS,RM01
+7338,72339,0,1,276,263,1.607,0.205,0.281,1.662,2,8,1,4,1,2026-01-24 17:27:59,,,PASS,RM01
+8214,19382,0,1,277,263,1.605,0.235,0.123,1.496,4,8,1,5,1,2026-01-24 17:28:00,,,FAIL,RM01
+5888,26914,0,1,278,264,1.524,0.211,0.215,1.419,2,8,1,5,1,2026-01-24 17:28:01,,,PASS,RM01
+9258,46506,0,3,279,265,1.642,0.172,0.269,1.52,2,8,1,5,1,2026-01-24 17:28:01,,,PASS,RM01
+9036,75647,0,0,280,266,1.283,0.187,0.246,1.34,2,8,1,5,1,2026-01-24 17:28:02,,,PASS,RM01
+6367,89013,0,2,281,267,1.569,0.081,0.284,1.364,2,8,1,5,1,2026-01-24 17:28:02,,,PASS,RM01
+9910,86485,0,1,282,268,1.559,0.122,0.222,1.696,2,8,1,5,1,2026-01-24 17:28:03,,,PASS,RM01
+2723,43796,0,0,283,269,1.419,0.108,0.221,1.665,2,8,1,5,1,2026-01-24 17:28:03,,,PASS,RM01
+6469,88385,0,3,284,270,1.677,0.194,0.121,1.607,2,8,1,5,1,2026-01-24 17:28:04,,,PASS,RM01
+5169,82254,0,1,285,271,1.703,0.206,0.231,1.572,2,8,1,5,1,2026-01-24 17:28:05,,,PASS,RM01
+1917,24710,0,3,286,272,1.742,0.285,0.176,1.497,2,8,1,5,1,2026-01-24 17:28:05,,,PASS,RM01
+1466,29724,0,2,287,273,1.723,0.241,0.295,1.636,2,8,1,5,1,2026-01-24 17:28:06,,,PASS,RM01
+9248,59900,0,0,288,274,1.309,0.192,0.108,1.434,2,8,1,5,1,2026-01-24 17:28:06,,,PASS,RM01
+9956,83319,0,3,289,275,1.442,0.245,0.111,1.411,2,8,1,5,1,2026-01-24 17:28:07,,,PASS,RM01
+4542,49980,0,0,290,276,1.513,0.088,0.241,1.302,2,8,1,5,1,2026-01-24 17:28:07,,,PASS,RM01
+4201,98521,0,2,291,277,1.303,0.057,0.171,1.532,2,8,1,5,1,2026-01-24 17:28:08,,,PASS,RM01
+7386,28518,0,2,292,278,1.403,0.27,0.083,1.388,2,8,1,5,1,2026-01-24 17:28:08,,,PASS,RM01
+7346,27242,0,3,293,279,1.3,0.179,0.21,1.483,2,8,1,5,1,2026-01-24 17:28:09,,,PASS,RM01
+5767,40588,0,0,294,280,1.236,0.18,0.265,1.58,2,8,1,5,1,2026-01-24 17:28:10,,,PASS,RM01
+4772,64328,0,3,295,281,1.679,0.199,0.219,1.366,2,8,1,5,1,2026-01-24 17:28:10,,,PASS,RM01
+8953,88455,0,0,296,282,1.543,0.203,0.18,1.385,2,8,1,5,1,2026-01-24 17:28:11,,,PASS,RM01
+2205,32697,0,2,297,283,1.723,0.085,0.284,1.486,2,8,1,5,1,2026-01-24 17:28:11,,,PASS,RM01
+1263,88318,0,0,298,284,1.584,0.158,0.204,1.509,2,8,1,5,1,2026-01-24 17:28:12,,,PASS,RM01
+1767,41468,0,0,299,285,1.448,0.105,0.154,1.499,2,8,1,5,1,2026-01-24 17:28:12,,,PASS,RM01
+5809,23314,0,2,300,286,1.355,0.138,0.065,1.315,2,8,1,5,1,2026-01-24 17:28:13,,,PASS,RM01
+4053,71169,0,0,301,287,1.567,0.168,0.098,1.606,2,8,1,5,1,2026-01-24 17:28:13,,,PASS,RM01
+3855,97008,0,0,302,288,1.607,0.165,0.109,1.613,2,8,1,5,1,2026-01-24 17:28:14,,,PASS,RM01
+8842,91397,0,1,303,289,1.48,0.176,0.151,1.465,2,8,1,5,1,2026-01-24 17:28:15,,,PASS,RM01
+1348,66252,0,2,304,290,1.724,0.292,0.264,1.5,2,8,1,5,1,2026-01-24 17:28:15,,,PASS,RM01
+7432,90386,0,1,305,291,1.417,0.083,0.098,1.499,2,8,1,5,1,2026-01-24 17:28:16,,,PASS,RM01
+7854,42079,0,3,306,292,1.415,0.107,0.134,1.623,2,8,1,5,1,2026-01-24 17:28:16,,,PASS,RM01
+7195,78485,0,3,307,293,1.289,0.22,0.235,1.651,2,8,1,5,1,2026-01-24 17:28:17,,,PASS,RM01
+7742,88488,0,0,308,294,1.669,0.222,0.067,1.564,2,8,1,5,1,2026-01-24 17:28:17,,,PASS,RM01
+5136,23109,0,3,309,295,1.335,0.121,0.117,1.4,2,8,1,5,1,2026-01-24 17:28:18,,,PASS,RM01
+2743,44981,0,2,310,296,1.275,0.095,0.2,1.335,2,8,1,5,1,2026-01-24 17:28:18,,,PASS,RM01
+7460,22106,0,2,311,297,1.522,0.094,0.156,1.511,2,8,1,5,1,2026-01-24 17:28:19,,,PASS,RM01
+4791,95560,0,0,312,298,1.649,0.294,0.107,1.694,2,8,1,5,1,2026-01-24 17:28:19,,,PASS,RM01
+3787,43173,0,2,313,298,1.482,0.269,0.184,1.528,3,8,2,5,1,2026-01-24 17:28:20,,,FAIL,RM01
+5806,43348,0,2,314,299,1.339,0.242,0.157,1.571,2,8,2,5,1,2026-01-24 17:28:21,,,PASS,RM01
+9781,80966,0,1,315,300,1.457,0.207,0.073,1.44,2,8,2,5,1,2026-01-24 17:28:21,,,PASS,RM01
+8986,25091,0,0,316,300,1.225,0.077,0.11,1.335,1,9,2,5,1,2026-01-24 17:28:22,,,FAIL,RM01
+9961,16175,0,3,317,301,1.63,0.127,0.202,1.636,2,9,2,5,1,2026-01-24 17:28:22,,,PASS,RM01
+5157,47458,0,3,318,302,1.231,0.264,0.201,1.392,2,9,2,5,1,2026-01-24 17:28:23,,,PASS,RM01
+6840,36444,0,2,319,303,1.404,0.292,0.09,1.444,2,9,2,5,1,2026-01-24 17:28:23,,,PASS,RM01
+1665,22469,0,0,320,304,1.773,0.106,0.123,1.435,2,9,2,5,1,2026-01-24 17:28:24,,,PASS,RM01
+7896,56104,0,3,321,305,1.56,0.23,0.155,1.591,2,9,2,5,1,2026-01-24 17:28:24,,,PASS,RM01
+5656,53220,0,3,322,306,1.797,0.144,0.185,1.65,2,9,2,5,1,2026-01-24 17:28:25,,,PASS,RM01
+1988,73615,0,3,323,307,1.59,0.244,0.103,1.383,2,9,2,5,1,2026-01-24 17:28:26,,,PASS,RM01
+1420,57550,0,3,324,308,1.667,0.153,0.297,1.509,2,9,2,5,1,2026-01-24 17:28:26,,,PASS,RM01
+1647,92677,0,0,325,309,1.573,0.072,0.051,1.528,2,9,2,5,1,2026-01-24 17:28:27,,,PASS,RM01
+2682,76094,0,0,326,310,1.745,0.193,0.202,1.355,2,9,2,5,1,2026-01-24 17:28:27,,,PASS,RM01
+3802,74877,0,0,327,311,1.65,0.226,0.155,1.385,2,9,2,5,1,2026-01-24 17:28:28,,,PASS,RM01
+6227,12534,0,0,328,312,1.611,0.075,0.069,1.503,2,9,2,5,1,2026-01-24 17:28:28,,,PASS,RM01
+6765,15087,0,3,329,313,1.675,0.104,0.055,1.646,2,9,2,5,1,2026-01-24 17:28:29,,,PASS,RM01
+3924,61210,0,2,330,314,1.61,0.206,0.095,1.362,2,9,2,5,1,2026-01-24 17:28:29,,,PASS,RM01
+3676,22822,0,2,331,315,1.647,0.123,0.111,1.607,2,9,2,5,1,2026-01-24 17:28:30,,,PASS,RM01
+6543,19931,0,0,332,316,1.739,0.093,0.231,1.361,2,9,2,5,1,2026-01-24 17:28:31,,,PASS,RM01
+1138,10587,0,3,333,317,1.592,0.134,0.191,1.417,2,9,2,5,1,2026-01-24 17:28:31,,,PASS,RM01
+3216,60751,0,0,334,318,1.276,0.1,0.071,1.333,2,9,2,5,1,2026-01-24 17:28:32,,,PASS,RM01
+6234,13020,0,0,335,319,1.42,0.122,0.091,1.616,2,9,2,5,1,2026-01-24 17:28:32,,,PASS,RM01
+5868,83081,0,0,336,320,1.75,0.182,0.118,1.609,2,9,2,5,1,2026-01-24 17:28:33,,,PASS,RM01
+3392,25176,0,0,337,321,1.371,0.165,0.052,1.607,2,9,2,5,1,2026-01-24 17:28:33,,,PASS,RM01
+4867,92730,0,1,338,322,1.608,0.22,0.141,1.53,2,9,2,5,1,2026-01-24 17:28:34,,,PASS,RM01
+6139,99396,0,3,339,323,1.201,0.111,0.213,1.69,2,9,2,5,1,2026-01-24 17:28:34,,,PASS,RM01
+2114,10736,0,0,340,324,1.351,0.256,0.146,1.409,2,9,2,5,1,2026-01-24 17:28:35,,,PASS,RM01
+2863,63112,0,3,341,325,1.428,0.212,0.279,1.582,2,9,2,5,1,2026-01-24 17:28:36,,,PASS,RM01
+6671,19585,0,3,342,326,1.715,0.203,0.25,1.601,2,9,2,5,1,2026-01-24 17:28:36,,,PASS,RM01
+3972,34555,0,1,343,327,1.374,0.087,0.151,1.36,2,9,2,5,1,2026-01-24 17:28:37,,,PASS,RM01
+8870,99904,0,3,344,327,1.518,0.174,0.059,1.438,4,9,2,6,1,2026-01-24 17:28:37,,,FAIL,RM01
+5855,85904,0,2,345,328,1.796,0.254,0.144,1.371,2,9,2,6,1,2026-01-24 17:28:38,,,PASS,RM01
+1031,18785,0,0,346,329,1.677,0.282,0.187,1.524,2,9,2,6,1,2026-01-24 17:28:38,,,PASS,RM01
+8453,35234,0,3,347,330,1.372,0.239,0.285,1.673,2,9,2,6,1,2026-01-24 17:28:39,,,PASS,RM01
+8747,21962,0,1,348,331,1.765,0.158,0.167,1.557,2,9,2,6,1,2026-01-24 17:28:39,,,PASS,RM01
+5619,58598,0,0,349,332,1.481,0.207,0.207,1.604,2,9,2,6,1,2026-01-24 17:28:40,,,PASS,RM01
+5013,28442,0,2,350,333,1.732,0.209,0.222,1.574,2,9,2,6,1,2026-01-24 17:28:40,,,PASS,RM01
+1643,28714,0,1,351,334,1.434,0.091,0.262,1.451,2,9,2,6,1,2026-01-24 17:28:41,,,PASS,RM01
+3503,65849,0,1,352,335,1.761,0.105,0.257,1.688,2,9,2,6,1,2026-01-24 17:28:42,,,PASS,RM01
+6708,21725,0,3,353,335,1.799,0.111,0.129,1.631,1,10,2,6,1,2026-01-24 17:28:42,,,FAIL,RM01
+4081,35250,0,3,354,336,1.761,0.073,0.111,1.575,2,10,2,6,1,2026-01-24 17:28:43,,,PASS,RM01
+1848,34230,0,0,355,337,1.787,0.091,0.275,1.475,2,10,2,6,1,2026-01-24 17:28:43,,,PASS,RM01
+4461,40489,0,2,356,338,1.701,0.136,0.095,1.635,2,10,2,6,1,2026-01-24 17:28:44,,,PASS,RM01
+1822,99484,0,3,357,339,1.486,0.254,0.282,1.603,2,10,2,6,1,2026-01-24 17:28:44,,,PASS,RM01
+5049,22500,0,1,358,340,1.761,0.087,0.187,1.421,2,10,2,6,1,2026-01-24 17:28:45,,,PASS,RM01
+4294,41143,0,2,359,341,1.574,0.073,0.06,1.421,2,10,2,6,1,2026-01-24 17:28:45,,,PASS,RM01
+3811,50759,0,1,360,342,1.431,0.148,0.259,1.303,2,10,2,6,1,2026-01-24 17:28:46,,,PASS,RM01
+2451,51982,0,0,361,343,1.28,0.092,0.198,1.341,2,10,2,6,1,2026-01-24 17:28:47,,,PASS,RM01
+2360,25076,0,3,362,344,1.295,0.102,0.255,1.405,2,10,2,6,1,2026-01-24 17:28:47,,,PASS,RM01
+5901,69876,0,3,363,345,1.702,0.175,0.247,1.604,2,10,2,6,1,2026-01-24 17:28:48,,,PASS,RM01
+7452,49871,0,2,364,346,1.731,0.182,0.112,1.326,2,10,2,6,1,2026-01-24 17:28:48,,,PASS,RM01
+5438,76665,0,2,365,347,1.285,0.238,0.08,1.456,2,10,2,6,1,2026-01-24 17:28:49,,,PASS,RM01
+5623,66262,0,0,366,348,1.308,0.081,0.247,1.651,2,10,2,6,1,2026-01-24 17:28:49,,,PASS,RM01
+1916,53847,0,0,367,349,1.473,0.184,0.102,1.561,2,10,2,6,1,2026-01-24 17:28:50,,,PASS,RM01
+8804,72561,0,0,368,350,1.302,0.22,0.148,1.507,2,10,2,6,1,2026-01-24 17:28:50,,,PASS,RM01
+1161,70881,0,2,369,351,1.746,0.234,0.184,1.305,2,10,2,6,1,2026-01-24 17:28:51,,,PASS,RM01
+8726,53269,0,3,370,352,1.303,0.169,0.156,1.348,2,10,2,6,1,2026-01-24 17:28:51,,,PASS,RM01
+5922,27769,0,0,371,353,1.268,0.249,0.182,1.566,2,10,2,6,1,2026-01-24 17:28:52,,,PASS,RM01
+7330,35448,0,2,372,354,1.596,0.153,0.232,1.358,2,10,2,6,1,2026-01-24 17:28:53,,,PASS,RM01
+9359,23310,0,2,373,355,1.345,0.08,0.223,1.405,2,10,2,6,1,2026-01-24 17:28:53,,,PASS,RM01
+9919,24883,0,3,374,356,1.29,0.167,0.149,1.446,2,10,2,6,1,2026-01-24 17:28:54,,,PASS,RM01
+5218,78002,0,2,375,357,1.59,0.165,0.071,1.509,2,10,2,6,1,2026-01-24 17:28:54,,,PASS,RM01
+4919,37144,0,0,376,358,1.201,0.148,0.182,1.513,2,10,2,6,1,2026-01-24 17:28:55,,,PASS,RM01
+6852,30303,0,3,377,359,1.665,0.149,0.074,1.355,2,10,2,6,1,2026-01-24 17:28:55,,,PASS,RM01
+2965,47927,0,1,378,360,1.413,0.269,0.162,1.559,2,10,2,6,1,2026-01-24 17:28:56,,,PASS,RM01
+6829,87415,0,3,379,361,1.759,0.293,0.057,1.675,2,10,2,6,1,2026-01-24 17:28:56,,,PASS,RM01
+4080,85893,0,0,380,362,1.466,0.298,0.17,1.423,2,10,2,6,1,2026-01-24 17:28:57,,,PASS,RM01
+8728,86641,0,0,381,362,1.3,0.256,0.219,1.636,4,10,2,7,1,2026-01-24 17:28:58,,,FAIL,RM01
+7633,62892,0,3,382,363,1.232,0.191,0.157,1.309,2,10,2,7,1,2026-01-24 17:28:58,,,PASS,RM01
+5592,30714,0,2,383,364,1.336,0.139,0.171,1.379,2,10,2,7,1,2026-01-24 17:28:59,,,PASS,RM01
+4472,40608,0,2,384,365,1.577,0.074,0.182,1.394,2,10,2,7,1,2026-01-24 17:28:59,,,PASS,RM01
+7670,77425,0,1,385,366,1.429,0.209,0.279,1.532,2,10,2,7,1,2026-01-24 17:29:00,,,PASS,RM01
+9985,37051,0,2,386,367,1.479,0.236,0.088,1.37,2,10,2,7,1,2026-01-24 17:29:00,,,PASS,RM01
+7332,69620,0,2,387,368,1.791,0.053,0.11,1.306,2,10,2,7,1,2026-01-24 17:29:01,,,PASS,RM01
+4717,83182,0,1,388,368,1.783,0.144,0.187,1.518,4,10,2,8,1,2026-01-24 17:29:02,,,FAIL,RM01
+8463,31973,0,3,389,369,1.544,0.253,0.178,1.359,2,10,2,8,1,2026-01-24 17:29:02,,,PASS,RM01
+4521,79914,0,0,390,370,1.349,0.25,0.109,1.554,2,10,2,8,1,2026-01-24 17:29:03,,,PASS,RM01
+3284,81117,0,2,391,371,1.653,0.187,0.208,1.317,2,10,2,8,1,2026-01-24 17:29:03,,,PASS,RM01
+4426,95824,0,3,392,372,1.62,0.076,0.213,1.4,2,10,2,8,1,2026-01-24 17:29:04,,,PASS,RM01
+8644,57438,0,1,393,373,1.583,0.23,0.28,1.523,2,10,2,8,1,2026-01-24 17:29:04,,,PASS,RM01
+5609,41974,0,1,394,374,1.693,0.258,0.156,1.442,2,10,2,8,1,2026-01-24 17:29:05,,,PASS,RM01
+8212,11689,0,2,395,375,1.675,0.294,0.131,1.551,2,10,2,8,1,2026-01-24 17:29:05,,,PASS,RM01
+3990,54331,0,0,396,376,1.762,0.051,0.108,1.407,2,10,2,8,1,2026-01-24 17:29:06,,,PASS,RM01
+7694,63582,0,1,397,377,1.783,0.185,0.253,1.557,2,10,2,8,1,2026-01-24 17:29:07,,,PASS,RM01
+9769,73100,0,1,398,378,1.724,0.249,0.16,1.355,2,10,2,8,1,2026-01-24 17:29:07,,,PASS,RM01
+3215,90496,0,2,399,379,1.734,0.167,0.137,1.554,2,10,2,8,1,2026-01-24 17:29:08,,,PASS,RM01
+3022,21168,0,2,400,380,1.217,0.103,0.221,1.624,2,10,2,8,1,2026-01-24 17:29:08,,,PASS,RM01
+2213,86942,0,0,401,381,1.463,0.237,0.068,1.579,2,10,2,8,1,2026-01-24 17:29:09,,,PASS,RM01
+6617,90851,0,3,402,382,1.345,0.07,0.109,1.534,2,10,2,8,1,2026-01-24 17:29:09,,,PASS,RM01
+3150,61483,0,0,403,383,1.435,0.17,0.109,1.56,2,10,2,8,1,2026-01-24 17:29:10,,,PASS,RM01
+5710,67808,0,3,404,384,1.381,0.07,0.168,1.657,2,10,2,8,1,2026-01-24 17:29:10,,,PASS,RM01
+2884,84782,0,1,405,385,1.531,0.284,0.121,1.692,2,10,2,8,1,2026-01-24 17:29:11,,,PASS,RM01
+6909,17166,0,1,406,386,1.593,0.245,0.075,1.656,2,10,2,8,1,2026-01-24 17:29:11,,,PASS,RM01
+1774,78187,0,0,407,387,1.475,0.268,0.228,1.515,2,10,2,8,1,2026-01-24 17:29:12,,,PASS,RM01
+1935,56958,0,0,408,388,1.483,0.13,0.061,1.553,2,10,2,8,1,2026-01-24 17:29:13,,,PASS,RM01
+2867,92169,0,0,409,389,1.411,0.122,0.076,1.584,2,10,2,8,1,2026-01-24 17:29:13,,,PASS,RM01
+3889,58660,0,1,410,390,1.385,0.295,0.129,1.585,2,10,2,8,1,2026-01-24 17:29:14,,,PASS,RM01
+5634,73019,0,3,411,391,1.333,0.072,0.294,1.526,2,10,2,8,1,2026-01-24 17:29:14,,,PASS,RM01
+7266,42847,0,1,412,392,1.753,0.075,0.225,1.614,2,10,2,8,1,2026-01-24 17:29:15,,,PASS,RM01
+7613,56117,0,2,413,392,1.285,0.198,0.1,1.405,3,10,3,8,1,2026-01-24 17:29:15,,,FAIL,RM01
+9058,97113,0,1,414,393,1.352,0.111,0.06,1.587,2,10,3,8,1,2026-01-24 17:29:16,,,PASS,RM01
+7857,53196,0,3,415,393,1.292,0.196,0.197,1.39,4,10,3,9,1,2026-01-24 17:29:16,,,FAIL,RM01
+9206,77798,0,1,416,394,1.408,0.231,0.167,1.461,2,10,3,9,1,2026-01-24 17:29:17,,,PASS,RM01
+3776,40875,0,3,417,395,1.773,0.27,0.231,1.576,2,10,3,9,1,2026-01-24 17:29:18,,,PASS,RM01
+3101,96369,0,2,418,396,1.795,0.262,0.251,1.321,2,10,3,9,1,2026-01-24 17:29:18,0101001O9DTZ86,"{""IRS_ID"": 22, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001O9DTZ86"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+1858,50335,0,2,419,397,1.714,0.196,0.161,1.7,2,10,3,9,1,2026-01-24 17:29:19,,,PASS,RM01
+2323,23181,0,2,420,398,1.673,0.21,0.237,1.483,2,10,3,9,1,2026-01-24 17:29:19,,,PASS,RM01
+4189,52015,0,0,421,399,1.635,0.056,0.167,1.378,2,10,3,9,1,2026-01-24 17:29:20,0101001OFJE8CE,"{""IRS_ID"": 103, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001OFJE8CE"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+5878,46310,0,3,422,400,1.762,0.139,0.247,1.644,2,10,3,9,1,2026-01-24 17:29:20,0101001OFXMFHW,"{""IRS_ID"": 1, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001OFXMFHW"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+1918,38106,0,3,423,401,1.653,0.255,0.217,1.607,2,10,3,9,1,2026-01-24 17:29:21,0101001OKYP9EJ,"{""IRS_ID"": 110, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001OKYP9EJ"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+2658,62197,0,3,424,402,1.559,0.106,0.213,1.476,2,10,3,9,1,2026-01-24 17:29:21,,,PASS,RM01
+7247,28406,0,0,425,403,1.596,0.121,0.053,1.612,2,10,3,9,1,2026-01-24 17:29:22,,,PASS,RM01
+4328,93070,0,3,426,404,1.426,0.291,0.289,1.431,2,10,3,9,1,2026-01-24 17:29:23,,,PASS,RM01
+4617,63000,0,0,427,405,1.241,0.198,0.194,1.451,2,10,3,9,1,2026-01-24 17:29:23,,,PASS,RM01
+7444,20053,0,2,428,406,1.698,0.104,0.205,1.445,2,10,3,9,1,2026-01-24 17:29:24,,,PASS,RM01
+3912,71414,0,1,429,407,1.284,0.146,0.23,1.44,2,10,3,9,1,2026-01-24 17:29:24,,,PASS,RM01
+3412,17955,0,0,430,408,1.258,0.216,0.255,1.667,2,10,3,9,1,2026-01-24 17:29:25,,,PASS,RM01
+8466,82484,0,3,431,409,1.585,0.078,0.066,1.353,2,10,3,9,1,2026-01-24 17:29:25,,,PASS,RM01
+3333,27345,0,1,432,410,1.402,0.215,0.172,1.356,2,10,3,9,1,2026-01-24 17:29:26,,,PASS,RM01
+8405,55442,0,1,433,411,1.308,0.274,0.271,1.445,2,10,3,9,1,2026-01-24 17:29:26,,,PASS,RM01
+1494,96515,0,2,434,412,1.618,0.098,0.29,1.471,2,10,3,9,1,2026-01-24 17:29:27,,,PASS,RM01
+3640,94543,0,1,435,413,1.238,0.12,0.056,1.372,2,10,3,9,1,2026-01-24 17:29:27,,,PASS,RM01
+5083,31874,0,3,436,414,1.609,0.1,0.075,1.319,2,10,3,9,1,2026-01-24 17:29:28,,,PASS,RM01
+9801,42860,0,0,437,415,1.545,0.149,0.1,1.434,2,10,3,9,1,2026-01-24 17:29:29,,,PASS,RM01
+8896,83190,0,1,438,416,1.364,0.285,0.094,1.468,2,10,3,9,1,2026-01-24 17:29:29,,,PASS,RM01
+1727,92168,0,1,439,417,1.516,0.091,0.103,1.664,2,10,3,9,1,2026-01-24 17:29:30,,,PASS,RM01
+8106,94003,0,3,440,418,1.533,0.133,0.175,1.48,2,10,3,9,1,2026-01-24 17:29:30,,,PASS,RM01
+5564,89002,0,1,441,419,1.222,0.075,0.065,1.676,2,10,3,9,1,2026-01-24 17:29:31,,,PASS,RM01
+8212,53193,0,2,442,420,1.521,0.299,0.277,1.391,2,10,3,9,1,2026-01-24 17:29:31,,,PASS,RM01
+6815,83926,0,2,443,421,1.415,0.295,0.152,1.446,2,10,3,9,1,2026-01-24 17:29:32,,,PASS,RM01
+7562,57802,0,0,444,422,1.266,0.074,0.145,1.565,2,10,3,9,1,2026-01-24 17:29:33,,,PASS,RM01
+4463,12616,0,3,445,423,1.73,0.118,0.18,1.396,2,10,3,9,1,2026-01-24 17:29:33,,,PASS,RM01
+4130,42148,0,2,446,424,1.408,0.265,0.294,1.305,2,10,3,9,1,2026-01-24 17:29:34,,,PASS,RM01
+7617,35615,0,3,447,425,1.409,0.102,0.28,1.538,2,10,3,9,1,2026-01-24 17:29:34,,,PASS,RM01
+9721,72862,0,2,448,426,1.776,0.209,0.157,1.611,2,10,3,9,1,2026-01-24 17:29:35,,,PASS,RM01
+2377,98156,0,0,449,427,1.57,0.122,0.244,1.439,2,10,3,9,1,2026-01-24 17:29:35,,,PASS,RM01
+9945,21020,0,2,450,427,1.287,0.107,0.1,1.512,3,10,4,9,1,2026-01-24 17:29:36,,,FAIL,RM01
+3547,98098,0,3,451,428,1.602,0.189,0.186,1.569,2,10,4,9,1,2026-01-24 17:29:36,,,PASS,RM01
+3351,92708,0,2,452,429,1.411,0.191,0.144,1.696,2,10,4,9,1,2026-01-24 17:29:37,,,PASS,RM01
+1953,37673,0,3,453,430,1.796,0.259,0.226,1.513,2,10,4,9,1,2026-01-24 17:29:38,,,PASS,RM01
+1330,11329,0,2,454,431,1.781,0.235,0.174,1.56,2,10,4,9,1,2026-01-24 17:29:38,,,PASS,RM01
+7684,47338,0,1,455,432,1.417,0.299,0.059,1.581,2,10,4,9,1,2026-01-24 17:29:39,,,PASS,RM01
+5136,67827,0,1,456,433,1.655,0.142,0.204,1.652,2,10,4,9,1,2026-01-24 17:29:39,,,PASS,RM01
+9972,59793,0,2,457,434,1.453,0.216,0.277,1.448,2,10,4,9,1,2026-01-24 17:29:40,0101001QDZ7A3F,"{""IRS_ID"": 105, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001QDZ7A3F"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+6616,15307,0,3,458,435,1.614,0.062,0.239,1.407,2,10,4,9,1,2026-01-24 17:29:40,0101001QGF19OC,"{""IRS_ID"": 79, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001QGF19OC"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+8087,25890,0,0,459,436,1.722,0.201,0.119,1.672,2,10,4,9,1,2026-01-24 17:29:41,,,PASS,RM01
+8389,19073,0,3,460,437,1.699,0.201,0.22,1.32,2,10,4,9,1,2026-01-24 17:29:41,0101001QIFDZT1,"{""IRS_ID"": 57, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001QIFDZT1"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+9735,21514,0,0,461,438,1.306,0.135,0.274,1.313,2,10,4,9,1,2026-01-24 17:29:42,,,PASS,RM01
+1258,84462,0,3,462,439,1.27,0.125,0.182,1.604,2,10,4,9,1,2026-01-24 17:29:43,,,PASS,RM01
+9242,33165,0,1,463,440,1.212,0.076,0.192,1.321,2,10,4,9,1,2026-01-24 17:29:43,0101001QNV8I75,"{""IRS_ID"": 66, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001QNV8I75"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+8648,34293,0,3,464,441,1.321,0.055,0.219,1.42,2,10,4,9,1,2026-01-24 17:29:44,,,PASS,RM01
+3190,23889,0,3,465,442,1.213,0.291,0.228,1.381,2,10,4,9,1,2026-01-24 17:29:44,,,PASS,RM01
+6210,63677,0,0,466,443,1.476,0.277,0.276,1.339,2,10,4,9,1,2026-01-24 17:29:45,,,PASS,RM01
+2155,58099,0,2,467,444,1.442,0.053,0.126,1.594,2,10,4,9,1,2026-01-24 17:29:45,,,PASS,RM01
+9819,43008,0,2,468,445,1.254,0.219,0.262,1.683,2,10,4,9,1,2026-01-24 17:29:46,,,PASS,RM01
+5383,34681,0,3,469,446,1.594,0.261,0.053,1.473,2,10,4,9,1,2026-01-24 17:29:46,,,PASS,RM01
+5606,72580,0,3,470,447,1.621,0.197,0.189,1.437,2,10,4,9,1,2026-01-24 17:29:47,,,PASS,RM01
+6310,82570,0,2,471,448,1.249,0.217,0.246,1.397,2,10,4,9,1,2026-01-24 17:29:48,,,PASS,RM01
+3220,26202,0,0,472,448,1.275,0.254,0.085,1.428,3,10,5,9,1,2026-01-24 17:29:48,,,FAIL,RM01
+2280,37140,0,0,473,449,1.381,0.292,0.236,1.336,2,10,5,9,1,2026-01-24 17:29:49,,,PASS,RM01
+4609,14091,0,3,474,450,1.409,0.242,0.076,1.342,2,10,5,9,1,2026-01-24 17:29:49,,,PASS,RM01
+9793,84218,0,1,475,451,1.461,0.207,0.162,1.658,2,10,5,9,1,2026-01-24 17:29:50,,,PASS,RM01
+2557,55589,0,1,476,452,1.3,0.123,0.214,1.381,2,10,5,9,1,2026-01-24 17:29:50,,,PASS,RM01
+4464,54316,0,1,477,453,1.493,0.218,0.122,1.518,2,10,5,9,1,2026-01-24 17:29:51,,,PASS,RM01
+4974,64899,0,1,478,454,1.265,0.236,0.221,1.665,2,10,5,9,1,2026-01-24 17:29:51,,,PASS,RM01
+3143,90896,0,1,479,455,1.381,0.196,0.063,1.5,2,10,5,9,1,2026-01-24 17:29:52,,,PASS,RM01
+1876,54760,0,0,480,455,1.533,0.213,0.055,1.39,4,10,5,10,1,2026-01-24 17:29:52,,,FAIL,RM01
+7394,47073,0,1,481,456,1.41,0.073,0.236,1.627,2,10,5,10,1,2026-01-24 17:29:53,,,PASS,RM01
+1317,73491,0,3,482,457,1.602,0.12,0.176,1.463,2,10,5,10,1,2026-01-24 17:29:54,,,PASS,RM01
+7435,47659,0,3,483,458,1.346,0.148,0.294,1.361,2,10,5,10,1,2026-01-24 17:29:54,,,PASS,RM01
+5250,84401,0,0,484,459,1.736,0.092,0.115,1.677,2,10,5,10,1,2026-01-24 17:29:55,,,PASS,RM01
+1541,54136,0,1,485,460,1.484,0.143,0.133,1.68,2,10,5,10,1,2026-01-24 17:29:55,,,PASS,RM01
+7041,89971,0,2,486,461,1.304,0.069,0.158,1.548,2,10,5,10,1,2026-01-24 17:29:56,,,PASS,RM01
+4991,11058,0,0,487,462,1.62,0.221,0.221,1.545,2,10,5,10,1,2026-01-24 17:29:56,,,PASS,RM01
+2846,98661,0,1,488,463,1.356,0.197,0.167,1.503,2,10,5,10,1,2026-01-24 17:29:57,,,PASS,RM01
+8105,55552,0,0,489,464,1.307,0.183,0.072,1.423,2,10,5,10,1,2026-01-24 17:29:58,,,PASS,RM01
+1211,80051,0,1,490,465,1.248,0.259,0.139,1.666,2,10,5,10,1,2026-01-24 17:29:58,,,PASS,RM01
+9565,23259,0,1,491,466,1.41,0.13,0.271,1.52,2,10,5,10,1,2026-01-24 17:29:59,,,PASS,RM01
+7149,84569,0,0,492,467,1.505,0.167,0.133,1.477,2,10,5,10,1,2026-01-24 17:29:59,,,PASS,RM01
+9593,22532,0,0,493,468,1.492,0.254,0.2,1.39,2,10,5,10,1,2026-01-24 17:30:00,,,PASS,RM01
+1258,89571,0,2,494,469,1.569,0.084,0.092,1.682,2,10,5,10,1,2026-01-24 17:30:00,,,PASS,RM01
+7137,45301,0,2,495,470,1.763,0.13,0.271,1.591,2,10,5,10,1,2026-01-24 17:30:01,,,PASS,RM01
+1814,60291,0,3,496,471,1.308,0.086,0.176,1.599,2,10,5,10,1,2026-01-24 17:30:01,,,PASS,RM01
+7851,16115,0,1,497,472,1.445,0.123,0.284,1.63,2,10,5,10,1,2026-01-24 17:30:02,,,PASS,RM01
+6570,89776,0,1,498,473,1.586,0.297,0.16,1.31,2,10,5,10,1,2026-01-24 17:30:02,,,PASS,RM01
+7833,82071,0,0,499,474,1.341,0.072,0.136,1.431,2,10,5,10,1,2026-01-24 17:30:03,,,PASS,RM01
+2785,46250,0,3,500,474,1.78,0.114,0.1,1.616,4,10,5,11,1,2026-01-24 17:30:04,,,FAIL,RM01
+9240,45931,0,3,501,475,1.588,0.228,0.08,1.593,2,10,5,11,1,2026-01-24 17:30:04,,,PASS,RM01
+6732,46692,0,0,502,476,1.458,0.196,0.227,1.503,2,10,5,11,1,2026-01-24 17:30:05,,,PASS,RM01
+7071,38300,0,2,503,477,1.478,0.283,0.159,1.415,2,10,5,11,1,2026-01-24 17:30:05,,,PASS,RM01
+8420,44998,0,3,504,478,1.728,0.285,0.273,1.301,2,10,5,11,1,2026-01-24 17:30:06,,,PASS,RM01
+3899,32865,0,1,505,479,1.769,0.065,0.068,1.682,2,10,5,11,1,2026-01-24 17:30:06,,,PASS,RM01
+3831,44208,0,3,506,480,1.496,0.077,0.191,1.417,2,10,5,11,1,2026-01-24 17:30:07,,,PASS,RM01
+9831,18203,0,0,507,481,1.633,0.293,0.297,1.372,2,10,5,11,1,2026-01-24 17:30:07,,,PASS,RM01
+1653,35055,0,1,508,482,1.362,0.067,0.284,1.34,2,10,5,11,1,2026-01-24 17:30:08,,,PASS,RM01
+1376,87720,0,0,509,483,1.498,0.089,0.261,1.304,2,10,5,11,1,2026-01-24 17:30:09,,,PASS,RM01
+6184,81833,0,0,510,484,1.48,0.15,0.077,1.389,2,10,5,11,1,2026-01-24 17:30:09,,,PASS,RM01
+6054,86428,0,1,511,485,1.323,0.228,0.185,1.337,2,10,5,11,1,2026-01-24 17:30:10,,,PASS,RM01
+9521,21062,0,3,512,486,1.467,0.142,0.092,1.353,2,10,5,11,1,2026-01-24 17:30:10,,,PASS,RM01
+4492,87742,0,2,513,487,1.462,0.189,0.088,1.687,2,10,5,11,1,2026-01-24 17:30:11,,,PASS,RM01
+5606,78881,0,1,514,487,1.325,0.169,0.117,1.409,3,10,6,11,1,2026-01-24 17:30:11,,,FAIL,RM01
+4198,94154,0,3,515,488,1.312,0.185,0.297,1.354,2,10,6,11,1,2026-01-24 17:30:12,,,PASS,RM01
+2340,50231,0,0,516,489,1.736,0.278,0.16,1.321,2,10,6,11,1,2026-01-24 17:30:12,,,PASS,RM01
+3447,81799,0,0,517,490,1.371,0.223,0.125,1.555,2,10,6,11,1,2026-01-24 17:30:13,,,PASS,RM01
+5071,28782,0,0,518,491,1.642,0.294,0.098,1.648,2,10,6,11,1,2026-01-24 17:30:13,,,PASS,RM01
+4780,47678,0,1,519,492,1.522,0.264,0.206,1.43,2,10,6,11,1,2026-01-24 17:30:14,,,PASS,RM01
+4376,88374,0,2,520,493,1.757,0.158,0.269,1.37,2,10,6,11,1,2026-01-24 17:30:15,,,PASS,RM01
+3141,92659,0,3,521,494,1.521,0.273,0.165,1.53,2,10,6,11,1,2026-01-24 17:30:15,,,PASS,RM01
+4176,48181,0,3,522,495,1.532,0.21,0.108,1.409,2,10,6,11,1,2026-01-24 17:30:16,,,PASS,RM01
+1693,60890,0,1,523,496,1.499,0.297,0.065,1.409,2,10,6,11,1,2026-01-24 17:30:16,,,PASS,RM01
+5681,90464,0,3,524,497,1.308,0.169,0.122,1.626,2,10,6,11,1,2026-01-24 17:30:17,,,PASS,RM01
+3443,83062,0,0,525,498,1.687,0.099,0.097,1.464,2,10,6,11,1,2026-01-24 17:30:17,,,PASS,RM01
+9425,37294,0,0,526,499,1.385,0.283,0.057,1.611,2,10,6,11,1,2026-01-24 17:30:18,,,PASS,RM01
+9985,59459,0,0,527,500,1.67,0.166,0.122,1.512,2,10,6,11,1,2026-01-24 17:30:18,,,PASS,RM01
+2475,32112,0,3,528,501,1.293,0.298,0.181,1.509,2,10,6,11,1,2026-01-24 17:30:19,,,PASS,RM01
+1159,85587,0,0,529,502,1.339,0.213,0.285,1.461,2,10,6,11,1,2026-01-24 17:30:20,,,PASS,RM01
+7937,67349,0,1,530,503,1.218,0.138,0.233,1.401,2,10,6,11,1,2026-01-24 17:30:20,,,PASS,RM01
+1106,28529,0,1,531,504,1.241,0.288,0.23,1.418,2,10,6,11,1,2026-01-24 17:30:21,,,PASS,RM01
+3428,59511,0,0,532,505,1.539,0.193,0.111,1.56,2,10,6,11,1,2026-01-24 17:30:21,,,PASS,RM01
+8461,19559,0,2,533,506,1.444,0.064,0.211,1.596,2,10,6,11,1,2026-01-24 17:30:22,,,PASS,RM01
+6178,34614,0,0,534,507,1.201,0.135,0.135,1.431,2,10,6,11,1,2026-01-24 17:30:22,,,PASS,RM01
+1328,94259,0,1,535,508,1.773,0.206,0.07,1.69,2,10,6,11,1,2026-01-24 17:30:23,,,PASS,RM01
+5014,83677,0,1,536,509,1.707,0.241,0.299,1.625,2,10,6,11,1,2026-01-24 17:30:23,,,PASS,RM01
+7230,61647,0,1,537,510,1.371,0.173,0.281,1.526,2,10,6,11,1,2026-01-24 17:30:24,0101001UYCSGZC,"{""IRS_ID"": 29, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001UYCSGZC"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+9385,99073,0,3,538,511,1.371,0.29,0.145,1.611,2,10,6,11,1,2026-01-24 17:30:24,,,PASS,RM01
+2902,43159,0,2,539,512,1.286,0.229,0.113,1.366,2,10,6,11,1,2026-01-24 17:30:25,,,PASS,RM01
+6172,25151,0,3,540,513,1.207,0.265,0.21,1.559,2,10,6,11,1,2026-01-24 17:30:25,,,PASS,RM01
+2851,53327,0,3,541,514,1.516,0.276,0.051,1.644,2,10,6,11,1,2026-01-24 17:30:26,,,PASS,RM01
+6874,76827,0,1,542,515,1.391,0.279,0.138,1.465,2,10,6,11,1,2026-01-24 17:30:26,,,PASS,RM01
+7931,72875,0,0,543,516,1.362,0.126,0.083,1.51,2,10,6,11,1,2026-01-24 17:30:27,,,PASS,RM01
+2721,14778,0,3,544,517,1.494,0.065,0.231,1.674,2,10,6,11,1,2026-01-24 17:30:28,,,PASS,RM01
+4645,22435,0,0,545,518,1.508,0.161,0.057,1.454,2,10,6,11,1,2026-01-24 17:30:28,0101001V614OIA,"{""IRS_ID"": 35, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001V614OIA"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+6111,18808,0,3,546,519,1.338,0.3,0.121,1.415,2,10,6,11,1,2026-01-24 17:30:29,0101001VC7XXGC,"{""IRS_ID"": 67, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001VC7XXGC"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+6673,83456,0,1,547,520,1.754,0.083,0.153,1.39,2,10,6,11,1,2026-01-24 17:30:29,,,PASS,RM01
+7667,83303,0,1,548,521,1.569,0.195,0.22,1.474,2,10,6,11,1,2026-01-24 17:30:30,0101001VG00ECI,"{""IRS_ID"": 77, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001VG00ECI"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+8500,29617,0,3,549,522,1.493,0.18,0.257,1.426,2,10,6,11,1,2026-01-24 17:30:30,,,PASS,RM01
+9979,66241,0,3,550,522,1.638,0.204,0.11,1.494,4,10,6,12,1,2026-01-24 17:30:31,,,FAIL,RM01
+3282,67007,0,3,551,523,1.613,0.24,0.274,1.407,2,10,6,12,1,2026-01-24 17:30:31,,,PASS,RM01
+8762,63065,0,3,552,524,1.544,0.079,0.19,1.419,2,10,6,12,1,2026-01-24 17:30:32,,,PASS,RM01
+6832,72620,0,2,553,525,1.665,0.12,0.251,1.677,2,10,6,12,1,2026-01-24 17:30:33,,,PASS,RM01
+5908,92254,0,2,554,526,1.573,0.16,0.114,1.329,2,10,6,12,1,2026-01-24 17:30:33,,,PASS,RM01
+1911,84555,0,3,555,527,1.469,0.271,0.212,1.686,2,10,6,12,1,2026-01-24 17:30:34,,,PASS,RM01
+5848,30322,0,0,556,528,1.57,0.247,0.05,1.435,2,10,6,12,1,2026-01-24 17:30:34,0101001VSSP0O4,"{""IRS_ID"": 107, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001VSSP0O4"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+9678,88369,0,0,557,529,1.679,0.106,0.054,1.558,2,10,6,12,1,2026-01-24 17:30:35,,,PASS,RM01
+9017,82682,0,1,558,530,1.797,0.082,0.137,1.407,2,10,6,12,1,2026-01-24 17:30:35,,,PASS,RM01
+8726,50850,0,2,559,531,1.67,0.23,0.061,1.444,2,10,6,12,1,2026-01-24 17:30:36,,,PASS,RM01
+3925,17849,0,0,560,532,1.255,0.275,0.287,1.327,2,10,6,12,1,2026-01-24 17:30:36,,,PASS,RM01
+2977,35412,0,1,561,533,1.32,0.285,0.158,1.451,2,10,6,12,1,2026-01-24 17:30:37,,,PASS,RM01
+7986,13869,0,1,562,534,1.371,0.142,0.055,1.542,2,10,6,12,1,2026-01-24 17:30:37,,,PASS,RM01
+5268,51982,0,0,563,535,1.501,0.269,0.064,1.633,2,10,6,12,1,2026-01-24 17:30:38,,,PASS,RM01
+1290,42089,0,1,564,536,1.747,0.262,0.079,1.338,2,10,6,12,1,2026-01-24 17:30:39,,,PASS,RM01
+5894,90922,0,2,565,537,1.51,0.116,0.199,1.653,2,10,6,12,1,2026-01-24 17:30:39,,,PASS,RM01
+4718,61897,0,2,566,538,1.796,0.065,0.209,1.534,2,10,6,12,1,2026-01-24 17:30:40,,,PASS,RM01
+9280,61951,0,0,567,539,1.294,0.16,0.158,1.373,2,10,6,12,1,2026-01-24 17:30:40,,,PASS,RM01
+6192,91162,0,0,568,540,1.285,0.209,0.288,1.41,2,10,6,12,1,2026-01-24 17:30:41,,,PASS,RM01
+9149,41529,0,0,569,541,1.353,0.104,0.057,1.354,2,10,6,12,1,2026-01-24 17:30:41,0101001WJHKTW9,"{""IRS_ID"": 58, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001WJHKTW9"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+8062,15870,0,3,570,542,1.773,0.27,0.248,1.655,2,10,6,12,1,2026-01-24 17:30:42,,,PASS,RM01
+4542,88612,0,3,571,543,1.505,0.263,0.146,1.653,2,10,6,12,1,2026-01-24 17:30:42,,,PASS,RM01
+5774,29411,0,3,572,544,1.708,0.122,0.112,1.356,2,10,6,12,1,2026-01-24 17:30:43,,,PASS,RM01
+8674,36068,0,3,573,545,1.389,0.281,0.148,1.636,2,10,6,12,1,2026-01-24 17:30:43,,,PASS,RM01
+1205,65429,0,3,574,546,1.442,0.21,0.124,1.612,2,10,6,12,1,2026-01-24 17:30:44,,,PASS,RM01
+9952,68193,0,2,575,547,1.465,0.206,0.264,1.469,2,10,6,12,1,2026-01-24 17:30:45,,,PASS,RM01
+5509,69607,0,1,576,548,1.372,0.075,0.061,1.341,2,10,6,12,1,2026-01-24 17:30:45,,,PASS,RM01
+4653,38869,0,3,577,549,1.227,0.252,0.263,1.695,2,10,6,12,1,2026-01-24 17:30:46,,,PASS,RM01
+1266,84987,0,2,578,550,1.674,0.086,0.268,1.607,2,10,6,12,1,2026-01-24 17:30:46,0101001WW2VGTV,"{""IRS_ID"": 26, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001WW2VGTV"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+2033,73247,0,0,579,551,1.761,0.266,0.275,1.548,2,10,6,12,1,2026-01-24 17:30:47,0101001WWW5JNC,"{""IRS_ID"": 91, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 1, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001WWW5JNC"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,RM01
+6804,22833,0,2,580,552,1.245,0.28,0.091,1.603,2,10,6,12,1,2026-01-24 17:30:47,,,PASS,RM01
+8912,95904,0,3,581,553,1.466,0.27,0.054,1.423,2,10,6,12,1,2026-01-24 17:30:48,,,PASS,RM01
+3713,43542,0,1,582,554,1.651,0.125,0.084,1.471,2,10,6,12,1,2026-01-24 17:30:48,,,PASS,RM01
+9659,15361,0,2,583,555,1.479,0.278,0.283,1.554,2,10,6,12,1,2026-01-24 17:30:49,,,PASS,RM01
+2890,50746,0,2,584,556,1.621,0.133,0.148,1.41,2,10,6,12,1,2026-01-24 17:30:49,,,PASS,RM01
+4543,35780,0,3,585,557,1.707,0.26,0.298,1.378,2,10,6,12,1,2026-01-24 17:30:50,,,PASS,RM01
+4307,86204,0,0,586,558,1.214,0.245,0.238,1.483,2,10,6,12,1,2026-01-24 17:30:50,,,PASS,RM01
+4268,22847,0,3,587,558,1.701,0.08,0.092,1.454,3,10,7,12,1,2026-01-24 17:30:51,,,FAIL,RM01
+2986,55293,0,1,588,559,1.552,0.053,0.237,1.692,2,10,7,12,1,2026-01-24 17:30:52,,,PASS,RM01
+6548,36605,0,1,589,559,1.504,0.109,0.279,1.362,4,10,7,13,1,2026-01-24 17:30:52,,,FAIL,RM01
+6688,95289,0,1,590,560,1.575,0.224,0.053,1.306,2,10,7,13,1,2026-01-24 17:30:53,,,PASS,RM01
+2912,21478,0,0,591,561,1.229,0.183,0.078,1.367,2,10,7,13,1,2026-01-24 17:30:53,,,PASS,RM01
+5725,55756,0,2,592,562,1.272,0.223,0.221,1.572,2,10,7,13,1,2026-01-24 17:30:54,,,PASS,RM01
+1043,78760,0,0,593,563,1.366,0.253,0.233,1.687,2,10,7,13,1,2026-01-24 17:30:54,,,PASS,RM01
+4743,57903,0,0,594,564,1.32,0.246,0.112,1.673,2,10,7,13,1,2026-01-24 17:30:55,,,PASS,RM01
+6458,79914,0,2,595,565,1.758,0.192,0.141,1.445,2,10,7,13,1,2026-01-24 17:30:55,,,PASS,RM01
+3556,43520,0,2,596,566,1.731,0.299,0.248,1.531,2,10,7,13,1,2026-01-24 17:30:56,,,PASS,RM01
+9984,59705,0,3,597,567,1.237,0.069,0.127,1.682,2,10,7,13,1,2026-01-24 17:30:56,,,PASS,RM01
+5089,71475,0,1,598,568,1.215,0.121,0.118,1.41,2,10,7,13,1,2026-01-24 17:30:57,,,PASS,RM01
+9949,34601,0,1,599,569,1.381,0.263,0.054,1.583,2,10,7,13,1,2026-01-24 17:30:57,,,PASS,RM01
+4480,30609,0,0,600,570,1.282,0.167,0.082,1.54,2,10,7,13,1,2026-01-24 17:30:58,,,PASS,RM01
+9584,98515,0,0,601,571,1.574,0.28,0.297,1.313,2,10,7,13,1,2026-01-24 17:30:59,,,PASS,RM01
+3367,47874,0,0,602,572,1.394,0.277,0.119,1.572,2,10,7,13,1,2026-01-24 17:30:59,,,PASS,RM01
+7635,64027,0,1,603,573,1.722,0.23,0.134,1.437,2,10,7,13,1,2026-01-24 17:31:00,,,PASS,RM01
+7597,12666,0,3,604,574,1.248,0.287,0.195,1.695,2,10,7,13,1,2026-01-24 17:31:00,,,PASS,RM01
+5656,57060,0,1,605,575,1.598,0.239,0.208,1.588,2,10,7,13,1,2026-01-24 17:31:01,,,PASS,RM01
+4576,71815,0,2,606,576,1.467,0.057,0.206,1.687,2,10,7,13,1,2026-01-24 17:31:01,,,PASS,RM01
+4700,59170,0,1,607,577,1.274,0.17,0.232,1.408,2,10,7,13,1,2026-01-24 17:31:02,,,PASS,RM01
+7001,25136,0,0,608,578,1.318,0.276,0.124,1.334,2,10,7,13,1,2026-01-24 17:31:02,,,PASS,RM01
+7601,43956,0,3,609,579,1.469,0.105,0.272,1.551,2,10,7,13,1,2026-01-24 17:31:03,,,PASS,RM01
+4514,70409,0,1,610,580,1.521,0.085,0.156,1.622,2,10,7,13,1,2026-01-24 17:31:03,,,PASS,RM01
+6703,80701,0,3,611,581,1.772,0.065,0.28,1.623,2,10,7,13,1,2026-01-24 17:31:04,,,PASS,RM01
+4681,75766,0,2,612,582,1.725,0.173,0.176,1.352,2,10,7,13,1,2026-01-24 17:31:04,,,PASS,RM01
+5430,70686,0,1,613,582,1.713,0.082,0.083,1.611,1,11,7,13,1,2026-01-24 17:31:05,,,FAIL,RM01
+2447,74831,0,2,614,583,1.427,0.179,0.086,1.454,2,11,7,13,1,2026-01-24 17:31:05,,,PASS,RM01
+8867,49324,0,2,615,584,1.544,0.223,0.139,1.666,2,11,7,13,1,2026-01-24 17:31:06,,,PASS,RM01
+8669,28542,0,0,616,585,1.462,0.099,0.219,1.585,2,11,7,13,1,2026-01-24 17:31:06,,,PASS,RM01
+6642,68184,0,2,617,585,1.463,0.09,0.238,1.427,1,12,7,13,1,2026-01-24 17:31:07,,,FAIL,RM01
+7190,65360,0,3,618,585,1.267,0.24,0.141,1.524,1,13,7,13,1,2026-01-24 17:31:07,,,FAIL,RM01
+9353,49251,0,0,619,586,1.509,0.224,0.098,1.305,2,13,7,13,1,2026-01-24 17:31:08,,,PASS,RM01
+3018,79449,0,0,620,587,1.224,0.249,0.113,1.46,2,13,7,13,1,2026-01-24 17:31:08,,,PASS,RM01
+6838,30597,0,2,621,588,1.629,0.289,0.256,1.404,2,13,7,13,1,2026-01-24 17:31:09,,,PASS,RM01
+8936,31092,0,0,622,589,1.726,0.196,0.192,1.446,2,13,7,13,1,2026-01-24 17:31:10,,,PASS,RM01
+3813,11971,0,1,623,590,1.728,0.125,0.28,1.524,2,13,7,13,1,2026-01-24 17:31:10,,,PASS,RM01
+3419,57612,0,1,624,591,1.452,0.287,0.136,1.407,2,13,7,13,1,2026-01-24 17:31:11,,,PASS,RM01
+7110,17744,0,2,625,592,1.57,0.18,0.273,1.468,2,13,7,13,1,2026-01-24 17:31:11,,,PASS,RM01
+4500,86412,0,2,626,593,1.538,0.169,0.111,1.612,2,13,7,13,1,2026-01-24 17:31:12,,,PASS,RM01
+6261,26909,0,0,627,594,1.531,0.259,0.154,1.498,2,13,7,13,1,2026-01-24 17:31:12,,,PASS,RM01
+3421,82170,0,3,628,595,1.389,0.112,0.278,1.502,2,13,7,13,1,2026-01-24 17:31:13,,,PASS,RM01
+5143,71729,0,0,629,596,1.501,0.125,0.284,1.41,2,13,7,13,1,2026-01-24 17:31:13,,,PASS,RM01
+1009,93651,0,2,630,597,1.458,0.17,0.09,1.589,2,13,7,13,1,2026-01-24 17:31:14,,,PASS,RM01
+7672,64132,0,0,631,598,1.349,0.082,0.161,1.665,2,13,7,13,1,2026-01-24 17:31:14,,,PASS,RM01
+9262,71609,0,3,632,599,1.333,0.233,0.281,1.695,2,13,7,13,1,2026-01-24 17:31:15,,,PASS,RM01
+9926,28493,0,1,633,600,1.245,0.055,0.17,1.651,2,13,7,13,1,2026-01-24 17:31:15,,,PASS,RM01
+6173,50453,0,0,634,601,1.335,0.118,0.116,1.426,2,13,7,13,1,2026-01-24 17:31:16,,,PASS,RM01
+6605,45787,0,2,635,602,1.6,0.127,0.146,1.377,2,13,7,13,1,2026-01-24 17:31:16,,,PASS,RM01
+3364,67794,0,0,636,603,1.747,0.086,0.21,1.632,2,13,7,13,1,2026-01-24 17:31:17,,,PASS,RM01
+7989,19333,0,0,637,604,1.207,0.29,0.296,1.644,2,13,7,13,1,2026-01-24 17:31:17,,,PASS,RM01
+6540,12714,0,3,638,605,1.753,0.196,0.174,1.472,2,13,7,13,1,2026-01-24 17:31:18,,,PASS,RM01
+4064,30331,0,2,639,606,1.444,0.132,0.077,1.561,2,13,7,13,1,2026-01-24 17:31:18,,,PASS,RM01
+5625,93475,0,2,640,607,1.234,0.279,0.113,1.656,2,13,7,13,1,2026-01-24 17:31:19,,,PASS,RM01
+1275,72654,0,2,641,608,1.477,0.176,0.215,1.373,2,13,7,13,1,2026-01-24 17:31:19,,,PASS,RM01
+3933,73155,0,1,642,609,1.742,0.265,0.255,1.504,2,13,7,13,1,2026-01-24 17:31:20,,,PASS,RM01
+7683,36532,0,0,643,610,1.656,0.163,0.236,1.38,2,13,7,13,1,2026-01-24 17:31:21,,,PASS,RM01
+5707,83836,0,2,644,611,1.759,0.082,0.167,1.629,2,13,7,13,1,2026-01-24 17:31:21,,,PASS,RM01
+6319,45867,0,1,645,612,1.373,0.108,0.076,1.442,2,13,7,13,1,2026-01-24 17:31:22,,,PASS,RM01
+6530,57758,0,2,646,613,1.367,0.135,0.266,1.63,2,13,7,13,1,2026-01-24 17:31:22,,,PASS,RM01
+7236,52008,0,2,647,614,1.228,0.214,0.099,1.302,2,13,7,13,1,2026-01-24 17:31:23,,,PASS,RM01
+7503,80409,0,3,648,614,1.629,0.237,0.261,1.629,4,13,7,14,1,2026-01-24 17:31:23,,,FAIL,RM01
+7290,66029,0,0,649,615,1.241,0.228,0.157,1.308,2,13,7,14,1,2026-01-24 17:31:24,,,PASS,RM01
+3933,29678,0,3,650,616,1.539,0.088,0.074,1.406,2,13,7,14,1,2026-01-24 17:31:24,,,PASS,RM01
+2535,79182,0,2,651,617,1.312,0.07,0.069,1.32,2,13,7,14,1,2026-01-24 17:31:25,,,PASS,RM01
+8990,61942,0,2,652,618,1.788,0.184,0.262,1.394,2,13,7,14,1,2026-01-24 17:31:25,,,PASS,RM01
+8061,87879,0,3,653,619,1.767,0.166,0.112,1.598,2,13,7,14,1,2026-01-24 17:31:26,,,PASS,RM01
+2994,66992,0,3,654,620,1.306,0.294,0.085,1.326,2,13,7,14,1,2026-01-24 17:31:26,,,PASS,RM01
+5437,20719,0,1,655,620,1.306,0.085,0.266,1.642,1,14,7,14,1,2026-01-24 17:31:27,,,FAIL,RM01
+4710,89805,0,3,656,621,1.778,0.068,0.165,1.413,2,14,7,14,1,2026-01-24 17:31:27,,,PASS,RM01
+5929,12160,0,2,657,622,1.728,0.27,0.113,1.43,2,14,7,14,1,2026-01-24 17:31:28,,,PASS,RM01
+7860,69654,0,0,658,623,1.477,0.05,0.205,1.457,2,14,7,14,1,2026-01-24 17:31:28,,,PASS,RM01
+2180,61570,0,2,659,624,1.23,0.119,0.078,1.46,2,14,7,14,1,2026-01-24 17:31:29,,,PASS,RM01
+1066,92352,0,0,660,624,1.649,0.147,0.125,1.449,3,14,8,14,1,2026-01-24 17:31:29,,,FAIL,RM01
+3151,74872,0,1,661,625,1.21,0.051,0.094,1.304,2,14,8,14,1,2026-01-24 17:31:30,,,PASS,RM01
+2383,15706,0,1,662,626,1.234,0.241,0.068,1.365,2,14,8,14,1,2026-01-24 17:31:30,,,PASS,RM01
+6286,45529,0,2,663,627,1.738,0.098,0.067,1.408,2,14,8,14,1,2026-01-24 17:31:31,,,PASS,RM01
+4894,54521,0,1,664,628,1.721,0.076,0.152,1.344,2,14,8,14,1,2026-01-24 17:31:31,,,PASS,RM01
+3759,67508,0,3,665,628,1.707,0.065,0.179,1.536,1,15,8,14,1,2026-01-24 17:31:32,,,FAIL,RM01
+7233,60359,0,0,666,629,1.721,0.163,0.156,1.522,2,15,8,14,1,2026-01-24 17:31:32,,,PASS,RM01
+4177,89877,0,2,667,630,1.214,0.192,0.109,1.38,2,15,8,14,1,2026-01-24 17:31:33,,,PASS,RM01
+6033,16691,0,3,668,631,1.639,0.204,0.08,1.457,2,15,8,14,1,2026-01-24 17:31:34,,,PASS,RM01
+4490,16050,0,2,669,632,1.585,0.238,0.145,1.314,2,15,8,14,1,2026-01-24 17:31:34,,,PASS,RM01
+4195,65347,0,1,670,633,1.374,0.228,0.269,1.343,2,15,8,14,1,2026-01-24 17:31:35,,,PASS,RM01
+4092,77333,0,2,671,633,1.227,0.254,0.111,1.441,3,15,9,14,1,2026-01-24 17:31:35,,,FAIL,RM01
+7949,40024,0,3,672,634,1.778,0.243,0.081,1.464,2,15,9,14,1,2026-01-24 17:31:36,,,PASS,RM01
+6197,37144,0,2,673,635,1.582,0.228,0.249,1.447,2,15,9,14,1,2026-01-24 17:31:36,,,PASS,RM01
+4735,81207,0,3,674,636,1.393,0.122,0.253,1.52,2,15,9,14,1,2026-01-24 17:31:37,,,PASS,RM01
+1310,11220,0,0,675,637,1.711,0.224,0.188,1.359,2,15,9,14,1,2026-01-24 17:31:37,,,PASS,RM01
+6543,35121,0,3,676,638,1.784,0.281,0.156,1.54,2,15,9,14,1,2026-01-24 17:31:38,,,PASS,RM01
+7444,58026,0,1,677,639,1.726,0.055,0.159,1.657,2,15,9,14,1,2026-01-24 17:31:38,,,PASS,RM01
+1874,28337,0,0,678,640,1.768,0.249,0.086,1.66,2,15,9,14,1,2026-01-24 17:31:39,,,PASS,RM01
+4746,14973,0,2,679,641,1.211,0.278,0.124,1.347,2,15,9,14,1,2026-01-24 17:31:39,,,PASS,RM01
+4684,11910,0,3,680,641,1.46,0.079,0.194,1.535,3,15,10,14,1,2026-01-24 17:31:40,,,FAIL,RM01
+7706,15060,0,2,681,642,1.648,0.088,0.283,1.501,2,15,10,14,1,2026-01-24 17:31:40,,,PASS,RM01
+7001,26108,0,3,682,643,1.768,0.1,0.086,1.393,2,15,10,14,1,2026-01-24 17:31:41,,,PASS,RM01
+8979,46149,0,3,683,644,1.428,0.228,0.155,1.383,2,15,10,14,1,2026-01-24 17:31:41,,,PASS,RM01
+2594,38819,0,2,684,645,1.331,0.256,0.151,1.449,2,15,10,14,1,2026-01-24 17:31:42,,,PASS,RM01
+2821,22011,0,0,685,646,1.473,0.136,0.137,1.657,2,15,10,14,1,2026-01-24 17:31:42,,,PASS,RM01
+3553,78291,0,0,686,647,1.434,0.243,0.065,1.484,2,15,10,14,1,2026-01-24 17:31:43,,,PASS,RM01
+7739,31804,0,0,687,648,1.688,0.085,0.29,1.514,2,15,10,14,1,2026-01-24 17:31:44,,,PASS,RM01
+2333,74080,0,1,688,649,1.567,0.154,0.072,1.523,2,15,10,14,1,2026-01-24 17:31:44,,,PASS,RM01
+9338,66173,0,1,689,650,1.612,0.299,0.111,1.353,2,15,10,14,1,2026-01-24 17:31:45,,,PASS,RM01
+9948,12638,0,2,690,651,1.361,0.298,0.125,1.548,2,15,10,14,1,2026-01-24 17:31:45,,,PASS,RM01
+4777,11682,0,2,691,652,1.375,0.26,0.285,1.463,2,15,10,14,1,2026-01-24 17:31:46,,,PASS,RM01
+9090,12384,0,3,692,653,1.228,0.153,0.092,1.619,2,15,10,14,1,2026-01-24 17:31:46,,,PASS,RM01
+6095,86747,0,1,693,654,1.28,0.214,0.062,1.574,2,15,10,14,1,2026-01-24 17:31:47,,,PASS,RM01
+9824,41166,0,2,694,655,1.502,0.228,0.205,1.344,2,15,10,14,1,2026-01-24 17:31:47,,,PASS,RM01
+3358,69804,0,0,695,656,1.66,0.061,0.244,1.556,2,15,10,14,1,2026-01-24 17:31:48,,,PASS,RM01
+4017,50100,0,0,696,657,1.397,0.078,0.172,1.581,2,15,10,14,1,2026-01-24 17:31:48,,,PASS,RM01
+6815,46998,0,1,697,658,1.351,0.082,0.111,1.511,2,15,10,14,1,2026-01-24 17:31:49,,,PASS,RM01
+6878,71273,0,1,698,659,1.455,0.253,0.267,1.502,2,15,10,14,1,2026-01-24 17:31:49,,,PASS,RM01
+1587,73291,0,3,699,660,1.548,0.224,0.224,1.599,2,15,10,14,1,2026-01-24 17:31:50,,,PASS,RM01
+2508,74208,0,0,700,661,1.77,0.1,0.207,1.686,2,15,10,14,1,2026-01-24 17:31:50,,,PASS,RM01
+7538,42325,0,1,701,662,1.216,0.114,0.236,1.521,2,15,10,14,1,2026-01-24 17:31:51,,,PASS,RM01
+7012,34282,0,2,702,663,1.286,0.264,0.25,1.358,2,15,10,14,1,2026-01-24 17:31:51,,,PASS,RM01
+2098,58107,0,3,703,664,1.373,0.12,0.272,1.365,2,15,10,14,1,2026-01-24 17:31:52,,,PASS,RM01
+8562,53066,0,3,704,665,1.288,0.204,0.237,1.457,2,15,10,14,1,2026-01-24 17:31:52,,,PASS,RM01
+2578,38755,0,1,705,666,1.521,0.105,0.108,1.441,2,15,10,14,1,2026-01-24 17:31:53,,,PASS,RM01
+6881,80425,0,0,706,667,1.668,0.22,0.111,1.614,2,15,10,14,1,2026-01-24 17:31:53,,,PASS,RM01
+3543,50052,0,2,707,668,1.466,0.255,0.113,1.657,2,15,10,14,1,2026-01-24 17:31:54,,,PASS,RM01
+8914,58485,0,1,708,669,1.34,0.162,0.299,1.362,2,15,10,14,1,2026-01-24 17:31:55,,,PASS,RM01
+3617,32512,0,3,709,670,1.716,0.283,0.054,1.47,2,15,10,14,1,2026-01-24 17:31:55,,,PASS,RM01
+6955,48272,0,3,710,671,1.517,0.263,0.134,1.436,2,15,10,14,1,2026-01-24 17:31:56,,,PASS,RM01
+7229,56205,0,2,711,672,1.696,0.144,0.213,1.44,2,15,10,14,1,2026-01-24 17:31:56,,,PASS,RM01
+2362,50690,0,1,712,673,1.616,0.056,0.278,1.451,2,15,10,14,1,2026-01-24 17:31:57,,,PASS,RM01
+6950,51333,0,0,713,673,1.247,0.299,0.244,1.415,4,15,10,15,1,2026-01-24 17:31:57,,,FAIL,RM01
+7122,41805,0,1,714,674,1.387,0.051,0.126,1.66,2,15,10,15,1,2026-01-24 17:31:58,,,PASS,RM01
+9818,83309,0,3,715,675,1.456,0.28,0.211,1.461,2,15,10,15,1,2026-01-24 17:31:58,,,PASS,RM01
+9970,96363,0,0,716,676,1.322,0.08,0.207,1.658,2,15,10,15,1,2026-01-24 17:31:59,,,PASS,RM01
+8688,86965,0,2,717,677,1.509,0.076,0.103,1.481,2,15,10,15,1,2026-01-24 17:31:59,,,PASS,RM01
+9088,22902,0,0,718,678,1.465,0.075,0.084,1.615,2,15,10,15,1,2026-01-24 17:32:00,,,PASS,RM01
+5108,92331,0,0,719,679,1.369,0.067,0.074,1.607,2,15,10,15,1,2026-01-24 17:32:00,,,PASS,RM01
+1142,93670,0,1,720,680,1.325,0.162,0.175,1.545,2,15,10,15,1,2026-01-24 17:32:01,,,PASS,RM01
+2101,10343,0,0,721,681,1.569,0.053,0.06,1.658,2,15,10,15,1,2026-01-24 17:32:01,,,PASS,RM01
+6637,46107,0,3,722,682,1.755,0.202,0.217,1.689,2,15,10,15,1,2026-01-24 17:32:02,,,PASS,RM01
+6859,60292,0,3,723,683,1.221,0.287,0.072,1.408,2,15,10,15,1,2026-01-24 17:32:03,,,PASS,RM01
+2075,70752,0,3,724,684,1.647,0.071,0.198,1.643,2,15,10,15,1,2026-01-24 17:32:03,,,PASS,RM01
+3976,27174,0,0,725,685,1.696,0.095,0.197,1.489,2,15,10,15,1,2026-01-24 17:32:04,,,PASS,RM01
+9323,74444,0,1,726,686,1.239,0.214,0.263,1.669,2,15,10,15,1,2026-01-24 17:32:04,,,PASS,RM01
+4886,78256,0,3,727,687,1.485,0.289,0.073,1.332,2,15,10,15,1,2026-01-24 17:32:05,,,PASS,RM01
+2156,38239,0,1,728,688,1.394,0.168,0.146,1.429,2,15,10,15,1,2026-01-24 17:32:05,,,PASS,RM01
+8208,10889,0,0,729,689,1.264,0.26,0.133,1.354,2,15,10,15,1,2026-01-24 17:32:06,,,PASS,RM01
+9077,43493,0,0,730,690,1.746,0.254,0.225,1.667,2,15,10,15,1,2026-01-24 17:32:06,,,PASS,RM01
+8150,94489,0,0,731,691,1.387,0.163,0.191,1.301,2,15,10,15,1,2026-01-24 17:32:07,,,PASS,RM01
+1858,44777,0,1,732,692,1.797,0.25,0.066,1.538,2,15,10,15,1,2026-01-24 17:32:07,,,PASS,RM01
+1813,56744,0,0,733,693,1.49,0.076,0.081,1.359,2,15,10,15,1,2026-01-24 17:32:08,,,PASS,RM01
+3536,97939,0,1,734,694,1.523,0.295,0.295,1.627,2,15,10,15,1,2026-01-24 17:32:08,,,PASS,RM01
+3732,13256,0,3,735,695,1.728,0.1,0.193,1.379,2,15,10,15,1,2026-01-24 17:32:09,,,PASS,RM01
+1936,66311,0,3,736,696,1.295,0.207,0.262,1.382,2,15,10,15,1,2026-01-24 17:32:09,,,PASS,RM01
+7759,19423,0,3,737,697,1.474,0.124,0.179,1.57,2,15,10,15,1,2026-01-24 17:32:10,,,PASS,RM01
+2103,94553,0,0,738,698,1.667,0.062,0.21,1.509,2,15,10,15,1,2026-01-24 17:32:10,,,PASS,RM01
+6823,21176,0,2,739,699,1.47,0.183,0.056,1.57,2,15,10,15,1,2026-01-24 17:32:11,,,PASS,RM01
+7748,59718,0,1,740,700,1.571,0.094,0.139,1.348,2,15,10,15,1,2026-01-24 17:32:11,,,PASS,RM01
+6504,94566,0,3,741,701,1.715,0.187,0.166,1.435,2,15,10,15,1,2026-01-24 17:32:12,,,PASS,RM01
+3072,86518,0,1,742,702,1.318,0.187,0.179,1.384,2,15,10,15,1,2026-01-24 17:32:12,,,PASS,RM01
+2442,39775,0,0,164,1,1.442,0.202,0.076,1.404,2,0,0,0,1,2026-01-24 17:32:19,,,PASS,RM01
+5298,85310,0,2,165,2,1.7,0.188,0.174,1.384,2,0,0,0,1,2026-01-24 17:32:20,,,PASS,RM01
+6559,51927,0,3,166,3,1.471,0.109,0.196,1.57,2,0,0,0,1,2026-01-24 17:32:20,,,PASS,RM01
+9678,82863,0,0,167,3,1.213,0.119,0.054,1.658,4,0,0,1,1,2026-01-24 17:32:21,,,FAIL,RM01
+7299,57600,0,1,168,4,1.715,0.129,0.056,1.527,2,0,0,1,1,2026-01-24 17:32:21,,,PASS,RM01
+7833,15114,0,2,169,5,1.611,0.126,0.129,1.632,2,0,0,1,1,2026-01-24 17:32:22,,,PASS,RM01
+9006,99037,0,2,170,6,1.248,0.247,0.192,1.699,2,0,0,1,1,2026-01-24 17:32:23,,,PASS,RM01
+7159,20265,0,2,171,1,1.509,0.287,0.221,1.514,2,0,0,0,1,2026-01-24 17:33:25,,,PASS,RM01
+9929,37567,0,3,172,2,1.65,0.119,0.12,1.523,2,0,0,0,1,2026-01-24 17:33:25,,,PASS,RM01
+4684,18280,0,2,173,3,1.678,0.072,0.261,1.598,2,0,0,0,1,2026-01-24 17:33:26,,,PASS,RM01
+1563,90953,0,1,174,4,1.372,0.134,0.178,1.558,2,0,0,0,1,2026-01-24 17:33:27,,,PASS,RM01
+6074,42200,0,3,175,5,1.777,0.066,0.113,1.581,2,0,0,0,1,2026-01-24 17:33:27,,,PASS,RM01
+8111,81972,0,2,176,6,1.454,0.171,0.114,1.307,2,0,0,0,1,2026-01-24 17:33:28,,,PASS,RM01
+7883,70468,0,3,177,7,1.781,0.228,0.147,1.6,2,0,0,0,1,2026-01-24 17:33:28,,,PASS,RM01
+4345,49098,0,1,178,7,1.55,0.147,0.3,1.653,3,0,1,0,1,2026-01-24 17:33:29,,,FAIL,RM01
+6506,37262,0,2,179,8,1.562,0.196,0.055,1.503,2,0,1,0,1,2026-01-24 17:33:29,,,PASS,RM01
+6954,44846,0,3,180,9,1.701,0.29,0.189,1.501,2,0,1,0,1,2026-01-24 17:33:30,,,PASS,RM01
+5656,80520,0,1,181,10,1.785,0.282,0.071,1.613,2,0,1,0,1,2026-01-24 17:33:30,,,PASS,RM01
+4248,57489,0,3,182,11,1.407,0.112,0.135,1.445,2,0,1,0,1,2026-01-24 17:33:31,,,PASS,RM01
+4513,84451,0,2,183,11,1.672,0.114,0.275,1.544,3,0,2,0,1,2026-01-24 17:33:31,,,FAIL,RM01
+6065,37041,0,1,184,12,1.675,0.124,0.205,1.628,2,0,2,0,1,2026-01-24 17:33:32,,,PASS,RM01
+7571,83058,0,0,185,13,1.201,0.281,0.092,1.384,2,0,2,0,1,2026-01-24 17:33:32,,,PASS,RM01
+3674,99010,0,1,186,14,1.371,0.206,0.168,1.333,2,0,2,0,1,2026-01-24 17:33:33,,,PASS,RM01
+3814,78796,0,0,187,15,1.264,0.116,0.085,1.563,2,0,2,0,1,2026-01-24 17:33:33,,,PASS,RM01
+5708,97189,0,2,188,16,1.72,0.264,0.207,1.568,2,0,2,0,1,2026-01-24 17:33:34,,,PASS,RM01
+2126,74618,0,0,580,101,1.694,0.056,0.084,1.521,2,0,2,0,1,2026-01-24 17:39:12,01010011YGW8T4,"{""IRS_ID"": 237, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011YGW8T4"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+6501,61120,0,1,581,102,1.219,0.142,0.261,1.51,2,0,2,0,1,2026-01-24 17:39:12,,,PASS,RM01
+8471,68059,0,2,582,103,1.659,0.096,0.144,1.599,2,0,2,0,1,2026-01-24 17:39:13,,,PASS,RM01
+1392,40783,0,2,583,104,1.684,0.262,0.097,1.318,2,0,2,0,1,2026-01-24 17:39:14,,,PASS,RM01
+4521,36531,0,3,584,105,1.279,0.125,0.15,1.402,2,0,2,0,1,2026-01-24 17:39:14,,,PASS,RM01
+3916,59297,0,3,585,106,1.369,0.27,0.091,1.536,2,0,2,0,1,2026-01-24 17:39:15,,,PASS,RM01
+1550,99481,0,1,586,107,1.39,0.228,0.062,1.493,2,0,2,0,1,2026-01-24 17:39:15,,,PASS,RM01
+2161,66355,0,2,587,108,1.45,0.246,0.143,1.54,2,0,2,0,1,2026-01-24 17:40:40,01010011YGW8T4,"{""IRS_ID"": 237, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""01010011YGW8T4"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+7233,16809,0,1,588,109,1.631,0.149,0.138,1.497,2,0,2,0,1,2026-01-24 17:40:41,,,PASS,RM01
+8094,26116,0,3,589,110,1.403,0.11,0.182,1.642,2,0,2,0,1,2026-01-24 17:40:41,,,PASS,RM01
+8839,54896,0,2,590,111,1.357,0.248,0.121,1.609,2,0,2,0,1,2026-01-24 17:40:42,,,PASS,RM01
+7651,67426,0,0,591,112,1.762,0.219,0.237,1.404,2,0,2,0,1,2026-01-24 17:40:42,,,PASS,RM01
+2184,83045,0,0,592,113,1.48,0.054,0.26,1.554,2,0,2,0,1,2026-01-24 17:40:43,,,PASS,RM01
+9900,68348,0,0,593,114,1.497,0.272,0.273,1.363,2,0,2,0,1,2026-01-24 17:40:43,,,PASS,RM01
+8925,69029,0,0,594,115,1.459,0.141,0.192,1.395,2,0,2,0,1,2026-01-24 17:40:44,,,PASS,RM01
+4774,57887,0,1,595,116,1.449,0.114,0.126,1.407,2,0,2,0,1,2026-01-24 17:40:45,,,PASS,RM01
+9290,36624,0,1,596,117,1.209,0.19,0.061,1.621,2,0,2,0,1,2026-01-24 17:40:45,,,PASS,RM01
+5111,88597,0,1,597,118,1.331,0.29,0.065,1.374,2,0,2,0,1,2026-01-24 17:40:46,,,PASS,RM01
+4675,72373,0,0,598,119,1.767,0.261,0.247,1.435,2,0,2,0,1,2026-01-24 17:40:46,,,PASS,RM01
+1615,71667,0,1,599,119,1.763,0.12,0.255,1.56,4,0,2,1,1,2026-01-24 17:40:47,,,FAIL,RM01
+2626,35399,0,1,600,120,1.664,0.213,0.1,1.584,2,0,2,1,1,2026-01-24 17:40:47,,,PASS,RM01
+3291,16205,0,3,601,121,1.75,0.216,0.269,1.419,2,0,2,1,1,2026-01-24 17:40:48,,,PASS,RM01
+5312,82688,0,0,602,122,1.691,0.084,0.149,1.58,2,0,2,1,1,2026-01-24 17:40:48,,,PASS,RM01
+3927,90669,0,1,603,123,1.478,0.274,0.123,1.314,2,0,2,1,1,2026-01-24 17:40:49,,,PASS,RM01
+7185,48039,0,0,604,124,1.743,0.227,0.2,1.673,2,0,2,1,1,2026-01-24 17:40:49,,,PASS,RM01
+5272,78274,0,0,605,125,1.681,0.095,0.158,1.614,2,0,2,1,1,2026-01-24 17:40:50,,,PASS,RM01
+4457,42413,0,3,606,126,1.307,0.168,0.099,1.431,2,0,2,1,1,2026-01-24 17:40:50,,,PASS,RM01
+7528,30230,0,0,607,127,1.409,0.112,0.081,1.454,2,0,2,1,1,2026-01-24 17:40:51,,,PASS,RM01
+3610,94072,0,1,608,128,1.651,0.292,0.144,1.572,2,0,2,1,1,2026-01-24 17:40:51,,,PASS,RM01
+3932,89033,0,3,609,129,1.75,0.066,0.232,1.333,2,0,2,1,1,2026-01-24 17:40:52,,,PASS,RM01
+1645,69054,0,0,610,130,1.595,0.058,0.065,1.444,2,0,2,1,1,2026-01-24 17:40:53,,,PASS,RM01
+4146,88091,0,3,611,131,1.461,0.09,0.247,1.462,2,0,2,1,1,2026-01-24 17:40:53,,,PASS,RM01
+5897,62771,0,2,612,132,1.416,0.291,0.189,1.306,2,0,2,1,1,2026-01-24 17:40:54,,,PASS,RM01
+8356,13895,0,3,613,133,1.421,0.265,0.187,1.408,2,0,2,1,1,2026-01-24 17:40:54,,,PASS,RM01
+9098,36448,0,0,614,134,1.395,0.196,0.215,1.439,2,0,2,1,1,2026-01-24 17:40:55,,,PASS,RM01
+7417,70597,0,2,615,135,1.394,0.145,0.296,1.509,2,0,2,1,1,2026-01-24 17:40:55,,,PASS,RM01
+7007,52135,0,0,616,136,1.381,0.291,0.087,1.669,2,0,2,1,1,2026-01-24 17:40:56,,,PASS,RM01
+9123,78508,0,0,617,136,1.574,0.08,0.268,1.675,1,1,2,1,1,2026-01-24 17:44:39,0101001357HR7R,"{""IRS_ID"": 263, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001357HR7R"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",FAIL,RM01
+3324,73633,0,2,618,137,1.4,0.17,0.283,1.387,2,1,2,1,1,2026-01-24 17:44:45,0101001357HR7R,"{""IRS_ID"": 263, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001357HR7R"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+4313,41123,0,1,619,138,1.489,0.242,0.161,1.622,2,1,2,1,1,2026-01-24 17:44:46,,,PASS,RM01
+5713,26222,0,2,620,139,1.205,0.159,0.289,1.454,2,1,2,1,1,2026-01-24 17:44:46,,,PASS,RM01
+6920,37793,0,3,621,140,1.697,0.283,0.272,1.577,2,1,2,1,1,2026-01-24 17:44:47,,,PASS,RM01
+7920,32033,0,3,622,141,1.52,0.217,0.209,1.654,2,1,2,1,1,2026-01-24 17:44:47,,,PASS,RM01
+3950,33604,0,1,623,142,1.525,0.149,0.104,1.555,2,1,2,1,1,2026-01-24 17:44:48,,,PASS,RM01
+6786,14863,0,1,624,143,1.744,0.288,0.232,1.592,2,1,2,1,1,2026-01-24 17:44:49,,,PASS,RM01
+5120,85187,0,1,625,144,1.468,0.14,0.201,1.578,2,1,2,1,1,2026-01-24 17:44:49,,,PASS,RM01
+5505,61501,0,1,626,145,1.482,0.237,0.085,1.476,2,1,2,1,1,2026-01-24 17:44:50,,,PASS,RM01
+9283,20830,0,2,627,146,1.644,0.207,0.072,1.637,2,1,2,1,1,2026-01-24 17:44:50,,,PASS,RM01
+2079,49560,0,0,628,147,1.482,0.117,0.168,1.658,2,1,2,1,1,2026-01-24 17:44:51,,,PASS,RM01
+6571,62810,0,0,629,148,1.499,0.166,0.053,1.303,2,1,2,1,1,2026-01-24 17:44:51,,,PASS,RM01
+1932,24884,0,3,630,149,1.669,0.205,0.177,1.301,2,1,2,1,1,2026-01-24 17:44:52,,,PASS,RM01
+1141,20755,0,0,631,150,1.343,0.24,0.251,1.558,2,1,2,1,1,2026-01-24 17:44:52,,,PASS,RM01
+5552,25558,0,3,632,151,1.363,0.275,0.095,1.541,2,1,2,1,1,2026-01-24 17:44:53,,,PASS,RM01
+8719,78043,0,2,633,152,1.756,0.14,0.097,1.55,2,1,2,1,1,2026-01-24 17:44:53,,,PASS,RM01
+6610,99770,0,0,634,153,1.467,0.11,0.058,1.501,2,1,2,1,1,2026-01-24 17:44:54,,,PASS,RM01
+6601,26196,0,1,635,153,1.24,0.193,0.095,1.309,3,1,3,1,1,2026-01-24 17:44:54,,,FAIL,RM01
+8801,94065,0,0,636,154,1.359,0.126,0.288,1.311,2,1,3,1,1,2026-01-24 17:44:55,,,PASS,RM01
+2209,63974,0,2,637,155,1.328,0.096,0.1,1.409,2,1,3,1,1,2026-01-24 17:44:55,,,PASS,RM01
+2744,96236,0,0,638,156,1.259,0.11,0.158,1.444,2,1,3,1,1,2026-01-24 17:44:56,,,PASS,RM01
+3515,24717,0,0,639,157,1.578,0.276,0.105,1.533,2,1,3,1,1,2026-01-24 17:44:57,,,PASS,RM01
+7233,74980,0,0,640,158,1.372,0.084,0.128,1.553,2,1,3,1,1,2026-01-24 17:44:57,,,PASS,RM01
+5418,20972,0,0,641,159,1.743,0.139,0.116,1.494,2,1,3,1,1,2026-01-24 17:44:58,,,PASS,RM01
+5128,63129,0,2,642,160,1.438,0.268,0.246,1.542,2,1,3,1,1,2026-01-24 17:44:58,,,PASS,RM01
+6531,97143,0,2,643,161,1.662,0.086,0.246,1.567,2,1,3,1,1,2026-01-24 17:44:59,,,PASS,RM01
+6820,51955,0,0,644,162,1.616,0.245,0.135,1.361,2,1,3,1,1,2026-01-24 17:44:59,,,PASS,RM01
+3810,36279,0,3,645,163,1.706,0.245,0.159,1.638,2,1,3,1,1,2026-01-24 17:45:00,,,PASS,RM01
+1659,62222,0,0,646,164,1.763,0.16,0.166,1.386,2,1,3,1,1,2026-01-24 17:45:00,,,PASS,RM01
+8418,46639,0,3,647,165,1.599,0.295,0.235,1.337,2,1,3,1,1,2026-01-24 17:45:01,,,PASS,RM01
+9919,99812,0,2,648,166,1.539,0.163,0.063,1.438,2,1,3,1,1,2026-01-24 17:45:01,,,PASS,RM01
+9934,94344,0,1,649,167,1.278,0.124,0.074,1.598,2,1,3,1,1,2026-01-24 17:45:02,,,PASS,RM01
+8798,60786,0,2,650,167,1.368,0.201,0.17,1.436,3,1,4,1,1,2026-01-24 17:45:02,,,FAIL,RM01
+4397,76879,0,1,651,168,1.731,0.238,0.185,1.418,2,1,4,1,1,2026-01-24 17:45:03,,,PASS,RM01
+6843,12898,0,0,652,169,1.473,0.172,0.216,1.501,2,1,4,1,1,2026-01-24 17:45:03,,,PASS,RM01
+2105,46609,0,2,653,170,1.433,0.163,0.212,1.533,2,1,4,1,1,2026-01-24 17:45:04,,,PASS,RM01
+3604,99275,0,0,654,171,1.662,0.088,0.196,1.58,2,1,4,1,1,2026-01-24 17:45:04,,,PASS,RM01
+1940,81151,0,0,655,171,1.429,0.122,0.155,1.438,4,1,4,2,1,2026-01-24 17:45:05,,,FAIL,RM01
+7546,81944,0,2,656,172,1.718,0.164,0.06,1.53,2,1,4,2,1,2026-01-24 17:45:06,,,PASS,RM01
+4283,91988,0,1,657,173,1.596,0.257,0.21,1.418,2,1,4,2,1,2026-01-24 17:45:06,,,PASS,RM01
+2097,78599,0,3,658,174,1.614,0.297,0.188,1.395,2,1,4,2,1,2026-01-24 17:45:07,,,PASS,RM01
+3408,66086,0,0,659,174,1.489,0.184,0.264,1.636,3,1,5,2,1,2026-01-24 17:45:07,,,FAIL,RM01
+3961,27803,0,2,660,175,1.749,0.083,0.09,1.676,2,1,5,2,1,2026-01-24 17:45:08,,,PASS,RM01
+5961,91302,0,0,661,176,1.49,0.219,0.148,1.387,2,1,5,2,1,2026-01-24 17:45:08,,,PASS,RM01
+1551,92343,0,0,662,177,1.359,0.255,0.154,1.472,2,1,5,2,1,2026-01-24 17:45:09,,,PASS,RM01
+8559,92564,0,0,663,178,1.747,0.134,0.253,1.618,2,1,5,2,1,2026-01-24 17:45:09,,,PASS,RM01
+8322,89682,0,1,664,179,1.24,0.136,0.149,1.359,2,1,5,2,1,2026-01-24 17:45:10,,,PASS,RM01
+6333,39784,0,2,665,180,1.573,0.1,0.134,1.598,2,1,5,2,1,2026-01-24 17:45:10,,,PASS,RM01
+1595,27718,0,0,666,181,1.569,0.153,0.188,1.455,2,1,5,2,1,2026-01-24 17:45:11,,,PASS,RM01
+5155,22016,0,0,667,182,1.689,0.163,0.082,1.612,2,1,5,2,1,2026-01-24 17:45:11,,,PASS,RM01
+9293,52681,0,2,668,183,1.433,0.19,0.11,1.522,2,1,5,2,1,2026-01-24 17:45:12,,,PASS,RM01
+9030,75595,0,0,669,184,1.64,0.253,0.296,1.414,2,1,5,2,1,2026-01-24 17:45:13,,,PASS,RM01
+5534,22088,0,0,670,185,1.422,0.236,0.295,1.488,2,1,5,2,1,2026-01-24 17:45:13,,,PASS,RM01
+8468,63303,0,3,671,186,1.24,0.279,0.296,1.36,2,1,5,2,1,2026-01-24 17:45:14,,,PASS,RM01
+4784,57736,0,3,672,187,1.453,0.19,0.152,1.67,2,1,5,2,1,2026-01-24 17:45:14,,,PASS,RM01
+1161,41322,0,2,673,188,1.623,0.297,0.135,1.302,2,1,5,2,1,2026-01-24 17:45:15,,,PASS,RM01
+2685,51153,0,0,674,189,1.792,0.23,0.09,1.649,2,1,5,2,1,2026-01-24 17:45:15,,,PASS,RM01
+9690,69096,0,1,675,190,1.327,0.117,0.283,1.678,2,1,5,2,1,2026-01-24 17:45:16,,,PASS,RM01
+9875,81267,0,1,676,191,1.716,0.098,0.2,1.314,2,1,5,2,1,2026-01-24 17:45:16,,,PASS,RM01
+1623,66794,0,0,677,192,1.376,0.073,0.269,1.364,2,1,5,2,1,2026-01-24 17:45:17,,,PASS,RM01
+7745,30966,0,3,678,193,1.273,0.182,0.133,1.411,2,1,5,2,1,2026-01-24 17:45:17,,,PASS,RM01
+2471,22701,0,1,679,194,1.651,0.293,0.093,1.64,2,1,5,2,1,2026-01-24 17:45:18,,,PASS,RM01
+9062,87378,0,0,680,195,1.686,0.105,0.216,1.538,2,1,5,2,1,2026-01-24 17:45:18,,,PASS,RM01
+2107,35182,0,1,681,196,1.532,0.21,0.066,1.502,2,1,5,2,1,2026-01-24 17:45:19,,,PASS,RM01
+6352,98094,0,3,682,197,1.253,0.28,0.164,1.365,2,1,5,2,1,2026-01-24 17:45:19,,,PASS,RM01
+9103,47090,0,3,683,198,1.76,0.268,0.118,1.366,2,1,5,2,1,2026-01-24 17:45:20,,,PASS,RM01
+6657,15132,0,2,684,199,1.746,0.245,0.245,1.589,2,1,5,2,1,2026-01-24 17:45:21,,,PASS,RM01
+8621,89390,0,2,685,200,1.533,0.242,0.255,1.528,2,1,5,2,1,2026-01-24 17:45:21,,,PASS,RM01
+5746,75422,0,2,686,201,1.741,0.23,0.078,1.695,2,1,5,2,1,2026-01-24 17:45:22,,,PASS,RM01
+2771,40072,0,0,687,202,1.745,0.121,0.116,1.366,2,1,5,2,1,2026-01-24 17:45:22,,,PASS,RM01
+8807,41703,0,0,688,203,1.655,0.269,0.231,1.654,2,1,5,2,1,2026-01-24 17:45:23,,,PASS,RM01
+7552,65126,0,0,689,204,1.397,0.133,0.101,1.626,2,1,5,2,1,2026-01-24 17:45:23,,,PASS,RM01
+4858,79792,0,2,690,205,1.513,0.101,0.246,1.367,2,1,5,2,1,2026-01-24 17:45:24,,,PASS,RM01
+7404,15378,0,1,691,206,1.282,0.232,0.093,1.643,2,1,5,2,1,2026-01-24 17:45:24,,,PASS,RM01
+6533,94077,0,2,692,207,1.75,0.183,0.159,1.507,2,1,5,2,1,2026-01-24 17:45:25,,,PASS,RM01
+5348,24365,0,0,693,208,1.767,0.128,0.183,1.696,2,1,5,2,1,2026-01-24 17:45:26,,,PASS,RM01
+1450,30546,0,2,694,209,1.493,0.131,0.212,1.69,2,1,5,2,1,2026-01-24 17:45:26,,,PASS,RM01
+4740,14991,0,2,695,209,1.222,0.221,0.061,1.379,4,1,5,3,1,2026-01-24 17:45:27,,,FAIL,RM01
+7176,51387,0,1,696,210,1.583,0.145,0.185,1.389,2,1,5,3,1,2026-01-24 17:45:27,,,PASS,RM01
+3420,10517,0,2,697,211,1.504,0.198,0.108,1.557,2,1,5,3,1,2026-01-24 17:45:28,,,PASS,RM01
+4303,47911,0,2,698,212,1.251,0.223,0.298,1.369,2,1,5,3,1,2026-01-24 17:45:28,,,PASS,RM01
+1256,90687,0,2,699,213,1.346,0.102,0.157,1.587,2,1,5,3,1,2026-01-24 17:45:29,,,PASS,RM01
+5332,19256,0,3,700,214,1.319,0.158,0.132,1.368,2,1,5,3,1,2026-01-24 17:45:29,,,PASS,RM01
+1018,91819,0,3,701,214,1.47,0.225,0.062,1.361,1,2,5,3,1,2026-01-24 17:45:30,,,FAIL,RM01
+4894,39174,0,3,702,215,1.61,0.231,0.135,1.397,2,2,5,3,1,2026-01-24 17:45:30,,,PASS,RM01
+7174,90234,0,0,703,216,1.602,0.224,0.109,1.378,2,2,5,3,1,2026-01-24 17:45:31,,,PASS,RM01
+6501,58694,0,2,704,217,1.56,0.162,0.236,1.588,2,2,5,3,1,2026-01-24 17:45:31,,,PASS,RM01
+3619,66207,0,2,705,218,1.744,0.136,0.164,1.653,2,2,5,3,1,2026-01-24 17:45:32,,,PASS,RM01
+5522,51872,0,3,706,219,1.382,0.236,0.193,1.342,2,2,5,3,1,2026-01-24 17:45:33,,,PASS,RM01
+5794,20522,0,2,707,219,1.66,0.233,0.27,1.324,4,2,5,4,1,2026-01-24 17:45:33,,,FAIL,RM01
+3256,78272,0,1,708,220,1.44,0.288,0.071,1.453,2,2,5,4,1,2026-01-24 17:45:34,,,PASS,RM01
+2631,95692,0,2,709,221,1.473,0.215,0.295,1.609,2,2,5,4,1,2026-01-24 17:45:34,,,PASS,RM01
+1643,32666,0,0,710,222,1.376,0.066,0.232,1.621,2,2,5,4,1,2026-01-24 17:45:35,,,PASS,RM01
+5936,86779,0,2,711,223,1.798,0.257,0.119,1.65,2,2,5,4,1,2026-01-24 17:45:35,,,PASS,RM01
+5269,45515,0,2,712,224,1.339,0.295,0.101,1.579,2,2,5,4,1,2026-01-24 17:45:36,,,PASS,RM01
+2390,81448,0,2,713,225,1.406,0.181,0.088,1.331,2,2,5,4,1,2026-01-24 17:45:36,,,PASS,RM01
+3809,61452,0,0,714,226,1.76,0.158,0.074,1.369,2,2,5,4,1,2026-01-24 17:45:37,,,PASS,RM01
+3268,84168,0,1,715,227,1.349,0.251,0.206,1.341,2,2,5,4,1,2026-01-24 17:45:37,,,PASS,RM01
+2366,16449,0,0,716,227,1.666,0.157,0.284,1.511,4,2,5,5,1,2026-01-24 17:45:38,,,FAIL,RM01
+4167,78506,0,2,717,228,1.235,0.264,0.188,1.574,2,2,5,5,1,2026-01-24 17:45:38,,,PASS,RM01
+6306,80990,0,3,718,228,1.669,0.271,0.258,1.624,1,3,5,5,1,2026-01-24 17:45:39,,,FAIL,RM01
+4382,81834,0,1,719,229,1.664,0.068,0.24,1.36,2,3,5,5,1,2026-01-24 17:45:40,,,PASS,RM01
+8398,61460,0,0,720,230,1.601,0.239,0.295,1.518,2,3,5,5,1,2026-01-24 17:45:40,,,PASS,RM01
+8611,97683,0,2,721,231,1.486,0.259,0.077,1.616,2,3,5,5,1,2026-01-24 17:45:41,,,PASS,RM01
+1722,74620,0,3,722,232,1.349,0.193,0.26,1.512,2,3,5,5,1,2026-01-24 17:45:41,,,PASS,RM01
+6988,25018,0,0,723,233,1.319,0.105,0.177,1.682,2,3,5,5,1,2026-01-24 17:45:42,,,PASS,RM01
+4777,74337,0,2,724,234,1.211,0.286,0.129,1.394,2,3,5,5,1,2026-01-24 17:45:42,,,PASS,RM01
+4245,78654,0,1,725,235,1.425,0.232,0.098,1.58,2,3,5,5,1,2026-01-24 17:45:43,,,PASS,RM01
+7195,81911,0,1,726,236,1.688,0.164,0.112,1.42,2,3,5,5,1,2026-01-24 17:45:43,,,PASS,RM01
+7693,29409,0,0,727,237,1.292,0.25,0.288,1.601,2,3,5,5,1,2026-01-24 17:45:44,,,PASS,RM01
+4925,80285,0,2,728,238,1.335,0.19,0.109,1.34,2,3,5,5,1,2026-01-24 17:45:44,,,PASS,RM01
+9847,70586,0,0,729,239,1.659,0.108,0.139,1.483,2,3,5,5,1,2026-01-24 17:45:45,,,PASS,RM01
+5073,98858,0,0,730,240,1.543,0.124,0.224,1.522,2,3,5,5,1,2026-01-24 17:45:45,,,PASS,RM01
+5584,25759,0,3,731,241,1.239,0.194,0.255,1.36,2,3,5,5,1,2026-01-24 17:45:46,,,PASS,RM01
+4224,93585,0,0,732,241,1.609,0.226,0.07,1.534,1,4,5,5,1,2026-01-24 17:45:46,,,FAIL,RM01
+8458,21198,0,2,733,242,1.738,0.149,0.276,1.386,2,4,5,5,1,2026-01-24 17:45:47,,,PASS,RM01
+5267,25939,0,2,734,243,1.527,0.24,0.16,1.372,2,4,5,5,1,2026-01-24 17:45:48,,,PASS,RM01
+4567,97284,0,2,735,244,1.382,0.273,0.157,1.312,2,4,5,5,1,2026-01-24 17:45:48,,,PASS,RM01
+8413,24602,0,2,736,245,1.705,0.118,0.2,1.608,2,4,5,5,1,2026-01-24 17:45:49,,,PASS,RM01
+4453,84385,0,2,737,246,1.577,0.052,0.2,1.439,2,4,5,5,1,2026-01-24 17:45:49,,,PASS,RM01
+8167,56003,0,3,738,247,1.779,0.1,0.158,1.335,2,4,5,5,1,2026-01-24 17:45:50,,,PASS,RM01
+5874,15730,0,1,739,248,1.752,0.138,0.135,1.434,2,4,5,5,1,2026-01-24 17:45:50,,,PASS,RM01
+7574,71594,0,3,740,249,1.314,0.11,0.101,1.678,2,4,5,5,1,2026-01-24 17:45:51,,,PASS,RM01
+9429,89422,0,3,741,250,1.792,0.066,0.174,1.491,2,4,5,5,1,2026-01-24 17:45:51,,,PASS,RM01
+3331,20189,0,0,742,251,1.289,0.198,0.121,1.678,2,4,5,5,1,2026-01-24 17:45:52,,,PASS,RM01
+3588,65051,0,0,743,252,1.61,0.247,0.201,1.365,2,4,5,5,1,2026-01-24 17:45:52,,,PASS,RM01
+9988,49787,0,2,744,253,1.531,0.226,0.183,1.667,2,4,5,5,1,2026-01-24 17:45:53,,,PASS,RM01
+9261,89066,0,2,745,254,1.407,0.064,0.157,1.617,2,4,5,5,1,2026-01-24 17:45:53,,,PASS,RM01
+1850,44896,0,1,746,255,1.337,0.261,0.287,1.463,2,4,5,5,1,2026-01-24 17:45:54,,,PASS,RM01
+4301,13242,0,1,747,256,1.478,0.216,0.123,1.695,2,4,5,5,1,2026-01-24 17:45:54,,,PASS,RM01
+2318,25614,0,1,748,257,1.454,0.275,0.125,1.521,2,4,5,5,1,2026-01-24 17:45:55,,,PASS,RM01
+2981,60403,0,1,749,258,1.204,0.116,0.284,1.329,2,4,5,5,1,2026-01-24 17:45:56,,,PASS,RM01
+9766,77196,0,0,750,259,1.312,0.072,0.298,1.613,2,4,5,5,1,2026-01-24 17:45:56,,,PASS,RM01
+9160,68137,0,3,751,260,1.243,0.277,0.173,1.513,2,4,5,5,1,2026-01-24 17:45:57,,,PASS,RM01
+9516,52338,0,1,752,261,1.729,0.124,0.171,1.525,2,4,5,5,1,2026-01-24 17:45:57,,,PASS,RM01
+6244,37133,0,2,753,262,1.468,0.252,0.12,1.672,2,4,5,5,1,2026-01-24 17:45:58,,,PASS,RM01
+6690,60679,0,0,754,263,1.447,0.254,0.189,1.686,2,4,5,5,1,2026-01-24 17:45:58,,,PASS,RM01
+5618,65585,0,3,755,264,1.769,0.127,0.18,1.695,2,4,5,5,1,2026-01-24 17:45:59,,,PASS,RM01
+8722,73416,0,0,756,265,1.243,0.154,0.16,1.46,2,4,5,5,1,2026-01-24 17:45:59,,,PASS,RM01
+3903,89142,0,2,757,266,1.579,0.184,0.173,1.634,2,4,5,5,1,2026-01-24 17:46:00,,,PASS,RM01
+3710,65317,0,0,758,267,1.689,0.235,0.15,1.593,2,4,5,5,1,2026-01-24 17:46:00,,,PASS,RM01
+9393,85132,0,2,759,268,1.359,0.272,0.181,1.556,2,4,5,5,1,2026-01-24 17:46:01,,,PASS,RM01
+3248,24419,0,2,760,269,1.612,0.224,0.163,1.364,2,4,5,5,1,2026-01-24 17:46:01,,,PASS,RM01
+9036,19701,0,3,761,270,1.389,0.096,0.174,1.376,2,4,5,5,1,2026-01-24 17:46:02,,,PASS,RM01
+2828,70656,0,3,762,271,1.466,0.186,0.157,1.361,2,4,5,5,1,2026-01-24 17:46:15,0101001357HR7R,"{""IRS_ID"": 263, ""IRS_ProductID"": 1, ""PM_GrossWeight"": 2, ""PM_MaxOffset"": 0.1, ""PM_MinOffset"": 0.1, ""IRS_PackSize"": """", ""IRS_BatchID"": 2, ""IRS_PhysicalLocation"": 3, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101001357HR7R"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2033-07-23T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 1}",PASS,RM01
+3786,92323,0,0,763,272,1.378,0.218,0.262,1.402,2,4,5,5,1,2026-01-24 17:46:16,,,PASS,RM01
+2901,95790,0,2,764,273,1.699,0.156,0.152,1.438,2,4,5,5,1,2026-01-24 17:46:16,,,PASS,RM01
+6246,83812,0,1,765,274,1.234,0.159,0.26,1.566,2,4,5,5,1,2026-01-24 17:46:17,,,PASS,RM01
+1202,36553,0,3,766,275,1.712,0.201,0.085,1.619,2,4,5,5,1,2026-01-24 17:46:17,,,PASS,RM01
+2052,29506,0,0,767,276,1.439,0.29,0.052,1.695,2,4,5,5,1,2026-01-24 17:46:18,,,PASS,RM01
+8979,96674,0,0,768,277,1.352,0.297,0.137,1.575,2,4,5,5,1,2026-01-24 17:46:18,,,PASS,RM01

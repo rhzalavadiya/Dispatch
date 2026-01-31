@@ -185,6 +185,36 @@ export default function ShipmentEdit() {
             if (!csv.length) return;
 
             // ✅ TAKE LATEST ROW PER MID
+            // const latestByMid = {};
+            // csv.forEach(r => {
+            //     const mid = String(r.SHPD_ShipmentMID);
+            //     latestByMid[mid] = r;   // overwrite → last row wins
+            // });
+
+            // const progressMap = {};
+            // const completedSet = new Set();
+
+            // Object.values(latestByMid).forEach(r => {
+            //     const mid = String(r.SHPD_ShipmentMID);
+
+            //     const pass = Number(r.pass) || 0;
+            //     const total = Number(r.total) || Number(r.SHPD_ShipQty) || 0;
+
+            //     // let status = (r.status || "").toUpperCase();
+
+            //     // // fallback if status empty
+            //     // if (!status) {
+            //     //     if (pass > 0 && pass < total) status = "RUNNING";
+            //     //     else if (pass >= total && total > 0) status = "COMPLETED";
+            //     //     else status = "PENDING";
+            //     // }
+
+            //     progressMap[mid] = { pass, total, status };
+
+            //     if (status === "COMPLETED") completedSet.add(mid);
+            // });
+
+            // ✅ TAKE LATEST ROW PER MID
             const latestByMid = {};
             csv.forEach(r => {
                 const mid = String(r.SHPD_ShipmentMID);
@@ -200,35 +230,56 @@ export default function ShipmentEdit() {
                 const pass = Number(r.pass) || 0;
                 const total = Number(r.total) || Number(r.SHPD_ShipQty) || 0;
 
-                let status = (r.status || "").toUpperCase();
+                const csvStatus = (r.status || "").toUpperCase();
 
-                // fallback if status empty
-                if (!status) {
-                    if (pass > 0 && pass < total) status = "RUNNING";
-                    else if (pass >= total && total > 0) status = "COMPLETED";
-                    else status = "PENDING";
+                let status;
+
+                // ✅ YOUR EXACT RULES
+                if (pass >= total && total > 0) {
+                    status = "COMPLETED";
+                    completedSet.add(mid);
+                } else if (csvStatus === "RUNNING") {
+                    status = "RUNNING"; // IN PROGRESS
+                } else {
+                    status = "PENDING";
                 }
 
                 progressMap[mid] = { pass, total, status };
-
-                if (status === "COMPLETED") completedSet.add(mid);
             });
 
             // ✅ UPDATE COUNTS + STATUS
             setProductProgress(progressMap);
 
             // ✅ MOVE COMPLETED TO BOTTOM
+            // setShipmentData(prev => {
+            //     const active = [];
+            //     const completed = [];
+
+            //     prev.forEach(item => {
+            //         const mid = String(item.SHPD_ShipmentMID);
+            //         if (completedSet.has(mid)) completed.push(item);
+            //         else active.push(item);
+            //     });
+
+            //     return [...active, ...completed];
+            // });
+
+            // ✅ SORT: IN PROGRESS → PENDING → COMPLETED
             setShipmentData(prev => {
-                const active = [];
-                const completed = [];
+                const copy = [...prev];
 
-                prev.forEach(item => {
+                const getRank = (item) => {
                     const mid = String(item.SHPD_ShipmentMID);
-                    if (completedSet.has(mid)) completed.push(item);
-                    else active.push(item);
-                });
+                    const st = progressMap[mid]?.status;
 
-                return [...active, ...completed];
+                    if (st === "RUNNING") return 1;    // 🔵 IN PROGRESS → TOP
+                    if (st === "PENDING") return 2;    // 🟡 PENDING
+                    if (st === "COMPLETED") return 3;  // 🟢 COMPLETED → BOTTOM
+                    return 4;
+                };
+
+                copy.sort((a, b) => getRank(a) - getRank(b));
+                return copy;
             });
 
             // ✅ AUTO CLOSE SHIPMENT
@@ -250,56 +301,6 @@ export default function ShipmentEdit() {
 
     useEffect(() => {
         if (!isShipmentLoaded || !shipmentCode) return;
-        // const fetchCsvProgress = async () => {
-        //     try {
-        //         logAction(`Reading CSV progress - Code: ${shipmentCode}`);
-        //         const res = await localApi.get("/api/read-csv", { params: { shipmentCode } });
-        //         const csv = res.data || [];
-        //         setCsvData(csv);
-
-        //         // ─── FULL BYPASS ───────────────────────────────────────
-        //         // ✅ SET FULL BYPASS FROM CSV
-        //         const bypassFromCsv = csv.some(
-        //             r => String(r.BypassMode).toLowerCase() === "true"
-        //         );
-        //         setIsFullBypassOn(bypassFromCsv);
-
-
-        //         if (csv.length === 0) return;
-
-        //         const hasProgress = csv.some(r => Number(r.pass) > 0 || Number(r.fail) > 0);
-        //         if (!hasProgress) return;
-
-        //         logAction(`Applying CSV progress - Entries: ${csv.length}`);
-
-        //         setShipmentData(prev =>
-        //             prev.map(item => {
-        //                 const match = csv.find(r => String(r.SHPD_ShipmentMID) === String(item.SHPD_ShipmentMID));
-        //                 if (!match) return item;
-        //                 return {
-        //                     ...item,
-        //                     pass: Number(match.pass || 0),
-        //                     fail: Number(match.fail || 0),
-        //                     total: Number(match.total || item.SHPD_ShipQty),
-        //                     status: match.status || item.status,
-        //                 };
-        //             })
-        //         );
-
-        //         const progressMap = {};
-        //         csv.forEach(item => {
-        //             progressMap[item.SHPD_ShipmentMID] = {
-        //                 pass: Number(item.pass) || 0,
-        //                 fail: Number(item.fail) || 0,
-        //                 total: Number(item.total || item.SHPD_ShipQty),
-        //                 status: item.status || "",
-        //             };
-        //         });
-        //         setProductProgress(progressMap);
-        //     } catch (err) {
-        //         logAction(`Failed to read CSV progress - ${err.message}`, true);
-        //     }
-        // };
         fetchCsvProgress();
         const interval = setInterval(() => {
             fetchCsvProgress();
@@ -881,20 +882,6 @@ export default function ShipmentEdit() {
                     setHighlightRsn(sorted[0]?.rsn);
                     setTimeout(() => setHighlightRsn(null), 1500);
                 }
-
-                // setFailRsnList(prev => {
-                //     if (!prev.length || prev[0]?.rsn !== newestRsn) {
-                //         setHighlightRsn(newestRsn);
-                //         setTimeout(() => setHighlightRsn(null), 2000);
-                //     }
-
-                //     return sorted.map(r => ({
-                //         rsn: r.rsn || '-',
-                //         reason: r.reason,
-                //         time: formatCsvTime(r.timestamp),
-                //         status: r.status || '-',
-                //     }));
-                // });
             }
         } catch (err) {
             console.error("Fail CSV read error", err);
@@ -927,6 +914,8 @@ export default function ShipmentEdit() {
         return () => clearInterval(interval); // cleanup on unmount
     }, [isShipmentLoaded, shipmentCode]);
 
+
+
     return (
         <>
             <div className="page-wrapper">
@@ -938,7 +927,7 @@ export default function ShipmentEdit() {
 
                 <div className="header-bar">
                     <h1 className="formHeading">Shipment Scanning</h1>
-                    <div className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"}`}></div>
+                    {/* <div className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"}`}></div> */}
                 </div>
 
                 <div className="content-with-fail-panel">
@@ -957,10 +946,28 @@ export default function ShipmentEdit() {
                                 {(provided) => (
                                     <div className="queue-list" ref={provided.innerRef} {...provided.droppableProps}>
                                         {shipmentData.map((item, index) => {
+                                            // const prog = productProgress[item.SHPD_ShipmentMID] || {};
+                                            // const isCurrent = progress?.mid === item.SHPD_ShipmentMID;
+                                            // const isInProgress = isCurrent || prog.status === "RUNNING";
+                                            // const isCompleted = prog.status === "COMPLETED";
+
                                             const prog = productProgress[item.SHPD_ShipmentMID] || {};
+                                            const isShipmentStopped = shipmentStatus === 10;
                                             const isCurrent = progress?.mid === item.SHPD_ShipmentMID;
-                                            const isInProgress = isCurrent || prog.status === "RUNNING";
-                                            const isCompleted = prog.status === "COMPLETED";
+
+                                            // Base CSV status
+                                            let displayStatus = prog.status || "PENDING";
+
+                                            // 🔴 OVERRIDE: Only when shipment STOP and product is RUNNING
+                                            if (isShipmentStopped && displayStatus === "RUNNING") {
+                                                displayStatus = "STOP";
+                                            }
+
+                                            // Set flags for CSS / UI
+                                            const isInProgress = isCurrent || displayStatus === "RUNNING";
+                                            const isStopped = displayStatus === "STOP";
+                                            const isCompleted = displayStatus === "COMPLETED";
+
 
                                             return (
                                                 <Draggable
@@ -1000,9 +1007,19 @@ export default function ShipmentEdit() {
                                                                 </div>
                                                                 <div className="col-spacer"></div>
                                                                 <div className="col-status">
-                                                                    <span className={`status-pill ${isInProgress || isCompleted ? "active" : "pending"}`}>
-                                                                        {isInProgress ? "IN PROGRESS" : isCompleted ? "COMPLETED" : "PENDING"}
+                                                                    <span className={`status-pill ${isCompleted ? "active" :
+                                                                            isStopped ? "active" :
+                                                                                isInProgress ? "active" : "pending"
+                                                                        }`}>
+                                                                        {isCompleted
+                                                                            ? "COMPLETED"
+                                                                            : isStopped
+                                                                                ? "STOP"
+                                                                                : isInProgress
+                                                                                    ? "IN PROGRESS"
+                                                                                    : "PENDING"}
                                                                     </span>
+
                                                                 </div>
                                                             </div>
                                                         </div>

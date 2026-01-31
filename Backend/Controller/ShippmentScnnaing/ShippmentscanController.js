@@ -239,7 +239,7 @@ GROUP BY
 };
 
 const getRSNData = async (req, res) => {
-	const { irsLocation,id } = req.params;
+	const { irsLocation, id } = req.params;
 	// Validate shipmentId
 	if (!irsLocation || !id) {
 		return res.status(400).json({
@@ -615,112 +615,6 @@ const updateShipmentSyncStatus = async (req, res) => {
 		});
 	}
 };
-// const suspendShipment = async (req, res) => {
-// 	const {
-// 		shipmentId,
-// 		remark,
-// 		modifiedBy,
-// 		warehouseScpId
-// 	} = req.body;
-// 	console.log("suspendShipment called with:", req.body);
-// 	// Basic validation
-// 	if (!shipmentId || !remark || !modifiedBy || !warehouseScpId) {
-// 		return res.status(400).json({
-// 			success: false,
-// 			message: "Missing required parameters"
-// 		});
-// 	}
-// 	try {
-// 		/* ------------------------------------------------
-// 			1 Get shipment product details
-// 		------------------------------------------------ */
-// 		const [shipmentItems] = await conn.query(`
-// 			SELECT 
-// 				sm.SHPD_OrderID,
-// 				sm.SHPD_ProductCode,
-// 				sm.SHPD_ShipQty,
-// 				pl.PL_ProductId
-// 			FROM shipmentmaster sm
-// 			JOIN productlist pl 
-// 				ON pl.PL_ProductCode = sm.SHPD_ProductCode
-// 			WHERE sm.SHPD_ShipmentID = ?
-// 			`,
-// 			[shipmentId]
-// 		);
-// 		if (!shipmentItems.length) {
-// 			throw new Error("Shipment items not found");
-// 		}
-// 		/* ------------------------------------------------
-// 			2 Update inventory & ordermaster
-// 		------------------------------------------------ */
-// 		for (const item of shipmentItems) {
-// 			const {
-// 				PL_ProductId,
-// 				SHPD_ShipQty,
-// 				SHPD_OrderID
-// 			} = item;
-
-// 			// Inventory update
-// 			const inventory = await conn.query(`UPDATE inventory
-// 				SET 
-// 					inv_blockqty = inv_blockqty - ?,
-// 					inv_availableqty = inv_availableqty - ?
-// 				WHERE inv_scpid = ?
-// 					AND inv_productid = ?
-// 				`,
-// 				[
-// 					SHPD_ShipQty,
-// 					SHPD_ShipQty,
-// 					warehouseScpId,
-// 					PL_ProductId
-// 				]
-// 			);
-// 			//console.log("INVENTORY : ",inventory);
-// 			// Order pending qty update
-// 			const ordermaster = await conn.query(`
-// 				UPDATE ordermaster
-// 				SET ORDIT_PendingQty = ORDIT_PendingQty + ?
-// 				WHERE ORDIT_OrderID = ?
-// 				`,
-// 				[
-// 					SHPD_ShipQty,
-// 					SHPD_OrderID
-// 				]
-// 			);
-// 			//console.log("ORDER Master : ",ordermaster);
-// 		}
-// 		/* ------------------------------------------------
-// 			3 Update shipment header
-// 		------------------------------------------------ */
-// 		const shipmentlist = await conn.query(`
-// 			UPDATE shipmentlist
-// 			SET 
-// 				SHPH_Status = 12,
-// 				SHPH_ModifiedBy = ?,
-// 				SHPH_ModifiedTimestamp = NOW(),
-// 				SHPH_Comment = ?
-// 			WHERE SHPH_ShipmentID = ?
-// 			`,
-// 			[
-// 				modifiedBy,
-// 				remark,
-// 				shipmentId
-// 			]
-// 		);
-// 		//console.log("Shipment List : ",shipmentlist);
-// 		return res.json({
-// 			success: true,
-// 			message: "Shipment suspended successfully"
-// 		});
-
-// 	} catch (error) {
-// 		console.error("Suspend Shipment Error:", error);
-// 		return res.status(500).json({
-// 			success: false,
-// 			message: error.message || "Failed to suspend shipment"
-// 		});
-// 	}
-// }
 
 const deliverychallanData = async (req, res) => {
 	const { shipmentId, selectedScpId } = req.params;
@@ -798,6 +692,27 @@ const deliverychallanData = async (req, res) => {
 				getShipmentData,
 				[shipmentId, selectedScpId, scp.dcl_scpto]
 			);
+			//console.log("shipment : ", shipment);
+
+			if (!shipment.length) {
+				console.log("No shipment data found for shipmentId:", shipmentId, "and scpId:", scp.dcl_scpto);
+				return res.status(400).json({
+					success: false,
+					message: "Shipment location is required to generate the PDF."
+				});
+			}
+			const loc = shipment[0];
+
+			// ✅ LOCATION VALIDATION
+			if (!loc.LCM_LocationStreet1 && !loc.LCM_City && !loc.LCM_State && !loc.LCM_Country
+				&& !loc.Street1 && !loc.City && !loc.State && !loc.Country
+			) {
+				return res.status(400).json({
+					success: false,
+					message: "Shipment location is required to generate the PDF."
+				});
+			}
+
 
 			const [products] = await conn.query(
 				getProductData,
@@ -806,6 +721,9 @@ const deliverychallanData = async (req, res) => {
 			//console.log("shipment : ",shipment);
 			//console.log("products : ",products);
 			//conn.loo
+
+
+
 			result.push({
 				scpId: scp.dcl_scpto,
 				scpName: scp.SCPM_Name,
@@ -822,7 +740,7 @@ const deliverychallanData = async (req, res) => {
 		console.error("Error fetching Delivery Challan data:", error);
 		return res.status(500).json({
 			success: false,
-			message: "Server error",
+			message: "Failed to generate PDF.",
 			error: error.message,
 		});
 	}
@@ -890,17 +808,17 @@ const deliverychallanAll = async (req, res) => {
 	if (shipmentResult.length === 0) {
 		return res.status(404).json({ success: false, error: 'Shipment not found' });
 	}
-	console.log("shipmentresult : ", shipmentResult);
+	//console.log("shipmentresult : ", shipmentResult);
 
 	const shipmentDetails = shipmentResult[0];
-	console.log("shipmentDetails : ", shipmentDetails)
-	// Fetch product details
+	//console.log("shipmentDetails : ", shipmentDetails)
+
 	const productResult = await conn.query(getProductDetailsQuery, [shipmentId]);
 
-	console.log("productResult : ", productResult);
+	//console.log("productResult : ", productResult);
 	const productDetails = productResult[0];
 
-	console.log("productDetails : ", productDetails);
+	//console.log("productDetails : ", productDetails);
 	// Combine shipment and product details
 	const combinedDetails = {
 		shipmentDetails,

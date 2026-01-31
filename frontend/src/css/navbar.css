@@ -85,28 +85,23 @@ nav {
 }
 
 .profilename {
-  color: #ffffff;
-  align-items: center;
+    color: #ffffff;
+    align-items: center;
 }
 
-.proimage {
-  width: 50px;
-  height: 50px;
-}
 
-.bell {
-  width: 24px;
-  height: 25px;
-  margin-top: 4px;
-}
 
 .logout {
   background-color: #295a80;
 }
-.menu {
-  width: 15px;
-  height: 30px;
+
+  .menu {
+    height: 30px;
+    margin-top: 8px;
+    padding: 1px;
+    width: 15px;
 }
+
 
 .logout_btn {
   padding: 10px 3px;
@@ -129,18 +124,6 @@ nav {
   right: 24px;
   border-left: 5px solid #356f9c;
   animation: fadeIn 0.5s ease;
-}
-
-.proimage {
-  width: 50px;
-  height: 50px;
-}
-
-.profilename {
-  color: #ffffff;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
 }
 
 .notification {
@@ -270,18 +253,7 @@ nav {
   column-gap: 20px;
 }
 
-/* Profile image */
-.proimage {
-  height: 40px !important;
-  width: 40px !important;
-  border-radius: 50%;
-}
 
-/* Bell icon */
-.bell {
-  height: 28px;
-  width: 28px;
-}
 
 /* --------------------------------------
    TABLET VIEW (max-width: 992px)
@@ -295,15 +267,6 @@ nav {
     height: 48px;
   }
 
-  .proimage {
-    height: 36px !important;
-    width: 36px !important;
-  }
-
-  .bell {
-    height: 24px;
-    width: 24px;
-  }
 }
 
 /* --------------------------------------
@@ -324,14 +287,30 @@ nav {
   .rightnav {
     column-gap: 12px;
   }
-
-  .proimage {
-    height: 32px !important;
-    width: 32px !important;
-  }
-
   .bell {
-    height: 22px;
-    width: 22px;
+    height: 30px;
+    width: 27px;
+    cursor: pointer;
   }
+}
+
+
+
+.proimage {
+    width: 50px;
+    height: 50px;
+}
+
+.proimage {
+    width: 49px;
+    /* adjust size */
+    height: 49px;
+    /* keep equal width & height */
+    border-radius: 50%;
+    /* makes it circular */
+    object-fit: cover;
+    /* crops & fits image nicely */
+    border: 2px solid #ccc;
+    /* optional border */
+    margin-right: 11px;
 }

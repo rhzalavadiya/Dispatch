@@ -571,7 +571,8 @@ app.get("/api/read-csv", (req, res) => {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
 
-  const basePath = process.env.DISPATCH_BASE_PATH;
+ // const basePath = process.env.DISPATCH_BASE_PATH;
+ const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
   const fileName = process.env.DispatchFile;
 
   // Try both: with -1 and without
@@ -797,12 +798,12 @@ app.get("/api/read-fail-csv", (req, res) => {
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) return res.status(500).json({ error: "Unable to read file" });
-     //console.log("Complete Result for Fail CSV : ", data);
+    //console.log("Complete Result for Fail CSV : ", data);
     Papa.parse(data, {
       header: true,
       skipEmptyLines: true,
       complete: (result) => {
-       
+
         // // ✅ ONLY FAIL ROWS
         // const onlyFail = result.data.filter(
         //   r => String(r.Status).toUpperCase() === "FAIL"
@@ -812,11 +813,11 @@ app.get("/api/read-fail-csv", (req, res) => {
         const formatted = result.data.map(r => ({
           rsn: r.RSN,
           reason: r.ReasonDescription || r.ReasonCode || "-",
-         // timestamp: r.Timestamp,
-         status:r.Status,
-         timestamp: r.BatchStatus
+          timestamp: r.Timestamp,
+          status: r.Status,
+          //timestamp: r.BatchStatus
         }));
-       //console.log("Fail CSV Data : ", formatted);
+        //console.log("Fail CSV Data : ", formatted);
         res.json(formatted);
       },
     });
@@ -846,10 +847,12 @@ app.get("/check-autoclose/:shipmentCode", (req, res) => {
 
   res.json({ exists });
 });
-// 5. Get currently running shipment (for Home Dashboard)
-app.get("/get-running-csv", (req, res) => {
+
+
+app.get("/get-running-csv", async (req, res) => {
+  console.log("hit")
   const basePath = process.env.DISPATCH_BASE_PATH;
-  //const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  //const basePath = "D:/Project Work Space/Bhagvati/Dispatch/Backend/ProcessFiles";
   const dispatchFile = process.env.DispatchFile || "Dispatch_SCP.csv"; // fallback if not set
 
   if (!basePath) {
@@ -857,23 +860,43 @@ app.get("/get-running-csv", (req, res) => {
   }
 
   try {
+
+    const query = `select * from shipmentlist order by SHPH_ModifiedTimestamp desc limit 1`;
+
+    const [getData] = await conn.query(query);
+
     const folders = fs.readdirSync(basePath).filter(f => {
       const fullPath = path.join(basePath, f);
       return fs.lstatSync(fullPath).isDirectory();
     });
 
-    let runningFolder = null;
+    // getData comes from DB
+    const shipmentCodeval = getData[0].SHPH_ShipmentCode;
 
-    // Step 1: Find the folder that ends with "-1" → this is the actively running shipment
+    // Decide folder name based on status
+    let targetFolderName = null;
+    
+    if (getData[0].SHPH_Status === 10) {
+      // Completed / normal shipment
+      targetFolderName = shipmentCodeval;
+    } else if (getData[0].SHPH_Status === 6) {
+      // Running shipment
+      targetFolderName = `${shipmentCodeval}-1`;
+    }
+
+    // Find that folder
+    let runningFolder = null;
     for (const folder of folders) {
-      if (folder.endsWith("-1")) {
+      
+      if (folder === targetFolderName) {
         const csvPath = path.join(basePath, folder, dispatchFile);
         if (fs.existsSync(csvPath)) {
           runningFolder = folder;
-          break; // We found the running one — stop searching
+          break;
         }
       }
     }
+
 
     // Step 2: If no "-1" folder found → no active shipment
     if (!runningFolder) {
@@ -899,15 +922,16 @@ app.get("/get-running-csv", (req, res) => {
     const cleanCode = runningFolder.slice(0, -2); // "WH_7-1" → "WH_7"
 
     const shipmentCode = rows[0]?.SHPH_ShipmentCode?.trim() || cleanCode;
-//console.log("Running Shipment Code : ", shipmentCode);
+    //console.log("Running Shipment Code : ", shipmentCode);
     // Success: return current running data
     res.json({
+      shipmentSatus:getData[0].SHPH_Status===6,
       shipmentCode,
       data: rows
     });
 
   } catch (err) {
-    console.error("Error in /get-running-csv:", err);
+    console.log("Error in /get-running-csv:", err);
     res.status(500).json({ error: "Failed to read running shipment" });
   }
 });
@@ -945,7 +969,7 @@ app.post("/process-pause", async (req, res) => {
       filePath = p;
       break;
     }
-  } 
+  }
 
   if (!filePath) {
     return res.status(200).json({ success: false, message: "Outward_RSN.csv not found" });
@@ -1303,14 +1327,14 @@ app.get('/check-camera', async (req, res) => {
 //-------------------------Check  shipment running status for login ---------------------------
 
 app.get("/check-resume-shipments", async (req, res) => {
-  const BASE_PATH = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
-  //const BASE_PATH = process.env.DISPATCH_BASE_PATH;
+  //const BASE_PATH = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  const BASE_PATH = process.env.DISPATCH_BASE_PATH;
   try {
     const folders = fs
       .readdirSync(BASE_PATH, { withFileTypes: true })
       .filter((d) => d.isDirectory())
       .map((d) => d.name);
-      console.log("Found folders:", folders);
+    console.log("Found folders:", folders);
     let resumeShipment = null;
 
     for (const folder of folders) {
