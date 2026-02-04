@@ -1,5 +1,5 @@
 import { useWebSocket } from "../../contexts/WebSocketContext";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { config } from "../config/config";
@@ -64,12 +64,16 @@ export default function ShipmentEdit() {
 
     // ─── New states for bypass feature ───────────────────────────────
     const [showBypassModal, setShowBypassModal] = useState(false);
+    const [showFullBypassModal, setShowFullBypassModal] = useState(false);
     const [bypassRemark, setBypassRemark] = useState("");
     const [bypassError, setBypassError] = useState("");
     const [currentBypassRsnId, setCurrentBypassRsnId] = useState(null);
     const [currentActiveMID, setCurrentActiveMID] = useState(null);
 
     const shipmentCode = shipmentData[0]?.SHPH_ShipmentCode || "—";
+
+
+    const [scpOrder, setScpOrder] = useState([]);
 
     const userId = sessionStorage.getItem("userId");
     const userName = sessionStorage.getItem("userName");
@@ -184,35 +188,7 @@ export default function ShipmentEdit() {
             const csv = res.data || [];
             if (!csv.length) return;
 
-            // ✅ TAKE LATEST ROW PER MID
-            // const latestByMid = {};
-            // csv.forEach(r => {
-            //     const mid = String(r.SHPD_ShipmentMID);
-            //     latestByMid[mid] = r;   // overwrite → last row wins
-            // });
 
-            // const progressMap = {};
-            // const completedSet = new Set();
-
-            // Object.values(latestByMid).forEach(r => {
-            //     const mid = String(r.SHPD_ShipmentMID);
-
-            //     const pass = Number(r.pass) || 0;
-            //     const total = Number(r.total) || Number(r.SHPD_ShipQty) || 0;
-
-            //     // let status = (r.status || "").toUpperCase();
-
-            //     // // fallback if status empty
-            //     // if (!status) {
-            //     //     if (pass > 0 && pass < total) status = "RUNNING";
-            //     //     else if (pass >= total && total > 0) status = "COMPLETED";
-            //     //     else status = "PENDING";
-            //     // }
-
-            //     progressMap[mid] = { pass, total, status };
-
-            //     if (status === "COMPLETED") completedSet.add(mid);
-            // });
 
             // ✅ TAKE LATEST ROW PER MID
             const latestByMid = {};
@@ -250,19 +226,6 @@ export default function ShipmentEdit() {
             // ✅ UPDATE COUNTS + STATUS
             setProductProgress(progressMap);
 
-            // ✅ MOVE COMPLETED TO BOTTOM
-            // setShipmentData(prev => {
-            //     const active = [];
-            //     const completed = [];
-
-            //     prev.forEach(item => {
-            //         const mid = String(item.SHPD_ShipmentMID);
-            //         if (completedSet.has(mid)) completed.push(item);
-            //         else active.push(item);
-            //     });
-
-            //     return [...active, ...completed];
-            // });
 
             // ✅ SORT: IN PROGRESS → PENDING → COMPLETED
             setShipmentData(prev => {
@@ -334,7 +297,8 @@ export default function ShipmentEdit() {
     const StartData = () => {
         setAutoClosed(false);
         logAction("Sending START command via WebSocket");
-        send({ message: "START", SCPtable: shipmentData, RSNtable: rsnData, broadcast: true });
+        const orderedShipmentData = getShipmentDataForStartResume();
+        send({ message: "START", SCPtable: orderedShipmentData, RSNtable: rsnData, broadcast: true });
 
         const ws = wsRef.current;
         const handler = (ev) => {
@@ -431,6 +395,11 @@ export default function ShipmentEdit() {
                 // ─── Existing handlers ─────────────────────────────────────────
                 if (msg.ack === "STOP OK") {
                     logAction("STOP OK received");
+                    await localApi.post("/log-shipment-event", {
+                        shipmentId: id,
+                        event: "Stop",
+                        status: 10
+                    });
                     logAction(`executing api : ${config.apiBaseUrl}/process-pause for shipment ${shipmentCode}`);
                     const res = await localApi.post("/process-pause", {
                         shipmentId: id,
@@ -464,7 +433,9 @@ export default function ShipmentEdit() {
                     }
                     if (res.data.success) {
                         logAction("Progress saved (/process-pause)");
+
                         await updateShipmentStatus(10);
+
                         setCanDrag(true);
 
                         await localApi.post("/ShipmentSyncStatus", {
@@ -496,6 +467,11 @@ export default function ShipmentEdit() {
                     setCanDrag(false);
                     setIsMainOperationLoading(false);
                     setLoadingAction("");
+                    await localApi.post("/log-shipment-event", {
+                        shipmentId: id,
+                        event: "Resume",
+                        status: 6
+                    });
                 }
 
                 // ─── Auto Closed ─────────────────────────────────────────
@@ -508,48 +484,7 @@ export default function ShipmentEdit() {
                     return;
                 }
 
-                // if (msg.type === "progress" && Array.isArray(msg.order)) {
-                //     const total = msg.order.length;
-                //     const completed = msg.order.filter(i => i.status === "COMPLETED").length;
-                //     logAction(`Progress update - ${completed}/${total} completed`);
 
-                //     const activeItem = msg.order.find(item => item.SHPD_ShipmentMID === msg.active_mid);
-                //     if (activeItem) {
-                //         setCurrentActiveMID(activeItem.SHPD_ShipmentMID);   // ← important!
-
-                //         setProgress({
-                //             mid: activeItem.SHPD_ShipmentMID,
-                //             product: activeItem.SHPD_ProductName,
-                //             pass: activeItem.pass || 0,
-                //             fail: activeItem.fail || 0,
-                //             total: parseInt(activeItem.total || activeItem.SHPD_ShipQty),
-                //         });
-                //     } else {
-                //         setProgress(null);
-                //     }
-
-                //     const progressMap = {};
-                //     msg.order.forEach(p => {
-                //         progressMap[p.SHPD_ShipmentMID] = {
-                //             pass: p.pass || 0,
-                //             fail: p.fail || 0,
-                //             total: parseInt(p.total || p.SHPD_ShipQty),
-                //             status: p.status || "",
-                //         };
-                //     });
-                //     setProductProgress(progressMap);
-
-                //     const activeAndPending = msg.order.filter(i => i.status !== "COMPLETED");
-                //     const completedItems = msg.order.filter(i => i.status === "COMPLETED");
-                //     setShipmentData([...activeAndPending, ...completedItems]);
-
-                //     const allCompleted = msg.order.every(i => i.status === "COMPLETED");
-                //     if (allCompleted && !autoClosed && !isClosing) {
-                //         logAction("All products completed → triggering auto-close");
-                //         setAutoClosed(true);
-                //         handleClose();
-                //     }
-                // }
             } catch (e) {
                 logAction(`WebSocket message error - ${e.message}`, true);
                 setIsMainOperationLoading(false);
@@ -641,12 +576,18 @@ export default function ShipmentEdit() {
         try {
             if (action === "START") {
                 await updateShipmentStatus(6);
+                await localApi.post("/log-shipment-event", {
+                    shipmentId: id,
+                    event: "Start",
+                    status: 6,
+                });
                 StartData();
             } else if (action === "STOP") {
                 send({ message: "STOP" });
             } else if (action === "RESUME") {
                 await getRSN();
-                send({ message: "RESUME", SCPtable: originalShipmentData, RSNtable: rsnData, broadcast: true });
+                const orderedShipmentData = getShipmentDataForStartResume();
+                send({ message: "RESUME", SCPtable: orderedShipmentData, RSNtable: rsnData, broadcast: true });
             }
         } catch (err) {
             logAction(`Main action failed (${action}) - ${err.message}`, true);
@@ -655,16 +596,21 @@ export default function ShipmentEdit() {
             setLoadingAction("");
         }
     };
+    const isShipmentDragAllowed =
+        shipmentStatus === 10 || shipmentStatus === 2;
+
+
 
     const onDragEnd = (result) => {
         if (!result.destination || !canDrag) return;
-        logAction("Product order changed via drag & drop");
+        if (!isShipmentDragAllowed) return;
+        const newOrder = [...scpOrder];
+        const [moved] = newOrder.splice(result.source.index, 1);
+        newOrder.splice(result.destination.index, 0, moved);
 
-        const items = Array.from(shipmentData);
-        const [moved] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, moved);
-        setShipmentData(items);
-        setOriginalShipmentData(items);
+        setScpOrder(newOrder);
+
+        logAction("SCP group order changed via drag & drop");
     };
 
     const BackPage = () => {
@@ -672,48 +618,6 @@ export default function ShipmentEdit() {
         navigate("/shipmentscanning");
     };
 
-    const handleFullBypassToggle = () => {
-        const newState = !isFullBypassOn;
-        setIsFullBypassOn(newState);
-
-        if (newState) {
-            logAction("FULL BYPASS turned ON");
-            send({ message: "BYPASS_ON" });   // 👉 Python should listen for this
-            toast.warn("Full Bypass ON.");
-        } else {
-            logAction("FULL BYPASS turned OFF");
-            send({ message: "BYPASS_OFF" });  // 👉 Python should listen for this
-            toast.info("Full Bypass OFF.");
-        }
-    };
-
-
-    // const waitForCloseAck = () => {
-    //     return new Promise((resolve, reject) => {
-    //         const ws = wsRef.current;
-    //         if (!ws) return reject(new Error("No WebSocket"));
-
-    //         const timeout = setTimeout(() => {
-    //             ws.removeEventListener("message", handler);
-    //             logAction("AUTO_CLOSED ack timeout", true);
-    //             reject(new Error("CLOSE ACK timeout"));
-    //         }, 15000);
-
-    //         const handler = (ev) => {
-    //             try {
-    //                 const msg = JSON.parse(ev.data);
-    //                 if (msg.ack === "AUTO_CLOSED") {
-    //                     logAction("AUTO_CLOSED ack received");
-    //                     clearTimeout(timeout);
-    //                     ws.removeEventListener("message", handler);
-    //                     logAction("AUTO_CLOSED ack received");
-    //                     resolve(true);
-    //                 }
-    //             } catch { }
-    //         };
-    //         ws.addEventListener("message", handler);
-    //     });
-    // };
 
     const performFullSyncAfterStopOrClose = async () => {
         if (!navigator.onLine) {
@@ -773,7 +677,11 @@ export default function ShipmentEdit() {
 
         try {
             // await waitForCloseAck();
-
+            await localApi.post("/log-shipment-event", {
+                shipmentId: id,
+                event: "Close",
+                status: 8
+            });
             logAction(`executing api : ${config.apiBaseUrl}/process-pause for shipment ${shipmentCode}`);
             const res = await localApi.post("/process-pause", {
                 shipmentId: id,
@@ -791,6 +699,7 @@ export default function ShipmentEdit() {
             if (res.data.success) {
                 logAction("Progress saved (/process-pause)");
                 await updateShipmentStatus(8);
+
                 await localApi.post("/ShipmentSyncStatus", {
                     shipmentId: id,
                     isSynced: false,
@@ -913,8 +822,200 @@ export default function ShipmentEdit() {
 
         return () => clearInterval(interval); // cleanup on unmount
     }, [isShipmentLoaded, shipmentCode]);
+    const handleConfirmFullBypass = async () => {
+        const trimmed = bypassRemark.trim();
+
+        if (!trimmed) {
+            setBypassError("* Remark is required");
+            return;
+        }
+
+        try {
+            setBypassError("");
+
+            const payload = {
+                shipmentId: id,        // ✅ MUST match backend
+                remark: trimmed,
+                userId
+            };
+
+            const res = await localApi.post("/shipmentRemark", payload);
+
+            // ✅ ONLY if DB update is SUCCESS
+            if (res.data?.success) {
+
+                toast.success("Bypass remark saved");
+
+                // ✅ SEND BYPASS_ON ONLY AFTER SUCCESS
+                send({ message: "BYPASS_ON" });
+
+                // ✅ Update UI state
+                setIsFullBypassOn(true);     // disable toggle
+                setShowFullBypassModal(false);
+                setBypassRemark("");
+            } else {
+                toast.error(res.data?.message || "Remark save failed");
+            }
+
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to save bypass remark");
+            // ❌ DO NOT SEND BYPASS_ON HERE
+        }
+    };
+
+    const getGroupRank = (status, shipmentStatus) => {
+        // During STOP → allow full shuffle
+        if (shipmentStatus === 10) return 1;
+
+        // During ACTIVE → force order
+        if (status === "IN PROGRESS") return 1;
+        if (status === "PENDING") return 2;
+        if (status === "COMPLETED") return 3;
+
+        return 4;
+    };
 
 
+    const groupedBySCP = useMemo(() => {
+        const map = {};
+
+        // 1. Group products by SCP name
+        shipmentData.forEach(item => {
+            const name = item.SCPM_Name || "Unknown SCP";
+            if (!map[name]) {
+                map[name] = {
+                    name,
+                    code: item.SCPM_Code || "",
+                    products: [],
+                };
+            }
+            map[name].products.push(item);
+        });
+
+        // 2. Enrich each group with real progress data + calculate group status
+        Object.values(map).forEach(group => {
+            const progressItems = group.products.map(item => {
+                const mid = String(item.SHPD_ShipmentMID);
+                const csvProg = productProgress[mid];
+
+                const prog = {
+                    pass: Number(csvProg?.pass ?? 0),
+                    total: Number(csvProg?.total ?? item.SHPD_ShipQty ?? 0),
+                    status: (csvProg?.status || "PENDING").toUpperCase(),
+                };
+
+                return {
+                    ...prog,
+                    mid,
+                    status: (prog.status || "PENDING").toUpperCase(), // normalize
+                };
+            });
+
+            // Determine the MOST authoritative group status
+            // ✅ FINAL SCP STATUS LOGIC (CSV + shipmentStatus ONLY)
+
+            let groupStatus = "PENDING";
+
+            // RULE 1: Any RUNNING in CSV
+            if (progressItems.some(p => p.status === "RUNNING")) {
+                groupStatus = shipmentStatus === 10 ? "STOP" : "IN PROGRESS";
+            }
+
+            // RULE 2: All completed
+            else if (
+                progressItems.length > 0 &&
+                progressItems.every(p => p.total > 0 && Number(p.pass) >= Number(p.total))
+            ) {
+                groupStatus = "COMPLETED";
+            }
+
+            // RULE 3: Default
+            else {
+                groupStatus = "PENDING";
+            }
+
+            // Attach to group object
+            group.progressItems = progressItems;
+            group.groupStatus = groupStatus;
+
+            // Optional: also calculate total scanned for display/fallback
+            group.scanned = progressItems.reduce((sum, p) => sum + Number(p.pass || 0), 0);
+            group.total = progressItems.reduce((sum, p) => sum + Number(p.total || 0), 0);
+        });
+
+        // 3. Return groups in user-defined drag order
+        // return scpOrder
+        //     .map(name => map[name])
+        //     .filter(Boolean); // remove any missing groups
+
+        return scpOrder
+            .map((name, index) => {
+                const group = map[name];
+                if (!group) return null;
+
+                return {
+                    ...group,
+                    __dragIndex: index,   // preserve drag order
+                };
+            })
+            .filter(Boolean)
+            .sort((a, b) => {
+                // 1️⃣ Status priority ALWAYS wins
+                const rankDiff =
+                    getGroupRank(a.groupStatus, shipmentStatus) -
+                    getGroupRank(b.groupStatus, shipmentStatus);
+
+
+                if (rankDiff !== 0) return rankDiff;
+
+                // 2️⃣ Same status → keep user drag order
+                return a.__dragIndex - b.__dragIndex;
+            });
+
+    }, [shipmentData, scpOrder, productProgress]);
+
+
+
+    useEffect(() => {
+        if (shipmentData.length > 0 && scpOrder.length === 0) {
+            const uniqueSCPs = [...new Set(
+                shipmentData.map(item => item.SCPM_Name || "Unknown SCP")
+            )];
+            setScpOrder(uniqueSCPs);
+        }
+    }, [shipmentData])
+
+
+
+    const getShipmentDataForStartResume = () => {
+        if (!scpOrder.length) return shipmentData;
+
+        const scpMap = {};
+
+        // Group rows by SCP
+        shipmentData.forEach(row => {
+            const scpName = row.SCPM_Name || "Unknown SCP";
+            if (!scpMap[scpName]) scpMap[scpName] = [];
+            scpMap[scpName].push(row);
+        });
+
+        // Flatten back in dragged order (START format)
+        const orderedRows = [];
+        scpOrder.forEach(scpName => {
+            if (scpMap[scpName]) {
+                orderedRows.push(...scpMap[scpName]);
+            }
+        });
+
+        return orderedRows;
+    };
+
+    useEffect(() => {
+        if (!isConnected) {
+            toast.error("Please check the Python service.");
+        }
+    }, [isConnected]);
 
     return (
         <>
@@ -928,6 +1029,30 @@ export default function ShipmentEdit() {
                 <div className="header-bar">
                     <h1 className="formHeading">Shipment Scanning</h1>
                     {/* <div className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"}`}></div> */}
+
+                    <div
+                        className={`bypass-icon-toggle ${isFullBypassOn ? "on" : "off"} ${shipmentStatus !== 6 || isFullBypassOn ? "disabled" : ""}`}
+                        onClick={() => {
+                            if (shipmentStatus !== 6 || isFullBypassOn) return;
+
+                            setBypassRemark("");
+                            setBypassError("");
+                            setShowFullBypassModal(true);   // ✅ OPEN FULL BYPASS MODAL
+                        }}
+                    >
+                        {isFullBypassOn ? (
+                            <>
+                                <MdOutlineToggleOn size={30} />
+                                <span>BYPASS ON</span>
+                            </>
+                        ) : (
+                            <>
+                                <FaToggleOff size={30} />
+                                <span>BYPASS OFF</span>
+                            </>
+                        )}
+                    </div>
+
                 </div>
 
                 <div className="content-with-fail-panel">
@@ -940,41 +1065,29 @@ export default function ShipmentEdit() {
                                 for SCP <strong>{schemeData.SCPM_Name}</strong>
                             </div>
                         )}
-
                         <DragDropContext onDragEnd={onDragEnd}>
-                            <Droppable droppableId="shipmentQueue">
+                            <Droppable droppableId="scp-groups" direction="vertical">
                                 {(provided) => (
                                     <div className="queue-list" ref={provided.innerRef} {...provided.droppableProps}>
-                                        {shipmentData.map((item, index) => {
-                                            // const prog = productProgress[item.SHPD_ShipmentMID] || {};
-                                            // const isCurrent = progress?.mid === item.SHPD_ShipmentMID;
-                                            // const isInProgress = isCurrent || prog.status === "RUNNING";
-                                            // const isCompleted = prog.status === "COMPLETED";
+                                        {groupedBySCP.map((group, index) => {
+                                            const status = group.groupStatus || "PENDING";
 
-                                            const prog = productProgress[item.SHPD_ShipmentMID] || {};
-                                            const isShipmentStopped = shipmentStatus === 10;
-                                            const isCurrent = progress?.mid === item.SHPD_ShipmentMID;
-
-                                            // Base CSV status
-                                            let displayStatus = prog.status || "PENDING";
-
-                                            // 🔴 OVERRIDE: Only when shipment STOP and product is RUNNING
-                                            if (isShipmentStopped && displayStatus === "RUNNING") {
-                                                displayStatus = "STOP";
-                                            }
-
-                                            // Set flags for CSS / UI
-                                            const isInProgress = isCurrent || displayStatus === "RUNNING";
-                                            const isStopped = displayStatus === "STOP";
-                                            const isCompleted = displayStatus === "COMPLETED";
+                                            const isRunning = status === "IN PROGRESS" || status === "STOP";
+                                            const isInProgress = status === "IN PROGRESS";
+                                            const isStopped = status === "STOP";
+                                            const isCompleted = status === "COMPLETED";
 
 
                                             return (
                                                 <Draggable
-                                                    key={item.SHPD_ShipmentMID}
-                                                    draggableId={String(item.SHPD_ShipmentMID)}
+                                                    key={group.name}
+                                                    draggableId={`scp-group-${group.name}`}
                                                     index={index}
-                                                    isDragDisabled={!canDrag || isCompleted}
+                                                    isDragDisabled={
+                                                        group.groupStatus === "COMPLETED" ||
+                                                        !isShipmentDragAllowed
+                                                    }
+
                                                 >
                                                     {(provided, snapshot) => (
                                                         <div
@@ -982,44 +1095,59 @@ export default function ShipmentEdit() {
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
                                                             className={`
-                                                            queue-item
-                                                            ${isInProgress ? "in-progress" : ""}
-                                                            ${isCurrent ? "current-scanning" : ""}
-                                                            ${isCompleted ? "completed" : ""}
-                                                            ${snapshot.isDragging ? "dragging" : ""}
-                                                        `}
+  queue-item
+  scp-group-wrapper
+  ${group.groupStatus === "COMPLETED" ? "drag-disabled" : ""}
+  ${isRunning ? "in-progress current-scanning running" : ""}
+  ${isInProgress && !isRunning ? "in-progress" : ""}
+  ${isCompleted ? "completed" : ""}
+  ${snapshot.isDragging ? "dragging" : ""}
+  ${isStopped ? "in-progress" : ""}
+`}
+
                                                         >
-                                                            <div className="left-border"></div>
-                                                            <div className="item-content">
-                                                                <div className="col-scp">
-                                                                    <span className="label">SCP</span>
-                                                                    <div className="scp-name">{item.SCPM_Name}</div>
-                                                                    <span className="label mt">Product</span>
-                                                                    <div className="product-name">{item.SHPD_ProductName}</div>
-                                                                </div>
-                                                                <div className="col-qty">
-                                                                    <span className="label">SHIP QUANTITY</span>
-                                                                    <div className="quantity">
-                                                                        {prog.pass !== undefined
-                                                                            ? `${prog.pass} / ${prog.total || item.SHPD_ShipQty}`
-                                                                            : `0 / ${item.SHPD_ShipQty}`}
+
+                                                            {/* <div className="left-border"></div> */}
+
+                                                            <div className="group-block">
+
+                                                                <div className="group-header-row">
+                                                                    <div className="scp-info">
+                                                                        <div className="scp-name">
+                                                                            {group.name}
+                                                                            {group.code && <span className="scp-code"> ({group.code})</span>}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className="col-status">
+                                                                        <span
+                                                                            className={`status-pill ${isCompleted ? "active completed" :
+                                                                                isRunning ? "active running" :
+                                                                                    isInProgress ? "active in-progress" :
+                                                                                        "pending"
+                                                                                }`}
+                                                                        >
+                                                                            {status}
+                                                                        </span>
                                                                     </div>
                                                                 </div>
-                                                                <div className="col-spacer"></div>
-                                                                <div className="col-status">
-                                                                    <span className={`status-pill ${isCompleted ? "active" :
-                                                                            isStopped ? "active" :
-                                                                                isInProgress ? "active" : "pending"
-                                                                        }`}>
-                                                                        {isCompleted
-                                                                            ? "COMPLETED"
-                                                                            : isStopped
-                                                                                ? "STOP"
-                                                                                : isInProgress
-                                                                                    ? "IN PROGRESS"
-                                                                                    : "PENDING"}
-                                                                    </span>
 
+                                                                {/* Compact product list */}
+                                                                <div className="group-products-container">
+                                                                    {group.products.map(item => {
+                                                                        const prog = productProgress[String(item.SHPD_ShipmentMID)] || {};
+                                                                        const pass = prog.pass ?? 0;
+                                                                        const total = Number(prog.total || item.SHPD_ShipQty || 0);
+
+                                                                        return (
+                                                                            <div key={item.SHPD_ShipmentMID} className="compact-product-row">
+                                                                                <div className="product-name">{item.SHPD_ProductName}</div>
+                                                                                <div className="product-qty">
+                                                                                    {pass} / {total}
+                                                                                </div>
+                                                                            </div>
+                                                                        );
+                                                                    })}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1055,7 +1183,7 @@ export default function ShipmentEdit() {
                                     headerClassName="custom-header"
                                 />
 
-                                <Column field="rsn" header="RSN"
+                                <Column field="rsn" header="UID"
                                     bodyClassName="custom-description"
                                     headerClassName="custom-header" />
 
@@ -1068,7 +1196,7 @@ export default function ShipmentEdit() {
                                     style={{ whiteSpace: 'break-spaces' }}
                                 />
 
-                                <Column field="time" header="Time"
+                                <Column field="time" header="TimeStamp"
                                     bodyClassName="custom-description"
                                     headerClassName="custom-header"
                                     style={{ whiteSpace: 'break-spaces' }} />
@@ -1081,25 +1209,6 @@ export default function ShipmentEdit() {
             </div>
 
             <div className="button-container">
-                <div
-                    className={`bypass-icon-toggle ${isFullBypassOn ? "on" : "off"} ${shipmentStatus !== 6 ? "disabled" : ""}`}
-                    onClick={() => {
-                        if (shipmentStatus !== 6) return;
-                        handleFullBypassToggle();
-                    }}
-                >
-                    {isFullBypassOn ? (
-                        <>
-                            <MdOutlineToggleOn size={30} />
-                            <span>BYPASS ON</span>
-                        </>
-                    ) : (
-                        <>
-                            <FaToggleOff size={30} />
-                            <span>BYPASS OFF</span>
-                        </>
-                    )}
-                </div>
 
 
                 <button
@@ -1218,6 +1327,109 @@ export default function ShipmentEdit() {
                             deleteCookie("BYPASS_PENDING");
                             deleteCookie("BYPASS_RSN");
                             send({ message: "BYPASS_NO" });
+                        }}
+                    >
+                        NO
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+
+            {/* ─── Bypass Confirmation Modal For Full Bypass  ──────────────────────────────────────── */}
+
+            <Modal
+                show={showFullBypassModal}
+                centered
+                backdrop="static"
+                keyboard={false}
+                size="lg"
+            >
+                <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
+                    <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
+                        :: Bypass Confirmation ::
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body style={{ textAlign: "center" }}>
+                    <div
+                        style={{
+                            marginBottom: "18px",
+                            fontWeight: "600",
+                            fontSize: "20px",
+                            color: "#4a5568",
+                        }}
+                    >
+                        Are you sure you want to Bypass this Shipment : {shipmentCode} ?
+                    </div>
+
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "6px",
+                        }}
+                    >
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <label style={{ fontWeight: "600", fontSize: "18px" }}>
+                                Remark:
+                            </label>
+
+                            <textarea
+                                rows={2}
+                                style={{
+                                    width: "420px",
+                                    border: `1px solid ${bypassError ? "#dc3545" : "#ced4da"}`,
+                                    padding: "10px",
+                                    borderRadius: "6px",
+                                    resize: "none",
+                                    fontSize: "15px",
+                                    outline: "none",
+                                }}
+                                placeholder="Enter reason for bypass..."
+                                value={bypassRemark}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setBypassRemark(value);
+
+                                    const trimmed = value.trim();
+                                    if (!trimmed) {
+                                        setBypassError("* Remark is required");
+                                    } else if (value !== trimmed) {
+                                        setBypassError("Remarks cannot start or end with spaces");
+                                    } else {
+                                        setBypassError("");
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        {/* ✅ Error Text */}
+                        {bypassError && (
+                            <div style={{ color: "#dc3545", fontSize: "13px" }}>
+                                {bypassError}
+                            </div>
+                        )}
+                    </div>
+                </Modal.Body>
+
+                <Modal.Footer
+                    style={{ justifyContent: "center", borderTop: "none", gap: "24px" }}
+                >
+                    <button
+                        className="acceptButton"
+                        onClick={handleConfirmFullBypass}
+                        disabled={!bypassRemark.trim() || !!bypassError}
+                    >
+                        YES
+                    </button>
+
+                    <button
+                        className="rejectButton"
+                        onClick={() => {
+                            setShowFullBypassModal(false);
+                            setBypassRemark("");
+                            setBypassError("");
                         }}
                     >
                         NO

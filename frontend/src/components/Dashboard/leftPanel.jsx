@@ -28,46 +28,37 @@ const LeftPanel = () => {
      if (document.fullscreenElement) {
       document.exitFullscreen();
     }
+  try {
+    // 1. get machine list
+    const res = await fetch(`${config.apiBaseUrl}/machine-info`);
+    if (!res.ok) throw new Error("Failed to fetch machines");
+    const data = await res.json();
 
-    // ✅ Open new window immediately
-    const newWindow = window.open("", "_blank");
-
-    // ✅ Open your link
-    if (newWindow) {
-      newWindow.location.href = "http://91.108.111.207:3005/";
+    const machine = data.machineData?.[0]; // 👉 first machine
+    if (!machine) {
+      alert("No machine found");
+      return;
     }
 
-  // try {
-  //   // 1. get machine list
-  //   const res = await fetch(`${config.apiBaseUrl}/machine-info`);
-  //   if (!res.ok) throw new Error("Failed to fetch machines");
-  //   const data = await res.json();
+    // open blank window immediately (avoid popup block)
+    const camWindow = window.open("", "_blank");
 
-  //   const machine = data.machineData?.[0]; // 👉 first machine
-  //   if (!machine) {
-  //     alert("No machine found");
-  //     return;
-  //   }
+    // 2. check camera connection
+    const check = await fetch(
+      `${config.apiBaseUrl}/check-camera?ip=${machine.MM_Cameraip}`
+    );
+    const checkRes = await check.json();
 
-  //   // open blank window immediately (avoid popup block)
-  //   const camWindow = window.open("", "_blank");
-
-  //   // 2. check camera connection
-  //   const check = await fetch(
-  //     `${config.apiBaseUrl}/check-camera?ip=${machine.MM_Cameraip}`
-  //   );
-  //   const checkRes = await check.json();
-
-  //   if (checkRes.status === "connected") {
-  //     camWindow.location.href = `http://${machine.MM_Cameraip}`;
-  //   } else {
-  //     toast.error("Camera disconnected");
-  //     camWindow.close();
-  //   }
-  // } catch (err) {
-  //   console.error(err);
-  //   alert("Unable to open camera");
-  // }
+    if (checkRes.status === "connected") {
+      camWindow.location.href = `http://${machine.MM_Cameraip}`;
+    } else {
+      toast.error("Camera disconnected");
+      camWindow.close();
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Unable to open camera");
+  }
 };
 
   return (

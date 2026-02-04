@@ -385,6 +385,50 @@ export default function CompletedOutward() {
 	navigate("/shipmentscanning");
   };
 
+  const PDF_REF_STYLE = {
+  BLUE: [38, 90, 128],
+  BLACK: [0, 0, 0],
+  WHITE: [255, 255, 255],
+
+  title: {
+    fontSize: 20,
+    color: [0, 0, 0],
+    fontStyle: "bold"
+  },
+
+  table: {
+    fontSize: 10,
+    textColor: [0, 0, 0],
+    lineColor: [0, 0, 0],
+    lineWidth: 0.5,
+    cellPadding: 0.3,
+    halign: "center"
+  },
+
+  tableHeader: {
+    fillColor: [38, 90, 128],
+    textColor: [255, 255, 255],
+    fontSize: 10,
+    fontStyle: "bold",
+    halign: "center",
+    cellPadding: { top: 1, bottom: 1 }
+  },
+
+  sectionHeader: {
+    fillColor: [38, 90, 128],
+    textColor: [255, 255, 255],
+    fontSize: 12,
+    fontStyle: "bold",
+    halign: "center"
+  },
+
+  signature: {
+    fontSize: 11,
+    color: [0, 0, 0]
+  }
+};
+
+
   const handlePdf = async (rowData) => {
     const shipmentId = rowData.SHPH_ShipmentID;
     const shipmentCode = rowData.SHPH_ShipmentCode;
@@ -472,7 +516,7 @@ export default function CompletedOutward() {
     const date = new Date();
     const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
     const startX = doc.internal.pageSize.getWidth() - 55;
-    doc.setFontSize(8);
+    doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
     doc.text("Printed On", startX, 18);
     doc.text(":", startX + 14, 18);
     doc.text(formattedDate, startX + 17, 18);
@@ -480,10 +524,12 @@ export default function CompletedOutward() {
     doc.text(":", startX + 14, 24);
     doc.text(UM_UserCode, startX + 17, 24);
     /* ---------------- TITLE ---------------- */
-    doc.setTextColor(41, 128, 185);
-    doc.setFontSize(21);
+  doc.setFontSize(PDF_REF_STYLE.title.fontSize);
+doc.setTextColor(...PDF_REF_STYLE.title.color);
+doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
+
     doc.text("Delivery Challan", doc.internal.pageSize.width / 2, 40, { align: "center" });
-    doc.setTextColor(0, 0, 0);
+    doc.setTextColor(...PDF_REF_STYLE.signature.color);
     const columnWidth = (doc.internal.pageSize.width - 30) / 2;
     /* ---------------- DELIVERED BY ---------------- */
     autoTable(doc, {
@@ -494,7 +540,7 @@ export default function CompletedOutward() {
           {
             content: "Delivered By",
             colSpan: 2,
-            styles: { fillColor: [41, 128, 185], textColor: [255, 255, 255], halign: "center", fontSize: 12 },
+            styles: PDF_REF_STYLE.sectionHeader,
           },
         ],
         ["From Party", shipment.FromParty],
@@ -506,7 +552,7 @@ export default function CompletedOutward() {
         ["Contact No.", shipment.CNo],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: { fontSize: 10, cellPadding: 2, halign: "center" },
+      styles: PDF_REF_STYLE.table,
     });
 
     /* ---------------- Shipping To ---------------- */
@@ -518,7 +564,7 @@ export default function CompletedOutward() {
           {
             content: "Shipping To",
             colSpan: 2,
-            styles: { fillColor: [41, 128, 185], textColor: [255, 255, 255], halign: "center", fontSize: 12 },
+            styles: PDF_REF_STYLE.sectionHeader,
           },
         ],
         ["To Party", shipment.ToParty],
@@ -530,7 +576,7 @@ export default function CompletedOutward() {
         ["Contact No.", shipment.LCM_ContactNumber],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: { fontSize: 10, cellPadding: 2, halign: "center" },
+      styles: PDF_REF_STYLE.table,
     });
 
     /* ---------------- SHIPMENT INFO ---------------- */
@@ -539,7 +585,7 @@ export default function CompletedOutward() {
         {
           content: "Shipment Information",
           colSpan: 2,
-          styles: { fillColor: [41, 128, 185], textColor: [255, 255, 255], halign: "center", fontSize: 12 },
+          styles: PDF_REF_STYLE.sectionHeader,
         },
       ],
       ["Delivery No", shipment.dcl_DeliveryNo],
@@ -561,11 +607,11 @@ export default function CompletedOutward() {
       theme: "grid",
       body: shipmentInfoRows,
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: { fontSize: 10, cellPadding: 2, halign: "center" },
+      styles: PDF_REF_STYLE.table,
     });
 
     /* ---------------- PRODUCT PAGE ---------------- */
-    doc.addPage();
+    //doc.addPage();
     const batchDataHeaderText = "Product Details";
     const hasScp = shipment.ToParty;
     const headers = ["Sr. No.", "Product Code", "Product Name", "Quantity"];
@@ -575,13 +621,13 @@ export default function CompletedOutward() {
       {
         content: batchDataHeaderText,
         colSpan: numCols,
-        styles: { halign: "center", fontSize: 12, textColor: [255, 255, 255], fillColor: [41, 128, 185] },
+        styles: PDF_REF_STYLE.sectionHeader,
       },
     ]);
     tableData.push(
       headers.map((header) => ({
         content: header,
-        styles: { halign: "center", fillColor: [41, 128, 185], textColor: [255, 255, 255] },
+        styles: PDF_REF_STYLE.tableHeader,
       }))
     );
     tableData = tableData.concat(
@@ -595,18 +641,8 @@ export default function CompletedOutward() {
     autoTable(doc, {
       body: tableData,
       theme: "grid",
-      headStyles: {
-        fillColor: [41, 128, 185],
-        textColor: [255, 255, 255],
-        lineWidth: 0.25,
-        cellPadding: 2,
-        valign: "middle",
-        halign: "center",
-        fontSize: 10,
-        rowHeight: 8,
-        border: { top: { style: "solid", width: 0.25, color: [0, 0, 0] } },
-      },
-      styles: { cellPadding: 2, valign: "middle", halign: "center" },
+      headStyles: PDF_REF_STYLE.tableHeader,
+      styles: PDF_REF_STYLE.table,
     });
 
     /* ---------------- SIGNATURE ---------------- */
@@ -624,17 +660,17 @@ export default function CompletedOutward() {
         1: { cellWidth: 40 },
         2: { cellWidth: 40 },
       },
-      styles: { fontSize: 11 },
-      headStyles: { fontWeight: "normal" },
+      styles: PDF_REF_STYLE.signature,
+      headStyles: PDF_REF_STYLE.tableHeader,
       startX: startX,
     });
 
     /* ---------------- RECEIVED / DELIVERED ---------------- */
-    const previousTableFinalY = doc.lastAutoTable.finalY;
-    const lineStartY = previousTableFinalY + 5;
-    doc.setDrawColor(135, 206, 250);
-    doc.setLineWidth(0.5);
-    doc.line(10, lineStartY, 200, lineStartY);
+    // const previousTableFinalY = doc.lastAutoTable.finalY;
+    // const lineStartY = previousTableFinalY + 5;
+    // doc.setDrawColor(135, 206, 250);
+    // doc.setLineWidth(0.5);
+    // doc.line(10, lineStartY, 200, lineStartY);
     const tableContent = [
       [
         { content: "Recieved By", styles: { fontStyle: "bold" } },
@@ -656,7 +692,7 @@ export default function CompletedOutward() {
         2: { cellWidth: 40 },
       },
       styles: { fontSize: 11 },
-      headStyles: { fontWeight: "normal" },
+      headStyles: PDF_REF_STYLE.tableHeader,
     });
     addFooter(doc);
   };
@@ -669,7 +705,7 @@ export default function CompletedOutward() {
     const date = new Date();
     const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
     const startX = doc.internal.pageSize.getWidth() - 55;
-    doc.setFontSize(8);
+    doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
     doc.text("Printed On", startX, 18);
     doc.text(":", startX + 14, 18);
     doc.text(formattedDate, startX + 17, 18);
@@ -677,10 +713,12 @@ export default function CompletedOutward() {
     doc.text(":", startX + 14, 24);
     doc.text(UM_UserCode, startX + 17, 24);
     /* ---------------- TITLE ---------------- */
-    doc.setTextColor(41, 128, 185);
-    doc.setFontSize(21);
+   doc.setFontSize(PDF_REF_STYLE.title.fontSize);
+doc.setTextColor(...PDF_REF_STYLE.title.color);
+doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
+
     doc.text("Delivery Challan", doc.internal.pageSize.width / 2, 40, { align: "center" });
-    doc.setTextColor(0, 0, 0);
+    doc.setTextColor(...PDF_REF_STYLE.signature.color);
     const columnWidth = (doc.internal.pageSize.width - 30) / 2;
     /* ---------------- DELIVERED BY ---------------- */
 
@@ -702,7 +740,7 @@ export default function CompletedOutward() {
           {
             content: "Delivered By",
             colSpan: 2,
-            styles: { fillColor: [41, 128, 185], textColor: [255, 255, 255], halign: "center", fontSize: 12 },
+            styles: PDF_REF_STYLE.sectionHeader,
           },
         ],
         ["From Party", mainShipment.FromParty || ''],
@@ -714,7 +752,7 @@ export default function CompletedOutward() {
         ["Contact No.", mainShipment.CNo || ''],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: { fontSize: 10, cellPadding: 2, halign: "center" },
+      styles: PDF_REF_STYLE.table,
     });
 
     /* ---------------- SHIPMENT INFO ---------------- */
@@ -723,7 +761,7 @@ export default function CompletedOutward() {
         {
           content: "Shipment Information",
           colSpan: 2,
-          styles: { fillColor: [41, 128, 185], textColor: [255, 255, 255], halign: "center", fontSize: 12 },
+          styles: PDF_REF_STYLE.sectionHeader,
         },
       ],
       ["Logistic Party Name", mainShipment.LGCM_Name || ''],
@@ -735,7 +773,7 @@ export default function CompletedOutward() {
       theme: "grid",
       body: shipmentInfoRows,
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: { fontSize: 10, cellPadding: 2, halign: "center" },
+      styles: PDF_REF_STYLE.table,
     });
 
     /* ---------------- PRODUCT PAGE ---------------- */
@@ -747,13 +785,13 @@ export default function CompletedOutward() {
       {
         content: batchDataHeaderText,
         colSpan: numCols,
-        styles: { halign: "center", fontSize: 12, textColor: [255, 255, 255], fillColor: [41, 128, 185] },
+        styles: PDF_REF_STYLE.sectionHeader,
       },
     ]);
     tableData.push(
       headers.map((header) => ({
         content: header,
-        styles: { halign: "center", fillColor: [41, 128, 185], textColor: [255, 255, 255] },
+        styles: PDF_REF_STYLE.tableHeader,
       }))
     );
     tableData = tableData.concat(
@@ -779,18 +817,8 @@ export default function CompletedOutward() {
     autoTable(doc, {
       body: tableData,
       theme: "grid",
-      headStyles: {
-        fillColor: [41, 128, 185],
-        textColor: [255, 255, 255],
-        lineWidth: 0.25,
-        cellPadding: 2,
-        valign: "middle",
-        halign: "center",
-        fontSize: 10,
-        rowHeight: 8,
-        border: { top: { style: "solid", width: 0.25, color: [0, 0, 0] } },
-      },
-      styles: { cellPadding: 2, valign: "middle", halign: "center" },
+      headStyles: PDF_REF_STYLE.tableHeader,
+      styles: PDF_REF_STYLE.table,
     });
 
     /* ---------------- SIGNATURE ---------------- */
@@ -808,17 +836,17 @@ export default function CompletedOutward() {
         1: { cellWidth: 40 },
         2: { cellWidth: 40 },
       },
-      styles: { fontSize: 11 },
-      headStyles: { fontWeight: "normal" },
+      styles: PDF_REF_STYLE.signature,
+      headStyles: PDF_REF_STYLE.tableHeader,
       startX: startX,
     });
 
     /* ---------------- RECEIVED / DELIVERED ---------------- */
-    const previousTableFinalY = doc.lastAutoTable.finalY;
-    const lineStartY = previousTableFinalY + 5;
-    doc.setDrawColor(135, 206, 250);
-    doc.setLineWidth(0.5);
-    doc.line(10, lineStartY, 200, lineStartY);
+    // const previousTableFinalY = doc.lastAutoTable.finalY;
+    // const lineStartY = previousTableFinalY + 5;
+    // doc.setDrawColor(135, 206, 250);
+    // doc.setLineWidth(0.5);
+    // doc.line(10, lineStartY, 200, lineStartY);
     const tableContent = [
       [
         { content: "Recieved By", styles: { fontStyle: "bold" } },
@@ -840,19 +868,31 @@ export default function CompletedOutward() {
         2: { cellWidth: 40 },
       },
       styles: { fontSize: 11 },
-      headStyles: { fontWeight: "normal" },
+      headStyles: PDF_REF_STYLE.tableHeader,
     });
     addFooter(doc);
   };
 
-  const addFooter = (doc) => {
-    const pageCount = doc.internal.getNumberOfPages();
-    for (let i = 1; i <= pageCount; i++) {
-      doc.setPage(i);
-      doc.setFontSize(10);
-      doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10, { align: "right" });
+const addFooter = (doc) => {
+
+
+    const totalPages = doc.internal.getNumberOfPages();
+
+    for (let i = 1; i <= totalPages; i++) {
+        // Go to page i
+        doc.setPage(i);
+
+        // Set text alignment to left
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(0, 0, 0); // Black color
+        doc.text('Developed by : Shubham Automation Pvt. Ltd.', 14, doc.internal.pageSize.getHeight() - 10); // at left side of the page
+
+        // Add page number to the right side of the page
+        doc.text(`Page ${i} of ${totalPages}`, doc.internal.pageSize.getWidth() - 15, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
+        //  doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
     }
-  };
+};
 
  return (
     <>

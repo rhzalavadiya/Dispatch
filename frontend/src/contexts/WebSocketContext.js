@@ -140,11 +140,11 @@ export const WebSocketProvider = ({ children }) => {
     }
     wsRef.current.send(JSON.stringify(data));
   };
-   useEffect(() => {
-      if (!isConnected) {
-          toast.error("Please check the Python service.");
-      }
-  }, [isConnected]);
+  //  useEffect(() => {
+  //     if (!isConnected) {
+  //         toast.error("Please check the Python service.");
+  //     }
+  // }, [isConnected]);
 
   return (
     <WebSocketContext.Provider value={{ wsRef, send, isConnected }}>

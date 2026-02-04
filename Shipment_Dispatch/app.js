@@ -544,22 +544,23 @@ const LoginSync = async () => {
     const { SCPM_ID, SCPM_CompanyID } = scpmRows[0];
 
     /* 2️⃣ Remaining queries using CompanyID and SCPID */
+    console.log(process.env.APPName);
     const [usermaster] = await conn.query(
       `select usermaster.* from usermaster 
       join grouproleinfo on grouproleinfo.gri_GroupID=usermaster.UM_GroupId
       join userscpmaster on userscpmaster.USM_UserID=usermaster.UM_UserId
       join scpmaster on scpmaster.SCPM_ID=usermaster.UM_DefaultSCPId 
       join appmaster on appmaster.AppId=grouproleinfo.gri_AppID
-      where scpmaster.SCPM_Code=? and appmaster.AppName='Shipment Dispatch';`,
-      [process.env.SCPMCode]
+      where scpmaster.SCPM_Code=? and appmaster.AppName=?;`,
+      [process.env.SCPMCode,process.env.APPName]
     );
 
     const [groupmaster] = await conn.query(
       `select groupmaster.* from groupmaster 
       join grouproleinfo on grouproleinfo.gri_GroupID=groupmaster.GRPM_GroupId 
       join appmaster on appmaster.AppId=grouproleinfo.gri_AppID 
-      where groupmaster.GRPM_SCPID=? and appmaster.AppName='Shipment Dispatch';`,
-      [SCPM_ID]
+      where groupmaster.GRPM_SCPID=? and appmaster.AppName=?;`,
+      [SCPM_ID, process.env.APPName]
     );
 
     const [companyitpolicymaster] = await conn.query(
@@ -567,8 +568,8 @@ const LoginSync = async () => {
       join groupmaster on groupmaster.GRPM_ITPolicyId=companyitpolicymaster.CITPM_PolicyID 
       join grouproleinfo on grouproleinfo.gri_GroupID=groupmaster.GRPM_GroupId 
       join appmaster on appmaster.AppId=grouproleinfo.gri_AppID 
-      where companyitpolicymaster.CITPM_SCPID=? and appmaster.AppName='Shipment Dispatch';`,
-      [SCPM_ID]
+      where companyitpolicymaster.CITPM_SCPID=? and appmaster.AppName=?;`,
+      [SCPM_ID, process.env.APPName]
     );
 
     const userIds = usermaster.map(u => u.UM_UserId);
@@ -586,7 +587,8 @@ const LoginSync = async () => {
     const [grouproleinfo] = await conn.query(
       `select grouproleinfo.* from grouproleinfo 
       join appmaster on appmaster.AppId=grouproleinfo.gri_AppID 
-      where appmaster.AppName='Shipment Dispatch';`
+      where appmaster.AppName=?;`,
+      [process.env.APPName]
     );
 
     /* 3️⃣ Final combined response */

@@ -1,0 +1,2 @@
+IRS_ID,IRS_ProductID,PM_GrossWeight,PM_MaxOffset,PM_MinOffset,IRS_PackSize,IRS_BatchID,IRS_PhysicalLocation,IRS_CompanyID,IRS_RandomNo,IRS_ParentRandomNo,BL_ExpDate,IRS_ToSCP,isExpired,_batch_index,Timestamp,Status,SHPD_ShipmentMID,SHPH_ShipmentCode,PL_ProductId,SHPD_ProductName,SCPM_Code,MachinePass,CameraPass,TotalPassCount,CurrentWeight,ProductDynamicWeight
+138,44,5.5,500,500,1,71,3,1,0101003K12U3ZS,,2026-06-03T13:00:00.000Z,,0,0,2026-02-04 11:08:32,PASS,85,WH_32,44,B,JC,YES,YES,1,5740,5500

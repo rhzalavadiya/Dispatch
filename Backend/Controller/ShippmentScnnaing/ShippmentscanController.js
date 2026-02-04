@@ -187,6 +187,7 @@ const shipmentEditData = async (req, res) => {
           AND sba.SBA_SCPID = scpmaster.SCPM_ID
           AND sba.SBA_ProductID = productlist.PL_ProductId
     ) AS Count,
+    MAX(locationmaster.LCM_LocationName) AS LCM_LocationName,
     MAX(
         CONCAT_WS(', ',
             locationmaster.LCM_LocationStreet1,
@@ -220,7 +221,8 @@ GROUP BY
     shipmentmaster.SHPD_ShipmentMID,
     shipmentlist.SHPH_ShipmentID,
     productlist.PL_ProductId,
-    shipmentmaster.SHPD_ProductCode;`;
+    shipmentmaster.SHPD_ProductCode
+ORDER BY SCPM_ID;`;
 
 		const [productData] = await conn.query(query1, [id]);
 
@@ -906,6 +908,115 @@ const rsnRemark = async (req, res) => {
 		});
 	}
 };
+
+const shipmentRemark = async (req, res) => {
+	const { shipmentId, remark, userId } = req.body;
+	if (!shipmentId || !remark?.trim() || !userId) {
+		return res.status(400).json({
+			success: false,
+			message: "Missing required fields: shipmentId, remark, userId"
+		});
+	}
+
+	try {
+		const query = `
+            UPDATE shipmentlist 
+            SET 
+                SHPH_Remark = ?,
+                SHPH_ModifiedBy = ?
+            WHERE SHPH_ShipmentID = ?
+        `;
+
+		const [result] = await conn.query(query, [remark.trim(), userId, shipmentId]);
+
+		if (result.affectedRows === 0) {
+			return res.status(404).json({
+				success: false,
+				message: `Shipment ${shipmentId} not found`
+			});
+		}
+
+		return res.status(200).json({
+			success: true,
+			message: "Remark updated successfully"
+		});
+	} catch (error) {
+		console.error("Shipment remark update error:", error);
+		return res.status(500).json({
+			success: false,
+			message: "Database error",
+			error: error.message
+		});
+	}
+};
+
+
+
+// POST /api/log-shipment-event
+const logShipmentEvent = async (req, res) => {
+	const { shipmentId, event, status } = req.body;
+	console.log("Log Shipment Event Body : ", req.body);
+
+	if (!shipmentId || !event || status === undefined) {
+		return res.status(400).json({
+			success: false,
+			message: "Missing required fields: shipmentId, event, status"
+		});
+	}
+
+	let durationSeconds = 0;
+
+	// Only calculate duration for STOP and CLOSE
+	if (event === "Stop" || event === "Close") {
+		try {
+			const [rows] = await conn.query(`
+                SELECT ST_time
+                FROM shipmenttransction
+                WHERE ST_shipmentId = ?
+                  AND ST_event IN ('Start', 'Resume')
+                ORDER BY ST_time DESC
+                LIMIT 1
+            `, [shipmentId]);
+
+			if (rows.length > 0) {
+				const startTime = new Date(rows[0].ST_time);
+				const now = new Date();
+				durationSeconds = Math.floor((now - startTime) / 1000);
+			}
+		} catch (innerErr) {
+			console.error("Duration calculation failed:", innerErr);
+		}
+	}
+
+	try {
+		// ✅ SAFE TIME HANDLING
+		const insertTime = new Date()
+			.toLocaleString("sv-SE", { timeZone: "Asia/Kolkata" })
+			.replace("T", " ");
+
+
+		await conn.query(`
+            INSERT INTO shipmenttransction 
+            (ST_shipmentId, ST_event, ST_time, ST_duration, ST_status)
+            VALUES (?, ?, ?, ?, ?)
+        `, [shipmentId, event, insertTime, durationSeconds, status]);
+
+		return res.json({
+			success: true,
+			message: "Shipment event logged successfully"
+		});
+	} catch (err) {
+		console.error("Insert shipmenttransction failed:", err);
+		return res.status(500).json({
+			success: false,
+			message: "Database error while logging event"
+		});
+	}
+};
+
+
+// Export in your router/controller
+module.exports = { logShipmentEvent };
 module.exports = {
 	shipmentListData,
 	shipmentEditData,
@@ -922,7 +1033,9 @@ module.exports = {
 	deliverychallanAll,
 	getSchemeData,
 	importRSN,
-	rsnRemark
+	rsnRemark,
+	shipmentRemark,
+	logShipmentEvent
 };
 
 

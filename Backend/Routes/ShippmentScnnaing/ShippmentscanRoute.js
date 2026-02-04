@@ -1,5 +1,5 @@
 const express = require("express");
-const { shipmentListData, shipmentEditData, shipmentViewData, getRSNData, chnageShipmentStatus, updateScanqty, updateInventory, insertRsnHistory, updateShipmentSyncStatus, suspendShipment, deliverychallanData, getSchemeData, importRSN, getBatchData, rsnRemark, deliverychallanAll } = require("../../Controller/ShippmentScnnaing/ShippmentscanController");
+const { shipmentListData, shipmentEditData, shipmentViewData, getRSNData, chnageShipmentStatus, updateScanqty, updateInventory, insertRsnHistory, updateShipmentSyncStatus, suspendShipment, deliverychallanData, getSchemeData, importRSN, getBatchData, rsnRemark, deliverychallanAll, shipmentRemark, logShipmentEvent } = require("../../Controller/ShippmentScnnaing/ShippmentscanController");
 
 const router = express.Router();
 router.post(`/ShipListData`, shipmentListData);
@@ -18,6 +18,8 @@ router.get(`/schemedata/:id`,getSchemeData);
 router.post("/update-importrsn",importRSN);
 router.get(`/batchdata/:id`,getBatchData);
 router.post("/rsnremark",rsnRemark);
+router.post("/shipmentremark",shipmentRemark);
+router.post('/log-shipment-event', logShipmentEvent);
 
 module.exports = router;    
 

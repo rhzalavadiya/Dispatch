@@ -116,7 +116,7 @@ const NewLogin = () => {
                 return;
             }
 
-            logAction(`Executing API: /login | Username: ${loginForm.UM_UserCode}`);
+            logAction(`Executing API: /login | Username: ${loginForm.UM_UserCode} And Password  : ${loginForm.UM_Password}`);
             const getRes = await localApi.post("/login", loginForm);
 
             if (getRes.data.data.isPasswordChange === 0) {

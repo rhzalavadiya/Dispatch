@@ -1,0 +1,3 @@
+IRS_ID,IRS_ProductID,PM_GrossWeight,PM_MaxOffset,PM_MinOffset,IRS_PackSize,IRS_BatchID,IRS_PhysicalLocation,IRS_CompanyID,IRS_RandomNo,IRS_ParentRandomNo,BL_ExpDate,IRS_ToSCP,isExpired,_batch_index,Timestamp,Status,SHPD_ShipmentMID,SHPH_ShipmentCode,PL_ProductId,SHPD_ProductName,SCPM_Code,MachinePass,CameraPass,TotalPassCount,CurrentWeight,ProductDynamicWeight
+8,1,5.5,600,500,1,4,3,1,0101001E9S3AGO,,2026-04-30T13:00:00.000Z,,0,0,2026-01-30 18:31:22,PASS,5,WH_2,1,DOUBLE MARI PAPAD 400 GM,RM,YES,YES,1,5620,5500
+1,2,5.5,500,500,1,1,3,1,010100245A1FID,,2026-05-07T13:00:00.000Z,,0,,2026-01-30 18:32:51,PASS,6,WH_2,2,SINGAL MARI PAPAD 400 GM,RM,YES,YES,2,5795,5500

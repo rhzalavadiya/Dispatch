@@ -1808,7 +1808,7 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 8px 8px;
+  padding: 3px;
   border-radius: 15px;
   cursor: pointer;
   font-weight: 700;
@@ -1821,15 +1821,15 @@ button:disabled {
 /* NORMAL */
 .bypass-icon-toggle.off {
   background: #e6f7ec;
-  color: #28a745;
-  border: 2px solid #28a745;
+  color: #525252;
+  border: 2px solid #a7a7a7;
 }
 
 /* BYPASS */
 .bypass-icon-toggle.on {
   background: #fdeaea;
-  color: #dc3545;
-  border: 2px solid #dc3545;
+  color: #325880;
+  border: 2px solid #325880;
   animation: glow 1.2s infinite;
 }
 
@@ -2060,4 +2060,164 @@ button:disabled {
 .row-fail td {
   color: #b91c1c;
   font-weight: 600;
+}
+
+
+
+
+/* ============================= */
+/* MAIN QUEUE / SCP GRID LAYOUT  */
+/* ============================= */
+
+.queue-list.scp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 18px;
+  padding: 5px;
+}
+
+/* ============================= */
+/* SCP CARD                      */
+/* ============================= */
+
+.queue-item.scp-group-wrapper {
+  background: #f2faff;
+  border-radius: 16px;
+ border-left: 8px solid #d1d5db;
+   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  padding: 16px 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  /* 🔥 IMPORTANT */
+  align-items: stretch;
+}
+
+
+.queue-item.scp-group-wrapper.in-progress {
+  border-left-color: #295a80; /* blue */
+}
+
+.queue-item.scp-group-wrapper.stop {
+  border-left-color: #295a80; /* yellow */
+}
+
+.queue-item.scp-group-wrapper.completed {
+  border-left-color: #1c3649; /* green */
+}
+
+.queue-item.scp-group-wrapper.pending {
+  border-left-color: #6b7280; /* gray */
+}
+
+/* ============================= */
+/* SCP HEADER                    */
+/* ============================= */
+
+.group-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;            /* 🔥 FORCE FULL WIDTH */
+  margin-bottom: 14px;
+}
+
+/* LEFT */
+.scp-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.scp-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.scp-code {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* RIGHT */
+.status-pill {
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  background: #1e4f7a;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* ============================= */
+/* PRODUCT LIST                  */
+/* ============================= */
+
+.group-products-container {
+  width: 100%;             /* 🔥 FORCE FULL WIDTH */
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #cbd5e1;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* PRODUCT ROW */
+.compact-product-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;             /* 🔥 MOST IMPORTANT */
+  padding: 8px 2px;
+}
+
+/* LEFT */
+.product-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  text-align: left;
+}
+
+/* RIGHT */
+.product-qty {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e4f7a;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Divider */
+.compact-product-row:not(:last-child) {
+  border-bottom: 1px dotted #cbd5e1;
+}
+
+/* ============================= */
+/* MOBILE                        */
+/* ============================= */
+
+@media (max-width: 480px) {
+  .scp-name {
+    font-size: 15px;
+  }
+
+  .product-name {
+    font-size: 13px;
+  }
+
+  .product-qty {
+    font-size: 13px;
+  }
+}
+
+.drag-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

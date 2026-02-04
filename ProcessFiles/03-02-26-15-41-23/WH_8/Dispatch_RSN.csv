@@ -1,0 +1,2 @@
+IRS_ID,IRS_ProductID,PM_GrossWeight,PM_MaxOffset,PM_MinOffset,IRS_PackSize,IRS_BatchID,IRS_PhysicalLocation,IRS_CompanyID,IRS_RandomNo,IRS_ParentRandomNo,BL_ExpDate,IRS_ToSCP,isExpired
+36,15,5.5,500,500,1,31,3,1,0101015U4L32IE,,2026-04-30T13:00:00.000Z,,0

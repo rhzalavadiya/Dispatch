@@ -1,0 +1,42 @@
+[17:29:14.320] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Filtering applied - Total: 52, After filter: 50
+[17:29:15.025] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Login Accessed
+[17:29:15.044] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Session cleared on login page load
+[17:29:15.047] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
+[17:29:15.094] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Login sync data received from VPS
+[17:29:15.096] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
+[17:29:15.109] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Input: Username entered
+[17:29:15.114] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Input: Password field interacted
+[17:29:15.227] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Login data successfully synced from VPS to local
+[17:29:16.834] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Login Accessed
+[17:29:16.837] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Session cleared on login page load
+[17:29:16.868] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Executing API: /login-sync-vps-to-local (initial sync)
+[17:29:16.870] [::ffff:192.168.1.2] : Websocket context : [1.0.0.2] : [LOG] : null : User :  ⌛ Connecting GLOBAL WebSocket...
+[17:29:16.912] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Login sync data received from VPS
+[17:29:16.914] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Executing API: /sync-login-details data : undefined records to local
+[17:29:16.931] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Login data successfully synced from VPS to local
+[17:29:18.096] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Input: Username entered
+[17:29:18.100] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Input: Password field interacted
+[17:29:18.189] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Button Clicked: LOGIN
+[17:29:18.190] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : null : User : Executing API: /login | Username: WH1 And Password  : Admin@123
+[17:29:18.226] [::ffff:192.168.1.2] : Login : [1.0.0.2] : [LOG] : WH1 : User : Login successful - Session data stored
+[17:29:18.282] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Shipment Scanning Page Accessed
+[17:29:18.284] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Page load → fetching local shipment list
+[17:29:18.286] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:29:18.288] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Shipment data loaded → starting auto sync
+[17:29:18.289] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Starting full sync process (auto)
+[17:29:18.291] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Reverse sync required: false (found 0 matching shipments)
+[17:29:18.293] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Starting normal forward sync : 
+[17:29:18.295] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Executing API: /MigrateDataMySqlToVPS/15/19/38
+[17:29:18.297] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Filtering applied - Total: 0, After filter: 0
+[17:29:18.298] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : No records found after filtering
+[17:29:18.319] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 52
+[17:29:18.398] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Filtering applied - Total: 52, After filter: 50
+[17:29:18.619] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Central data received, syncing to local Response :
+[17:29:18.620] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Executing API: /sync-vps-to-local
+[17:29:18.713] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Full forward sync completed successfully : 
+[17:29:18.714] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Executing API: /ShipListData | Params: CompanyID=19, FromSCP=38
+[17:29:18.716] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Sync process completed (auto)
+[17:29:18.721] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Shipment list fetched successfully - Count: 52
+[17:29:18.758] [::ffff:192.168.1.2] : Shipment Scanning : [1.0.0.2] : [LOG] : WH1 : User : Filtering applied - Total: 52, After filter: 50
+[17:29:37.924] [::ffff:192.168.1.2] : Websocket context : [1.0.0.2] : [ERROR] : WH1 : User : GLOBAL WS Error — closing
+[17:29:37.925] [::ffff:192.168.1.2] : Websocket context : [1.0.0.2] : [LOG] : WH1 : User : GLOBAL WS Disconnected. Reconnecting...

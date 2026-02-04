@@ -15,7 +15,7 @@ const http = require('http');
 
 
 //console.log("RSN Sync Service Running");
-
+ 
 
 
 app.use(express.json({ limit: "1000mb" }));
@@ -595,7 +595,7 @@ app.get("/api/read-csv", (req, res) => {
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) return res.status(500).json({ error: "Unable to read file" });
-    console.log("CSV File Path : ", data);
+   // console.log("CSV File Path : ", data);
     Papa.parse(data, {
       header: true,
       skipEmptyLines: true,
@@ -623,7 +623,7 @@ app.post("/read-final-csv", async (req, res) => {
     const p = path.join(basePath, folder, fileName);
     if (fs.existsSync(p)) {
       filePath = p;
-      console.log("Final csv file : ", filePath)
+      //console.log("Final csv file : ", filePath)
       break;
     }
   }
@@ -1383,6 +1383,39 @@ app.get("/check-resume-shipments", async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 });
+
+
+app.get("/fetchtime/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [timeGet] = await conn.query(
+      `
+SELECT
+  SUM(ST_duration) AS total_duration,
+  MAX(
+    CASE 
+      WHEN ST_status = 6 
+      THEN UNIX_TIMESTAMP(ST_time) 
+    END
+  ) AS latest_status_seconds
+FROM shipmenttransction
+WHERE ST_shipmentId = ?;
+
+`,
+      [id]
+    );
+    res.status(200).json({
+      success: true,
+      data: timeGet
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+})
+
 
 //---------------------------Routing Setup---------------------------
 routing.routes(app);

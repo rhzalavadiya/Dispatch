@@ -1,0 +1,1 @@
+Timestamp,BatchId,UserId,CurrentAlarm,MachineStatus,TotalProductCount,TotalPassCount,ProductDynamicWeight,OffsetPlus,OffsetMinus,CurrentWeight,CurrentWeightStatus,UnderWeightCount,OverWeightCount,DoubleCounts,BatchStatus,RSN,RSN_JSON,Status,SCPM_Code
