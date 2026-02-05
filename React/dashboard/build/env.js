@@ -1,0 +1,6 @@
+window._env_ = {
+  PORT: "3003",
+  REACT_APP_API_BASE_URL: "http://192.168.7.7:9010",
+  REACT_APP_CONFIG_VERSION: "1.0",
+  REACT_APP_WEBSOCKET_URL: "ws://192.168.7.7:9005/ws"
+};
