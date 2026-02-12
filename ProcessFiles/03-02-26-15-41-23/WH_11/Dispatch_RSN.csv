@@ -1,0 +1,7 @@
+IRS_ID,IRS_ProductID,PM_GrossWeight,PM_MaxOffset,PM_MinOffset,IRS_PackSize,IRS_BatchID,IRS_PhysicalLocation,IRS_CompanyID,IRS_RandomNo,IRS_SKU,IRS_ParentRandomNo,BL_ExpDate,IRS_ToSCP,isExpired,isNearExpiry
+102,33,5.5,500,500,1,53,6,1,01010332D0HD5E,https://vsecure.techtrio.com/ShreeBhagwati/01010332D0HD5E,,2026-03-30T18:30:00.000Z,,0,1
+101,33,5.5,500,500,1,53,6,1,0101033E5JOO5K,https://vsecure.techtrio.com/ShreeBhagwati/0101033E5JOO5K,,2026-03-30T18:30:00.000Z,,0,1
+100,33,5.5,500,500,1,53,6,1,0101033B4DDC9L,https://vsecure.techtrio.com/ShreeBhagwati/0101033B4DDC9L,,2026-03-30T18:30:00.000Z,,0,1
+99,33,5.5,500,500,1,53,6,1,0101033M2GXETO,https://vsecure.techtrio.com/ShreeBhagwati/0101033M2GXETO,,2026-03-30T18:30:00.000Z,,0,1
+98,33,5.5,500,500,1,53,6,1,010103309CNMK8,https://vsecure.techtrio.com/ShreeBhagwati/010103309CNMK8,,2026-03-30T18:30:00.000Z,,0,1
+97,33,5.5,500,500,1,53,6,1,0101033R70Q87E,https://vsecure.techtrio.com/ShreeBhagwati/0101033R70Q87E,,2026-03-30T18:30:00.000Z,,0,1

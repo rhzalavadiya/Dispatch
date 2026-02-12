@@ -83,7 +83,8 @@ export default function ShipmentScanning() {
       });
 
       if (response.data.success) {
-        logAction(`Shipment list fetched successfully - Count: ${response.data.shipment?.length || 0}`);
+
+        logAction(`Shipment list fetched successfully - Count: ${response.data.shipment?.length || 0} data: ${JSON.stringify(response.data.shipment)}`);
         setShipmentData(response.data.shipment || []);
 
         // ────────────────────────────────────────────────
@@ -102,6 +103,7 @@ export default function ShipmentScanning() {
         );
 
         console.log(`Found ${reverseCandidates.length} reverse-sync candidates`);
+        logAction(`Reverse sync candidates identified: ${reverseCandidates.length}`);
         if (reverseCandidates.length > 0) {
           console.log("Candidates:", reverseCandidates.map(c => ({
             ID: c.SHPH_ShipmentID,
@@ -169,7 +171,7 @@ export default function ShipmentScanning() {
 
           logAction(`Reverse migration data fetched successfully : `);
 
-          logAction(`Executing API: /revers-sync on VPS`);
+          logAction(`Executing API: /revers-sync on VPS : ${reverseResponse.data.data ? 'Data length: ' + JSON.stringify(reverseResponse.data.data) : 'No data returned'}`);
           const syncResponse = await vpsApi.post("/revers-sync", reverseResponse.data.data);
 
           if (syncResponse.data.success) {
@@ -199,13 +201,13 @@ export default function ShipmentScanning() {
         }
 
         logAction(`Central data received, syncing to local Response :`);
-        logAction(`Executing API: /sync-vps-to-local`);
+        logAction(`Executing API: /sync-vps-to-local : ${response.data.data ? 'Data length: ' + JSON.stringify(response.data.data) : 'No data returned'}`);
 
         const result = await localApi.post("/sync-vps-to-local", response.data.data);
 
         if (result.data.success) {
           if (isManual) {
-            toast.success("Sync Successfully.");
+            toast.success("Shipment Sync Successfully.");
           }
 
           logAction(`Full forward sync completed successfully : `);
@@ -598,6 +600,7 @@ useEffect(() => {
             <LuRefreshCcw
               className={manualLoading ? "spin" : ""}
               style={{ fontSize: "38px", color: "#295a80" }}
+              title="Shipment Sync"
             />
           </button>
         </div>

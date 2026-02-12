@@ -32,7 +32,6 @@ const deleteCookie = (name) => {
 
 
 export default function ShipmentEdit() {
-    const autoCloseTriggeredRef = useRef(false);
     const { id } = useParams();
     const navigate = useNavigate();
     const { wsRef, send, isConnected } = useWebSocket();
@@ -42,14 +41,12 @@ export default function ShipmentEdit() {
 
     const [shipmentData, setShipmentData] = useState([]);
     const [schemeData, setSchemeData] = useState([]);
-    const [originalShipmentData, setOriginalShipmentData] = useState([]);
+    const [, setOriginalShipmentData] = useState([]);
     const SHPH_FromSCPCode = sessionStorage.getItem("SCPId");
     const [rsnData, setRSNData] = useState([]);
     const [shipmentStatus, setShipmentStatus] = useState(null);
     const [canDrag, setCanDrag] = useState(true);
     const [productProgress, setProductProgress] = useState({});
-    const [progress, setProgress] = useState(null);
-    const [csvData, setCsvData] = useState([]);
     const [isShipmentLoaded, setIsShipmentLoaded] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [autoClosed, setAutoClosed] = useState(false);
@@ -70,10 +67,16 @@ export default function ShipmentEdit() {
     const [currentBypassRsnId, setCurrentBypassRsnId] = useState(null);
     const [currentActiveMID, setCurrentActiveMID] = useState(null);
 
+    const [showNearExpiryModal, setShowNearExpiryModal] = useState(false);
+    const [showNearExpiryBypassModal, setShowNearExpiryBypassModal] = useState(false);
+
     const shipmentCode = shipmentData[0]?.SHPH_ShipmentCode || "—";
 
 
     const [scpOrder, setScpOrder] = useState([]);
+
+    // ─── New states bypass premission ───────────────────────────────
+    const [hasBypassPermission, setHasBypassPermission] = useState(false);
 
     const userId = sessionStorage.getItem("userId");
     const userName = sessionStorage.getItem("userName");
@@ -110,10 +113,11 @@ export default function ShipmentEdit() {
     useEffect(() => {
         const fetchShipment = async () => {
             try {
-                logAction(`Fetching shipment data - ID: ${id}`);
+                logAction(`Fetching shipment data -/ShipmentEdit/ID: ${id}`);
                 const res = await localApi.get(`/ShipmentEdit/${id}`);
-
+                logAction(`Shipment data received - /ShipmentEdit/ID: ${id} - Success: ${res.data.success}, Products Count: ${res.data.shipmentProducts?.length || 0}`);
                 if (res.data.success || res.data.shipmentProducts?.length > 0) {
+
                     const products = res.data.shipmentProducts;
                     const updatedData = products.map(item => ({
                         ...item,
@@ -139,14 +143,15 @@ export default function ShipmentEdit() {
 
         const fetchScheme = async () => {
             try {
-                logAction(`Fetching scheme data - ShipmentID: ${id}`);
+                logAction(`Fetching scheme data - schemedata: ${id}`);
                 const res = await localApi.get(`/schemedata/${id}`);
                 if (res.data.schemeData?.length > 0) {
+                    logAction(`Scheme data received - /schemedata/${id} - Success: ${res.data.success}, Scheme Count: ${res.data.schemeData.length}`);
                     setSchemeData(res.data.schemeData);
                     logAction(`Scheme data loaded - Count: ${res.data.schemeData.length}`);
                 }
             } catch (err) {
-                logAction(`Failed to fetch scheme data - ${err.message}`, true);
+                logAction(`Failed to fetch scheme data - ${err.message} and error : ${err}`, true);
             }
         };
 
@@ -172,7 +177,7 @@ export default function ShipmentEdit() {
                 toast.info("No RSN found.");
             }
         } catch (err) {
-            logAction(`Failed to fetch RSN - ${err.message}`, true);
+            logAction(`Failed to fetch RSN - ${err.message} and error : ${err}`, true);
         }
     };
 
@@ -184,11 +189,18 @@ export default function ShipmentEdit() {
         isFetchingProgressRef.current = true;
 
         try {
+            logAction(`Fetching CSV progress data for shipment code: ${shipmentCode}`);
             const res = await localApi.get("/api/read-csv", { params: { shipmentCode } });
+            logAction(`CSV progress data received for shipment code: ${shipmentCode} - Success: ${res.data.success}, Records Count: ${res.data.length || 0}`);
             const csv = res.data || [];
+            //  console.log("Fetched CSV data:", csv);
             if (!csv.length) return;
 
+            const bypassOn = csv.some(
+                row => String(row.BypassMode).toLowerCase() === "true"
+            );
 
+            setIsFullBypassOn(bypassOn);
 
             // ✅ TAKE LATEST ROW PER MID
             const latestByMid = {};
@@ -256,6 +268,7 @@ export default function ShipmentEdit() {
             // }
 
         } catch (err) {
+            logAction(`Failed to fetch CSV progress - ${err.message} and error : ${err}`, true);
             console.error("CSV read error", err);
         } finally {
             isFetchingProgressRef.current = false;
@@ -290,52 +303,89 @@ export default function ShipmentEdit() {
             setShipmentStatus(status);
             logAction(`Status updated successfully → ${status}`);
         } catch (err) {
-            logAction(`Failed to update status to ${status} - ${err.message}`, true);
+            logAction(`Failed to update status to ${status} - ${err.message} and error: ${err}`, true);
         }
     };
-
     const StartData = () => {
         setAutoClosed(false);
         logAction("Sending START command via WebSocket");
+
         const orderedShipmentData = getShipmentDataForStartResume();
         send({ message: "START", SCPtable: orderedShipmentData, RSNtable: rsnData, broadcast: true });
 
+        setIsMainOperationLoading(true);
+        setLoadingAction("start");
+
         const ws = wsRef.current;
-        const handler = (ev) => {
+        if (!ws) {
+            setIsMainOperationLoading(false);
+            setLoadingAction("");
+            logAction("WebSocket not available for START command");
+            toast.error("WebSocket not available");
+            return;
+        }
+
+        let responded = false;
+        let timeoutId = null;
+
+        const handler = async (ev) => {
             try {
                 const msg = JSON.parse(ev.data);
                 if (msg.ack === "START OK") {
+                    responded = true;
+                    clearTimeout(timeoutId);
+                    ws.removeEventListener("message", handler);
+
                     logAction("START OK received");
-                    setShipmentStatus(6);
+                    await updateShipmentStatus(6);
+                    logAction("Shipment status updated to 6 (Started)");
+                    await localApi.post("/log-shipment-event", {
+                        shipmentId: id,
+                        event: "Start",
+                        status: 6,
+                    });
                     saveDispatchJson();
                     saveRSNJson();
                     setCanDrag(false);
+
                     setIsMainOperationLoading(false);
                     setLoadingAction("");
-                    ws.removeEventListener("message", handler);
                 }
-            } catch (e) {
-                logAction(`START OK handler error - ${e.message}`, true);
-                setIsMainOperationLoading(false);
-                setLoadingAction("");
+            } catch (err) {
+                logAction(`Error in START response handler - ${err.message} and error: ${err}`, true);
+                console.error("START handler error:", err);
             }
         };
+
         ws.addEventListener("message", handler);
-        setTimeout(() => ws.removeEventListener("message", handler), 5000);
+
+        timeoutId = setTimeout(() => {
+            if (!responded) {
+                ws.removeEventListener("message", handler);
+                setIsMainOperationLoading(false);
+                setLoadingAction("");
+                //toast.error("Please try again.");
+                logAction("START timed out (30s)", true);
+            }
+        }, 30000);
     };
 
     const showFinalToast = (actionType, code, syncSuccess = false) => {
         const isOnline = navigator.onLine;
         if (actionType === "stop") {
             if (isOnline && syncSuccess) {
+                logAction(`Shipment ${code} stopped and synced successfully`);
                 toast.success(`Shipment ${code} stopped & synced`);
             } else {
+                logAction(`Shipment ${code} stopped successfully (sync may have failed or offline)`);
                 toast.success(`Shipment ${code} stopped`);
             }
         } else if (actionType === "close") {
             if (isOnline && syncSuccess) {
+                logAction(`Shipment ${code} closed and synced successfully`);
                 toast.success(`Shipment ${code} closed & synced`);
             } else {
+                logAction(`Shipment ${code} closed successfully (sync may have failed or offline)`);
                 toast.success(`Shipment ${code} closed`);
             }
         }
@@ -392,86 +442,33 @@ export default function ShipmentEdit() {
 
                 }
 
-                // ─── Existing handlers ─────────────────────────────────────────
-                if (msg.ack === "STOP OK") {
-                    logAction("STOP OK received");
-                    await localApi.post("/log-shipment-event", {
-                        shipmentId: id,
-                        event: "Stop",
-                        status: 10
-                    });
-                    logAction(`executing api : ${config.apiBaseUrl}/process-pause for shipment ${shipmentCode}`);
-                    const res = await localApi.post("/process-pause", {
-                        shipmentId: id,
-                        shipmentCode,
-                        shipmentData,
-                        userId,
-                        FromSCPId,
-                        CompanyID,
-                    });
-                    logAction(`Progress saved response received from /process-pause API ${res}`);
-                    if (!res.data.success && res.data?.message?.toLowerCase().includes("outward_rsn.csv not found")) {
-                        logAction("Outward_RSN.csv not found → skipping save, but marking as paused");
-                        await updateShipmentStatus(10);
-                        setCanDrag(true);
-
-                        await localApi.post("/ShipmentSyncStatus", {
-                            shipmentId: id,
-                            isSynced: false,
-                        });
-                        logAction("Marked shipment unsynced");
-
-                        let syncSuccess = false;
-                        if (navigator.onLine) {
-                            logAction("Starting full sync after STOP");
-                            syncSuccess = await performFullSyncAfterStopOrClose();
-                        }
-
-                        showFinalToast("stop", shipmentCode, syncSuccess);
-                        setIsMainOperationLoading(false);
-                        setLoadingAction("");
-                    }
-                    if (res.data.success) {
-                        logAction("Progress saved (/process-pause)");
-
-                        await updateShipmentStatus(10);
-
-                        setCanDrag(true);
-
-                        await localApi.post("/ShipmentSyncStatus", {
-                            shipmentId: id,
-                            isSynced: false,
-                        });
-                        logAction("Marked shipment unsynced");
-
-                        let syncSuccess = false;
-                        if (navigator.onLine) {
-                            logAction("Starting full sync after STOP");
-                            syncSuccess = await performFullSyncAfterStopOrClose();
-                        }
-
-                        showFinalToast("stop", shipmentCode, syncSuccess);
-                        setIsMainOperationLoading(false);
-                        setLoadingAction("");
-                    } else {
-                        setIsMainOperationLoading(false);
-                        setLoadingAction("");
-                    }
-
-
+                // ─── Near Expiry message from Python ────────────────────────────────
+                if (msg.type === "NEAR_EXPIRY" || msg.type === "near_expiry") {
+                    logAction(`Near Expiry request received for RSN: ${msg.rsn || "missing"}`);
+                    setShowNearExpiryModal(true);
                 }
 
-                if (msg.ack === "RESUME OK") {
-                    logAction("RESUME OK received");
-                    await updateShipmentStatus(6);
-                    setCanDrag(false);
-                    setIsMainOperationLoading(false);
-                    setLoadingAction("");
-                    await localApi.post("/log-shipment-event", {
-                        shipmentId: id,
-                        event: "Resume",
-                        status: 6
-                    });
+                // ─── Near Expiry + BYPASS message from Python ────────────────────────────────
+                if (msg.type === "BYPASS+NEAR_EXPIRY" || msg.type === "bypass+near_expiry") {
+                    logAction(`Bypass+Near Expiry request received for RSN: ${msg.rsn || "missing"}`);
+
+                    const rsn = msg.rsn;
+
+                    if (!rsn) {
+                        logAction("Bypass+Near Expiry request rejected: no RSN provided", true);
+                        toast.error("Bypass+Near Expiry request invalid – no RSN received");
+                        return;
+                    }
+                    setCurrentBypassRsnId(rsn);           // just store the rsn number
+                    setBypassRemark("");
+                    setBypassError("");
+                    setShowNearExpiryBypassModal(true);
+
+                    // 👉 store bypass in cookie (1 year)
+                    const ONE_YEAR_MINUTES = 365 * 24 * 60;
+                    setCookie("BYPASS_PENDING", "true", ONE_YEAR_MINUTES);
+                    setCookie("BYPASS_RSN", rsn, ONE_YEAR_MINUTES);
+
                 }
 
                 // ─── Auto Closed ─────────────────────────────────────────
@@ -511,6 +508,7 @@ export default function ShipmentEdit() {
         const rsn = currentBypassRsnId;
 
         if (!rsn) {
+            logAction("Bypass confirm failed: no RSN selected", true);
             toast.error("No RSN selected for bypass");
             setShowBypassModal(false);
             return;
@@ -528,15 +526,16 @@ export default function ShipmentEdit() {
             logAction(`Saving bypass remark for RSN ${rsn}`);
 
             const res = await localApi.post("/rsnremark", payload);
-
+            logAction(`Bypass remark save response for RSN ${rsn} - Success: ${res.data?.success}, Message: ${res.data?.message}`);
             if (res.data?.success) {
                 toast.success("Bypass The Shipment.");
 
                 // Tell Python it's okay to continue
                 send({ message: "BYPASS_YES" });
-
+                logAction(`Bypass confirmed for RSN ${rsn} - BYPASS_YES sent to Python`);
                 deleteCookie("BYPASS_PENDING");
                 deleteCookie("BYPASS_RSN");
+                logAction(`Bypass confirmed for RSN ${rsn} - Cookies cleared, BYPASS_YES sent to Python`);
 
                 // Clean up
                 setShowBypassModal(false);
@@ -544,6 +543,7 @@ export default function ShipmentEdit() {
                 setCurrentBypassRsnId(null);
 
             } else {
+                logAction(`Bypass remark save failed for RSN ${rsn} - ${res.data?.message || "Unknown error"}`, true);
                 toast.error(res.data?.message || "Failed to save remark");
             }
         } catch (err) {
@@ -552,6 +552,66 @@ export default function ShipmentEdit() {
             logAction(`Bypass confirm failed: ${err.message}`, true);
         }
     };
+
+
+    const handleConfirmBypasswithnearExpiry = async () => {
+        const trimmed = bypassRemark.trim();
+        if (!trimmed) {
+            setBypassError("*");
+            return;
+        }
+
+        if (bypassRemark !== trimmed) {
+            setBypassError("Remarks cannot start or end with space");
+            return;
+        }
+        const rsn = currentBypassRsnId;
+
+        if (!rsn) {
+            logAction("Bypass with Near Expiry confirm failed: no RSN selected", true);
+            toast.error("No RSN selected for bypass");
+            setShowBypassModal(false);
+            return;
+        }
+
+        setBypassError("");
+
+        try {
+            const payload = {
+                rsn: rsn,                    // ← this is the only important field
+                remark: bypassRemark.trim(),
+                userId: userId,
+            };
+
+            logAction(`Saving bypass remark for RSN ${rsn}`);
+
+            const res = await localApi.post("/rsnremark", payload);
+            logAction(`Bypass with Near Expiry remark save response for RSN ${rsn} - Success: ${res.data?.success}, Message: ${res.data?.message}`);
+            if (res.data?.success) {
+                toast.success("Bypass The Shipment.");
+
+                // Tell Python it's okay to continue
+                send({ message: "BYPASS_YES" });
+                logAction(`Bypass with Near Expiry confirmed for RSN ${rsn} - Cookies cleared, BYPASS_YES sent to Python`);
+                deleteCookie("BYPASS_PENDING");
+                deleteCookie("BYPASS_RSN");
+
+                // Clean up
+                setShowNearExpiryBypassModal(false)
+                setBypassRemark("");
+                setCurrentBypassRsnId(null);
+
+            } else {
+                logAction(`Bypass with Near Expiry remark save failed for RSN ${rsn} - ${res.data?.message || "Unknown error"}`, true);
+                toast.error(res.data?.message || "Failed to save remark");
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Could not confirm bypass");
+            logAction(`Bypass confirm failed: ${err.message}`, true);
+        }
+    };
+
 
     const getButtonText = () => {
         if (shipmentStatus === 8) return "CLOSED";
@@ -575,19 +635,175 @@ export default function ShipmentEdit() {
 
         try {
             if (action === "START") {
-                await updateShipmentStatus(6);
-                await localApi.post("/log-shipment-event", {
-                    shipmentId: id,
-                    event: "Start",
-                    status: 6,
-                });
                 StartData();
+                // } else if (action === "STOP") {
+                //     send({ message: "STOP" });
+
             } else if (action === "STOP") {
                 send({ message: "STOP" });
+
+                setIsMainOperationLoading(true);
+                setLoadingAction("stop");
+
+                const ws = wsRef.current;
+                if (!ws) {
+                    setIsMainOperationLoading(false);
+                    setLoadingAction("");
+                    toast.error("WebSocket not available");
+                    return;
+                }
+
+                let responded = false;
+                let timeoutId = null;
+
+                const handler = async (ev) => {
+                    try {
+                        const msg = JSON.parse(ev.data);
+                        if (msg.ack === "STOP OK") {
+
+                            responded = true;
+                            clearTimeout(timeoutId);
+                            ws.removeEventListener("message", handler);
+
+                            // ── Your original STOP OK logic starts here ──
+                            logAction("STOP OK received");
+                            logAction("Saving progress before stopping...");
+                            await localApi.post("/log-shipment-event", {
+                                shipmentId: id,
+                                event: "Stop",
+                                status: 10
+                            });
+                            logAction("Progress save request sent to /process-pause");
+                            const res = await localApi.post("/process-pause", {
+                                shipmentId: id,
+                                shipmentCode,
+                                shipmentData,
+                                userId,
+                                FromSCPId,
+                                CompanyID,
+                            });
+
+                            if (!res.data.success && res.data?.message?.toLowerCase().includes("outward_rsn.csv not found")) {
+                                
+                                logAction("Outward_RSN.csv not found → skipping save, but marking as paused");
+                                await updateShipmentStatus(10);
+                                setCanDrag(true);
+                                logAction("Marked shipment as paused (status 10) despite missing CSV");
+                                await localApi.post("/ShipmentSyncStatus", {
+                                    shipmentId: id,
+                                    isSynced: false,
+                                });
+                                let syncSuccess = false;
+                                if (navigator.onLine) {
+                                    syncSuccess = await performFullSyncAfterStopOrClose();
+                                }
+                                showFinalToast("stop", shipmentCode, syncSuccess);
+                                setIsMainOperationLoading(false);
+                                setLoadingAction("");
+                                return;
+                            }
+
+                            if (res.data.success) {
+                                logAction("Progress saved (/process-pause)");
+                                await updateShipmentStatus(10);
+                                setCanDrag(true);
+                                logAction("Shipment marked as paused (status 10)");
+                                await localApi.post("/ShipmentSyncStatus", {
+                                    shipmentId: id,
+                                    isSynced: false,
+                                });
+                                let syncSuccess = false;
+                                if (navigator.onLine) {
+                                    syncSuccess = await performFullSyncAfterStopOrClose();
+                                }
+                                showFinalToast("stop", shipmentCode, syncSuccess);
+                            }
+
+                            setIsMainOperationLoading(false);
+                            setLoadingAction("");
+                            // ── Your original STOP OK logic ends here ──
+                        }
+                    } catch (err) {
+                        logAction(`Error in STOP response handler - ${err.message} and error: ${err}`, true);
+                        console.error("STOP handler error:", err);
+                    }
+                };
+
+                ws.addEventListener("message", handler);
+
+                timeoutId = setTimeout(() => {
+                    if (!responded) {
+                        ws.removeEventListener("message", handler);
+                        setIsMainOperationLoading(false);
+                        setLoadingAction("");
+                        //toast.error("Please try again.");
+                        logAction("STOP timed out (30s)", true);
+                    }
+                }, 30000);
+
+
+                // } else if (action === "RESUME") {
+                //     await getRSN();
+                //     const orderedShipmentData = getShipmentDataForStartResume();
+                //     send({ message: "RESUME", SCPtable: orderedShipmentData, RSNtable: rsnData, broadcast: true });
+                // }
             } else if (action === "RESUME") {
                 await getRSN();
                 const orderedShipmentData = getShipmentDataForStartResume();
                 send({ message: "RESUME", SCPtable: orderedShipmentData, RSNtable: rsnData, broadcast: true });
+                logAction("RESUME command sent via WebSocket");
+                setIsMainOperationLoading(true);
+                setLoadingAction("resume");
+
+                const ws = wsRef.current;
+                if (!ws) {
+                    setIsMainOperationLoading(false);
+                    setLoadingAction("");
+                    toast.error("WebSocket not available");
+                    return;
+                }
+
+                let responded = false;
+                let timeoutId = null;
+
+                const handler = async (ev) => {
+                    try {
+                        const msg = JSON.parse(ev.data);
+                        if (msg.ack === "RESUME OK") {
+                            responded = true;
+                            clearTimeout(timeoutId);
+                            ws.removeEventListener("message", handler);
+
+                            logAction("RESUME OK received");
+                            await updateShipmentStatus(6);
+                            setCanDrag(false);
+                            logAction("Shipment status updated to 6 (Resumed)");
+                            await localApi.post("/log-shipment-event", {
+                                shipmentId: id,
+                                event: "Resume",
+                                status: 6
+                            });
+
+                            setIsMainOperationLoading(false);
+                            setLoadingAction("");
+                        }
+                    } catch (err) {
+                        logAction(`Error in RESUME response handler - ${err.message} and error: ${err}`, true);
+                        console.error("RESUME handler error:", err);
+                    }
+                };
+
+                ws.addEventListener("message", handler);
+
+                timeoutId = setTimeout(() => {
+                    if (!responded) {
+                        ws.removeEventListener("message", handler);
+                        setIsMainOperationLoading(false);
+                        setLoadingAction("");
+                        //toast.error("Please try again.");
+                        logAction("RESUME timed out (30s)", true);
+                    }
+                }, 30000);
             }
         } catch (err) {
             logAction(`Main action failed (${action}) - ${err.message}`, true);
@@ -618,7 +834,6 @@ export default function ShipmentEdit() {
         navigate("/shipmentscanning");
     };
 
-
     const performFullSyncAfterStopOrClose = async () => {
         if (!navigator.onLine) {
             logAction("Offline → skipping sync after stop/close");
@@ -638,21 +853,24 @@ export default function ShipmentEdit() {
 
             if (needsReverse) {
                 logAction("Reverse sync required");
+                logAction(`Sending reverse sync request to local API for SCPId ${FromSCPId}`);
                 const revRes = await localApi.post(`/reverselocalvps/${FromSCPId}`);
+                logAction(`Reverse sync response received - Success: ${revRes.data.success}, Message: ${revRes.data.message}`);
                 if (!revRes.data.success) throw new Error(revRes.data.message || "Reverse failed");
-
+                logAction(`Reverse sync successful, now syncing to VPS ${JSON.stringify(revRes.data.data)}`);
                 const syncRes = await vpsApi.post("/revers-sync", revRes.data.data);
+                
                 if (!syncRes.data.success) throw new Error(syncRes.data.message || "Reverse sync failed");
             }
 
             const grpId = sessionStorage.getItem("CompanyGroupId");
             const compId = sessionStorage.getItem("CompanyId");
-
+            logAction(`Initiating migration from MySQL to VPS for GroupID: ${grpId}, CompanyID: ${compId}, SCPId: ${FromSCPId}`);
             const migRes = await vpsApi.post(
                 `/MigrateDataMySqlToVPS/${grpId}/${compId}/${FromSCPId}`
             );
             if (!migRes.data.success) throw new Error(migRes.data.message || "Migration failed");
-
+            logAction(`Migration successful, now syncing migrated data to local - ${JSON.stringify(migRes.data.data)}`);
             const syncRes = await localApi.post("/sync-vps-to-local", migRes.data.data);
             if (syncRes.data.success) {
                 logAction("Full sync completed successfully");
@@ -677,6 +895,7 @@ export default function ShipmentEdit() {
 
         try {
             // await waitForCloseAck();
+            logAction("Saving progress before closing...");
             await localApi.post("/log-shipment-event", {
                 shipmentId: id,
                 event: "Close",
@@ -705,6 +924,13 @@ export default function ShipmentEdit() {
                     isSynced: false,
                 });
                 logAction("Marked shipment unsynced");
+                logAction("Starting audit entry after CLOSE");
+                await localApi.post("/api/audit-dispatch-from-csv", {
+                    shipmentCode: shipmentCode,
+                    shipmentId: id   // your shipment ID (number)
+                });
+                logAction("Audit entry created after CLOSE");
+                logAction("Deleting local dispatch files after CLOSE");
                 await localApi.post("/delete-dispatch-files", { shipmentCode });
                 let syncSuccess = false;
                 if (navigator.onLine) {
@@ -737,12 +963,26 @@ export default function ShipmentEdit() {
     //─── LEFt Pannel Disable  ───────────────────────────────
 
     // Sync initial status after data is loaded
+    // useEffect(() => {
+    //     if (isShipmentLoaded && shipmentData.length > 0) {
+    //         const status = shipmentData[0]?.SHPH_Status ?? null;
+    //         setGlobalShipmentStatus(status);
+    //     }
+    // }, [isShipmentLoaded, shipmentData, setGlobalShipmentStatus]);
     useEffect(() => {
-        if (isShipmentLoaded && shipmentData.length > 0) {
-            const status = shipmentData[0]?.SHPH_Status ?? null;
-            setGlobalShipmentStatus(status);
-        }
-    }, [isShipmentLoaded, shipmentData, setGlobalShipmentStatus]);
+    if (isShipmentLoaded && shipmentData.length > 0) {
+        const dbStatus = shipmentData[0]?.SHPH_Status ?? null;
+
+        setGlobalShipmentStatus((prevStatus) => {
+            // If already scanning, don't override
+            if (prevStatus === 6) {
+                return 6;
+            }
+            return dbStatus;
+        });
+    }
+}, [isShipmentLoaded, shipmentData]);
+
 
     // Sync whenever status changes (START → 6, STOP → 10, CLOSE → 8, etc.)
     useEffect(() => {
@@ -769,6 +1009,7 @@ export default function ShipmentEdit() {
         //logAction(`Polling FAIL CSV - Code: ${shipmentCode}`);
 
         try {
+            logAction(`Fetching FAIL CSV for shipmentCode: ${shipmentCode}`);
             const res = await localApi.get("/api/read-fail-csv", { params: { shipmentCode } });
 
             const sorted = (res.data || [])
@@ -793,6 +1034,7 @@ export default function ShipmentEdit() {
                 }
             }
         } catch (err) {
+            logAction(`Failed to fetch FAIL CSV - ${err.message}`, true);
             console.error("Fail CSV read error", err);
         } finally {
             isFetchingFailRef.current = false;
@@ -838,12 +1080,12 @@ export default function ShipmentEdit() {
                 remark: trimmed,
                 userId
             };
-
+            logAction(`Saving full bypass remark for shipment ${id}`);
             const res = await localApi.post("/shipmentRemark", payload);
 
             // ✅ ONLY if DB update is SUCCESS
             if (res.data?.success) {
-
+                logAction(`Full bypass remark saved successfully for shipment ${id}`);
                 toast.success("Bypass remark saved");
 
                 // ✅ SEND BYPASS_ON ONLY AFTER SUCCESS
@@ -858,6 +1100,7 @@ export default function ShipmentEdit() {
             }
 
         } catch (err) {
+            logAction(`Error saving full bypass remark for shipment ${id} - ${err.message}`, true);
             console.error(err);
             toast.error("Failed to save bypass remark");
             // ❌ DO NOT SEND BYPASS_ON HERE
@@ -1011,11 +1254,39 @@ export default function ShipmentEdit() {
         return orderedRows;
     };
 
+    // useEffect(() => {
+    //     if (!isConnected) {
+    //         toast.error("Please check the Python service.");
+    //     }
+    // }, [isConnected]);
+
     useEffect(() => {
-        if (!isConnected) {
-            toast.error("Please check the Python service.");
-        }
-    }, [isConnected]);
+        const checkBypassPermission = async () => {
+            try {
+                const userId = sessionStorage.getItem("userId");
+                if (!userId) return;
+                logAction(`Checking bypass permission for user ${userId}`);
+                const res = await fetch(`${config.apiBaseUrl}/api/user/menus/${userId}`);
+                const data = await res.json();
+                logAction(`Bypass permission response: Success: ${data.success}, Menus: ${JSON.stringify(data.menus)}`);
+                if (data.success && Array.isArray(data.menus)) {
+                    // Look for any submenu with title "Bypass" (case insensitive)
+                    const hasBypass = data.menus.some(menu =>
+                        menu.subMenus?.some(sub =>
+                            sub.title?.toLowerCase() === "bypass"
+                        )
+                    );
+                    setHasBypassPermission(hasBypass);
+                }
+            } catch (err) {
+                logAction(`Failed to check bypass permission - ${err.message}`, true);
+                console.error("Failed to check bypass permission:", err);
+                setHasBypassPermission(false);
+            }
+        };
+
+        checkBypassPermission();
+    }, []);
 
     return (
         <>
@@ -1026,33 +1297,93 @@ export default function ShipmentEdit() {
                     </div>
                 )}
 
-                <div className="header-bar">
+                {/* <div className="header-bar">
                     <h1 className="formHeading">Shipment Scanning</h1>
-                    {/* <div className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"}`}></div> */}
+                    
 
-                    <div
-                        className={`bypass-icon-toggle ${isFullBypassOn ? "on" : "off"} ${shipmentStatus !== 6 || isFullBypassOn ? "disabled" : ""}`}
-                        onClick={() => {
-                            if (shipmentStatus !== 6 || isFullBypassOn) return;
+                    {hasBypassPermission && (
 
-                            setBypassRemark("");
-                            setBypassError("");
-                            setShowFullBypassModal(true);   // ✅ OPEN FULL BYPASS MODAL
-                        }}
-                    >
-                        {isFullBypassOn ? (
-                            <>
-                                <MdOutlineToggleOn size={30} />
-                                <span>BYPASS ON</span>
-                            </>
-                        ) : (
-                            <>
-                                <FaToggleOff size={30} />
-                                <span>BYPASS OFF</span>
-                            </>
-                        )}
+                        <div
+                            className={`bypass-icon-toggle ${isFullBypassOn ? "on" : "off"} 
+        ${shipmentStatus !== 6 || isFullBypassOn ? "disabled" : ""}`}
+                            onClick={() => {
+                                if (shipmentStatus !== 6 || isFullBypassOn) return;
+
+                                setBypassRemark("");
+                                setBypassError("");
+                                setShowFullBypassModal(true);
+                            }}
+                            title={
+                                shipmentStatus !== 6
+                                    ? "Bypass only available during active scanning"
+                                    : isFullBypassOn
+                                        ? "Bypass is already ON"
+                                        : "Toggle full bypass"
+                            }
+                        >
+                            {isFullBypassOn ? (
+                                <>
+                                    <MdOutlineToggleOn size={30} />
+                                    <span>BYPASS ON</span>
+                                </>
+                            ) : (
+                                <>
+                                    <FaToggleOff size={30} />
+                                    <span>BYPASS OFF</span>
+                                </>
+                            )}
+                        </div>
+                    )}
+                    <div className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"}`}></div>
+
+                </div> */}
+
+                <div className="header-bar">
+                    {/* LEFT SIDE */}
+                    <div className="header-left">
+                        <h1 className="formHeading">Shipment Scanning</h1>
                     </div>
 
+                    {/* RIGHT SIDE */}
+                    <div className="header-right">
+                        {hasBypassPermission && (
+                            <div
+                                className={`bypass-icon-toggle ${isFullBypassOn ? "on" : "off"} 
+        ${shipmentStatus !== 6 || isFullBypassOn ? "disabled" : ""}`}
+                                onClick={() => {
+                                    if (shipmentStatus !== 6 || isFullBypassOn) return;
+                                    setBypassRemark("");
+                                    setBypassError("");
+                                    setShowFullBypassModal(true);
+                                }}
+                                title={
+                                    shipmentStatus !== 6
+                                        ? "Bypass only available during active scanning"
+                                        : isFullBypassOn
+                                            ? "Bypass is already ON"
+                                            : "Toggle full bypass"
+                                }
+                            >
+                                {isFullBypassOn ? (
+                                    <>
+                                        <MdOutlineToggleOn size={30} />
+                                        <span>BYPASS ON</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <FaToggleOff size={30} />
+                                        <span>BYPASS OFF</span>
+                                    </>
+                                )}
+                            </div>
+                        )}
+
+                        <div
+                            className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"
+                                }`}
+                            title={isConnected ? "WebSocket Connected" : "WebSocket Disconnected"}
+                        />
+                    </div>
                 </div>
 
                 <div className="content-with-fail-panel">
@@ -1177,13 +1508,13 @@ export default function ShipmentEdit() {
                                 }
                             >
                                 <Column
-                                    header="Sr No"
+                                    header="Sr. No."
                                     body={(rowData, options) => options.rowIndex + 1}
                                     bodyClassName="custom-description"
                                     headerClassName="custom-header"
                                 />
 
-                                <Column field="rsn" header="UID"
+                                <Column field="rsn" header="RSN"
                                     bodyClassName="custom-description"
                                     headerClassName="custom-header" />
 
@@ -1430,6 +1761,168 @@ export default function ShipmentEdit() {
                             setShowFullBypassModal(false);
                             setBypassRemark("");
                             setBypassError("");
+                        }}
+                    >
+                        NO
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+
+            {/* ─── Near by Expiry Confirmation Modal ──────────────────────────────────────── */}
+
+            <Modal
+                show={showNearExpiryModal}
+                centered
+                backdrop="static"
+                keyboard={false}
+                size="lg"
+            >
+                <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
+                    <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
+                        :: Near ExpiryDate Confirmation ::
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body style={{ textAlign: "center" }}>
+                    <div
+                        style={{
+                            marginBottom: "18px",
+                            fontWeight: "600",
+                            fontSize: "20px",
+                            color: "#4a5568",
+                        }}
+                    >
+                        Are you sure you want pass this item with Near Expiry Date?
+                    </div>
+                </Modal.Body>
+
+                <Modal.Footer
+                    style={{ justifyContent: "center", borderTop: "none", gap: "24px" }}
+                >
+                    <button
+                        className="acceptButton"
+                        onClick={() => {
+                            setShowNearExpiryModal(false);
+                            send({ message: "NEAR_EXPIRY_YES" });
+                            console.log("Sent NEAR_EXPIRY_YES message to backend");
+                        }}
+                    >
+                        YES
+                    </button>
+
+                    <button
+                        className="rejectButton"
+                        onClick={() => {
+                            setShowNearExpiryModal(false);
+                            send({ message: "NEAR_EXPIRY_NO" });
+                        }}
+                    >
+                        NO
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+
+            {/* ─── Near by Expiry + Bypass Confirmation Modal ──────────────────────────────────────── */}
+
+            <Modal
+                show={showNearExpiryBypassModal}
+                centered
+                backdrop="static"
+                keyboard={false}
+                size="lg"
+            >
+                <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
+                    <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
+                        :: Near Expiry With Bypass Confirmation ::
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body style={{ textAlign: "center" }}>
+                    <div
+                        style={{
+                            marginBottom: "18px",
+                            fontWeight: "600",
+                            fontSize: "20px",
+                            color: "#4a5568",
+                        }}
+                    >
+                        Are you sure you want to Bypass this item with Near Expiry Date?
+                    </div>
+
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "6px",
+                        }}
+                    >
+                        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                            <label style={{ fontWeight: "600", fontSize: "18px" }}>
+                                Remark:
+                            </label>
+
+                            <textarea
+                                rows={2}
+                                style={{
+                                    width: "420px",
+                                    border: `1px solid ${bypassError ? "#dc3545" : "#ced4da"}`,
+                                    padding: "10px",
+                                    borderRadius: "6px",
+                                    resize: "none",
+                                    fontSize: "15px",
+                                    outline: "none",
+                                }}
+                                placeholder="Enter reason for bypass..."
+                                value={bypassRemark}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setBypassRemark(value);
+
+                                    const trimmed = value.trim();
+                                    if (!trimmed) {
+                                        setBypassError("* Remark is required");
+                                    } else if (value !== trimmed) {
+                                        setBypassError("Remarks cannot start or end with spaces");
+                                    } else {
+                                        setBypassError("");
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        {/* ✅ Error Text */}
+                        {bypassError && (
+                            <div style={{ color: "#dc3545", fontSize: "13px" }}>
+                                {bypassError}
+                            </div>
+                        )}
+                    </div>
+                </Modal.Body>
+
+                <Modal.Footer
+                    style={{ justifyContent: "center", borderTop: "none", gap: "24px" }}
+                >
+                    <button
+                        className="acceptButton"
+                        onClick={handleConfirmBypasswithnearExpiry}
+                        disabled={!bypassRemark.trim() || !!bypassError}
+                    >
+                        YES
+                    </button>
+
+                    <button
+                        className="rejectButton"
+                        onClick={() => {
+                            setShowNearExpiryBypassModal(false);
+                            setBypassRemark("");
+                            setBypassError("");
+                            setCurrentBypassRsnId(null);
+                            deleteCookie("BYPASS_PENDING");
+                            deleteCookie("BYPASS_RSN");
+                            send({ message: "BYPASS_NO" });
                         }}
                     >
                         NO

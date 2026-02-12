@@ -1,0 +1,2 @@
+IRS_ID,IRS_ProductID,PM_GrossWeight,PM_MaxOffset,PM_MinOffset,IRS_PackSize,IRS_BatchID,IRS_PhysicalLocation,IRS_CompanyID,IRS_RandomNo,IRS_SKU,IRS_ParentRandomNo,BL_ExpDate,IRS_ToSCP,isExpired,isNearExpiry
+79,23,5.5,500,500,1,34,6,1,0101023ZLHE6SA,,,2026-06-05T13:00:00.000Z,,0,0

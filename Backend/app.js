@@ -12,10 +12,11 @@ const conn = require("./Database/database");
 const Papa = require("papaparse");
 const router = require("./Routes/ShippmentScnnaing/ShippmentscanRoute");
 const http = require('http');
-
+const net = require("net");
+const snmp = require("net-snmp");
 
 //console.log("RSN Sync Service Running");
- 
+
 
 
 app.use(express.json({ limit: "1000mb" }));
@@ -439,7 +440,7 @@ app.post("/sync-login-details", async (req, res) => {
     { name: "groupmaster", key: "GRPM_GroupId" },
     { name: "companyitpolicymaster", key: "CITPM_PolicyID" },
     { name: "userpwdtransaction", key: "UPT_TranID" },
-    { name: "grouproleinfo", key: "gri_ID" },
+    { name: "grouproleinfo", key: "gri_GroupID" },
   ];
 
   try {
@@ -571,8 +572,8 @@ app.get("/api/read-csv", (req, res) => {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
 
- // const basePath = process.env.DISPATCH_BASE_PATH;
- const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  // const basePath = process.env.DISPATCH_BASE_PATH;
+  const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
   const fileName = process.env.DispatchFile;
 
   // Try both: with -1 and without
@@ -595,7 +596,7 @@ app.get("/api/read-csv", (req, res) => {
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) return res.status(500).json({ error: "Unable to read file" });
-   // console.log("CSV File Path : ", data);
+    // console.log("CSV File Path : ", data);
     Papa.parse(data, {
       header: true,
       skipEmptyLines: true,
@@ -875,7 +876,7 @@ app.get("/get-running-csv", async (req, res) => {
 
     // Decide folder name based on status
     let targetFolderName = null;
-    
+
     if (getData[0].SHPH_Status === 10) {
       // Completed / normal shipment
       targetFolderName = shipmentCodeval;
@@ -887,7 +888,7 @@ app.get("/get-running-csv", async (req, res) => {
     // Find that folder
     let runningFolder = null;
     for (const folder of folders) {
-      
+
       if (folder === targetFolderName) {
         const csvPath = path.join(basePath, folder, dispatchFile);
         if (fs.existsSync(csvPath)) {
@@ -925,7 +926,7 @@ app.get("/get-running-csv", async (req, res) => {
     //console.log("Running Shipment Code : ", shipmentCode);
     // Success: return current running data
     res.json({
-      shipmentSatus:getData[0].SHPH_Status===6,
+      shipmentSatus: getData[0].SHPH_Status === 6,
       shipmentCode,
       data: rows
     });
@@ -1139,8 +1140,9 @@ app.post("/process-pause", async (req, res) => {
         IRS_Status = ?,
         IRS_ToSCP = (SELECT SCPM_Id FROM scpmaster WHERE SCPM_Code = ?),
         IRS_LastModifedBy = ?,    -- or IRS_ModifiedBy based on your column
-        IRS_LastModifiedTimeStamp = NOW(),
-        IRS_ShipmentWeight = COALESCE(IRS_ShipmentWeight, 0) + ?   -- add the current weight
+        IRS_LastModifiedTimeStamp = ?,
+        IRS_ShipmentWeight = COALESCE(IRS_ShipmentWeight, 0) + ?,
+        IRS_Boxno=?
       WHERE IRS_ID = ?`,
           [
             shipmentId,
@@ -1148,7 +1150,9 @@ app.post("/process-pause", async (req, res) => {
             status,
             row.SCPM_Code,
             userId,
+            row.Timestamp || new Date(),
             shipmentWeightKg,
+            row.BoxNumber,
             row.IRS_ID
           ]
         );
@@ -1265,6 +1269,105 @@ app.post("/process-pause", async (req, res) => {
   }
 });
 
+
+
+//----------------------Dispatch Audit data API----------------------------
+app.post("/api/audit-dispatch-from-csv", async (req, res) => {
+    const { shipmentCode,shipmentId } = req.body;
+
+    if (!shipmentCode || typeof shipmentCode !== "string" || shipmentCode.trim() === "") {
+        return res.status(400).json({
+            success: false,
+            message: "shipmentCode is required in request body"
+        });
+    }
+
+    const trimmedShipmentCode = shipmentCode.trim();
+
+    // Find CSV file - same logic as your /api/read-csv
+    const basePath = process.env.DISPATCH_BASE_PATH;;
+    const fileName = process.env.RowDataFile || "rowdata.csv";
+
+    const tryPaths = [
+        path.join(basePath, `${trimmedShipmentCode}-1`, fileName),
+        path.join(basePath, trimmedShipmentCode, fileName)
+    ];
+
+    let filePath = null;
+    for (const p of tryPaths) {
+        if (fs.existsSync(p)) {
+            filePath = p;
+            break;
+        }
+    }
+
+    if (!filePath) {
+        return res.status(404).json({
+            success: false,
+            message: "rowdata.csv not found",
+            triedPaths: tryPaths
+        });
+    }
+
+    try {
+        const fileContent = fs.readFileSync(filePath, "utf8");
+
+        const parseResult = Papa.parse(fileContent, {
+            header: true,
+            skipEmptyLines: true,          // IMPORTANT: process every line
+            dynamicTyping: false,
+            transformHeader: (h) => h.trim()
+        });
+
+        const rows = parseResult.data || [];
+
+        let insertedCount = 0;
+
+        for (const row of rows) {
+            const values = [
+                shipmentId,                        // dis_shipmentid
+                row.BatchId && !isNaN(row.BatchId) ? parseInt(row.BatchId, 10) : null, // dis_batchid
+                row.ProductID && !isNaN(row.ProductID) ? parseInt(row.ProductID, 10) : null, // dis_productid
+                row.SCPM_Code && String(row.SCPM_Code).trim() !== "" ? String(row.SCPM_Code).trim() : null, // dis_scpcode
+                row.ProductDynamicWeight && !isNaN(row.ProductDynamicWeight) ? parseInt(row.ProductDynamicWeight, 10) : null, // dis_prod_weight
+                row.CurrentWeight && !isNaN(row.CurrentWeight) ? parseInt(row.CurrentWeight, 10) : null, // dis_weight
+                row.RSN && String(row.RSN).trim() !== "" ? String(row.RSN).trim() : null, // dis_rsn
+                (() => {
+                    const st = (row.Status || "").trim().toUpperCase();
+                    if (st === "PASS") return 22;
+                    if (st === "FAIL") return 4;
+                    return null;
+                })(),                                                             // dis_status
+                row.ReasonCode && !isNaN(row.ReasonCode) ? parseInt(row.ReasonCode, 10) : null, // dis_reasoncode
+                row.Timestamp && String(row.Timestamp).trim() !== "" ? row.Timestamp.trim() : null // dis_timestamp
+            ];
+            console.log("Inserting dispatch audit row with values:", values);
+            // Raw INSERT query - one row at a time
+            await conn.query(
+                `INSERT INTO dispatchaudit (
+                    dis_shipmentid, dis_batchid, dis_productid, dis_scpcode,
+                    dis_prod_weight, dis_weight, dis_rsn, dis_status,
+                    dis_reasoncode, dis_timestamp
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,values);
+            insertedCount++;
+        }
+
+        return res.json({
+            success: true,
+            message: `All rows processed and inserted successfully`,
+            audited: insertedCount,
+            file: path.basename(filePath)
+        });
+
+    } catch (err) {
+        console.error("Audit endpoint error:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to process CSV or insert into dispatchaudit",
+            error: err.message
+        });
+    }
+});
 // ---------------------------camera Setup---------------------------
 
 app.get('/machine-info/', async (req, res) => {
@@ -1384,37 +1487,329 @@ app.get("/check-resume-shipments", async (req, res) => {
   }
 });
 
-
 app.get("/fetchtime/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [timeGet] = await conn.query(
-      `
-SELECT
-  SUM(ST_duration) AS total_duration,
-  MAX(
-    CASE 
-      WHEN ST_status = 6 
-      THEN UNIX_TIMESTAMP(ST_time) 
-    END
-  ) AS latest_status_seconds
-FROM shipmenttransction
-WHERE ST_shipmentId = ?;
+    const [rows] = await conn.query(`
+      SELECT
+        SUM(ST_duration) AS total_duration,
+        MAX(
+          CASE 
+            WHEN ST_status = 6 
+            THEN UNIX_TIMESTAMP(ST_time) 
+          END
+        ) AS latest_status_seconds
+      FROM shipmenttransction
+      WHERE ST_shipmentId = ?;
+    `, [id]);
 
-`,
-      [id]
-    );
+    const row = rows[0] || {};
+
     res.status(200).json({
       success: true,
-      data: timeGet
+      data: [
+        {
+          ...row,
+          server_now: Math.floor(Date.now() / 1000)
+        }
+      ]
     });
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Something went wrong" });
+    res.status(500).json({ success: false });
   }
-})
+});
+
+
+
+router.get("/api/user/menus/:userId", async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const sql = `
+   SELECT 
+    m.MNM_MenuID,
+    m.MNM_MenuName,
+    m.MNM_MenuIndex,
+
+    s.SMNM_SubMenuID,
+    s.SMNM_SubMenuDisplay,
+    s.SMNM_SubMenuIndex,
+    s.SMNM_SubMenuURL
+FROM usermaster u
+
+JOIN (
+    SELECT *
+    FROM grouproleinfo g1
+    WHERE g1.gri_ID = (
+        SELECT MAX(g2.gri_ID)
+        FROM grouproleinfo g2
+        WHERE g2.gri_GroupID = g1.gri_GroupID
+          AND g2.gri_AppID = g1.gri_AppID
+    )
+) g
+  ON g.gri_GroupID = u.UM_GroupId
+ AND g.gri_AppID = 3
+
+JOIN submenumaster s
+  ON (g.gri_RoleData & s.SMNM_Mask) <> 0
+
+JOIN menumaster m
+  ON m.MNM_MenuID = s.SMNM_MenuID
+
+WHERE u.UM_UserId = ?
+ORDER BY m.MNM_MenuIndex, s.SMNM_SubMenuIndex;
+
+  `;
+
+    const [rows] = await conn.query(sql, [userId]);
+
+    const menus = {};
+    rows.forEach(r => {
+     // console.log("Row:", r);
+      if (!menus[r.MNM_MenuID]) {
+        menus[r.MNM_MenuID] = {
+          menuId: r.MNM_MenuID,
+          menuName: r.MNM_MenuName,
+          subMenus: []
+        };
+      }
+
+      menus[r.MNM_MenuID].subMenus.push({
+        id: r.SMNM_SubMenuID,
+        title: r.SMNM_SubMenuDisplay,
+        route: r.SMNM_SubMenuURL
+      });
+    });
+    //console.log("Constructed menus:", Object.values(menus) ,"Submenu  : ",Object.values(menus).flatMap(m => m.subMenus) );
+    res.json({ success: true, menus: Object.values(menus) });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
+});
+// -------------------check shipment status for dashboard---------------------------
+
+router.get('/current-shipment-status', async (req, res) => {
+  const { SHPH_CompanyID, SHPH_FromSCPCode } = req.query;
+
+  // Validate required parameters
+  if (!SHPH_CompanyID || !SHPH_FromSCPCode) {
+    return res.status(400).json({
+      success: false,
+      message: "SHPH_CompanyID and SHPH_FromSCPCode are required",
+    });
+  }
+
+  // Query to find the MOST RECENT active shipment (status = 6)
+  const query = `
+    SELECT 
+      sl.SHPH_ShipmentCode,
+      sl.SHPH_Status
+    FROM shipmentlist sl
+    LEFT JOIN enummaster em
+      ON em.EnumType = 'Shipment'
+      AND em.EnumVal = sl.SHPH_Status
+    WHERE 
+      sl.SHPH_CompanyID = ?
+      AND sl.SHPH_FromSCPCode = ?
+      AND sl.SHPH_Status = 6
+    ORDER BY sl.SHPH_ShipmentID DESC
+    LIMIT 1;
+  `;
+
+  try {
+    const [rows] = await conn.query(query, [SHPH_CompanyID, SHPH_FromSCPCode]);
+
+    if (rows.length === 0) {
+      // No active shipment found
+      return res.status(200).json({
+        success: true,
+        status: null,
+        message: "No active shipment (scanning) found",
+      });
+    }
+
+    // Found an active shipment
+    const shipment = rows[0];
+
+    return res.status(200).json({
+      success: true,
+      status: shipment.SHPH_Status,              // will be 6
+      shipmentCode: shipment.SHPH_ShipmentCode,
+      message: "Active shipment found (scanning in progress)",
+    });
+  } catch (err) {
+    console.error("Error in /api/current-shipment-status:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Database error while checking active shipment",
+      error: err.message,
+    });
+  }
+});
+
+// ---------------------------Reprint Label---------------------------
+
+
+const getPrnTemplate = () => {
+  // When running as pkg executable
+  if (process.pkg) {
+    return fs.readFileSync(
+      path.join(path.dirname(process.execPath), "prnfiles", "Dispatch.prn"),
+      "utf-8"
+    );
+  }
+
+  // Normal node run
+  return fs.readFileSync(
+    path.join(__dirname, "prnfiles", "Dispatch.prn"),
+    "utf-8"
+  );
+};
+
+
+
+app.get("/reprint", async (req, res) => {
+  const { rsnval } = req.query;
+  const printerIP = process.env.PRINTER_IP;
+  const printerPort = Number(process.env.PRINTER_PORT || 9100);
+  const community = 'public';
+
+  try {
+    if (!rsnval) {
+      return res.status(400).json({ message: "RSN is required" });
+    }
+
+    const printerStatus = await queryPrinterStatus(printerIP, community);
+    if (printerStatus !== 'Printer is ready') {
+      return res.status(503).json({ message: printerStatus });
+    }
+
+    const [labeldata] = await conn.query(
+      `SELECT SCPM_Name,IRS_Boxno,SHPD_ShipQty,ORDM_OrderNumber,LCM_LocationName,LCM_LocationStreet1
+       FROM importrsnshipment
+       JOIN scpmaster ON scpmaster.SCPM_ID = importrsnshipment.IRS_ToSCP
+       JOIN shipmentmaster ON shipmentmaster.SHPD_ShipmentID = importrsnshipment.IRS_ShipmentID
+       join orderlist on orderlist.ORDM_OrderID= shipmentmaster.SHPD_OrderID
+       join locationmaster on locationmaster.LCM_SCPID=scpmaster.SCPM_ID
+       WHERE importrsnshipment.IRS_RandomNo = ?`,
+      [rsnval]
+    );
+
+    if (labeldata.length === 0) {
+      return res.status(404).json({ message: "No records found for given RSN" });
+    }
+
+    /* 3️⃣ Read PRN template */
+    const templatePath = path.join(__dirname, "prnfiles", "Dispatch.prn");
+   // const template = fs.readFileSync(templatePath, "utf-8");
+   const template = getPrnTemplate();
+
+    for (let i = 0; i < labeldata.length; i++) {
+      const record = labeldata[i];
+
+      const prnContent = template
+        .replace('{{BOX_NUMBER}}', `${record.IRS_Boxno}/${record.SHPD_ShipQty}`)
+        .replace('{{ORDER_NUMBER}}', record.ORDM_OrderNumber)
+        .replace('{{SCP_NAME}}', record.SCPM_Name)
+        .replace('{{ADDRESS}}', record.LCM_LocationName);
+
+      await sendToPrinter(printerIP, printerPort, prnContent);
+    }
+
+    res.json({
+      success: true,
+      message: "Labels printed successfully",
+      printedCount: labeldata.length
+    });
+
+  } catch (error) {
+    console.error("Reprint error:", error);
+    res.status(500).json({
+      message: error?.message || "Internal server error"
+    });
+  }
+});
+
+const sendToPrinter = (printerIP, printerPort, content) => {
+  return new Promise((resolve, reject) => {
+    const client = new net.Socket();
+
+    client.connect(printerPort, printerIP, () => {
+      client.write(Buffer.from(content, "utf8"));
+      client.end();
+    });
+
+    client.on("close", resolve);
+
+    client.on("error", (err) => {
+      client.destroy();
+      reject(new Error("Printer communication failed"));
+    });
+  });
+};
+
+const queryPrinterStatus = (printerIp) => {
+  return new Promise((resolve, reject) => {
+    const socket = new net.Socket();
+    socket.setTimeout(3000);
+
+    socket.connect(process.env.PRINTER_PORT, printerIp, () => {
+      socket.destroy(); // Close connection immediately
+      return resolve("Printer is ready");
+    });
+
+    socket.on("error", () => {
+      socket.destroy();
+      reject("Printer not reachable");
+    });
+
+    socket.on("timeout", () => {
+      socket.destroy();
+      reject("Printer connection timeout");
+    });
+  });
+};
+
+// const queryPrinterStatus = (printerIp, community) => {
+//   return new Promise((resolve, reject) => {
+//     const socket = new net.Socket();
+//     socket.setTimeout(3000);
+
+//     socket.connect(process.env.PRINTER_PORT, printerIp, () => {
+//       socket.destroy();
+
+//       const session = snmp.createSession(printerIp, community);
+//       const statusOid = '1.3.6.1.2.1.25.3.5.1.1.1';
+
+//       session.get([statusOid], (error, varbinds) => {
+//         if (error) {
+//           session.close();
+//           return reject("Unable to fetch printer status");
+//         }
+
+//         const status = varbinds[0]?.value;
+//         session.close();
+
+//         // switch (status) {
+//         //   case 3:
+//         //     return resolve("Printer is ready");
+//         //   case 1:
+//         //     return resolve("Printer is facing some issue");
+//         //   default:
+//         //     return resolve(`Unknown printer status: ${status}`);
+//         // }
+//         return resolve("Printer is ready");
+//       });
+//     });
+
+//     socket.on("error", () => reject("Printer not reachable"));
+//     socket.on("timeout", () => reject("Printer connection timeout"));
+//   });
+// };
 
 
 //---------------------------Routing Setup---------------------------

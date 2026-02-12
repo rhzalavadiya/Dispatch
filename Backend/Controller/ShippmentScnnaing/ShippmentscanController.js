@@ -262,13 +262,18 @@ const getRSNData = async (req, res) => {
     irs.IRS_PhysicalLocation,
     irs.IRS_CompanyID,
     irs.IRS_RandomNo,
+    irs.IRS_SKU,
     irs.IRS_ParentRandomNo,
     bl.BL_ExpDate,
     irs.IRS_ToSCP,
     CASE 
         WHEN bl.BL_ExpDate < CURDATE() THEN TRUE
         ELSE FALSE
-    END AS isExpired
+    END AS isExpired,
+    CASE 
+        WHEN bl.BL_MinExpDate <= CURDATE() THEN TRUE
+        ELSE FALSE
+    END AS isNearExpiry
 FROM importrsnshipment irs
 JOIN batchlist bl 
     ON bl.BL_ID = irs.IRS_BatchID
@@ -342,231 +347,6 @@ const chnageShipmentStatus = async (req, res) => {
 		});
 	}
 };
-const updateScanqty = async (req, res) => {
-	const rows = req.body.rows;
-	if (!rows || rows.length === 0) {
-		return res.status(400).json({
-			success: false,
-			message: "No rows provided",
-		});
-	}
-	console.log("Update Sccann : ", rows);
-	try {
-		const query = `
-			UPDATE shipmentmaster 
-			SET 
-				SHPD_ScanQty = ?, 
-				SHPD_ModifiedTimestamp = NOW(), 
-				SHPD_ModifiedBy = ?
-			WHERE SHPD_ShipmentMID = ?
-		`;
-		const promises = rows.map((row) => {
-			return conn.query(query, [
-				row.pass,
-				row.userId,
-				row.SHPD_ShipmentMID
-			]);
-		});
-
-		await Promise.all(promises);
-
-		return res.status(200).json({
-			success: true,
-			message: "Scan Qty updated successfully for all rows",
-		});
-
-	} catch (error) {
-		console.error("Error updating scan quantity:", error);
-		return res.status(500).json({
-			success: false,
-			message: "Server error",
-			error: error.message,
-		});
-	}
-};
-
-const updateInventory = async (req, res) => {
-	const rows = req.body.rows;
-	console.log(" INVENTORY Rows : ", req.body.rows)
-	if (!rows || rows.length === 0) {
-		return res.status(400).json({
-			success: false,
-			message: "No rows provided for inventory update",
-		});
-	}
-
-	try {
-		const updateInvQuery = `
-			UPDATE inventory 
-			SET 
-				inv_blockqty = inv_blockqty - ?, 
-				inv_availableqty = inv_availableqty - ?
-			WHERE 
-				inv_scpid = ? 
-				AND inv_productid = ?
-		`;
-
-		const promises = rows.map(async (row) => {
-			const [result] = await conn.query(updateInvQuery, [
-				row.pass,
-				row.pass,
-				row.fromScpId, // ✅ DIRECT SCP ID
-				row.productId
-			]);
-		});
-
-		await Promise.all(promises);
-
-		return res.status(200).json({
-			success: true,
-			message: "Inventory updated successfully",
-		});
-
-	} catch (error) {
-		console.error("Error updating inventory:", error);
-		return res.status(500).json({
-			success: false,
-			message: "Server error",
-			error: error.message,
-		});
-	}
-};
-const insertRsnHistory = async (req, res) => {
-	const { rows, shipmentId, fromScpId } = req.body;
-	console.log("Insert rsn : ", req.body);
-
-	if (!rows || rows.length === 0) {
-		return res.json({ success: true }); // nothing to insert
-	}
-
-	try {
-		const getScpIdSql = `
-			SELECT SCPM_Id FROM scpmaster WHERE SCPM_Code = ?
-		`;
-
-		const insertSql = `
-			INSERT INTO rsnhistoryinfo (
-				RSNH_BatchMId,
-				RSNH_RandomNo,
-				RSNH_Status,
-				RSNH_ShipmentID, 
-				RSNH_EventId,
-				RSNH_TimeStamp,
-				RSNH_FromSCP_Id,
-				RSNH_ToSCP_Id,
-				RSNH_ProductID,
-				RSNH_Physical_Location,
-				RSNH_CompanyID,
-				RSNH_PackSize
-			) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
-		`;
-
-		for (const row of rows) {
-			const [scpRes] = await conn.query(getScpIdSql, [row.IRS_ToSCP]);
-			if (!scpRes.length) continue;
-
-			const toScpId = scpRes[0].SCPM_Id;
-
-			const result = await conn.query(insertSql, [
-				row.IRS_BatchID, // RSNH_BatchMId
-				row.IRS_RandomNo, // RSNH_RandomNo
-				22, // RSNH_Status (PASS)
-				shipmentId,
-				1, // RSNH_EventId
-				row.Timestamp, // RSNH_TimeStamp
-				fromScpId,
-				toScpId,
-				row.IRS_ProductID,
-				row.IRS_PhysicalLocation,
-				row.IRS_CompanyID,
-				row.IRS_PackSize
-			]);
-		}
-		return res.status(200).json({
-			success: true,
-			message: "RSN History inserted successfully"
-		});
-
-	} catch (error) {
-		console.error("RSN History insert error:", error);
-		return res.status(500).json({
-			success: false,
-			message: "Server error",
-			error: error.message
-		});
-	}
-};
-// routes or controller file
-const importRSN = async (req, res) => {
-	const rows = req.body.rows;
-
-	if (!rows || !Array.isArray(rows) || rows.length === 0) {
-		return res.status(400).json({
-			success: false,
-			message: "No valid rows provided",
-		});
-	}
-
-	const query = `
-        UPDATE importrsnshipment 
-        SET 
-            IRS_ShipmentID = ?, 
-            IRS_ShipmentType = ?, 
-            IRS_Status = ?,
-            IRS_ToSCP = ?,
-            IRS_LastModifiedBy = ?,
-            IRS_LastModifiedTimeStamp = NOW(),
-            IRS_ShipmentWeight = COALESCE(?, IRS_ShipmentWeight)
-        WHERE IRS_ID = ?
-    `;
-
-	try {
-		const results = await Promise.all(
-			rows.map(async (row) => {
-				if (!row.IRS_ID) return { success: false, error: "Missing IRS_ID" };
-
-				const params = [
-					row.IRS_ShipmentID,         // e.g., SHPH_ShipmentID = 4
-					row.IRS_ShipmentType,  // or "DISPATCH" – adjust as needed
-					row.IRS_Status,      // new status after scanning
-					row.IRS_ToSCP,              // SCPM_Code like "DIS"
-					row.IRS_LastModifiedBy,
-					row.IRS_ShipmentWeight,     // optional weight
-					row.IRS_ID
-				];
-
-				try {
-					const [result] = await conn.query(query, params);
-					return { success: true, IRS_ID: row.IRS_ID, affected: result.affectedRows };
-				} catch (err) {
-					return { success: false, IRS_ID: row.IRS_ID, error: err.message };
-				}
-			})
-		);
-
-		const failed = results.filter(r => !r.success);
-		if (failed.length > 0) {
-			return res.status(500).json({
-				success: false,
-				message: `${failed.length} rows failed to update`,
-				failed
-			});
-		}
-
-		res.status(200).json({
-			success: true,
-			message: `Updated ${rows.length} records in importrsnshipment successfully`
-		});
-	} catch (error) {
-		console.error("importRSN error:", error);
-		res.status(500).json({
-			success: false,
-			message: "Server error",
-			error: error.message
-		});
-	}
-};
-
 // POST /ShipmentSyncStatus
 const updateShipmentSyncStatus = async (req, res) => {
 	const { shipmentId, isSynced = false } = req.body;
@@ -950,73 +730,128 @@ const shipmentRemark = async (req, res) => {
 	}
 };
 
-
-
-// POST /api/log-shipment-event
-const logShipmentEvent = async (req, res) => {
-	const { shipmentId, event, status } = req.body;
-	console.log("Log Shipment Event Body : ", req.body);
-
-	if (!shipmentId || !event || status === undefined) {
+const CompletedShipment = async (req, res) => {
+	const { SHPH_CompanyID, SHPH_FromSCPCode } = req.body;
+	//console.log(req.body);
+	if (!SHPH_CompanyID || !SHPH_FromSCPCode) {
 		return res.status(400).json({
 			success: false,
-			message: "Missing required fields: shipmentId, event, status"
+			message: "SHPH_CompanyID and SHPH_FromSCPCode are required",
 		});
 	}
-
-	let durationSeconds = 0;
-
-	// Only calculate duration for STOP and CLOSE
-	if (event === "Stop" || event === "Close") {
-		try {
-			const [rows] = await conn.query(`
-                SELECT ST_time
-                FROM shipmenttransction
-                WHERE ST_shipmentId = ?
-                  AND ST_event IN ('Start', 'Resume')
-                ORDER BY ST_time DESC
-                LIMIT 1
-            `, [shipmentId]);
-
-			if (rows.length > 0) {
-				const startTime = new Date(rows[0].ST_time);
-				const now = new Date();
-				durationSeconds = Math.floor((now - startTime) / 1000);
-			}
-		} catch (innerErr) {
-			console.error("Duration calculation failed:", innerErr);
-		}
-	}
+	const query = `
+		SELECT 
+    sl.SHPH_ShipmentID, 
+    sl.SHPH_ShipmentType, 
+    sl.SHPH_ShipmentCode, 
+    sl.SHPH_Status,
+    em.Description AS ShipmentStatusName,   -- ✅ enum value
+    sl.SHPH_IsSync,
+    sl.SHPH_ShipmentDate, 
+    lgm.LGCM_Name, 
+    lgv.LGCVM_VehicleNumber,
+    rl.RUTL_Name,
+    sl.SHPH_ByProductVendorScanMode
+FROM shipmentlist sl
+JOIN logisticcompanyvehiclemaster lgv
+    ON sl.SHPH_LogisticVehicleID = lgv.LGCVM_ID
+JOIN logisticcompanymaster lgm
+    ON sl.SHPH_LogisticPartyID = lgm.LGCM_ID
+JOIN routelist rl
+    ON sl.SHPH_SCPRouteID = rl.RUTL_ID
+LEFT JOIN enummaster em
+    ON em.EnumType = 'Shipment'
+   AND em.EnumVal = sl.SHPH_Status
+WHERE 
+    sl.SHPH_Status = 8
+    AND sl.SHPH_CompanyID = ?
+    AND sl.SHPH_FromSCPCode = ?
+ORDER BY sl.SHPH_ShipmentID DESC;
+	`;
 
 	try {
-		// ✅ SAFE TIME HANDLING
-		const insertTime = new Date()
-			.toLocaleString("sv-SE", { timeZone: "Asia/Kolkata" })
-			.replace("T", " ");
+		const [rows] = await conn.query(query, [SHPH_CompanyID, SHPH_FromSCPCode]);
+		//console.log("Result : ",rows);
+		if (rows.length === 0) {
+			return res.status(404).json({
+				success: false,
+				message: "No data found in Shipmentlist table",
+			});
+		}
 
-
-		await conn.query(`
-            INSERT INTO shipmenttransction 
-            (ST_shipmentId, ST_event, ST_time, ST_duration, ST_status)
-            VALUES (?, ?, ?, ?, ?)
-        `, [shipmentId, event, insertTime, durationSeconds, status]);
-
-		return res.json({
-			success: true,
-			message: "Shipment event logged successfully"
-		});
+		const shipment = rows.map((item) => ({
+			SHPH_ShipmentID: item.SHPH_ShipmentID,
+			SHPH_ShipmentType: item.SHPH_ShipmentType,
+			SHPH_ShipmentCode: item.SHPH_ShipmentCode,
+			SHPH_Date: item.SHPH_ShipmentDate,
+			SHPH_Status: item.SHPH_Status,
+			SHPH_IsSync: item.SHPH_IsSync,
+			LGCM_Name: item.LGCM_Name,
+			LGCVM_VehicleNumber: item.LGCVM_VehicleNumber,
+			RUTL_Name: item.RUTL_Name,
+			SHPH_ByProductVendorScanMode: item.SHPH_ByProductVendorScanMode,
+			ShipmentStatusName: item.ShipmentStatusName
+		}));
+		//console.log(shipment);
+		return res.status(200).json({ success: true, shipment });
 	} catch (err) {
-		console.error("Insert shipmenttransction failed:", err);
+		console.error("Database query error:", err);
 		return res.status(500).json({
 			success: false,
-			message: "Database error while logging event"
+			message: "Database error",
+			error: err.message,
 		});
 	}
 };
 
+// POST /api/log-shipment-event
+const logShipmentEvent = async (req, res) => {
+  const { shipmentId, event, status } = req.body;
+
+  if (!shipmentId || !event || status === undefined) {
+    return res.status(400).json({
+      success: false,
+      message: "Missing required fields"
+    });
+  }
+
+  let durationSeconds = 0;
+
+  // Calculate duration only for Stop / Close
+  if (event === "Stop" || event === "Close") {
+    const [rows] = await conn.query(`
+      SELECT ST_time
+      FROM shipmenttransction
+      WHERE ST_shipmentId = ?
+        AND ST_event IN ('Start', 'Resume')
+      ORDER BY ST_time DESC
+      LIMIT 1
+    `, [shipmentId]);
+
+    if (rows.length > 0) {
+      const startTime = new Date(rows[0].ST_time);
+      const now = new Date();
+      durationSeconds = Math.floor((now - startTime) / 1000);
+    }
+  }
+
+  // ✅ INSERT — MySQL sets ST_time automatically
+  await conn.query(`
+    INSERT INTO shipmenttransction
+    (ST_shipmentId, ST_event, ST_duration, ST_status)
+    VALUES (?, ?, ?, ?)
+  `, [shipmentId, event, durationSeconds, status]);
+
+  return res.json({
+    success: true,
+    message: "Shipment event logged successfully"
+  });
+};
+
+
 
 // Export in your router/controller
-module.exports = { logShipmentEvent };
+
 module.exports = {
 	shipmentListData,
 	shipmentEditData,
@@ -1024,18 +859,15 @@ module.exports = {
 	getRSNData,
 	getBatchData,
 	chnageShipmentStatus,
-	updateScanqty,
-	updateInventory,
-	insertRsnHistory,
 	updateShipmentSyncStatus,
 	//suspendShipment,
 	deliverychallanData,
 	deliverychallanAll,
 	getSchemeData,
-	importRSN,
 	rsnRemark,
 	shipmentRemark,
-	logShipmentEvent
+	logShipmentEvent,
+	CompletedShipment
 };
 
 

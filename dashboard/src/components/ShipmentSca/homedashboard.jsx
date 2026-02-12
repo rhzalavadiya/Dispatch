@@ -386,6 +386,7 @@ export default function HomeDashboard() {
 		let pollInterval = null;
 		const fetchRunning = async () => {
 			try {
+				logAction("Fetching running shipment data via CSV fallback endpoint }/get-running-csv");
 				const res = await axios.get(`${config.apiBaseUrl}/get-running-csv`);
 				const currentLength = res.data.data?.length || 0;
 				const currentShipment = res.data.shipmentCode || "No Active Shipment";
@@ -422,8 +423,8 @@ export default function HomeDashboard() {
 				if (dataChanged) {
 					logAction(
 						currentLength > 0
-							? `Fallback update: ${currentLength} items | Shipment: ${currentShipment}`
-							: `Fallback: queue cleared (no active shipments)`
+							? `Dashboard update: ${currentLength} items | Shipment: ${currentShipment}`
+							: `Dashboard cleared: no active shipments`
 					);
 				}
 
@@ -438,7 +439,7 @@ export default function HomeDashboard() {
 		};
 		const startPolling = () => {
 			if (!pollInterval) {
-				logAction("Starting CSV fallback polling (every 1 second)");
+				//logAction("Starting CSV fallback polling (every 1 second)");
 				fetchRunning(); // Immediate fetch
 				pollInterval = setInterval(fetchRunning, 1000);
 			}
@@ -446,7 +447,7 @@ export default function HomeDashboard() {
 
 		const stopPolling = () => {
 			if (pollInterval) {
-				logAction("Stopping CSV fallback polling - WebSocket is active");
+				//logAction("Stopping CSV fallback polling - WebSocket is active");
 				clearInterval(pollInterval);
 				pollInterval = null;
 			}
@@ -636,6 +637,51 @@ export default function HomeDashboard() {
 		return [...new Set(order.map(o => o.SCPM_ID))];
 	}, [order]);
 
+	// useEffect(() => {
+	// 	let intervalId;
+
+	// 	const fetchTime = async () => {
+	// 		try {
+	// 			if (!SHPH_ShipmentID) return;
+
+	// 			const response = await axios.get(
+	// 				`${config.apiBaseUrl}/fetchtime/${SHPH_ShipmentID}`
+	// 			);
+
+	// 			const seconds = Number(response.data?.data[0]?.total_duration) || 0;
+
+	// 			// set initial time
+	// 			if (isMachineRunning) {
+	// 				console.log(response.data?.data[0]?.latest_status_seconds)
+	// 				const gettimeVal = response.data?.data[0]?.latest_status_seconds
+	// 				const addsecond = Math.floor(Date.now() / 1000);
+	// 				setElapsedTime(seconds + addsecond - gettimeVal);
+	// 			}
+	// 			else {
+	// 				setElapsedTime(seconds);
+	// 			}
+
+
+	// 			// start timer
+	// 			if (isMachineRunning) {
+	// 				intervalId = setInterval(() => {
+	// 					setElapsedTime(prev => prev + 1);
+	// 				}, 1000);
+	// 			}
+
+	// 		} catch (error) {
+	// 			console.error(error);
+	// 		}
+	// 	};
+
+	// 	fetchTime();
+
+	// 	// cleanup
+	// 	return () => {
+	// 		if (intervalId) clearInterval(intervalId);
+	// 	};
+	// }, [SHPH_ShipmentID]);
+
 	useEffect(() => {
 		let intervalId;
 
@@ -653,8 +699,9 @@ export default function HomeDashboard() {
 				if (isMachineRunning) {
 					console.log(response.data?.data[0]?.latest_status_seconds)
 					const gettimeVal = response.data?.data[0]?.latest_status_seconds
-					const addsecond = Math.floor(Date.now() / 1000);
-					setElapsedTime(seconds + addsecond - gettimeVal);
+					const serverNow = response.data?.data[0]?.server_now;
+					setElapsedTime(seconds + (serverNow - gettimeVal));
+
 				}
 				else {
 					setElapsedTime(seconds);
@@ -680,7 +727,6 @@ export default function HomeDashboard() {
 			if (intervalId) clearInterval(intervalId);
 		};
 	}, [SHPH_ShipmentID]);
-
 	useEffect(() => {
 		const running = order.find(i => i.status === "RUNNING");
 		const runningInfo = running ? `${running.SCPM_Name} - ${running.SHPD_ProductName}` : "None";
@@ -701,21 +747,27 @@ export default function HomeDashboard() {
 				}}
 			>
 				{/* Top Vehicle Bar */}
-				{shipmentCodeVal !== "N/A" && (
-					<div
-						style={{
-							background: "#ffffff",
-							padding: "14px 10px",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "space-between",
-							gap: "5px",
-							fontSize: "18px",
-							fontWeight: "600",
-							color: "#1e293b",
-							flexShrink: 0, // Prevent shrinking
-						}}
-					>
+				<div
+					style={{
+						background: "#ffffff",
+						padding: "14px 10px",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+						gap: "5px",
+						fontSize: "18px",
+						fontWeight: "600",
+						color: "#1e293b",
+						flexShrink: 0, // Prevent shrinking
+					}}
+				>
+					<div>
+						<img src={logo} alt="Shubham Automation" style={{ height: "32px" }} />
+						{/* <span style={{ fontSize: "12px", fontWeight: "bolder", color: "#383838" }}>
+								Shubham Automation Pvt. Ltd.
+							</span> */}
+					</div>
+					{shipmentCodeVal !== "N/A" && (
 						<div>
 							<span style={{ marginLeft: "8px" }}>
 								{shipmentCodeVal} &nbsp; | &nbsp;
@@ -729,16 +781,9 @@ export default function HomeDashboard() {
 								{vehicalCompany}
 							</span>
 						</div>
-						<div>
+					)}
 
-							<img src={logo} alt="Shubham Automation" style={{ height: "32px" }} />
-							{/* <span style={{ fontSize: "12px", fontWeight: "bolder", color: "#383838" }}>
-								Shubham Automation Pvt. Ltd.
-							</span> */}
-						</div>
-
-					</div>
-				)}
+				</div>
 
 
 				<div style={{

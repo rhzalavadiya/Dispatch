@@ -2221,3 +2221,28 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* space between toggle & ws dot */
+}
+
+/* Optional styling */
+.formHeading {
+  margin: 0;
+}
+

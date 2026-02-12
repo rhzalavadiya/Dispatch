@@ -15,6 +15,9 @@ import { InternetProvider } from "./contexts/InternetContext";
 import CheckInternet from "./components/common/CheckInternet";
 import CompletedOutward from "./components/ShipmentSca/completedoutward";
 import CameraSetup from "./components/CameraSetup/camerasetup";
+import DispatchReport from "./components/Reports/dispatchreport";
+import DispatchAuditReport from "./components/Reports/dispatchauditreport";
+import ReprintLabel from "./components/Reprint/reprint";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +26,8 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primeflex/primeflex.css";
 import "primereact/resources/primereact.css";
 import "./App.css";
+import { ShipmentStatusProvider } from "./contexts/ShipmentStatusContext";
+
 
 function App() {
   useEffect(() => {
@@ -33,6 +38,7 @@ function App() {
 
   return (
     <>
+     <ShipmentStatusProvider>
       <WebSocketProvider>
         <InternetProvider>
             <CheckInternet/>
@@ -59,6 +65,10 @@ function App() {
               <Route path="completedoutward" element={<CompletedOutward/>}/>
               <Route path="aboutus" element={<AboutUs />} />
               <Route path="camerasetup" element={<CameraSetup />} />
+              <Route path="dispatch-report" element={<DispatchReport/>}/>
+              <Route path="dispatch-audit" element={<DispatchAuditReport/>}/>
+              <Route path="reprint" element={<ReprintLabel/>}/>
+
             </Route>
             <Route path="dashboard" element={<HomeDashboard />} />
           </Routes>
@@ -66,6 +76,7 @@ function App() {
         </BrowserRouter>
         </InternetProvider>
       </WebSocketProvider>
+      </ShipmentStatusProvider>
 
       <ToastContainer
         position="top-right"

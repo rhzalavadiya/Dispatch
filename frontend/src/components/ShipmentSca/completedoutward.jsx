@@ -83,13 +83,14 @@ export default function CompletedOutward() {
   }, []);
 
   const fetchShipmentList = async () => {
-	logAction(`Executing API: /ShipListData | CompanyID: ${UM_CompanyID}, FromSCP: ${SHPH_FromSCPCode}`);
+	logAction(`Executing API: /completedshipment | CompanyID: ${UM_CompanyID}, FromSCP: ${SHPH_FromSCPCode}`);
 	try {
-	  const response = await localApi.post("/ShipListData", {
+	  const response = await localApi.post("/completedshipment", {
 		SHPH_CompanyID: UM_CompanyID,
 		SHPH_FromSCPCode: SHPH_FromSCPCode,
 	  });
-
+    logAction(`API Response received for completed shipments - Success: ${response.data.success}, Shipments Count: ${response.data.shipment?.length || 0}`);
+    console.log("API Response for completed shipments:", response.data);
 	  if (response.data.success) {
 		logAction(`Completed shipments fetched successfully - Count: ${response.data.shipment?.length || 0}`);
 		setShipmentData(response.data.shipment || []);
@@ -360,7 +361,7 @@ export default function CompletedOutward() {
 	  const result = await vpsApi.post("/syncsingleshipment", response.data.data);
 
 	  if (result.data.success) {
-		logAction(`Marking as synced: /ShipmentSyncStatus for ${shipmentId}`);
+		logAction(`Marking as synced: /ShipmentSyncStatus for ${shipmentId} response received: ${JSON.stringify(result.data)}`);
 		await localApi.post("/ShipmentSyncStatus", {
 		  shipmentId: shipmentId,
 		  isSynced: true,
@@ -439,7 +440,7 @@ export default function CompletedOutward() {
       const response = await localApi.get(`/deliverychallan/${shipmentId}/${selectedScpId}`);
 
       const data = response.data;
-      logAction(`Delivery challan data received  length :${data.result?.length || 0} destination(s)`);
+      logAction(`Delivery challan data received  length :${data.result?.length || 0} destination(s) response: ${JSON.stringify(data.result)}`);
 
       if (data.result.length === 0) {
         logAction("No delivery challan data found for PDF generation", true);
@@ -472,7 +473,7 @@ export default function CompletedOutward() {
         const allResponse = await localApi.get(`/deliverychallan/all/${shipmentId}/${selectedScpId}`);
 
         const allData = allResponse.data;
-        logAction(`Combined delivery challan data received `);
+        logAction(`Combined delivery challan data received response: ${JSON.stringify(allData)}`);
 
         if (!allData?.success || !allData?.combinedDetails) {
           logAction("Combined delivery challan data not found or invalid format", true);
@@ -517,12 +518,15 @@ export default function CompletedOutward() {
     const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
     const startX = doc.internal.pageSize.getWidth() - 55;
     doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
+   doc.setFontSize(10);
     doc.text("Printed On", startX, 18);
-    doc.text(":", startX + 14, 18);
-    doc.text(formattedDate, startX + 17, 18);
+    doc.text(":", startX + 18, 18);
+    doc.text(formattedDate, startX + 20, 18);
+
     doc.text("Printed By", startX, 24);
-    doc.text(":", startX + 14, 24);
-    doc.text(UM_UserCode, startX + 17, 24);
+    doc.text(":", startX + 18, 24);
+    doc.text(UM_UserCode, startX + 20, 24);
+
     /* ---------------- TITLE ---------------- */
   doc.setFontSize(PDF_REF_STYLE.title.fontSize);
 doc.setTextColor(...PDF_REF_STYLE.title.color);
@@ -706,12 +710,15 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
     const startX = doc.internal.pageSize.getWidth() - 55;
     doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
+    doc.setFontSize(10);
     doc.text("Printed On", startX, 18);
-    doc.text(":", startX + 14, 18);
-    doc.text(formattedDate, startX + 17, 18);
+    doc.text(":", startX + 18, 18);
+    doc.text(formattedDate, startX + 20, 18);
+
     doc.text("Printed By", startX, 24);
-    doc.text(":", startX + 14, 24);
-    doc.text(UM_UserCode, startX + 17, 24);
+    doc.text(":", startX + 18, 24);
+    doc.text(UM_UserCode, startX + 20, 24);
+
     /* ---------------- TITLE ---------------- */
    doc.setFontSize(PDF_REF_STYLE.title.fontSize);
 doc.setTextColor(...PDF_REF_STYLE.title.color);

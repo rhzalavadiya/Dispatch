@@ -9,33 +9,6 @@ const conn = require("./Database/database");
 const app = express();
 app.use(express.json({ limit: "1000mb" }));
 app.use(express.urlencoded({ limit: "1000mb", extended: true }));
-
-// const allowedOrigins = [
-//     "http://192.168.1.7:3000", 
-//      "http://192.168.1.39:3000",// Local frontend
-//     "http://91.108.111.207:3000", 
-// "http://192.168.1.201:3000",// If frontend hosted on VPS later
-// "http://192.168.1.130:3000",
-//     "http://localhost:3000", // optional
-//  "http://192.168.7.5:3000", 
-// ];
-
-// app.use(cors({
-//     origin: function (origin, callback) {
-//         if (!origin) return callback(null, true);
-
-//         if (allowedOrigins.includes(origin)) {
-//             return callback(null, true);
-//         } else {
-//             return callback(new Error("CORS blocked: " + origin));
-//         }
-//     },
-//     credentials: true,
-//     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
-//     allowedHeaders: ["Content-Type", "Authorization"]
-// }));
-
-
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
@@ -61,9 +34,6 @@ app.use(cors({
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
-
-
 const logToFile = (logMessage, isError = false) => {
   const logDir = path.join(process.cwd(), "Logs"); // Safe for Ubuntu & Windows
 
@@ -314,6 +284,9 @@ WHERE shipmentlist.SHPH_FromSCPCode = ?`,
     const shipmentbatchallocation = await queryMySQL(`SELECT shipmentbatchallocation.* FROM shipmentbatchallocation 
       join shipmentlist on shipmentlist.SHPH_ShipmentID=shipmentbatchallocation.SBA_SHPH_ShipmentID`);
 
+    const notificationmaster =await queryMySQL(`SELECT * FROM notificationmaster 
+      where NFM_SCPID=? and NFM_EventType in ('Shipment Creation','Shipment Edit')`, [selectedScpId]);
+
     return {
       shipmentlist,
       shipmentmaster,
@@ -338,6 +311,8 @@ WHERE shipmentlist.SHPH_FromSCPCode = ?`,
       ordermaster,
       schememaster,
       orderschememaster,
+      notificationmaster
+      
     };
   } catch (error) {
     console.error("Migration failed:", error.message);

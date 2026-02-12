@@ -1,0 +1,6 @@
+Timestamp,BatchId,UserId,CurrentAlarm,MachineStatus,TotalProductCount,TotalPassCount,ProductDynamicWeight,OffsetPlus,OffsetMinus,CurrentWeight,CurrentWeightStatus,UnderWeightCount,OverWeightCount,DoubleCounts,BatchStatus,RSN,RSN_JSON,Status,SCPM_Code,ReasonCode,ReasonDescription
+2026-02-06 17:26:06,341,1,0,1,1,0,0,0,0,5775,2,0,0,1,1,,,FAIL,MM,5,NO READ
+2026-02-06 17:27:21,341,1,0,1,2,0,0,0,0,5780,2,0,0,2,1,,,FAIL,MM,5,NO READ
+2026-02-06 17:32:33,342,1,0,1,1,1,5500,500,500,5785,2,0,0,0,1,0101023THH830P,"{""IRS_ID"": 78, ""IRS_ProductID"": 23, ""PM_GrossWeight"": 5.5, ""PM_MaxOffset"": 500, ""PM_MinOffset"": 500, ""IRS_PackSize"": 1, ""IRS_BatchID"": 34, ""IRS_PhysicalLocation"": 6, ""IRS_CompanyID"": 1, ""IRS_RandomNo"": ""0101023THH830P"", ""IRS_ParentRandomNo"": """", ""BL_ExpDate"": ""2026-06-05T13:00:00.000Z"", ""IRS_ToSCP"": """", ""isExpired"": 0, ""_batch_index"": 0}",PASS,MM,1,VALID RSN
+2026-02-09 11:52:44,343,1,0,1,1,0,0,0,0,5785,0,0,0,1,1,,,FAIL,MM,5,NO READ
+2026-02-09 11:54:37,344,1,0,1,1,0,0,0,0,5775,0,0,0,1,1,,,FAIL,MM,6,INVALID RSN

@@ -65,16 +65,10 @@ const NewLogin = () => {
         const { name, value } = e.target;
         if (name === "UM_UserCode") {
             setPwdCheckBox(false);
-            logAction("Input: Username entered", false, { 
-                length: value.length, 
-                username: value 
-            });
+            logAction(`Input: Username entered ${value}`);
         }
         if (name === "UM_Password") {
-            logAction("Input: Password field interacted", false, { 
-                hasValue: !!value,
-                length: value.length 
-            });
+            logAction(`Input: Password entered ${value}`);
         }
         setLoginForm((prev) => ({
             ...prev,
@@ -98,7 +92,7 @@ const NewLogin = () => {
 
     const loginWithPassword = async (e) => {
         e.preventDefault();
-        logAction("Button Clicked: LOGIN", false, {
+        logAction("Button Clicked: LOGIN", {
             hasUsername: !!loginForm.UM_UserCode,
             hasPassword: !!loginForm.UM_Password,
             changePasswordChecked: pwdCheckBox,
@@ -122,7 +116,7 @@ const NewLogin = () => {
             if (getRes.data.data.isPasswordChange === 0) {
                 setPwdChangeModal(true);
                 setPwdCheckBox(true);
-                logAction("First-time login detected - Opening password change modal", false, { forceChange: true });
+                logAction("First-time login detected - Opening password change modal");
                 return;
             }
 
@@ -139,12 +133,7 @@ const NewLogin = () => {
                 sessionStorage.setItem("SCPId", val.SCPId);
                 sessionStorage.setItem("isLogin", "true");
 
-                logAction("Login successful - Session data stored", false, {
-                    userId: val.userID,
-                    userName: val.userName,
-                    companyId: val.CompanyId,
-                    scpId: val.SCPId
-                });
+                logAction(`Login successful - Session data stored ${val}`);
 
                 if (val.isPasswordExpired) {
                     setIsPasswordExpired(true);
@@ -168,7 +157,7 @@ const NewLogin = () => {
             }
         } catch (error) {
             console.error("Login error:", error);
-
+            logAction(`Login failed: ${error.message}`, true);
             // If offline → interceptor already showed toast, we just return
             if (error.message === "OFFLINE") {
                 return;
@@ -232,12 +221,12 @@ const NewLogin = () => {
         const { name, value } = e.target;
         setNewPwdForm((prev) => ({ ...prev, [name]: value }));
         validatePasswordUpdateField(name, value);
-        logAction(`Password modal input: ${name}`, false, { hasValue: !!value, length: value.length });
+        logAction(`Password modal input: ${name} value entered  : ${value}`);
     };
 
     const setNewPassword = async (e) => {
         e.preventDefault();
-        logAction("Button Clicked: Set Password (modal)", false, { username: loginForm.UM_UserCode });
+        logAction(`Button Clicked: Set Password (modal) - Username: ${loginForm.UM_UserCode}`);
 
         const password = newPwdForm.pwdval;
         const cPassword = newPwdForm.confirmPwdVal;
@@ -302,7 +291,7 @@ const NewLogin = () => {
             }
 
             // Sync to VPS
-            logAction(`Executing API: /get-user-local-to-vps`);
+            logAction(`Executing API: /get-user-local-to-vps json data : ${JSON.stringify(data)}`);
             const syncpassword = await localApi.post("/get-user-local-to-vps", data);
 
             if (syncpassword.status === 200 && syncpassword.data.success) {
@@ -344,7 +333,7 @@ const NewLogin = () => {
 
             const errMsg = error.response?.data?.message || error.message || "An error occurred";
             toast.error(errMsg, { position: "top-right" });
-            logAction(`Password change failed: ${errMsg}`, true);
+            logAction(`Password change failed: ${errMsg} and error ${error}`, true);
         }
     };
 
@@ -366,7 +355,7 @@ const NewLogin = () => {
 
                 if (response.status === 200 && response.data.success) {
                     const syncData = response.data.data;
-                    logAction(`Executing API: /sync-login-details data : ${syncData.length} records to local`);
+                    logAction(`Executing API: /sync-login-details data : ${syncData.length} records to local and data : ${JSON.stringify(syncData)}`);
                     const result = await localApi.post("/sync-login-details", syncData);
 
                     if (result.data.success) {
@@ -379,7 +368,7 @@ const NewLogin = () => {
             } catch (error) {
                 if (error.message === "OFFLINE") return;
 
-                logAction(`Login sync API failed: ${error.message}`, true);
+                logAction(`Login sync API failed: ${error.message} and error object: ${JSON.stringify(error)}`, true);
                 console.error("Login sync API failed", error);
                 toast.error("Failed to sync login data", { position: "top-right" });
             }
@@ -390,9 +379,9 @@ const NewLogin = () => {
     //-------------------------check if shipment running status for login---------------------------
 const redirectResumeShipment = async () => {
   try {
+    logAction("Checking for resume shipment on login on this /check-resume-shipments");
     const res = await localApi.get("/check-resume-shipments");
     console.log("Resume shipment check response:", res);
-
     const id = res.data?.data?.SHPH_ShipmentID;
 
     if (id) {
@@ -404,6 +393,7 @@ const redirectResumeShipment = async () => {
     }
   } catch (err) {
     console.error("Resume redirect failed:", err);
+    logAction(`Resume shipment check failed: ${err.message} and error object: ${JSON.stringify(err)}`, true);
     navigate("/shipmentscanning");
   }
 };

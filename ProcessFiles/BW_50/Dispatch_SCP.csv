@@ -1,13 +1,13 @@
-SHPD_ShipmentMID,SHPH_ShipmentID,SHPH_ShipmentType,SHPH_Status,SHPH_ShipmentCode,ORDM_OrderNumber,SCPM_ID,SCPM_Code,SCPM_Name,LGCM_Name,LGCVM_VehicleNumber,SHPD_ProductName,SHPD_ProductCode,PL_ProductId,PM_PackSize,PM_GrossWeight,PM_MinOffset,PM_MaxOffset,SHPD_ShipQty,BatchId,Count,Address,userId,userName,pass,fail,total,remaining,status
-141,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,PRODUCT PAPAD,PP,37,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,RUNNING
-142,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,Garlic-Papad 200 GM,GP01,36,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,
-143,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,prod002,prod2,35,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,
-144,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,prod001,prod101,34,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,
-145,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,DEMO-01,DEMO02,31,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,
-146,68,New Order,2,BW_50,ORD_SO_GP01_2,36,N01,Nashik,Logistic 1,GJ11LP8745,DOBULE MARI PAPAD 400 GM,DM01,18,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,
-135,68,New Order,2,BW_50,ORD_B01_1,37,B01,Baddi,Logistic 1,GJ11LP8745,DEMO-01,DEMO02,31,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,
-136,68,New Order,2,BW_50,ORD_SO_GP01_6,37,B01,Baddi,Logistic 1,GJ11LP8745,Garlic-Papad 200 GM,GP01,36,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,
-137,68,New Order,2,BW_50,ORD_SO_GP01_6,37,B01,Baddi,Logistic 1,GJ11LP8745,KEMCHHO PAPAD,123,27,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,
-138,68,New Order,2,BW_50,ORD_SO_GP01_7,37,B01,Baddi,Logistic 1,GJ11LP8745,PRODUCT PAPAD,PP,37,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,
-139,68,New Order,2,BW_50,ORD_SO_GP01_8,37,B01,Baddi,Logistic 1,GJ11LP8745,Garlic-Papad 200 GM,GP01,36,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,
-140,68,New Order,2,BW_50,ORD_SO_GP01_8,37,B01,Baddi,Logistic 1,GJ11LP8745,PRODUCT PAPAD,PP,37,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,
+SHPD_ShipmentMID,SHPH_ShipmentID,SHPH_ShipmentType,SHPH_Status,SHPH_ShipmentCode,ORDM_OrderNumber,SCPM_ID,SCPM_Code,SCPM_Name,LGCM_Name,LGCVM_VehicleNumber,SHPD_ProductName,SHPD_ProductCode,PL_ProductId,PM_PackSize,PM_GrossWeight,PM_MinOffset,PM_MaxOffset,SHPD_ShipQty,BatchId,Count,Address,userId,userName,pass,fail,total,remaining,status,BypassMode
+141,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,PRODUCT PAPAD,PP,37,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,RUNNING,FALSE
+142,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,Garlic-Papad 200 GM,GP01,36,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,,FALSE
+143,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,prod002,prod2,35,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,,FALSE
+144,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,prod001,prod101,34,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,,FALSE
+145,68,New Order,2,BW_50,ORD_SO_GP01_11,36,N01,Nashik,Logistic 1,GJ11LP8745,DEMO-01,DEMO02,31,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,,FALSE
+146,68,New Order,2,BW_50,ORD_SO_GP01_2,36,N01,Nashik,Logistic 1,GJ11LP8745,DOBULE MARI PAPAD 400 GM,DM01,18,,,,,1,,,"thaltej, , Ahmedabad, Gujarat, India, 654789",33,WH1,0,0,1,1,,FALSE
+135,68,New Order,2,BW_50,ORD_B01_1,37,B01,Baddi,Logistic 1,GJ11LP8745,DEMO-01,DEMO02,31,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,,FALSE
+136,68,New Order,2,BW_50,ORD_SO_GP01_6,37,B01,Baddi,Logistic 1,GJ11LP8745,Garlic-Papad 200 GM,GP01,36,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,,FALSE
+137,68,New Order,2,BW_50,ORD_SO_GP01_6,37,B01,Baddi,Logistic 1,GJ11LP8745,KEMCHHO PAPAD,123,27,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,,FALSE
+138,68,New Order,2,BW_50,ORD_SO_GP01_7,37,B01,Baddi,Logistic 1,GJ11LP8745,PRODUCT PAPAD,PP,37,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,,FALSE
+139,68,New Order,2,BW_50,ORD_SO_GP01_8,37,B01,Baddi,Logistic 1,GJ11LP8745,Garlic-Papad 200 GM,GP01,36,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,,FALSE
+140,68,New Order,2,BW_50,ORD_SO_GP01_8,37,B01,Baddi,Logistic 1,GJ11LP8745,PRODUCT PAPAD,PP,37,,,,,1,,,"Near Baghban Party Plot, Thaltej, Ahmedabad, Gujrat, India, 654789",33,WH1,0,0,1,1,,FALSE
