@@ -4,7 +4,7 @@ const { shipmentListData, shipmentEditData, shipmentViewData, getRSNData, chnage
 const router = express.Router();
 router.post(`/ShipListData`, shipmentListData);
 router.get(`/ShipmentEdit/:id`,shipmentEditData);
-router.get(`/ShipmentView/:id`,shipmentViewData);
+router.get(`/ShipmentView/:shipmentCode`,shipmentViewData);
 router.get(`/rsnData/:irsLocation/:id`,getRSNData);
 router.put(`/changeShipmentStatus/:shipmentId/:newStatus/:userId`,chnageShipmentStatus);
 router.post("/ShipmentSyncStatus",updateShipmentSyncStatus);

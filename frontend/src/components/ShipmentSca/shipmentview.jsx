@@ -6,7 +6,7 @@ import { Column } from "primereact/column";
 import { config } from "../config/config";
 
 export default function ShipmentView() {
-  const { id } = useParams();
+  const { shipmentCode } = useParams();
 
   const [header, setHeader] = useState(null);
   const [products, setProducts] = useState([]);
@@ -38,7 +38,7 @@ export default function ShipmentView() {
   useEffect(() => {
     const loadShipmentData = async () => {
       try {
-        const res = await axios.get(`${config.apiBaseUrl}/ShipmentView/${id}`);
+        const res = await axios.get(`${config.apiBaseUrl}/ShipmentView/${shipmentCode}`);
         if (res.data.success) {
           logAction("Shipment data loaded successfully");
           setHeader(res.data.shipmentHeader);
@@ -51,7 +51,7 @@ export default function ShipmentView() {
     };
 
     loadShipmentData();
-  }, [id]);
+  }, [shipmentCode]);
 
   return (
     <>

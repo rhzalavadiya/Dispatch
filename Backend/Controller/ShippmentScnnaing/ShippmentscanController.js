@@ -76,8 +76,8 @@ ORDER BY sl.SHPH_ShipmentID DESC;
 };
 
 const shipmentViewData = async (req, res) => {
-	const { id } = req.params;
-	if (!id) {
+	const { shipmentCode } = req.params;
+	if (!shipmentCode) {
 		return res.status(400).json({
 			success: false,
 			message: "shipmentId is required",
@@ -106,7 +106,7 @@ LEFT JOIN enummaster emScan
 LEFT JOIN enummaster emStatus
 	ON emStatus.EnumType = 'Shipment'
 	AND emStatus.EnumVal = sl.SHPH_Status
-WHERE sl.SHPH_ShipmentID = ?;
+WHERE sl.SHPH_ShipmentCode = ?;
 	`;
 		const query2 = `
 		SELECT 
@@ -122,10 +122,11 @@ WHERE sl.SHPH_ShipmentID = ?;
 			ON shipmentmaster.SHPD_SCPCode = scpmaster.SCPM_ID 
 		JOIN orderlist 
 			ON shipmentmaster.SHPD_OrderID = orderlist.ORDM_OrderID
-		WHERE shipmentmaster.SHPD_ShipmentID = ?;
+		WHERE shipmentmaster.SHPD_ShipmentID = (select SHPH_ShipmentID from shipmentlist where SHPH_ShipmentCode = ?);
 	`;
-		const [headerData] = await conn.query(query1, [id]);
-		const [productData] = await conn.query(query2, [id]);
+		const [headerData] = await conn.query(query1, [shipmentCode]);
+		const [productData] = await conn.query(query2, [shipmentCode]);
+		//console.log("Header Data : ", headerData);
 		return res.status(200).json({
 			success: true,
 			shipmentHeader: headerData.length ? headerData[0] : null,

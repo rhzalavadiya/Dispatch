@@ -191,8 +191,6 @@ export function ProductionQueue({
 	);
 }
 
-
-
 export default function HomeDashboard() {
 	const toast = useRef(null);
 	const [order, setOrder] = useState([]);
@@ -211,9 +209,6 @@ export default function HomeDashboard() {
 
 
 	// === DERIVED DATA ===
-	// const vehicleNumber = order[0]?.LGCVM_VehicleNumber || "N/A";
-	// const vehicalCompany = order[0]?.LGCM_Name || "N/A";
-
 	const SHPH_ShipmentID = csvOrder[0]?.SHPH_ShipmentID;
 
 	const vehicleNumber = csvOrder[0]?.LGCVM_VehicleNumber || "N/A";
@@ -234,11 +229,6 @@ export default function HomeDashboard() {
 		sum + (parseInt(item.SHPD_ShipQty || 0)), 0);
 
 	const efficiency = totalPassed > 0 ? ((totalPassed / totalCount) * 100).toFixed(1) : "0.0";
-	// const overallProgress = totalTarget > 0 ? ((totalPassed / totalTarget) * 100).toFixed(1) : "0.0";
-	// const overallPass = totalPassed > 0 ? ((totalPassed / totalProcessed) * 100).toFixed(1) : "0.0";
-	// const overallFail = totalFailed > 0 ? ((totalFailed / totalProcessed) * 100).toFixed(1) : "0.0";
-
-
 
 	const formatTime = (seconds) => {
 		const hrs = Math.floor(seconds / 3600);
@@ -500,33 +490,11 @@ export default function HomeDashboard() {
 		item => item.status !== "RUNNING" && item.status !== "COMPLETED"
 	);
 
-	// 	const queuedItems = csvOrder.filter(
-	//   item => item.status !== "RUNNING" && item.status !== "COMPLETED"
-	// );
-
 	// 2️⃣ Check if the last shipment is currently running
 	const lastItemIsRunning =
 		order.length > 0 && order[order.length - 1].status === "RUNNING";
 
-	// 	const lastItemIsRunning =
-	//   csvOrder.length > 0 && csvOrder[csvOrder.length - 1].status === "RUNNING";
-
 	const runningOrders = order?.filter((order) => order.status === "RUNNING");
-	// const completedOrders = useMemo(() => {
-	// 	if (!Array.isArray(order)) return [];
-
-	// 	const scpmMap = {};
-
-	// 	order.forEach((o) => {
-	// 		scpmMap[o.SCPM_ID] ??= [];
-	// 		scpmMap[o.SCPM_ID].push(o);
-	// 	});
-
-	// 	return Object.values(scpmMap)
-	// 		.filter(g => g.every(o => +o.pass === +o.total))
-	// 		.map(g => g[0].SCPM_Name);
-	// }, [order]);
-
 	const [visibleRows, setVisibleRows] = useState([]);
 
 	const completedScpmNames = useMemo(() => {
@@ -636,52 +604,6 @@ export default function HomeDashboard() {
 		if (!Array.isArray(order)) return [];
 		return [...new Set(order.map(o => o.SCPM_ID))];
 	}, [order]);
-
-	// useEffect(() => {
-	// 	let intervalId;
-
-	// 	const fetchTime = async () => {
-	// 		try {
-	// 			if (!SHPH_ShipmentID) return;
-
-	// 			const response = await axios.get(
-	// 				`${config.apiBaseUrl}/fetchtime/${SHPH_ShipmentID}`
-	// 			);
-
-	// 			const seconds = Number(response.data?.data[0]?.total_duration) || 0;
-
-	// 			// set initial time
-	// 			if (isMachineRunning) {
-	// 				console.log(response.data?.data[0]?.latest_status_seconds)
-	// 				const gettimeVal = response.data?.data[0]?.latest_status_seconds
-	// 				const addsecond = Math.floor(Date.now() / 1000);
-	// 				setElapsedTime(seconds + addsecond - gettimeVal);
-	// 			}
-	// 			else {
-	// 				setElapsedTime(seconds);
-	// 			}
-
-
-	// 			// start timer
-	// 			if (isMachineRunning) {
-	// 				intervalId = setInterval(() => {
-	// 					setElapsedTime(prev => prev + 1);
-	// 				}, 1000);
-	// 			}
-
-	// 		} catch (error) {
-	// 			console.error(error);
-	// 		}
-	// 	};
-
-	// 	fetchTime();
-
-	// 	// cleanup
-	// 	return () => {
-	// 		if (intervalId) clearInterval(intervalId);
-	// 	};
-	// }, [SHPH_ShipmentID]);
-
 	useEffect(() => {
 		let intervalId;
 
@@ -763,9 +685,6 @@ export default function HomeDashboard() {
 				>
 					<div>
 						<img src={logo} alt="Shubham Automation" style={{ height: "32px" }} />
-						{/* <span style={{ fontSize: "12px", fontWeight: "bolder", color: "#383838" }}>
-								Shubham Automation Pvt. Ltd.
-							</span> */}
 					</div>
 					{shipmentCodeVal !== "N/A" && (
 						<div>
@@ -1041,18 +960,6 @@ export default function HomeDashboard() {
 							</div>
 						);
 					})()}
-
-
-					{/* <div
-						style={{
-							flex: 1,
-							overflow: "hidden",
-							display: "flex",
-							flexDirection: "row",
-							gap: "20px",
-							height: "40%"
-						}}
-					> */}
 					<div
 						style={{
 							height: "40vh", // 🔥 NOT "40%"
@@ -1181,11 +1088,6 @@ export default function HomeDashboard() {
 													<strong style={{ fontSize: "1rem" }}>
 														{item}
 													</strong>
-													{/* &nbsp; | &nbsp; */}
-													{/* {item.SHPD_ProductName} */}
-													{/* &nbsp; | &nbsp;
-													QTY:{" "} */}
-													{/* {parseInt(item.SHPD_ShipQty).toLocaleString()} */}
 												</div>
 											</div>
 										</div>))
@@ -1193,29 +1095,6 @@ export default function HomeDashboard() {
 							</div>
 						</div>
 					</div>
-
-
-
-					{/* </div> */}
-
-
-					{/* <footer
-						style={{
-							padding: "10px 15px",
-							borderTop: "1px solid #ddd",
-							display: "flex",
-							alignItems: "center",
-							gap: "8px",
-							background: "#f8fafc",
-							marginTop: "15px",
-							flexShrink: 0, // Prevent shrinking
-						}}
-					>
-						<img src={logo} alt="Shubham Automation" style={{ height: "32px" }} />
-						<span style={{ fontSize: "12px", fontWeight: "bolder", color: "#383838" }}>
-							Shubham Automation Pvt. Ltd.
-						</span>
-					</footer> */}
 				</div>
 			</div>
 		</>

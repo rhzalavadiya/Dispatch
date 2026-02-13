@@ -126,11 +126,10 @@ const MySQLToVPSMigration = async (
     // console.log(shipmentlist)
     // 2. shipmentmaster
     const shipmentmaster = await queryMySQL(
-      `SELECT shipmentmaster.*
-FROM shipmentmaster
-LEFT JOIN shipmentlist 
-    ON shipmentlist.SHPH_ShipmentID = shipmentmaster.SHPD_ShipmentID
-WHERE shipmentlist.SHPH_FromSCPCode = ?`,
+      `SELECT shipmentmaster.* 
+      FROM shipmentmaster 
+      LEFT JOIN shipmentlist ON shipmentlist.SHPH_ShipmentID = shipmentmaster.SHPD_ShipmentID 
+      WHERE shipmentlist.SHPH_FromSCPCode = ?`,
       [selectedScpId]
     );
 
@@ -219,25 +218,23 @@ WHERE shipmentlist.SHPH_FromSCPCode = ?`,
       [selectedScpId]
     );
 
-    let ordermaster =[];
-    for (const orders of orderlist)
-    {
-      const ORDM_OrderID=orders.ORDM_OrderID;
-      const ordermasterData=await queryMySQL("SELECT * FROM ordermaster where ORDIT_OrderID=?",[ORDM_OrderID]);
-     // console.log(ordermasterData);
-      if(ordermasterData.length>0){
+    let ordermaster = [];
+    for (const orders of orderlist) {
+      const ORDM_OrderID = orders.ORDM_OrderID;
+      const ordermasterData = await queryMySQL("SELECT * FROM ordermaster where ORDIT_OrderID=?", [ORDM_OrderID]);
+      // console.log(ordermasterData);
+      if (ordermasterData.length > 0) {
         ordermaster.push(...ordermasterData);
       }
     }
 
 
-    let orderschememaster =[];
-    for (const orders of orderlist)
-    {
-      const ORDM_OrderID=orders.ORDM_OrderID;
-      const orderschememasterData=await queryMySQL("SELECT * FROM orderschememaster where OSM_ORDM_OrderID=?",[ORDM_OrderID]);
-     // console.log(ordermasterData);
-      if(orderschememasterData.length>0){
+    let orderschememaster = [];
+    for (const orders of orderlist) {
+      const ORDM_OrderID = orders.ORDM_OrderID;
+      const orderschememasterData = await queryMySQL("SELECT * FROM orderschememaster where OSM_ORDM_OrderID=?", [ORDM_OrderID]);
+      // console.log(ordermasterData);
+      if (orderschememasterData.length > 0) {
         orderschememaster.push(...orderschememasterData);
       }
     }
@@ -284,7 +281,7 @@ WHERE shipmentlist.SHPH_FromSCPCode = ?`,
     const shipmentbatchallocation = await queryMySQL(`SELECT shipmentbatchallocation.* FROM shipmentbatchallocation 
       join shipmentlist on shipmentlist.SHPH_ShipmentID=shipmentbatchallocation.SBA_SHPH_ShipmentID`);
 
-    const notificationmaster =await queryMySQL(`SELECT * FROM notificationmaster 
+    const notificationmaster = await queryMySQL(`SELECT * FROM notificationmaster 
       where NFM_SCPID=? and NFM_EventType in ('Shipment Creation','Shipment Edit')`, [selectedScpId]);
 
     return {
@@ -312,7 +309,7 @@ WHERE shipmentlist.SHPH_FromSCPCode = ?`,
       schememaster,
       orderschememaster,
       notificationmaster
-      
+
     };
   } catch (error) {
     console.error("Migration failed:", error.message);
@@ -406,7 +403,7 @@ app.post("/syncsingleshipment", async (req, res) => {
 
 app.post("/revers-sync", async (req, res) => {
   const data = req.body;
-  
+
   if (!data) {
     return res
       .status(400)
@@ -527,7 +524,7 @@ const LoginSync = async () => {
       join scpmaster on scpmaster.SCPM_ID=usermaster.UM_DefaultSCPId 
       join appmaster on appmaster.AppId=grouproleinfo.gri_AppID
       where scpmaster.SCPM_Code=? and appmaster.AppName=?;`,
-      [process.env.SCPMCode,process.env.APPName]
+      [process.env.SCPMCode, process.env.APPName]
     );
 
     const [groupmaster] = await conn.query(
@@ -773,8 +770,8 @@ const RSNData = async () => {
     if (scpmRows.length === 0) {
       throw new Error('No SCP found for given SCPMCode');
     }
-    const { selectedScpId} = scpmRows[0].SCPM_ID;
-      const importrsnshipment = await conn.query(
+    const { selectedScpId } = scpmRows[0].SCPM_ID;
+    const importrsnshipment = await conn.query(
       `SELECT * FROM importrsnshipment WHERE IRS_PhysicalLocation = ?`,
       [selectedScpId]
     );
@@ -789,7 +786,7 @@ const RSNData = async () => {
   }
 }
 
-app.get("/rsndata",async(req,res)=>{
+app.get("/rsndata", async (req, res) => {
   try {
     const data = await RSNData();
     res.status(200).json({

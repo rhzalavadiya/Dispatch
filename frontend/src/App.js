@@ -61,7 +61,7 @@ function App() {
               
               <Route path="shipmentscanning" element={<ShipmentScanning />} />
               <Route path="editShipment/:id" element={<ShipmentEdit />} />
-              <Route path="viewShipment/:id" element={<ShipmentView />} />
+              <Route path="viewShipment/:shipmentCode" element={<ShipmentView />} />
               <Route path="completedoutward" element={<CompletedOutward/>}/>
               <Route path="aboutus" element={<AboutUs />} />
               <Route path="camerasetup" element={<CameraSetup />} />

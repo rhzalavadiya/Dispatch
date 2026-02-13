@@ -91,6 +91,52 @@ app.post("/api/log", (req, res) => {
   res.sendStatus(200);
 });
 
+//----------------------- Dashboard logging endpoint -----------------------
+const logToFileDashbord = (logMessage, isError = false) => {
+  const logDir = path.join(process.cwd(), "Logs"); // Safe for Ubuntu & Windows
+
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
+
+  const today = new Date();
+  // Format date as DDMMYYYY to match sample (e.g., 05012026)
+  const pad = (n) => n.toString().padStart(2, '0');
+  const dateString = pad(today.getDate()) + pad(today.getMonth() + 1) + today.getFullYear();
+  const logFileName = `DASHBOARDLOG-${dateString}.txt`;
+  const logFilePath = path.join(logDir, logFileName);
+
+  const timestamp = today.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+    fractionalSecondDigits: 3,
+  });
+
+  // Prepend timestamp to the formatted message
+  const fullLog = `[${timestamp}] ${logMessage}\n`;
+
+  fs.appendFile(logFilePath, fullLog, (err) => {
+    if (err) {
+      console.error(`Error writing to ${logFilePath}:`, err);
+    }
+  });
+};
+
+app.post("/api/logdashboard", (req, res) => {
+  const { module, action, userCode, isError } = req.body;
+  const ip = req.ip || 'unknown'; // Capture client IP
+  const version = process.env.VERSION; // Match sample; change if needed
+  const type = isError ? '[ERROR]' : '[LOG]';
+
+  // Format to match sample: [ip] : module : [version] : [type] : userCode : action
+  const formattedMessage = `[${ip}] : ${module} : [${version}] : ${type} : ${userCode} : ${action}`;
+
+  logToFileDashbord(formattedMessage, isError);
+
+  res.sendStatus(200);
+});
 
 
 app.post("/sync-vps-to-local", async (req, res) => {
@@ -127,6 +173,8 @@ app.post("/sync-vps-to-local", async (req, res) => {
     { name: "ordermaster", key: "ORDIT_ORDERMID" },
     { name: "schememaster", key: "SM_ID" },
     { name: "orderschememaster", key: "OSM_ID" },
+    { name: "orderschememaster", key: "OSM_ID" },
+    { name: "notificationmaster", key: "NFM_ID" },
   ];
 
   try {
@@ -1590,64 +1638,59 @@ ORDER BY m.MNM_MenuIndex, s.SMNM_SubMenuIndex;
     res.status(500).json({ success: false });
   }
 });
-// -------------------check shipment status for dashboard---------------------------
+// -------------------Notification API---------------------------
 
-router.get('/current-shipment-status', async (req, res) => {
-  const { SHPH_CompanyID, SHPH_FromSCPCode } = req.query;
-
-  // Validate required parameters
-  if (!SHPH_CompanyID || !SHPH_FromSCPCode) {
-    return res.status(400).json({
-      success: false,
-      message: "SHPH_CompanyID and SHPH_FromSCPCode are required",
-    });
-  }
-
-  // Query to find the MOST RECENT active shipment (status = 6)
-  const query = `
-    SELECT 
-      sl.SHPH_ShipmentCode,
-      sl.SHPH_Status
-    FROM shipmentlist sl
-    LEFT JOIN enummaster em
-      ON em.EnumType = 'Shipment'
-      AND em.EnumVal = sl.SHPH_Status
-    WHERE 
-      sl.SHPH_CompanyID = ?
-      AND sl.SHPH_FromSCPCode = ?
-      AND sl.SHPH_Status = 6
-    ORDER BY sl.SHPH_ShipmentID DESC
-    LIMIT 1;
-  `;
-
+router.get('/api/notify/:id', async (req, res) => {
   try {
-    const [rows] = await conn.query(query, [SHPH_CompanyID, SHPH_FromSCPCode]);
+    const userId = req.params.id;
+    //console.log("User ID For Notification:", userId);
 
-    if (rows.length === 0) {
-      // No active shipment found
-      return res.status(200).json({
-        success: true,
-        status: null,
-        message: "No active shipment (scanning) found",
-      });
-    }
+    const sql = `
+      SELECT nm.*
+      FROM usermaster um
+      INNER JOIN notificationmaster nm 
+        ON um.UM_DefaultSCPId = nm.NFM_SCPID
+      WHERE um.UM_UserId = ?
+      AND nm.NFM_ID NOT IN (
+          SELECT NFD_MessageId 
+          FROM notificationdetails 
+          WHERE NFD_ACKW_By = ?
+      )
+      ORDER BY nm.NFM_CreatedTimestamp DESC;
+    `;
 
-    // Found an active shipment
-    const shipment = rows[0];
+    const [rows] = await conn.query(sql, [userId, userId]);
 
-    return res.status(200).json({
-      success: true,
-      status: shipment.SHPH_Status,              // will be 6
-      shipmentCode: shipment.SHPH_ShipmentCode,
-      message: "Active shipment found (scanning in progress)",
-    });
+    //console.log("Notification results:", rows);
+
+    res.json(rows);
+
   } catch (err) {
-    console.error("Error in /api/current-shipment-status:", err);
-    return res.status(500).json({
-      success: false,
-      message: "Database error while checking active shipment",
-      error: err.message,
-    });
+    console.error("Error executing query:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+router.post('/api/insertNotification', async (req, res) => {
+  try {
+    const { NFD_MessageId, NFD_ACKW_By } = req.body;
+
+    const sql = `
+      INSERT INTO notificationdetails 
+      (NFD_MessageId, NFD_ACKW_By, NFD_ACKW_TimeStamp) 
+      VALUES (?, ?, NOW())
+    `;
+
+    await conn.execute(sql, [NFD_MessageId, NFD_ACKW_By]);
+
+    //console.log('Data inserted successfully');
+
+    res.status(200).json({ message: 'Data inserted successfully' });
+
+  } catch (err) {
+    console.error("Insert Notification Error:", err);
+    res.status(500).json({ error: 'Error inserting data' });
   }
 });
 

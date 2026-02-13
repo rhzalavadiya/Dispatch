@@ -75,12 +75,150 @@
   vertical-align: middle;
 }
 
+.notification .bell {
+    width: 27px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 4px;
+}
   .bell {
     height: 30px;
     width: 27px;
     cursor: pointer;
   }
+.notification .notCount {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    position: relative; 
+    background-color: #ff7f00;
+    left: -14px;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #ffffff;
+    top: -6px;
+    font-weight: 500;
+}
+.blink {
+    animation: blink 1s infinite;
+}
+.notification-popup {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    border-radius: 8px;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+.notification-popup ul li {
+    padding: 10px;
+    /* border-bottom: 1px solid #000000; */
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    /* text-decoration: underline; */
+    text-align: center;
+    /* text-underline-position: inherit; */
+    background-color: #ffffff;
+    color: #465a64;
+    font-size: 14px;
+    font-weight: 500;
+}
+.notification-popup li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+.notification_hover {
+    transition: background-color 0.3s ease;
+}
+.resetpopup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    width: 50%;
+    min-height: 30%;
+    /* max-height: 400px; */
+    /* overflow-y: auto; */
+    text-align: center;
+    color: #465a64;
+    box-shadow: 0px 13px 60px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+.resetpopup h1 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+.resetpopup h4 {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+.popup_btn_container{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    text-transform: uppercase;
+}
+.notiyes_btn {
+    border-radius: 7px;
+    height: 50px;
+    /* width: 211px; */
+    width: 20%;
+    background-color: #325880;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    border: none;
+    text-transform: uppercase;
+}
 
+.notiview_btn {
+    border-radius: 7px;
+    height: 50px;
+    /* width: 211px; */
+    width: 20%;
+    background-color: #212c37;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    border: none;
+    text-transform: uppercase;
+
+}
+
+
+.notino_btn {
+    border-radius: 7px;
+    height: 50px;
+    width: 20%;
+    background-color: #a7a7a7;
+    color: #ffffff;
+    font-size: 18px;
+    /* text-decoration: none; */
+    text-align: center;
+    /* padding-top: 14px; */
+    font-weight: 500;
+    border: none;
+    text-transform: uppercase;
+
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 /* --------------------------------------
    NAVBAR RESPONSIVE FIX
 -------------------------------------- */

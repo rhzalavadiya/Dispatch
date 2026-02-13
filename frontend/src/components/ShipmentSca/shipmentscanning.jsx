@@ -700,7 +700,8 @@ useEffect(() => {
 
                     }}
                     onClick={() =>
-                      navigate(`/viewShipment/${rowData.SHPH_ShipmentID}`)
+                      //navigate(`/viewShipment/${rowData.SHPH_ShipmentID}`)
+                      navigate(`/viewShipment/${rowData.SHPH_ShipmentCode}`)
                     }
                   />
 
