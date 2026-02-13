@@ -164,6 +164,7 @@ const shipmentEditData = async (req, res) => {
     MAX(scpmaster.SCPM_ID) AS SCPM_ID,
     MAX(scpmaster.SCPM_Code) AS SCPM_Code,
     MAX(scpmaster.SCPM_Name) AS SCPM_Name,
+	MAX(scpmaster.SCPM_Caption) AS SCPM_Caption,
     MAX(logisticcompanymaster.LGCM_Name) AS LGCM_Name,
     MAX(logisticcompanyvehiclemaster.LGCVM_VehicleNumber) AS LGCVM_VehicleNumber,
     MAX(shipmentmaster.SHPD_ProductName) AS SHPD_ProductName,
