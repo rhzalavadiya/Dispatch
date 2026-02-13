@@ -14,11 +14,11 @@ code {
 }
 
 
-/* html {
+html {
   scroll-behavior: smooth;
 }
 
 /* Hide scrollbar */
-/*::-webkit-scrollbar {
- / display: none;
-} */
+::-webkit-scrollbar {
+  display: none;
+}

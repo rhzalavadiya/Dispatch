@@ -1,0 +1,531 @@
+[10:21:24.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:21:24.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:21:26.057] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:21:26.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:21:28.061] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:21:28.066] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:21:30.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:21:30.096] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:21:32.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:21:32.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:04.802] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:22:04.804] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket reference not available on mount
+[10:22:04.805] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:22:04.811] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : No WebSocket context available - using CSV polling only
+[10:22:04.809] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:22:04.813] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:04.830] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:22:04.833] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:06.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:06.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:07.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:07.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:08.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:08.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:09.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:09.096] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:09.820] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:09.826] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:11.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:11.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:12.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:12.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:13.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:13.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:14.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:14.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:15.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:15.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:16.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:16.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:17.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:17.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:18.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:18.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:19.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:19.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:20.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:20.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:21.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:21.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:22.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:22.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:23.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:23.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:24.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:24.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:25.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:25.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:26.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:26.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:27.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:27.115] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:28.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:28.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:29.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:29.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:30.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:30.092] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:31.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:31.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:32.066] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:32.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:33.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:33.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:34.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:34.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:35.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:35.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:36.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:36.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:37.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:37.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:38.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:38.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:39.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:39.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:40.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:40.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:41.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:41.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:42.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:42.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:43.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:43.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:44.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:44.088] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:45.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:45.096] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:46.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:46.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:47.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:47.089] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:48.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:48.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:49.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:49.089] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:50.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:50.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:51.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:51.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:52.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:52.094] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:53.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:53.094] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:54.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:54.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:55.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:55.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:56.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:56.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:57.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:57.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:58.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:58.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:22:59.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:22:59.093] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:00.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:00.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:01.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:01.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:02.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:02.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:03.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:03.206] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:04.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:04.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:05.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:05.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:06.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:06.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:07.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:07.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:08.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:08.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:09.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:09.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:10.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:10.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:23:58.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:23:58.106] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:31.979] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:32.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:32.802] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:32.809] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:33.818] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:33.825] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:35.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:35.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:36.061] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:36.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:37.100] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:37.112] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:38.059] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:38.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:39.054] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:39.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:40.059] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:40.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:41.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:41.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:42.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:42.090] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:43.057] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:43.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:44.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:44.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:45.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:45.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:46.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:46.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:47.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:47.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:48.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:48.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:49.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:49.095] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:50.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:50.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:51.064] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:51.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:52.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:52.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:53.066] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:53.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:54.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:54.096] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:55.064] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:55.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:56.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:56.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:57.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:57.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:58.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:58.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:24:59.061] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:24:59.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:00.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:00.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:01.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:01.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:02.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:02.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:03.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:03.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:04.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:04.088] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:05.066] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:05.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:06.061] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:06.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:07.066] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:07.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:08.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:08.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:09.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:09.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:10.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:10.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:11.061] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:11.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:12.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:12.094] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:13.061] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:13.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:14.064] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:14.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:15.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:15.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:16.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:16.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:17.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:17.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:18.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:18.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:19.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:19.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:20.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:20.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:21.066] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:21.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:22.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:22.095] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:23.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:23.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:24.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:24.096] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:25.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:25.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:26.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:26.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:27.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:27.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:28.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:28.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:29.064] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:29.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:30.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:30.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:31.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:31.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:32.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:32.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:33.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:33.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:34.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:34.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:25:58.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:25:58.108] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:26:58.058] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:26:58.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:27:58.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:27:58.112] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:28:58.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:28:58.117] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:29:58.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:29:58.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:30:58.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:30:58.101] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:31:58.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:31:58.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:32:58.065] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:32:58.095] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:33:58.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:33:58.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:34:58.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:34:58.121] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:04.099] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:35:04.102] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:35:04.103] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:35:04.101] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:35:04.105] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:35:04.106] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:35:04.107] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:04.116] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:35:04.117] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:06.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:06.092] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:08.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:08.088] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:09.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:35:09.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:35:09.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:35:09.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:35:09.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:35:09.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:35:09.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:35:09.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:35:09.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:09.097] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:35:09.099] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:10.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:35:10.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:35:10.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:35:10.088] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:35:10.089] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:35:10.090] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:35:10.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:35:10.092] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:35:10.093] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:10.109] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:35:10.119] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:11.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:35:11.088] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:35:11.089] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:35:11.090] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:35:11.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:35:11.092] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:35:11.093] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:35:11.094] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:35:11.094] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:11.106] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:35:11.110] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:13.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:13.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:35:13.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:35:13.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:35:13.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:35:13.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:35:13.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:35:13.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:35:13.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:35:13.092] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:13.103] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:13.105] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:35:13.109] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:15.088] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:15.106] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:35:15.107] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:35:15.107] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:35:15.108] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:35:15.109] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:35:15.111] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:35:15.113] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:35:15.116] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:35:15.121] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:15.137] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:35:15.136] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:15.142] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:16.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:35:16.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:35:16.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:35:16.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:35:16.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:35:16.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:35:16.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:35:16.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:35:16.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:16.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:35:16.090] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:18.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:18.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:18.343] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:35:18.346] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:35:20.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:20.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:22.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:22.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:24.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:24.098] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:26.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:26.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:35:58.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:35:58.141] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:36:00.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:36:00.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:36:00.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:36:00.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:36:00.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:36:00.146] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:36:00.148] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:36:00.150] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:36:00.151] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:00.175] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:36:00.188] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch faile: Request failed with status code 500
+[10:36:00.511] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:36:00.512] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:36:02.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:02.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch faile: Request failed with status code 500
+[10:36:03.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:36:03.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:36:03.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:36:03.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:36:03.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:36:03.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:36:03.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:36:03.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:36:03.093] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:03.101] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:36:03.108] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CS: Request failed with status code 500
+[10:36:04.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:36:04.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:36:04.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:36:04.082] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:36:04.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:36:04.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:36:04.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:36:04.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 0) - enabling CSV polling fallback
+[10:36:04.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:04.092] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:36:04.096] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:36:06.087] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:06.093] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:36:08.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:08.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:36:10.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:10.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:36:12.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:12.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:36:14.068] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:14.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:36:42.607] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:36:42.609] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:36:58.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:36:58.122] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:37:58.086] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:37:58.118] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:38:04.093] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Removing WebSocket message listener on cleanup
+[10:38:04.095] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener removed
+[10:38:04.096] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket fallback listeners cleaned up
+[10:38:04.099] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Adding WebSocket message listener
+[10:38:04.100] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Attempting to enter fullscreen mode
+[10:38:04.098] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Live Dashboard Accessed
+[10:38:04.101] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fullscreen change listener added
+[10:38:04.102] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket not open (state: 2) - enabling CSV polling fallback
+[10:38:04.103] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:38:04.118] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:38:04.122] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : WebSocket closed or errored - starting CSV polling fallback
+[10:38:04.124] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : Fullscreen request failed: Permissions check failed
+[10:38:04.127] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:38:06.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:38:06.089] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:38:08.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:38:08.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:38:10.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:38:10.085] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:38:12.066] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:38:12.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:38:14.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:38:14.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:38:58.138] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:38:58.186] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:39:58.076] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:39:58.126] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:40:58.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:40:58.116] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:41:58.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:41:58.106] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:42:58.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:42:58.110] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:43:58.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:43:58.113] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:44:58.083] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:44:58.115] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:45:58.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:45:58.105] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:46:58.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:46:58.101] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:47:58.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:47:58.106] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:48:58.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:48:58.129] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:49:58.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:49:58.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:50:58.062] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:50:58.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:51:58.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:51:58.080] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:52:58.132] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:52:58.204] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:53:58.073] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:53:58.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:54:58.067] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:54:58.078] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:55:58.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:55:58.084] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:56:58.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:56:58.123] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:57:58.079] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:57:58.119] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:58:58.071] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:58:58.112] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[10:59:58.091] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[10:59:58.130] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:00:58.081] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:00:58.123] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:01:58.090] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:01:58.125] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:02:58.072] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:02:58.105] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:03:58.075] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:03:58.104] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:04:58.074] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:04:58.104] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:05:58.077] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:05:58.112] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:06:58.070] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:06:58.101] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:07:58.063] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:07:58.095] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500
+[11:08:58.069] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [LOG] : User : Fetching running shipment data via CSV fallback endpoint }/get-running-csv
+[11:08:58.104] [192.168.1.2] : Live Dashboard : [1.0.0.2] : [ERROR] : User : CSV fallback fetch failed: Request failed with status code 500

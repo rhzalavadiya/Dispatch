@@ -608,7 +608,7 @@ export default function ShipmentEdit() {
         } catch (err) {
             console.error(err);
             toast.error("Could not confirm bypass");
-            logAction(`Bypass confirm failed: ${err.message}`, true);
+            logAction(`Bypass with Near Expiry confirm failed: ${err.message}`, true);
         }
     };
 

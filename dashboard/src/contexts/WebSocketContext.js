@@ -88,7 +88,7 @@ export const WebSocketProvider = ({ children }) => {
         }
       } catch (e) {
         // If not JSON, log as is
-        logAction(`"GLOBAL WS Message : ${message}`);
+        logAction(`"GLOBAL WS Message : ${message}`,true);
       }
     };
     ws.onclose = () => {

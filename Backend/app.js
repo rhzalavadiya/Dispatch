@@ -45,6 +45,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.set('trust proxy', true);
+
 const logToFile = (logMessage, isError = false) => {
   const logDir = path.join(process.cwd(), "Logs"); // Safe for Ubuntu & Windows
 
@@ -79,7 +81,12 @@ const logToFile = (logMessage, isError = false) => {
 
 app.post("/api/log", (req, res) => {
   const { module, action, userCode, isError } = req.body;
-  const ip = req.ip || 'unknown'; // Capture client IP
+  const ip =
+  (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+    .split(',')[0]
+    .replace('::ffff:', '')
+    .replace('::1', '127.0.0.1');
+
   const version = process.env.VERSION; // Match sample; change if needed
   const type = isError ? '[ERROR]' : '[LOG]';
 
@@ -126,12 +133,16 @@ const logToFileDashbord = (logMessage, isError = false) => {
 
 app.post("/api/logdashboard", (req, res) => {
   const { module, action, userCode, isError } = req.body;
-  const ip = req.ip || 'unknown'; // Capture client IP
+  const ip =
+  (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+    .split(',')[0]
+    .replace('::ffff:', '')
+    .replace('::1', '127.0.0.1');
   const version = process.env.VERSION; // Match sample; change if needed
   const type = isError ? '[ERROR]' : '[LOG]';
 
   // Format to match sample: [ip] : module : [version] : [type] : userCode : action
-  const formattedMessage = `[${ip}] : ${module} : [${version}] : ${type} : ${userCode} : ${action}`;
+  const formattedMessage = `[${ip}] : ${module} : [${version}] : ${type} : ${action}`;
 
   logToFileDashbord(formattedMessage, isError);
 

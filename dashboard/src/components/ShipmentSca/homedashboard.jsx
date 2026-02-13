@@ -247,7 +247,7 @@ export default function HomeDashboard() {
 	const logAction = async (action, isError = false) => {
 		try {
 			const formattedAction = `User : ${action}`;
-			await fetch(`${config.apiBaseUrl}/api/log`, {
+			await fetch(`${config.apiBaseUrl}/api/logdashboard`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -255,7 +255,6 @@ export default function HomeDashboard() {
 				body: JSON.stringify({
 					module: "Live Dashboard",
 					action: formattedAction,
-					userCode: sessionStorage.getItem("userName"),
 					isError,
 				}),
 			});
@@ -638,6 +637,7 @@ export default function HomeDashboard() {
 				}
 
 			} catch (error) {
+				logAction(`Elapsed time fetch failed: ${error} and message : ${error.message}`, true);
 				console.error(error);
 			}
 		};

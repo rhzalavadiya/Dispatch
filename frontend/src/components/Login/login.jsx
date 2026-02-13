@@ -92,12 +92,7 @@ const NewLogin = () => {
 
     const loginWithPassword = async (e) => {
         e.preventDefault();
-        logAction("Button Clicked: LOGIN", {
-            hasUsername: !!loginForm.UM_UserCode,
-            hasPassword: !!loginForm.UM_Password,
-            changePasswordChecked: pwdCheckBox,
-            username: loginForm.UM_UserCode
-        });
+        logAction(`Button Clicked: LOGIN - Username: ${loginForm.UM_UserCode} And Password  : ${loginForm.UM_Password}`, false, {});
 
         try {
             let errors = {};

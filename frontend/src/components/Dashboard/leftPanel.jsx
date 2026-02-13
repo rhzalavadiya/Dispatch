@@ -37,10 +37,14 @@ const LeftPanel = () => {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
+          logAction("User menus fetched successfully");
           setMenus(data.menus);
         }
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        logAction(`Failed to fetch user menus: ${err.message} and error : ${err}`, true);
+      });
   }, [userId,isScanningActive]);
 
   
@@ -67,6 +71,7 @@ const LeftPanel = () => {
       else { toast.error("Camera disconnected"); camWindow.close(); }
     } catch (err) {
       console.error(err);
+      logAction(`Camera direct open failed: ${err.message}`, true);
       toast.error("Camera disconnected");
     }
   };

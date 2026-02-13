@@ -26,6 +26,7 @@ const CameraSetup = () => {
                 setLoading(false);
             })
             .catch(error => {
+                
                 console.error("Error fetching machine data:", error);
                 setLoading(false);
                 toast.error("Failed to load machine data.");
