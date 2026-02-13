@@ -684,7 +684,7 @@ export default function ShipmentEdit() {
                             });
 
                             if (!res.data.success && res.data?.message?.toLowerCase().includes("outward_rsn.csv not found")) {
-                                
+
                                 logAction("Outward_RSN.csv not found → skipping save, but marking as paused");
                                 await updateShipmentStatus(10);
                                 setCanDrag(true);
@@ -859,7 +859,7 @@ export default function ShipmentEdit() {
                 if (!revRes.data.success) throw new Error(revRes.data.message || "Reverse failed");
                 logAction(`Reverse sync successful, now syncing to VPS ${JSON.stringify(revRes.data.data)}`);
                 const syncRes = await vpsApi.post("/revers-sync", revRes.data.data);
-                
+
                 if (!syncRes.data.success) throw new Error(syncRes.data.message || "Reverse sync failed");
             }
 
@@ -970,18 +970,18 @@ export default function ShipmentEdit() {
     //     }
     // }, [isShipmentLoaded, shipmentData, setGlobalShipmentStatus]);
     useEffect(() => {
-    if (isShipmentLoaded && shipmentData.length > 0) {
-        const dbStatus = shipmentData[0]?.SHPH_Status ?? null;
+        if (isShipmentLoaded && shipmentData.length > 0) {
+            const dbStatus = shipmentData[0]?.SHPH_Status ?? null;
 
-        setGlobalShipmentStatus((prevStatus) => {
-            // If already scanning, don't override
-            if (prevStatus === 6) {
-                return 6;
-            }
-            return dbStatus;
-        });
-    }
-}, [isShipmentLoaded, shipmentData]);
+            setGlobalShipmentStatus((prevStatus) => {
+                // If already scanning, don't override
+                if (prevStatus === 6) {
+                    return 6;
+                }
+                return dbStatus;
+            });
+        }
+    }, [isShipmentLoaded, shipmentData]);
 
 
     // Sync whenever status changes (START → 6, STOP → 10, CLOSE → 8, etc.)
@@ -1019,9 +1019,18 @@ export default function ShipmentEdit() {
             if (sorted.length > 0) {
                 const newestRsn = sorted[0].rsn;
 
+                // setFailRsnList(
+                //     sorted.map(r => ({
+                //         rsn: r.rsn || "-",
+                //         reason: r.reason,
+                //         time: formatCsvTime(r.timestamp),
+                //         status: r.status || "-"
+                //     }))
+                // );
+
                 setFailRsnList(
                     sorted.map(r => ({
-                        rsn: r.rsn || "-",
+                        rsn: (!r.rsn || r.rsn.toUpperCase() === "NO READ") ? "-" : r.rsn,
                         reason: r.reason,
                         time: formatCsvTime(r.timestamp),
                         status: r.status || "-"

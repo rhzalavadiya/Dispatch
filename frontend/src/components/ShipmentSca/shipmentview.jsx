@@ -93,7 +93,7 @@ export default function ShipmentView() {
               <label>Vehicle Number</label>
               <input
                 className="form-input"
-                value={header.LGCVM_VehicleNumber}
+                value={header.LGCVM_VehicleNumber || "-"}
                 readOnly
               />
             </div>

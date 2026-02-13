@@ -201,6 +201,10 @@
     text-transform: uppercase;
 
 }
+.disabled-notification{
+   opacity: 0.9;
+   cursor: not-allowed;
+}
 
 
 .notino_btn {

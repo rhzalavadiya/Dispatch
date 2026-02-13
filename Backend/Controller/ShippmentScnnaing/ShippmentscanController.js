@@ -24,9 +24,9 @@ const shipmentListData = async (req, res) => {
     rl.RUTL_Name,
     sl.SHPH_ByProductVendorScanMode
 FROM shipmentlist sl
-JOIN logisticcompanyvehiclemaster lgv
+LEFT JOIN logisticcompanyvehiclemaster lgv
     ON sl.SHPH_LogisticVehicleID = lgv.LGCVM_ID
-JOIN logisticcompanymaster lgm
+LEFT JOIN logisticcompanymaster lgm
     ON sl.SHPH_LogisticPartyID = lgm.LGCM_ID
 JOIN routelist rl
     ON sl.SHPH_SCPRouteID = rl.RUTL_ID
@@ -94,11 +94,11 @@ const shipmentViewData = async (req, res) => {
 		emStatus.Description AS ShipmentStatus,
 		rl.RUTL_Name
 FROM shipmentlist sl
-JOIN logisticcompanyvehiclemaster lcv 
+LEFT JOIN logisticcompanyvehiclemaster lcv 
 	ON sl.SHPH_LogisticVehicleID = lcv.LGCVM_ID
-JOIN logisticcompanymaster lcm 
+LEFT JOIN logisticcompanymaster lcm 
 	ON sl.SHPH_LogisticPartyID = lcm.LGCM_ID
-JOIN routelist rl 
+LEFT JOIN routelist rl 
 	ON sl.SHPH_SCPRouteID = rl.RUTL_ID
 LEFT JOIN enummaster emScan
 	ON emScan.EnumType = 'ScanningMode'

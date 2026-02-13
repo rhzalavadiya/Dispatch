@@ -535,8 +535,8 @@ export default function DispatchAuditReport() {
       "Product Name",
       "Weight",
       "Actual Weight",
-      "Reason",
       "Status",
+      "Reason",
       "Remark",
       "Box No.",
       "Timestamp"];
@@ -568,10 +568,14 @@ export default function DispatchAuditReport() {
         row.dis_rsn || "-",
         row.Batch_Name || "-",
         row.Product_Name || "-",
-        row.dis_prod_weight || "-",
-        row.dis_weight || "-",
-        row.Reason_Description || "-",
+        (row.dis_prod_weight != null
+          ? (row.dis_prod_weight / 1000).toFixed(2) + " kg"
+          : "-"),
+        (row.dis_weight != null
+          ? (row.dis_weight / 1000).toFixed(2) + " kg"
+          : "-"),
         row.Status || "-",
+        row.Reason_Description || "-",
         row.Remark || "-",
         row.Box_No || "-",
         formatDateTime(row.dis_timestamp),
@@ -585,6 +589,15 @@ export default function DispatchAuditReport() {
       body: rsnBody,
       styles: PDF_REF_STYLE.table,
       headStyles: PDF_REF_STYLE.tableHeader,
+      columnStyles: {
+        1: { cellWidth: 35, overflow: "linebreak" },   // RSN ❌ no wrap
+        2: { cellWidth: 30 },                          // Batch Name ✅ wrap
+        3: { cellWidth: 32 },                          // Product Name ✅ wrap
+        7: { cellWidth: 35 },                          // Reason ✅ wrap
+        8: { cellWidth: 35 },                          // Remark ✅ wrap
+        9: { cellWidth: 15, overflow: "linebreak" },   // Box No ❌ no wrap
+        10: { cellWidth: 30, overflow: "linebreak" },  // Timestamp ❌ no wrap
+      },
     });
 
     addFooter(doc);

@@ -82,10 +82,10 @@ const logToFile = (logMessage, isError = false) => {
 app.post("/api/log", (req, res) => {
   const { module, action, userCode, isError } = req.body;
   const ip =
-  (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
-    .split(',')[0]
-    .replace('::ffff:', '')
-    .replace('::1', '127.0.0.1');
+    (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+      .split(',')[0]
+      .replace('::ffff:', '')
+      .replace('::1', '127.0.0.1');
 
   const version = process.env.VERSION; // Match sample; change if needed
   const type = isError ? '[ERROR]' : '[LOG]';
@@ -134,10 +134,10 @@ const logToFileDashbord = (logMessage, isError = false) => {
 app.post("/api/logdashboard", (req, res) => {
   const { module, action, userCode, isError } = req.body;
   const ip =
-  (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
-    .split(',')[0]
-    .replace('::ffff:', '')
-    .replace('::1', '127.0.0.1');
+    (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '')
+      .split(',')[0]
+      .replace('::ffff:', '')
+      .replace('::1', '127.0.0.1');
   const version = process.env.VERSION; // Match sample; change if needed
   const type = isError ? '[ERROR]' : '[LOG]';
 
@@ -1332,100 +1332,100 @@ app.post("/process-pause", async (req, res) => {
 
 //----------------------Dispatch Audit data API----------------------------
 app.post("/api/audit-dispatch-from-csv", async (req, res) => {
-    const { shipmentCode,shipmentId } = req.body;
+  const { shipmentCode, shipmentId } = req.body;
 
-    if (!shipmentCode || typeof shipmentCode !== "string" || shipmentCode.trim() === "") {
-        return res.status(400).json({
-            success: false,
-            message: "shipmentCode is required in request body"
-        });
+  if (!shipmentCode || typeof shipmentCode !== "string" || shipmentCode.trim() === "") {
+    return res.status(400).json({
+      success: false,
+      message: "shipmentCode is required in request body"
+    });
+  }
+
+  const trimmedShipmentCode = shipmentCode.trim();
+
+  // Find CSV file - same logic as your /api/read-csv
+  const basePath = process.env.DISPATCH_BASE_PATH;;
+  const fileName = process.env.RowDataFile || "rowdata.csv";
+
+  const tryPaths = [
+    path.join(basePath, `${trimmedShipmentCode}-1`, fileName),
+    path.join(basePath, trimmedShipmentCode, fileName)
+  ];
+
+  let filePath = null;
+  for (const p of tryPaths) {
+    if (fs.existsSync(p)) {
+      filePath = p;
+      break;
     }
+  }
 
-    const trimmedShipmentCode = shipmentCode.trim();
+  if (!filePath) {
+    return res.status(404).json({
+      success: false,
+      message: "rowdata.csv not found",
+      triedPaths: tryPaths
+    });
+  }
 
-    // Find CSV file - same logic as your /api/read-csv
-    const basePath = process.env.DISPATCH_BASE_PATH;;
-    const fileName = process.env.RowDataFile || "rowdata.csv";
+  try {
+    const fileContent = fs.readFileSync(filePath, "utf8");
 
-    const tryPaths = [
-        path.join(basePath, `${trimmedShipmentCode}-1`, fileName),
-        path.join(basePath, trimmedShipmentCode, fileName)
-    ];
+    const parseResult = Papa.parse(fileContent, {
+      header: true,
+      skipEmptyLines: true,          // IMPORTANT: process every line
+      dynamicTyping: false,
+      transformHeader: (h) => h.trim()
+    });
 
-    let filePath = null;
-    for (const p of tryPaths) {
-        if (fs.existsSync(p)) {
-            filePath = p;
-            break;
-        }
-    }
+    const rows = parseResult.data || [];
 
-    if (!filePath) {
-        return res.status(404).json({
-            success: false,
-            message: "rowdata.csv not found",
-            triedPaths: tryPaths
-        });
-    }
+    let insertedCount = 0;
 
-    try {
-        const fileContent = fs.readFileSync(filePath, "utf8");
-
-        const parseResult = Papa.parse(fileContent, {
-            header: true,
-            skipEmptyLines: true,          // IMPORTANT: process every line
-            dynamicTyping: false,
-            transformHeader: (h) => h.trim()
-        });
-
-        const rows = parseResult.data || [];
-
-        let insertedCount = 0;
-
-        for (const row of rows) {
-            const values = [
-                shipmentId,                        // dis_shipmentid
-                row.BatchId && !isNaN(row.BatchId) ? parseInt(row.BatchId, 10) : null, // dis_batchid
-                row.ProductID && !isNaN(row.ProductID) ? parseInt(row.ProductID, 10) : null, // dis_productid
-                row.SCPM_Code && String(row.SCPM_Code).trim() !== "" ? String(row.SCPM_Code).trim() : null, // dis_scpcode
-                row.ProductDynamicWeight && !isNaN(row.ProductDynamicWeight) ? parseInt(row.ProductDynamicWeight, 10) : null, // dis_prod_weight
-                row.CurrentWeight && !isNaN(row.CurrentWeight) ? parseInt(row.CurrentWeight, 10) : null, // dis_weight
-                row.RSN && String(row.RSN).trim() !== "" ? String(row.RSN).trim() : null, // dis_rsn
-                (() => {
-                    const st = (row.Status || "").trim().toUpperCase();
-                    if (st === "PASS") return 22;
-                    if (st === "FAIL") return 4;
-                    return null;
-                })(),                                                             // dis_status
-                row.ReasonCode && !isNaN(row.ReasonCode) ? parseInt(row.ReasonCode, 10) : null, // dis_reasoncode
-                row.Timestamp && String(row.Timestamp).trim() !== "" ? row.Timestamp.trim() : null // dis_timestamp
-            ];
-            console.log("Inserting dispatch audit row with values:", values);
-            // Raw INSERT query - one row at a time
-            await conn.query(
-                `INSERT INTO dispatchaudit (
+    for (const row of rows) {
+      const values = [
+        shipmentId,                        // dis_shipmentid
+        row.BatchId && !isNaN(row.BatchId) ? parseInt(row.BatchId, 10) : null, // dis_batchid
+        row.ProductID && !isNaN(row.ProductID) ? parseInt(row.ProductID, 10) : null, // dis_productid
+        row.SCPM_Code && String(row.SCPM_Code).trim() !== "" ? String(row.SCPM_Code).trim() : null, // dis_scpcode
+        row.ProductDynamicWeight && !isNaN(row.ProductDynamicWeight) ? parseInt(row.ProductDynamicWeight, 10) : null, // dis_prod_weight
+        row.CurrentWeight && !isNaN(row.CurrentWeight) ? parseInt(row.CurrentWeight, 10) : null, // dis_weight
+        row.RSN && String(row.RSN).trim() !== "" ? String(row.RSN).trim() : null, // dis_rsn
+        (() => {
+          const st = (row.Status || "").trim().toUpperCase();
+          if (st === "PASS") return 22;
+          if (st === "FAIL") return 4;
+          return null;
+        })(),                                                             // dis_status
+        row.ReasonCode && !isNaN(row.ReasonCode) ? parseInt(row.ReasonCode, 10) : null, // dis_reasoncode
+        row.Timestamp && String(row.Timestamp).trim() !== "" ? row.Timestamp.trim() : null // dis_timestamp
+      ];
+      console.log("Inserting dispatch audit row with values:", values);
+      // Raw INSERT query - one row at a time
+      await conn.query(
+        `INSERT INTO dispatchaudit (
                     dis_shipmentid, dis_batchid, dis_productid, dis_scpcode,
                     dis_prod_weight, dis_weight, dis_rsn, dis_status,
                     dis_reasoncode, dis_timestamp
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,values);
-            insertedCount++;
-        }
-
-        return res.json({
-            success: true,
-            message: `All rows processed and inserted successfully`,
-            audited: insertedCount,
-            file: path.basename(filePath)
-        });
-
-    } catch (err) {
-        console.error("Audit endpoint error:", err);
-        return res.status(500).json({
-            success: false,
-            message: "Failed to process CSV or insert into dispatchaudit",
-            error: err.message
-        });
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, values);
+      insertedCount++;
     }
+
+    return res.json({
+      success: true,
+      message: `All rows processed and inserted successfully`,
+      audited: insertedCount,
+      file: path.basename(filePath)
+    });
+
+  } catch (err) {
+    console.error("Audit endpoint error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to process CSV or insert into dispatchaudit",
+      error: err.message
+    });
+  }
 });
 // ---------------------------camera Setup---------------------------
 
@@ -1627,7 +1627,7 @@ ORDER BY m.MNM_MenuIndex, s.SMNM_SubMenuIndex;
 
     const menus = {};
     rows.forEach(r => {
-     // console.log("Row:", r);
+      // console.log("Row:", r);
       if (!menus[r.MNM_MenuID]) {
         menus[r.MNM_MenuID] = {
           menuId: r.MNM_MenuID,
@@ -1743,13 +1743,16 @@ app.get("/reprint", async (req, res) => {
     }
 
     const [labeldata] = await conn.query(
-      `SELECT SCPM_Name,IRS_Boxno,SHPD_ShipQty,ORDM_OrderNumber,LCM_LocationName,LCM_LocationStreet1
-       FROM importrsnshipment
-       JOIN scpmaster ON scpmaster.SCPM_ID = importrsnshipment.IRS_ToSCP
-       JOIN shipmentmaster ON shipmentmaster.SHPD_ShipmentID = importrsnshipment.IRS_ShipmentID
-       join orderlist on orderlist.ORDM_OrderID= shipmentmaster.SHPD_OrderID
-       join locationmaster on locationmaster.LCM_SCPID=scpmaster.SCPM_ID
-       WHERE importrsnshipment.IRS_RandomNo = ?`,
+      `SELECT SCPM_Name,IRS_Boxno,SHPD_ShipQty,
+      ORDM_OrderNumber,LCM_LocationName,LCM_LocationStreet1,SCPM_Caption 
+      FROM importrsnshipment irs 
+      JOIN scpmaster s ON s.SCPM_ID = irs.IRS_ToSCP 
+      JOIN shipmentmaster sm ON sm.SHPD_ShipmentID = irs.IRS_ShipmentID 
+      AND sm.SHPD_ProductCode = (SELECT PL_ProductCode FROM productlist WHERE PL_ProductId = irs.IRS_ProductID) 
+      JOIN productlist p ON p.PL_ProductId = irs.IRS_ProductID 
+      JOIN orderlist o ON o.ORDM_OrderID = sm.SHPD_OrderID 
+      JOIN locationmaster l ON l.LCM_SCPID = s.SCPM_ID 
+      WHERE irs.IRS_RandomNo = ?`,
       [rsnval]
     );
 
@@ -1758,22 +1761,46 @@ app.get("/reprint", async (req, res) => {
     }
 
     /* 3️⃣ Read PRN template */
-    const templatePath = path.join(__dirname, "prnfiles", "Dispatch.prn");
-   // const template = fs.readFileSync(templatePath, "utf-8");
-   const template = getPrnTemplate();
+    // const templatePath = path.join(__dirname, "prnfiles", "Dispatch.prn");
+    // const template = fs.readFileSync(templatePath, "utf-8");
+    const template = getPrnTemplate();
+
+    // for (let i = 0; i < labeldata.length; i++) {
+    //   const record = labeldata[i];
+
+    //   const prnContent = template
+    //     .replace('{{BOX_NUMBER}}', `${record.IRS_Boxno}/${record.SHPD_ShipQty}`)
+    //     .replace('{{ORDER_NUMBER}}', record.ORDM_OrderNumber)
+    //     .replace('{{SCP_NAME}}', record.SCPM_Name)
+    //     .replace('{{ADDRESS}}', record.LCM_LocationName);
+
+    //   await sendToPrinter(printerIP, printerPort, prnContent);
+    // }
 
     for (let i = 0; i < labeldata.length; i++) {
       const record = labeldata[i];
 
-      const prnContent = template
-        .replace('{{BOX_NUMBER}}', `${record.IRS_Boxno}/${record.SHPD_ShipQty}`)
-        .replace('{{ORDER_NUMBER}}', record.ORDM_OrderNumber)
-        .replace('{{SCP_NAME}}', record.SCPM_Name)
-        .replace('{{ADDRESS}}', record.LCM_LocationName);
+      let prnContent = template;
+
+      // 🔹 All available fields
+      const placeholders = {
+        BOX_NUMBER: `${record.IRS_Boxno}/${record.SHPD_ShipQty}`,
+        ORDER_NUMBER: record.ORDM_OrderNumber,
+        SCP_NAME: record.SCPM_Name,
+        SCPM_Caption: record.SCPM_Caption,
+        ADDRESS: record.LCM_LocationName,
+        LCM_LocationStreet1: record.LCM_LocationStreet1
+      };
+
+      // 🔹 Replace dynamically
+      Object.keys(placeholders).forEach(key => {
+        const value = placeholders[key] ?? "";
+        const regex = new RegExp(`{{${key}}}`, "g");
+        prnContent = prnContent.replace(regex, value);
+      });
 
       await sendToPrinter(printerIP, printerPort, prnContent);
     }
-
     res.json({
       success: true,
       message: "Labels printed successfully",

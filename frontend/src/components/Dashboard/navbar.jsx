@@ -10,6 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { config } from "../config/config";
 import { useNavigate } from "react-router-dom";
+import { useShipmentStatus } from "../../contexts/ShipmentStatusContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Navbar = () => {
   const [notificationVisible, setNotificationVisible] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [ntfcount, setntfcount] = useState(0);
+  const { isScanningActive } = useShipmentStatus();
 
   // 🔥 New popup state
   const [selectedNotification, setSelectedNotification] = useState(null);
@@ -32,27 +34,27 @@ const Navbar = () => {
   };
 
   const logAction = async (action, isError = false) => {
-      try {
-        const formattedAction = `User : ${action}`;
-        await fetch(`${config.apiBaseUrl}/api/log`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            module: "Navbar",
-            action: formattedAction,
-            userCode: sessionStorage.getItem("userName"),
-            isError,
-          }),
-        });
-      } catch (error) {
-        console.error("Error logging action:", error);
-      }
-    };
-  
-    // Page access log
-    useEffect(() => {
-      logAction("Navbar Accessed");
-    }, []);
+    try {
+      const formattedAction = `User : ${action}`;
+      await fetch(`${config.apiBaseUrl}/api/log`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          module: "Navbar",
+          action: formattedAction,
+          userCode: sessionStorage.getItem("userName"),
+          isError,
+        }),
+      });
+    } catch (error) {
+      console.error("Error logging action:", error);
+    }
+  };
+
+  // Page access log
+  useEffect(() => {
+    logAction("Navbar Accessed");
+  }, []);
   const logOutFunction = async () => {
     try {
       const userId = sessionStorage.getItem("userId");
@@ -138,21 +140,21 @@ const Navbar = () => {
   };
 
   const formatNotificationMessage = (msg) => {
-  const codeMatch = msg.match(/'([^']+)'/);
-  const code = codeMatch ? codeMatch[1] : null;
+    const codeMatch = msg.match(/'([^']+)'/);
+    const code = codeMatch ? codeMatch[1] : null;
 
-  if (!code) return msg;
+    if (!code) return msg;
 
-  if (msg.toLowerCase().includes("created")) {
-    return `Shipment : ${code} has been created and is ready for dispatch.`;
-  }
+    if (msg.toLowerCase().includes("created")) {
+      return `Shipment : ${code} has been created and is ready for dispatch.`;
+    }
 
-  if (msg.toLowerCase().includes("updated")) {
-    return `Shipment : ${code} has been updated before dispatch. Please review the updates.`;
-  }
+    if (msg.toLowerCase().includes("updated")) {
+      return `Shipment : ${code} has been updated before dispatch. Please review the updates.`;
+    }
 
-  return msg;
-};
+    return msg;
+  };
 
 
   return (
@@ -173,8 +175,20 @@ const Navbar = () => {
           </div>
 
           {/* 🔔 Notification */}
-          <div className="notification" ref={notificationRef}>
-            <Link onClick={() => setNotificationVisible(!notificationVisible)}>
+          <div className={`notification ${isScanningActive ? "disabled-notification" : ""}`} ref={notificationRef}>
+            <Link
+              onClick={() => {
+                if (!isScanningActive) {
+                  setNotificationVisible(!notificationVisible);
+                }
+              }}
+              style={{
+                pointerEvents: isScanningActive ? "none" : "auto",
+                opacity: isScanningActive ? 0.5 : 1,
+                cursor: isScanningActive ? "not-allowed" : "pointer",
+              }}
+            >
+
               <img src={Icon1} alt="notification" className="bell" />
               {ntfcount > 0 && (
                 <strong
@@ -187,7 +201,7 @@ const Navbar = () => {
             </Link>
 
             {notificationVisible && (
-              <div className="notification-popup" style={{marginTop:"10px"}}>
+              <div className="notification-popup" style={{ marginTop: "10px" }}>
                 <ul>
                   {notifications.length > 0 ? (
                     notifications.map((item) => (
@@ -196,7 +210,7 @@ const Navbar = () => {
                         className="notification_hover"
                         onDoubleClick={() => handleDoubleClick(item)}
                       >
-                       {formatNotificationMessage(item.NFM_EventMessage)}
+                        {formatNotificationMessage(item.NFM_EventMessage)}
                       </li>
                     ))
                   ) : (

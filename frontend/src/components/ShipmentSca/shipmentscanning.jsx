@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { DataTable } from "primereact/datatable";
 import DatePicker from "react-datepicker";
@@ -236,41 +236,29 @@ export default function ShipmentScanning() {
     }
     await performSync(true);
   };
-
-  /*const handleRefreshAuto = async () => {
-    logAction("Auto refresh triggered");
-    if (!navigator.onLine) {
-      logAction("Internet connection unavailable - skipping auto sync");
-      return;
-    }
-    await performSync(false);
-  };*/
-
-
-
   // ────────────────────────────────────────────────
   // 1) Load data when page mounts
-useEffect(() => {
-  logAction("Page load → fetching local shipment list");
-  fetchShipmentList();
-}, []);
+  useEffect(() => {
+    logAction("Page load → fetching local shipment list");
+    fetchShipmentList();
+  }, []);
 
 
-const autoSyncDoneRef = useRef(false);
+  const autoSyncDoneRef = useRef(false);
 
-useEffect(() => {
-  if (autoSyncDoneRef.current) return;
+  useEffect(() => {
+    if (autoSyncDoneRef.current) return;
 
-  // shipmentData may be empty — still do forward sync
-  autoSyncDoneRef.current = true;
+    // shipmentData may be empty — still do forward sync
+    autoSyncDoneRef.current = true;
 
-  if (navigator.onLine) {
-    logAction("Shipment data loaded → starting auto sync");
-    performSync(false);
-  } else {
-    logAction("Offline → auto sync skipped");
-  }
-}, [shipmentData]);
+    if (navigator.onLine) {
+      logAction("Shipment data loaded → starting auto sync");
+      performSync(false);
+    } else {
+      logAction("Offline → auto sync skipped");
+    }
+  }, [shipmentData]);
 
 
 
@@ -646,6 +634,7 @@ useEffect(() => {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCM_Name || "-"}
           />
           <Column
             field="LGCVM_VehicleNumber"
@@ -653,6 +642,7 @@ useEffect(() => {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
             field="ShipmentStatusName"
