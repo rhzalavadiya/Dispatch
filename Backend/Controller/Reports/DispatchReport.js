@@ -59,7 +59,7 @@ WHERE sl.SHPH_ShipmentID = ?`;
         JOIN productlist pl ON pl.PL_ProductId=rsn.IRS_ProductID 
         JOIN productmaster pm ON pm.PM_ProductId=rsn.IRS_ProductID 
         JOIN batchlist bl ON bl.BL_ID=rsn.IRS_BatchID 
-        where rsn.IRS_ShipmentID=? and rsn.IRS_Status=22;`;
+        where rsn.IRS_ShipmentID=? and rsn.IRS_Status=22 ORDER BY sm.SCPM_Name`;
         const [shipmentData] = await conn.query(query1, [shipmentId]);
         const [rsnData] = await conn.query(query2, [shipmentId]);
         if (!shipmentData.length) {

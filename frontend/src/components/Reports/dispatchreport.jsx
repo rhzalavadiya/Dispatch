@@ -336,48 +336,40 @@ export default function DispatchReport() {
     navigate("/shipmentscanning");
   };
 
-  const PDF_REF_STYLE = {
-    BLUE: [38, 90, 128],
-    BLACK: [0, 0, 0],
-    WHITE: [255, 255, 255],
+  const textColor = [0, 0, 0];
+  const headerTextColor = [255, 255, 255];
+  const headerColor = [38, 90, 128];
+  const rowColor = [255, 255, 255];
+  const MARGIN = 10;
 
-    title: {
-      fontSize: 20,
-      color: [0, 0, 0],
-      fontStyle: "bold"
-    },
-
-    table: {
+  const PDF_STYLE = {
+    tableHeader: {
       fontSize: 10,
-      textColor: [0, 0, 0],
+      textColor: headerTextColor,
+      fillColor: headerColor,
+      fontStyle: "bold",
+      cellPadding: 2,
+      halign: "center"
+    },
+    tableRow: {
+      fontSize: 10,
+      textColor: textColor,
+      fillColor: rowColor,
       lineColor: [0, 0, 0],
       lineWidth: 0.5,
-      cellPadding: 0.3,
+      cellPadding: 1,
       halign: "center"
     },
-
-    tableHeader: {
-      fillColor: [38, 90, 128],
-      textColor: [255, 255, 255],
-      fontSize: 10,
-      fontStyle: "bold",
-      halign: "center",
-      cellPadding: { top: 1, bottom: 1 }
-    },
-
     sectionHeader: {
-      fillColor: [38, 90, 128],
-      textColor: [255, 255, 255],
+      fillColor: headerColor,
+      textColor: headerTextColor,
       fontSize: 12,
       fontStyle: "bold",
-      halign: "center"
-    },
-
-    signature: {
-      fontSize: 11,
-      color: [0, 0, 0]
+      halign: "center",
+      cellPadding: 2
     }
   };
+
 
 
   const handlePdf = async (rowData) => {
@@ -457,7 +449,7 @@ export default function DispatchReport() {
 
     /* ---------------- SHIPMENT INFO ---------------- */
     const shipmentInfoRows = [
-      [{ content: "Shipment Information", colSpan: 2, styles: PDF_REF_STYLE.sectionHeader }],
+      [{ content: "Shipment Information", colSpan: 2, styles: PDF_STYLE.sectionHeader }],
       ["Shipment Code", shipment.SHPH_ShipmentCode],
       ["Shipment Date", formatDate(shipment.SHPH_ShipmentDate)],
       ["Shipment Duration", shipment.Duration_HMS],
@@ -465,7 +457,7 @@ export default function DispatchReport() {
       ["Logistic Party Name", shipment.LGCM_Name],
       ["Vehicle Name", shipment.LGCVM_VehicleNumber],
       ["Driver Name", shipment.SHPH_DriverName || "-"],
-      ["Phone Number", shipment.SHPH_DriverContactNo || "-"],
+      ["Driver Phone Number", shipment.SHPH_DriverContactNo || "-"],
       ["Shipment By", shipment.ShipmentBy],
     ];
     if (shipment.SHPH_Remark && shipment.SHPH_Remark.trim() !== "") {
@@ -481,64 +473,142 @@ export default function DispatchReport() {
         0: { cellWidth: columnWidth },
         1: { cellWidth: columnWidth },
       },
-      styles: PDF_REF_STYLE.table,
+      styles: PDF_STYLE.tableRow,
     });
 
     /* ---------------- RSN TABLE ---------------- */
-    autoTable(doc, {
-      startY: doc.lastAutoTable.finalY + 6,
-      theme: "grid",
 
-      head: [[
-        "Sr. No.",
-        "RSN",
-        "SCP Name",
-        "Product Name",
-        "Batch Name",
-        "Weight",
-        "Actual Weight",
-        "Measuring Date & Time",
-      ]],
+const rsnHeaders = [
+  "Sr. No.",
+  "RSN",
+  "Product Name",
+  "Batch Name",
+  "Weight",
+  "Actual Weight",
+  "Measuring Date & Time",
+];
 
-      body: rsnData.map((row, i) => ([
-        i + 1,
-        row.IRS_RandomNo,
-        row.SCPM_Name,
-        row.PL_ProductName,
-        row.BL_BatchName,
-        row.Weight,
-        row.ActualWeight,
-        formatDateTime(row.IRS_LastModifiedTimeStamp),
-      ])),
+const rsnBody = [];
+let lastScpName = null;
+let srNo = 1;
 
-      styles: PDF_REF_STYLE.table,
-      headStyles: PDF_REF_STYLE.tableHeader,
-    });
+rsnData.forEach((row) => {
+
+  // 👉 Insert SCP merged row when SCP changes
+  if (row.SCPM_Name !== lastScpName) {
+    rsnBody.push([
+      {
+        content: row.SCPM_Name || "UNKNOWN SCP",
+        colSpan: rsnHeaders.length,
+        styles: {
+          halign: "center",
+          fontStyle: "bold",
+          fillColor: [230, 230, 230],
+          fontSize: 11,
+        },
+      },
+    ]);
+    lastScpName = row.SCPM_Name;
+  }
+
+  // 👉 Normal data row
+  rsnBody.push([
+    srNo++,
+    row.IRS_RandomNo,
+    row.PL_ProductName,
+    row.BL_BatchName,
+    (row.Weight != null
+      ? (row.Weight / 1000).toFixed(2) + " kg"
+      : "-"),
+    (row.ActualWeight != null
+      ? (row.ActualWeight / 1000).toFixed(2) + " kg"
+      : "-"),
+    formatDateTime(row.IRS_LastModifiedTimeStamp),
+  ]);
+});
+autoTable(doc, {
+  startY: doc.lastAutoTable.finalY + 6,
+  theme: "grid",
+  head: [rsnHeaders],
+  body: rsnBody,
+  styles: PDF_STYLE.tableRow,
+  headStyles: PDF_STYLE.tableHeader,
+  columnStyles: {
+    0: { cellWidth: 10 ,overflow: "linebreak" },
+    1: { cellWidth: 35,overflow: "linebreak"  },
+    2: { cellWidth: 30 },
+    3: { cellWidth: 30 },
+    4: { cellWidth: 20 },
+    5: { cellWidth: 20 },
+    6: { cellWidth: 35 },
+  },
+});
+
+    /* ---------------- SIGNATURE SECTION ---------------- */
+    addSignatureSection(doc);
 
     addFooter(doc);
   };
 
+  function addSignatureSection(doc) {
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const SIGNATURE_HEIGHT = 30;
+    const BOTTOM_MARGIN = 15;
 
-  const addFooter = (doc) => {
+    let startY = doc.lastAutoTable
+      ? doc.lastAutoTable.finalY + 10
+      : 60;
 
+    autoTable(doc, {
+      body: [
+        ['', 'Name', 'Sign', 'Date'],
+        ['Printed By :', '_______________________________', '_______________________________', '_______________________________'],
+        ['Checked By :', '_______________________________', '_______________________________', '_______________________________'],
+        ['Verified By :', '_______________________________', '_______________________________', '_______________________________'],
+      ],
+      startY,
+      theme: 'plain',
+      pageBreak: 'avoid',
+      rowPageBreak: 'avoid',
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+      },
+      columnStyles: {
+        0: { halign: 'left' },
+        1: { halign: 'center' },
+        2: { halign: 'center' },
+        3: { halign: 'center' },
+      },
+    });
+  }
 
+  function addFooter(doc) {
     const totalPages = doc.internal.getNumberOfPages();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(0, 0, 0);
 
     for (let i = 1; i <= totalPages; i++) {
-      // Go to page i
       doc.setPage(i);
 
-      // Set text alignment to left
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0); // Black color
-      doc.text('Developed by : Shubham Automation Pvt. Ltd.', 14, doc.internal.pageSize.getHeight() - 10); // at left side of the page
+      doc.text(
+        'Developed by : Shubham Automation Pvt. Ltd.',
+        MARGIN + 4,
+        pageHeight - 10
+      );
 
-      // Add page number to the right side of the page
-      doc.text(`Page ${i} of ${totalPages}`, doc.internal.pageSize.getWidth() - 15, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
-      //  doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
+      doc.text(
+        `Page ${i} of ${totalPages}`,
+        pageWidth - MARGIN - 5,
+        pageHeight - 10,
+        { align: 'right' }
+      );
     }
-  };
+  }
 
   return (
     <>

@@ -429,6 +429,39 @@ export default function CompletedOutward() {
   }
 };
 
+  const textColor = [0, 0, 0];
+  const headerTextColor = [255, 255, 255];
+  const headerColor = [38, 90, 128];
+  const rowColor = [255, 255, 255];
+  const MARGIN = 10;
+
+  const PDF_STYLE = {
+    tableHeader: {
+      fontSize: 10,
+      textColor: headerTextColor,
+      fillColor: headerColor,
+      fontStyle: "bold",
+      cellPadding: 2,
+      halign: "center"
+    },
+    tableRow: {
+      fontSize: 10,
+      textColor: textColor,
+      fillColor: rowColor,
+      lineColor: [0, 0, 0],
+      lineWidth: 0.5,
+      cellPadding: 1,
+      halign: "center"
+    },
+    sectionHeader: {
+      fillColor: headerColor,
+      textColor: headerTextColor,
+      fontSize: 12,
+      fontStyle: "bold",
+      halign: "center",
+      cellPadding: 2
+    }
+  };
 
   const handlePdf = async (rowData) => {
     const shipmentId = rowData.SHPH_ShipmentID;
@@ -544,7 +577,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
           {
             content: "Delivered By",
             colSpan: 2,
-            styles: PDF_REF_STYLE.sectionHeader,
+            styles: PDF_STYLE.sectionHeader,
           },
         ],
         ["From Party", shipment.FromParty],
@@ -556,7 +589,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         ["Contact No.", shipment.CNo],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: PDF_REF_STYLE.table,
+      styles: PDF_STYLE.tableRow,
+       headStyles: PDF_STYLE.tableHeader,
     });
 
     /* ---------------- Shipping To ---------------- */
@@ -568,7 +602,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
           {
             content: "Shipping To",
             colSpan: 2,
-            styles: PDF_REF_STYLE.sectionHeader,
+            styles: PDF_STYLE.sectionHeader,
           },
         ],
         ["To Party", shipment.ToParty],
@@ -580,7 +614,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         ["Contact No.", shipment.LCM_ContactNumber],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: PDF_REF_STYLE.table,
+       styles: PDF_STYLE.tableRow,
+       headStyles: PDF_STYLE.tableHeader,
     });
 
     /* ---------------- SHIPMENT INFO ---------------- */
@@ -589,7 +624,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         {
           content: "Shipment Information",
           colSpan: 2,
-          styles: PDF_REF_STYLE.sectionHeader,
+          styles: PDF_STYLE.sectionHeader,
         },
       ],
       ["Delivery No", shipment.dcl_DeliveryNo],
@@ -611,7 +646,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
       theme: "grid",
       body: shipmentInfoRows,
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: PDF_REF_STYLE.table,
+      styles: PDF_STYLE.tableRow,
+       headStyles: PDF_STYLE.tableHeader,
     });
 
     /* ---------------- PRODUCT PAGE ---------------- */
@@ -625,13 +661,14 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
       {
         content: batchDataHeaderText,
         colSpan: numCols,
-        styles: PDF_REF_STYLE.sectionHeader,
+        styles: PDF_STYLE.sectionHeader,
       },
     ]);
     tableData.push(
       headers.map((header) => ({
         content: header,
-        styles: PDF_REF_STYLE.tableHeader,
+        headStyles: PDF_STYLE.tableHeader,
+        styles: PDF_STYLE.tableHeader,
       }))
     );
     tableData = tableData.concat(
@@ -645,8 +682,9 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     autoTable(doc, {
       body: tableData,
       theme: "grid",
-      headStyles: PDF_REF_STYLE.tableHeader,
-      styles: PDF_REF_STYLE.table,
+      headStyles: PDF_STYLE.tableHeader,
+      styles: PDF_STYLE.tableRow,
+       
     });
 
     /* ---------------- SIGNATURE ---------------- */
@@ -665,7 +703,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         2: { cellWidth: 40 },
       },
       styles: PDF_REF_STYLE.signature,
-      headStyles: PDF_REF_STYLE.tableHeader,
+      headStyles: PDF_STYLE.tableHeaderHeader,
       startX: startX,
     });
 
@@ -696,7 +734,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         2: { cellWidth: 40 },
       },
       styles: { fontSize: 11 },
-      headStyles: PDF_REF_STYLE.tableHeader,
+      headStyles: PDF_STYLE.tableHeaderHeader,
     });
     addFooter(doc);
   };
@@ -747,7 +785,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
           {
             content: "Delivered By",
             colSpan: 2,
-            styles: PDF_REF_STYLE.sectionHeader,
+            styles: PDF_STYLE.sectionHeader,
           },
         ],
         ["From Party", mainShipment.FromParty || ''],
@@ -759,7 +797,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         ["Contact No.", mainShipment.CNo || ''],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: PDF_REF_STYLE.table,
+      headStyles: PDF_STYLE.tableHeader,
+      styles: PDF_STYLE.tableRow,
     });
 
     /* ---------------- SHIPMENT INFO ---------------- */
@@ -768,7 +807,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         {
           content: "Shipment Information",
           colSpan: 2,
-          styles: PDF_REF_STYLE.sectionHeader,
+          styles: PDF_STYLE.sectionHeader,
         },
       ],
       ["Logistic Party Name", mainShipment.LGCM_Name || ''],
@@ -780,7 +819,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
       theme: "grid",
       body: shipmentInfoRows,
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-      styles: PDF_REF_STYLE.table,
+      headStyles: PDF_STYLE.tableHeader,
+      styles: PDF_STYLE.tableRow,
     });
 
     /* ---------------- PRODUCT PAGE ---------------- */
@@ -792,13 +832,13 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
       {
         content: batchDataHeaderText,
         colSpan: numCols,
-        styles: PDF_REF_STYLE.sectionHeader,
+        styles: PDF_STYLE.sectionHeader,
       },
     ]);
     tableData.push(
       headers.map((header) => ({
         content: header,
-        styles: PDF_REF_STYLE.tableHeader,
+        styles: PDF_STYLE.tableHeaderHeader,
       }))
     );
     tableData = tableData.concat(
@@ -824,8 +864,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     autoTable(doc, {
       body: tableData,
       theme: "grid",
-      headStyles: PDF_REF_STYLE.tableHeader,
-      styles: PDF_REF_STYLE.table,
+      headStyles: PDF_STYLE.tableHeader,
+      styles: PDF_STYLE.tableRow,
     });
 
     /* ---------------- SIGNATURE ---------------- */
@@ -844,7 +884,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         2: { cellWidth: 40 },
       },
       styles: PDF_REF_STYLE.signature,
-      headStyles: PDF_REF_STYLE.tableHeader,
+      headStyles: PDF_STYLE.tableHeaderHeader,
       startX: startX,
     });
 
@@ -875,31 +915,37 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         2: { cellWidth: 40 },
       },
       styles: { fontSize: 11 },
-      headStyles: PDF_REF_STYLE.tableHeader,
+      headStyles: PDF_STYLE.tableHeaderHeader,
     });
     addFooter(doc);
   };
 
-const addFooter = (doc) => {
-
-
+function addFooter(doc) {
     const totalPages = doc.internal.getNumberOfPages();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(0, 0, 0);
 
     for (let i = 1; i <= totalPages; i++) {
-        // Go to page i
-        doc.setPage(i);
+      doc.setPage(i);
 
-        // Set text alignment to left
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        doc.setTextColor(0, 0, 0); // Black color
-        doc.text('Developed by : Shubham Automation Pvt. Ltd.', 14, doc.internal.pageSize.getHeight() - 10); // at left side of the page
+      doc.text(
+        'Developed by : Shubham Automation Pvt. Ltd.',
+        MARGIN + 4,
+        pageHeight - 10
+      );
 
-        // Add page number to the right side of the page
-        doc.text(`Page ${i} of ${totalPages}`, doc.internal.pageSize.getWidth() - 15, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
-        //  doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
+      doc.text(
+        `Page ${i} of ${totalPages}`,
+        pageWidth - MARGIN - 5,
+        pageHeight - 10,
+        { align: 'right' }
+      );
     }
-};
+  }
 
  return (
     <>

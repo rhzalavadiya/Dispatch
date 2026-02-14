@@ -611,7 +611,7 @@ export default function ShipmentEdit() {
             logAction(`Bypass with Near Expiry confirm failed: ${err.message}`, true);
         }
     };
-
+    console.log("AutoProcess Status:", config.AutoProcess);
 
     const getButtonText = () => {
         if (shipmentStatus === 8) return "CLOSED";
@@ -962,13 +962,6 @@ export default function ShipmentEdit() {
 
     //─── LEFt Pannel Disable  ───────────────────────────────
 
-    // Sync initial status after data is loaded
-    // useEffect(() => {
-    //     if (isShipmentLoaded && shipmentData.length > 0) {
-    //         const status = shipmentData[0]?.SHPH_Status ?? null;
-    //         setGlobalShipmentStatus(status);
-    //     }
-    // }, [isShipmentLoaded, shipmentData, setGlobalShipmentStatus]);
     useEffect(() => {
         if (isShipmentLoaded && shipmentData.length > 0) {
             const dbStatus = shipmentData[0]?.SHPH_Status ?? null;
@@ -1297,6 +1290,38 @@ export default function ShipmentEdit() {
         checkBypassPermission();
     }, []);
 
+
+    // ok undewr wirth overweight ////
+
+    const generateRandomData = (status) => {
+    return {
+        BatchId: "BATCH-" + Math.floor(Math.random() * 1000),
+        UserId: Math.floor(Math.random() * 10) + 1,
+        CurrentAlarm: Math.floor(Math.random() * 5),
+        MachineStatus: Math.floor(Math.random() * 3),
+        TotalProductCount: Math.floor(Math.random() * 500),
+        TotalPassCount: Math.floor(Math.random() * 400),
+        ProductDynamicWeight: (Math.random() * 100).toFixed(2),
+        OffsetPlus: (Math.random() * 5).toFixed(2),
+        OffsetMinus: (Math.random() * 5).toFixed(2),
+        CurrentWeight: (Math.random() * 100).toFixed(2),
+        CurrentWeightStatus: status, // 👈 dynamic
+        UnderWeightCount: Math.floor(Math.random() * 50),
+        OverWeightCount: Math.floor(Math.random() * 50),
+        DoubleCounts: Math.floor(Math.random() * 10),
+        BatchStatus: Math.floor(Math.random() * 2)
+    };
+};
+const sendData = (status) => {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        const payload = generateRandomData(status);
+        send({ RowData: payload, broadcast: true });
+        console.log("📤 Sent:", payload);
+    } else {
+        console.log("⚠ WebSocket not connected");
+    }
+};
+
     return (
         <>
             <div className="page-wrapper">
@@ -1305,48 +1330,6 @@ export default function ShipmentEdit() {
                         <div className="spinner"></div>
                     </div>
                 )}
-
-                {/* <div className="header-bar">
-                    <h1 className="formHeading">Shipment Scanning</h1>
-                    
-
-                    {hasBypassPermission && (
-
-                        <div
-                            className={`bypass-icon-toggle ${isFullBypassOn ? "on" : "off"} 
-        ${shipmentStatus !== 6 || isFullBypassOn ? "disabled" : ""}`}
-                            onClick={() => {
-                                if (shipmentStatus !== 6 || isFullBypassOn) return;
-
-                                setBypassRemark("");
-                                setBypassError("");
-                                setShowFullBypassModal(true);
-                            }}
-                            title={
-                                shipmentStatus !== 6
-                                    ? "Bypass only available during active scanning"
-                                    : isFullBypassOn
-                                        ? "Bypass is already ON"
-                                        : "Toggle full bypass"
-                            }
-                        >
-                            {isFullBypassOn ? (
-                                <>
-                                    <MdOutlineToggleOn size={30} />
-                                    <span>BYPASS ON</span>
-                                </>
-                            ) : (
-                                <>
-                                    <FaToggleOff size={30} />
-                                    <span>BYPASS OFF</span>
-                                </>
-                            )}
-                        </div>
-                    )}
-                    <div className={`ws-status ${isConnected ? "ws-connected" : "ws-disconnected"}`}></div>
-
-                </div> */}
-
                 <div className="header-bar">
                     {/* LEFT SIDE */}
                     <div className="header-left">
@@ -1566,6 +1549,35 @@ export default function ShipmentEdit() {
                     disabled={isMainOperationLoading || shipmentStatus === 6}>
                     BACK
                 </button>
+                {config?.AutoProcess === true && (
+                    <>
+                        <button
+                            className="reset_btn"
+                            style={{ backgroundColor: "#0f6b12", color: "white", border: "none" }}
+                             onClick={() => sendData(2)}
+                        >
+                            OK
+                        </button>
+
+                        <button
+                            className="reset_btn"
+                            style={{ backgroundColor: "#af4c4c", color: "white", border: "none" }}
+                             onClick={() => sendData(3)}
+                        >
+                            OVER WEIGHT
+                        </button>
+
+                        <button
+                            className="reset_btn"
+                            style={{ backgroundColor: "#458899", color: "white", border: "none" }}
+                             onClick={() => sendData(1)}
+                        >
+                            UNDER WEIGHT
+                        </button>
+                    </>
+                )}
+
+
             </div>
 
             {/* ─── Bypass Confirmation Modal ──────────────────────────────────────── */}

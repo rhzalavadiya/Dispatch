@@ -335,47 +335,38 @@ export default function DispatchAuditReport() {
     logAction("Back button clicked - Navigating to Shipment Scanning");
     navigate("/shipmentscanning");
   };
+  
+  const textColor = [0, 0, 0];
+  const headerTextColor = [255, 255, 255];
+  const headerColor = [38, 90, 128];
+  const rowColor = [255, 255, 255];
+  const MARGIN = 10;
 
-  const PDF_REF_STYLE = {
-    BLUE: [38, 90, 128],
-    BLACK: [0, 0, 0],
-    WHITE: [255, 255, 255],
-
-    title: {
-      fontSize: 20,
-      color: [0, 0, 0],
-      fontStyle: "bold"
-    },
-
-    table: {
+  const PDF_STYLE = {
+    tableHeader: {
       fontSize: 10,
-      textColor: [0, 0, 0],
+      textColor: headerTextColor,
+      fillColor: headerColor,
+      fontStyle: "bold",
+      cellPadding: 2,
+      halign: "center"
+    },
+    tableRow: {
+      fontSize: 10,
+      textColor: textColor,
+      fillColor: rowColor,
       lineColor: [0, 0, 0],
       lineWidth: 0.5,
-      cellPadding: 0.3,
+      cellPadding: 1,
       halign: "center"
     },
-
-    tableHeader: {
-      fillColor: [38, 90, 128],
-      textColor: [255, 255, 255],
-      fontSize: 10,
-      fontStyle: "bold",
-      halign: "center",
-      cellPadding: { top: 1, bottom: 1 }
-    },
-
     sectionHeader: {
-      fillColor: [38, 90, 128],
-      textColor: [255, 255, 255],
+      fillColor: headerColor,
+      textColor: headerTextColor,
       fontSize: 12,
       fontStyle: "bold",
-      halign: "center"
-    },
-
-    signature: {
-      fontSize: 11,
-      color: [0, 0, 0]
+      halign: "center",
+      cellPadding: 2
     }
   };
 
@@ -468,7 +459,7 @@ export default function DispatchAuditReport() {
 
     /* ---------------- SHIPMENT INFO (SAME) ---------------- */
     const shipmentInfoRows = [
-      [{ content: "Shipment Information", colSpan: 2, styles: PDF_REF_STYLE.sectionHeader }],
+      [{ content: "Shipment Information", colSpan: 2, styles: PDF_STYLE.sectionHeader }],
       ["Shipment Code", shipment.SHPH_ShipmentCode],
       ["Shipment Date", formatDate(shipment.SHPH_ShipmentDate)],
       ["Shipment Duration", shipment.Duration_HMS],
@@ -476,7 +467,7 @@ export default function DispatchAuditReport() {
       ["Logistic Party Name", shipment.LGCM_Name],
       ["Vehicle Number", shipment.LGCVM_VehicleNumber],
       ["Driver Name", shipment.SHPH_DriverName || "-"],
-      ["Phone Number", shipment.SHPH_DriverContactNo || "-"],
+      ["Driver Phone Number", shipment.SHPH_DriverContactNo || "-"],
       ["Shipment By", shipment.ShipmentBy],
     ];
 
@@ -488,7 +479,7 @@ export default function DispatchAuditReport() {
       startY: 45,
       body: shipmentInfoRows,
       theme: "grid",
-      styles: PDF_REF_STYLE.table,
+      styles: PDF_STYLE.tableRow,
       columnStyles: {
         0: { cellWidth: columnWidth },
         1: { cellWidth: columnWidth },
@@ -499,7 +490,7 @@ export default function DispatchAuditReport() {
 
     const analysisTable = [
       [
-        { content: "Dispatch Analysis", colSpan: 2, styles: PDF_REF_STYLE.sectionHeader }
+        { content: "Dispatch Analysis", colSpan: 2, styles: PDF_STYLE.sectionHeader }
       ],
       [
         { content: "Total Pass", styles: { fontStyle: "bold" } },
@@ -519,7 +510,7 @@ export default function DispatchAuditReport() {
       startY: doc.lastAutoTable.finalY + 8,
       body: analysisTable,
       theme: "grid",
-      styles: PDF_REF_STYLE.table,
+      styles: PDF_STYLE.tableRow,
       columnStyles: {
         0: { cellWidth: columnWidth },
         1: { cellWidth: columnWidth },
@@ -587,43 +578,88 @@ export default function DispatchAuditReport() {
       theme: "grid",
       head: [rsnHeaders],
       body: rsnBody,
-      styles: PDF_REF_STYLE.table,
-      headStyles: PDF_REF_STYLE.tableHeader,
+      styles: PDF_STYLE.tableRow,
+      headStyles: PDF_STYLE.tableHeader,
       columnStyles: {
+        0: { cellWidth: 10, overflow: "linebreak" },   // Sr.No ❌ no wrap
         1: { cellWidth: 35, overflow: "linebreak" },   // RSN ❌ no wrap
-        2: { cellWidth: 30 },                          // Batch Name ✅ wrap
-        3: { cellWidth: 32 },                          // Product Name ✅ wrap
+        2: { cellWidth: 32 },                          // Batch Name ✅ wrap
+        3: { cellWidth: 32 },
+        4: { cellWidth: 20, overflow: "linebreak" },   // Weight ❌ no wrap
+        5: { cellWidth: 20, overflow: "linebreak" },   // Actual Weight ❌ no wrap
+        6: { cellWidth: 15 },                          // Product Name ✅ wrap
         7: { cellWidth: 35 },                          // Reason ✅ wrap
-        8: { cellWidth: 35 },                          // Remark ✅ wrap
+        8: { cellWidth: 40 },                          // Remark ✅ wrap
         9: { cellWidth: 15, overflow: "linebreak" },   // Box No ❌ no wrap
-        10: { cellWidth: 30, overflow: "linebreak" },  // Timestamp ❌ no wrap
+        10: { cellWidth: 23, overflow: "linebreak" },  // Timestamp ❌ no wrap
       },
     });
+
+
+    addSignatureSection(doc);
 
     addFooter(doc);
   };
 
+  function addSignatureSection(doc) {
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const SIGNATURE_HEIGHT = 30;
+    const BOTTOM_MARGIN = 15;
 
-  const addFooter = (doc) => {
+    let startY = doc.lastAutoTable
+      ? doc.lastAutoTable.finalY + 10
+      : 60;
 
+    autoTable(doc, {
+      body: [
+        ['', 'Name', 'Sign', 'Date'],
+        ['Printed By :', '_______________________________', '_______________________________', '_______________________________'],
+        ['Checked By :', '_______________________________', '_______________________________', '_______________________________'],
+        ['Verified By :', '_______________________________', '_______________________________', '_______________________________'],
+      ],
+      startY,
+      theme: 'plain',
+      pageBreak: 'avoid',
+      rowPageBreak: 'avoid',
+      styles: {
+        fontSize: 8,
+        cellPadding: 2,
+      },
+      columnStyles: {
+        0: { halign: 'left' },
+        1: { halign: 'center' },
+        2: { halign: 'center' },
+        3: { halign: 'center' },
+      },
+    });
+  }
 
+  function addFooter(doc) {
     const totalPages = doc.internal.getNumberOfPages();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    doc.setTextColor(0, 0, 0);
 
     for (let i = 1; i <= totalPages; i++) {
-      // Go to page i
       doc.setPage(i);
 
-      // Set text alignment to left
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      doc.setTextColor(0, 0, 0); // Black color
-      doc.text('Developed by : Shubham Automation Pvt. Ltd.', 14, doc.internal.pageSize.getHeight() - 10); // at left side of the page
+      doc.text(
+        'Developed by : Shubham Automation Pvt. Ltd.',
+        MARGIN + 4,
+        pageHeight - 10
+      );
 
-      // Add page number to the right side of the page
-      doc.text(`Page ${i} of ${totalPages}`, doc.internal.pageSize.getWidth() - 15, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
-      //  doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 20, doc.internal.pageSize.getHeight() - 10, { align: 'right' });
+      doc.text(
+        `Page ${i} of ${totalPages}`,
+        pageWidth - MARGIN - 5,
+        pageHeight - 10,
+        { align: 'right' }
+      );
     }
-  };
+  }
 
   return (
     <>

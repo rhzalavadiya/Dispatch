@@ -280,14 +280,14 @@ export default function HomeDashboard() {
 			let msg;
 			try {
 				msg = JSON.parse(event.data);
-				logAction(`WebSocket message received: type=${msg.type || "unknown"}, order length=${msg.order?.length || 0}`);
+				logAction(`WebSocket message received: type=${msg.type || "unknown"}, order length=${msg.order?.length || 0} data : ${JSON.stringify(msg.order || {})}`);
 			} catch (e) {
 				logAction("Invalid JSON received from WebSocket", true);
 				return;
 			}
 
 			if (msg.type === "progress" && msg.order && Array.isArray(msg.order)) {
-				logAction(`Processing progress update from WebSocket: ${msg.order.length} items`);
+				logAction(`Processing progress update from WebSocket: ${msg.order.length} items `);
 
 				const processedData = msg.order.map(item => ({
 					...item,
@@ -377,11 +377,12 @@ export default function HomeDashboard() {
 			try {
 				logAction("Fetching running shipment data via CSV fallback endpoint }/get-running-csv");
 				const res = await axios.get(`${config.apiBaseUrl}/get-running-csv`);
+				logAction(`CSV fallback data received: ${res.data} items | Shipment: ${res.data.shipmentCode || "N/A"}`);
 				const currentLength = res.data.data?.length || 0;
 				const currentShipment = res.data.shipmentCode || "No Active Shipment";
 
 				let dataChanged = false;
-
+				
 				if (currentLength > 0) {
 					const processedData = res.data.data.map(row => ({
 						...row,

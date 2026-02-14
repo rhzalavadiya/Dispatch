@@ -47,6 +47,12 @@ app.use(cors(corsOptions));
 
 app.set('trust proxy', true);
 
+//-------------------------delete logs older than 7 days -------------------------//
+const logDir = path.join(process.cwd(), "Logs");
+cleanupOldLogs(logDir);
+setInterval(() => cleanupOldLogs(logDir), 24 * 60 * 60 * 1000); // Repeat every 24 hours
+// ------------------ Main screen log file end point  ------------------//
+
 const logToFile = (logMessage, isError = false) => {
   const logDir = path.join(process.cwd(), "Logs"); // Safe for Ubuntu & Windows
 
@@ -149,7 +155,43 @@ app.post("/api/logdashboard", (req, res) => {
   res.sendStatus(200);
 });
 
+//----------------------- clean old Logs -----------------------
 
+function cleanupOldLogs(logDir) {
+  const now = new Date();
+
+  fs.readdir(logDir, (err, files) => {
+    if (err) {
+      console.error("❌ Failed to read log directory:", err);
+      return;
+    }
+
+    files.forEach(file => {
+      // Match LOG- or DASHBOARDLOG-
+      const match = file.match(/^(LOG|DASHBOARDLOG)-(\d{2})(\d{2})(\d{4})\.txt$/);
+
+      if (match) {
+        const [, , dd, mm, yyyy] = match;
+        const fileDate = new Date(`${yyyy}-${mm}-${dd}`);
+        const ageInDays = (now - fileDate) / (1000 * 60 * 60 * 24);
+
+        if (ageInDays > 7) {
+          const fullPath = path.join(logDir, file);
+
+          fs.unlink(fullPath, err => {
+            if (err) {
+              console.error(`❌ Failed to delete old log ${file}:`, err);
+            } else {
+              console.log(`🧹 Deleted old log file: ${file}`);
+            }
+          });
+        }
+      }
+    });
+  });
+}
+
+//------------------------ End of Sync endpoints -----------------------
 app.post("/sync-vps-to-local", async (req, res) => {
   const data = req.body;
 
@@ -1891,6 +1933,8 @@ const queryPrinterStatus = (printerIp) => {
 //     socket.on("timeout", () => reject("Printer connection timeout"));
 //   });
 // };
+
+
 
 
 //---------------------------Routing Setup---------------------------
