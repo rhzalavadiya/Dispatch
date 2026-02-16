@@ -86,7 +86,7 @@ export default function ShipmentView() {
 
             <div className="col-md-6">
               <label>Logistic Party Name</label>
-              <input className="form-input" value={header.LGCM_Name} readOnly />
+              <input className="form-input" value={header.LGCM_Name || "-"} readOnly />
             </div>
 
             <div className="col-md-6">
@@ -118,7 +118,7 @@ export default function ShipmentView() {
 
             <div className="col-md-6">
               <label>Routing for Shipment Location</label>
-              <input className="form-input" value={header.RUTL_Name} readOnly />
+              <input className="form-input" value={header.RUTL_Name || "-"} readOnly />
             </div>
           </div>
         )}

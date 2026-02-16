@@ -89,14 +89,14 @@ export default function ShipmentScanning() {
 
         // ────────────────────────────────────────────────
         // DEBUG: Check real raw data for reverse sync candidates
-        console.log("=== RAW shipmentData just loaded ===");
-        (response.data.shipment || []).forEach((item, index) => {
-          console.log(
-            `#${index + 1} | ID:${item.SHPH_ShipmentID} | ` +
-            `Status:${item.SHPH_Status} | IsSync:${item.SHPH_IsSync} | ` +
-            `Code:${item.SHPH_ShipmentCode || '—'}`
-          );
-        });
+        // console.log("=== RAW shipmentData just loaded ===");
+        // (response.data.shipment || []).forEach((item, index) => {
+        //   console.log(
+        //     `#${index + 1} | ID:${item.SHPH_ShipmentID} | ` +
+        //     `Status:${item.SHPH_Status} | IsSync:${item.SHPH_IsSync} | ` +
+        //     `Code:${item.SHPH_ShipmentCode || '—'}`
+        //   );
+        // });
 
         const reverseCandidates = shipmentData.filter(item =>
           item.SHPH_IsSync === 0 && [6, 8, 10, 12].includes(item.SHPH_Status)
@@ -140,15 +140,15 @@ export default function ShipmentScanning() {
 
       console.log(`At sync moment → ${reverseCandidatesHere.length} candidates found`);
 
-      shipmentData.forEach((item, i) => {
-        const shouldTrigger =
-          item.SHPH_IsSync === 0 && [6, 8, 10, 12].includes(item.SHPH_Status);
+      // shipmentData.forEach((item, i) => {
+      //   const shouldTrigger =
+      //     item.SHPH_IsSync === 0 && [6, 8, 10, 12].includes(item.SHPH_Status);
 
-        console.log(
-          `${i + 1}) ID:${item.SHPH_ShipmentID} | Stat:${item.SHPH_Status} | Sync:${item.SHPH_IsSync} ` +
-          `→ ${shouldTrigger ? 'YES - should trigger reverse' : 'no'}`
-        );
-      });
+      //   console.log(
+      //     `${i + 1}) ID:${item.SHPH_ShipmentID} | Stat:${item.SHPH_Status} | Sync:${item.SHPH_IsSync} ` +
+      //     `→ ${shouldTrigger ? 'YES - should trigger reverse' : 'no'}`
+      //   );
+      // });
 
       const needsReverseSync = shipmentData.some(item =>
         item.SHPH_IsSync === 0 && [6, 8, 10, 12].includes(item.SHPH_Status)
@@ -181,7 +181,7 @@ export default function ShipmentScanning() {
           }
         } catch (reverseError) {
           console.error("Reverse sync failed:", reverseError);
-          logAction("Reverse sync failed", true);
+          logAction(`Reverse sync failed: ${reverseError}`, true);
           reverseSyncSuccess = false;
           if (isManual) setManualLoading(false);
           return;
@@ -586,8 +586,8 @@ export default function ShipmentScanning() {
             style={{ background: "none", border: "none", cursor: "pointer" }}
           >
             <LuRefreshCcw
-              className={manualLoading ? "spin" : ""}
-              style={{ fontSize: "38px", color: "#295a80" }}
+              className={manualLoading ? "spin" : "sync"}
+              // style={{ fontSize: "38px", color: "#295a80" }}
               title="Shipment Sync"
             />
           </button>
@@ -627,6 +627,7 @@ export default function ShipmentScanning() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.RUTL_Name || "-"}
           />
           <Column
             field="LGCM_Name"
@@ -643,6 +644,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.LGCVM_VehicleNumber || "-"}
+            
           />
           <Column
             field="ShipmentStatusName"

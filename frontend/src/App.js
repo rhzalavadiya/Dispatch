@@ -14,7 +14,6 @@ import ProtectedRoute from "./contexts/ProtectedRoute";
 import { InternetProvider } from "./contexts/InternetContext";
 import CheckInternet from "./components/common/CheckInternet";
 import CompletedOutward from "./components/ShipmentSca/completedoutward";
-import CameraSetup from "./components/CameraSetup/camerasetup";
 import DispatchReport from "./components/Reports/dispatchreport";
 import DispatchAuditReport from "./components/Reports/dispatchauditreport";
 import ReprintLabel from "./components/Reprint/reprint";
@@ -64,7 +63,6 @@ function App() {
               <Route path="viewShipment/:shipmentCode" element={<ShipmentView />} />
               <Route path="completedoutward" element={<CompletedOutward/>}/>
               <Route path="aboutus" element={<AboutUs />} />
-              <Route path="camerasetup" element={<CameraSetup />} />
               <Route path="dispatch-report" element={<DispatchReport/>}/>
               <Route path="dispatch-audit" element={<DispatchAuditReport/>}/>
               <Route path="reprint" element={<ReprintLabel/>}/>

@@ -14778,3 +14778,41 @@
 [18:01:17.133] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
 [18:01:17.142] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
 [18:01:17.144] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:18.124] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:18.125] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:18.129] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:18.130] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:19.128] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:19.132] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:19.136] [192.168.1.2] : Navbar : [1.0.0.2] : [LOG] : WH : User : Fetching notifications
+[18:01:19.208] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:19.209] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:19.218] [192.168.1.2] : Navbar : [1.0.0.2] : [LOG] : WH : User : Notification count updated: 57
+[18:01:20.129] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:20.131] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:20.135] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:20.136] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:21.130] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:21.132] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:21.137] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:21.137] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:22.121] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:22.121] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:22.126] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:22.127] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:23.121] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:23.122] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:23.126] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:23.127] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:24.132] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:24.134] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:24.139] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:24.141] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:25.121] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:25.122] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:25.127] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:25.128] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404
+[18:01:26.119] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching CSV progress data for shipment code: WH_41
+[18:01:26.120] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [LOG] : WH : User: Fetching FAIL CSV for shipmentCode: WH_41
+[18:01:26.125] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch CSV progress - Request failed with status code 404 and error : AxiosError: Request failed with status code 404
+[18:01:26.126] [192.168.1.2] : Shipment Edit : [1.0.0.2] : [ERROR] : WH : User: Failed to fetch FAIL CSV - Request failed with status code 404

@@ -652,6 +652,7 @@ autoTable(doc, {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.RUTL_Name || "-"}
           />
           <Column
             field="LGCM_Name"
@@ -659,6 +660,7 @@ autoTable(doc, {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCM_Name || "-"}
           />
           <Column
             field="LGCVM_VehicleNumber"
@@ -666,6 +668,7 @@ autoTable(doc, {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
             header="Action"

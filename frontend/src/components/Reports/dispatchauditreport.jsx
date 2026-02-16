@@ -556,7 +556,7 @@ export default function DispatchAuditReport() {
       // 👉 Normal data row
       rsnBody.push([
         srNo++,
-        row.dis_rsn || "-",
+         row.dis_rsn === "NO READ" ? "-" : (row.dis_rsn || "-"),
         row.Batch_Name || "-",
         row.Product_Name || "-",
         (row.dis_prod_weight != null
@@ -703,6 +703,7 @@ export default function DispatchAuditReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.RUTL_Name || "-"}
           />
           <Column
             field="LGCM_Name"
@@ -710,6 +711,7 @@ export default function DispatchAuditReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCM_Name || "-"}
           />
           <Column
             field="LGCVM_VehicleNumber"
@@ -717,6 +719,7 @@ export default function DispatchAuditReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
             header="Action"

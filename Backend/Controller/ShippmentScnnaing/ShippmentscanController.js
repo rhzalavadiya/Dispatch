@@ -28,7 +28,7 @@ LEFT JOIN logisticcompanyvehiclemaster lgv
     ON sl.SHPH_LogisticVehicleID = lgv.LGCVM_ID
 LEFT JOIN logisticcompanymaster lgm
     ON sl.SHPH_LogisticPartyID = lgm.LGCM_ID
-JOIN routelist rl
+LEFT JOIN routelist rl
     ON sl.SHPH_SCPRouteID = rl.RUTL_ID
 LEFT JOIN enummaster em
     ON em.EnumType = 'Shipment'
@@ -755,11 +755,11 @@ const CompletedShipment = async (req, res) => {
     rl.RUTL_Name,
     sl.SHPH_ByProductVendorScanMode
 FROM shipmentlist sl
-JOIN logisticcompanyvehiclemaster lgv
+LEFT JOIN logisticcompanyvehiclemaster lgv
     ON sl.SHPH_LogisticVehicleID = lgv.LGCVM_ID
-JOIN logisticcompanymaster lgm
+LEFT JOIN logisticcompanymaster lgm
     ON sl.SHPH_LogisticPartyID = lgm.LGCM_ID
-JOIN routelist rl
+LEFT JOIN routelist rl
     ON sl.SHPH_SCPRouteID = rl.RUTL_ID
 LEFT JOIN enummaster em
     ON em.EnumType = 'Shipment'

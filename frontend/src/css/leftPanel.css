@@ -5,6 +5,7 @@
   column-gap: 6px !important;
 }
 
+
 .accordion-header {
   padding: 10px 3px;
   background-color: #194364;
@@ -16,7 +17,7 @@
     color 0.3s ease;
   text-align: center;
   width: 155px;
-  height: 45px;
+  /* height: 45px; */
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -232,7 +233,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 20px;
+  padding: 8px 2px;
   width: 100%;
   box-sizing: border-box;
 }

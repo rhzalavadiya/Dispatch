@@ -838,7 +838,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     tableData.push(
       headers.map((header) => ({
         content: header,
-        styles: PDF_STYLE.tableHeaderHeader,
+       headStyles: PDF_STYLE.tableHeader,
+        styles: PDF_STYLE.tableHeader,
       }))
     );
     tableData = tableData.concat(
@@ -989,6 +990,7 @@ function addFooter(doc) {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.RUTL_Name || "-"}
           />
           <Column
             field="LGCM_Name"
@@ -996,6 +998,7 @@ function addFooter(doc) {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCM_Name || "-"}
           />
           <Column
             field="LGCVM_VehicleNumber"
@@ -1003,6 +1006,7 @@ function addFooter(doc) {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
             header="Action"

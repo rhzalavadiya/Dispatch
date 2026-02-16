@@ -68,11 +68,11 @@ const LeftPanel = () => {
       const check = await fetch(`${config.apiBaseUrl}/check-camera?ip=${machine.MM_Cameraip}`);
       const checkRes = await check.json();
       if (checkRes.status === "connected") camWindow.location.href = `http://${machine.MM_Cameraip}`;
-      else { toast.error("Camera disconnected"); camWindow.close(); }
+      else { toast.error("Camera disconnected."); camWindow.close(); }
     } catch (err) {
       console.error(err);
       logAction(`Camera direct open failed: ${err.message}`, true);
-      toast.error("Camera disconnected");
+      toast.error("Camera disconnected.");
     }
   };
 

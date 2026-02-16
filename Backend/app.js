@@ -673,8 +673,8 @@ app.get("/api/read-csv", (req, res) => {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
 
-  // const basePath = process.env.DISPATCH_BASE_PATH;
-  const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  const basePath = process.env.DISPATCH_BASE_PATH;
+  //const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
   const fileName = process.env.DispatchFile;
 
   // Try both: with -1 and without
@@ -952,7 +952,7 @@ app.get("/check-autoclose/:shipmentCode", (req, res) => {
 
 
 app.get("/get-running-csv", async (req, res) => {
-  console.log("hit")
+//  console.log("hit")
   const basePath = process.env.DISPATCH_BASE_PATH;
   //const basePath = "D:/Project Work Space/Bhagvati/Dispatch/Backend/ProcessFiles";
   const dispatchFile = process.env.DispatchFile || "Dispatch_SCP.csv"; // fallback if not set

@@ -42,21 +42,21 @@ export default function ReprintLabel() {
         try {
             if (!formData.rsnval?.trim()) {
                 logAction("Reprint Label failed - RSN value is empty", true);
-                toast.error("Please enter RSN value");
+                toast.error("Please enter RSN value.");
                 return;
             }
             logAction(`Reprint Label initiated for RSN: ${formData.rsnval} /reprint endpoint called`);
             const response = await axios.get(`${config.apiBaseUrl}/reprint`, { params: { rsnval: formData.rsnval } });
             if (response.data?.data?.length === 0) {
                 logAction(`Reprint Label failed for RSN: ${formData.rsnval} - No label data found for this RSN`, true);
-                toast.error("No label data found for this RSN");
+                toast.error("No label data found for this RSN.");
                 return;
             }
-            toast.success("Label reprint triggered successfully");
+            toast.success("Label reprint triggered successfully.");
             logAction(`Reprint Label successful for RSN: ${formData.rsnval} - Label reprint triggered successfully`);
         } catch (error) {
             logAction(`Reprint Label failed for RSN: ${formData.rsnval} - Error: ${error.message} and error object: ${JSON.stringify(error)}`, true);
-            toast.error(error?.response?.data?.message || "Failed to reprint label");
+            toast.error(error?.response?.data?.message || "Failed to reprint label.");
         }
     };
 

@@ -186,6 +186,7 @@ const Navbar = () => {
                 pointerEvents: isScanningActive ? "none" : "auto",
                 opacity: isScanningActive ? 0.5 : 1,
                 cursor: isScanningActive ? "not-allowed" : "pointer",
+                textDecoration: "none",
               }}
             >
 
