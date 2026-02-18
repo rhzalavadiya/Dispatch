@@ -35,19 +35,19 @@ const AboutUs = () => {
     <div className="main_container_about">
       <div>
         <div className="inner-container">
-          <h3 style={{ color: "#295a80", fontSize: "30px", fontWeight: "bold" }}>
+          <h3 className="aboutus">
             About Us
           </h3>
-          <h3 style={{ color: "#465a64", fontSize: "23px", fontWeight: "bold" }}>
+          <h3 className="titleName">
             Shipment Dispatch Software
           </h3>
-          <h3 style={{ color: "#465a64", fontSize: "20px", fontWeight: "bold" }}>
+          <h3 className="version">
             Version : {config.configversion}
           </h3>
-          <h3 style={{ color: "#465a64", fontSize: "20px", fontWeight: "bold" }}>
+          <h3 className="companyName">
             Shubham Automation Pvt. Ltd.
           </h3>
-          <p style={{ color: "#465a64", fontSize: "18px", fontWeight: "500" }}>
+          <p className="address">
             Plot No. 84/3/A, Phase-1, Nr. Span Industrial Complex, Road No. F,
             G.I.D.C., Vatva, Ahmedabad-382445 (Gujarat, INDIA)
           </p>

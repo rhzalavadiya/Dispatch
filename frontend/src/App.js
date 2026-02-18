@@ -6,7 +6,6 @@ import NewDashboard from "./components/Dashboard/newDashbord";
 import ShipmentScanning from "./components/ShipmentSca/shipmentscanning";
 import ShipmentEdit from "./components/ShipmentSca/shipmentedit";
 import ShipmentView from "./components/ShipmentSca/shipmentview";
-import HomeDashboard from "./components/ShipmentSca/homedashboard";
 import NewLogin from "./components/Login/login";
 import AboutUs from "./components/AboutUs/aboutus";
 
@@ -66,9 +65,7 @@ function App() {
               <Route path="dispatch-report" element={<DispatchReport/>}/>
               <Route path="dispatch-audit" element={<DispatchAuditReport/>}/>
               <Route path="reprint" element={<ReprintLabel/>}/>
-
             </Route>
-            <Route path="dashboard" element={<HomeDashboard />} />
           </Routes>
           
         </BrowserRouter>

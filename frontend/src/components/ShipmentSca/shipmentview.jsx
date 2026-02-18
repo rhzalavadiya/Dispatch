@@ -52,6 +52,18 @@ export default function ShipmentView() {
 
     loadShipmentData();
   }, [shipmentCode]);
+  
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const [dd, mm, yyyy] = dateString.split("-");
+    const isoDate = `${yyyy}-${mm}-${dd}`;
+    const d = new Date(isoDate);
+    if (isNaN(d)) return ""; // safety check
+    const day = d.getDate().toString().padStart(2, "0");
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
 
   return (
     <>
@@ -79,7 +91,7 @@ export default function ShipmentView() {
               <label>Shipment Date</label>
               <input
                 className="form-input"
-                value={header.SHPH_ShipmentDate}
+                value={formatDate(header.SHPH_ShipmentDate)}
                 readOnly
               />
             </div>
@@ -117,7 +129,7 @@ export default function ShipmentView() {
             </div>
 
             <div className="col-md-6">
-              <label>Routing for Shipment Location</label>
+              <label>Route for Shipment Location</label>
               <input className="form-input" value={header.RUTL_Name || "-"} readOnly />
             </div>
           </div>

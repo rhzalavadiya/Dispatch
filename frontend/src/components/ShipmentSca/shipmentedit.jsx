@@ -87,6 +87,19 @@ export default function ShipmentEdit() {
     const [failRsnList, setFailRsnList] = useState([]);
     const [highlightRsn, setHighlightRsn] = useState(null);
 
+    // Track connection status of critical devices
+const [deviceConnections, setDeviceConnections] = useState({
+  printer: true,
+  plc:     true,
+  camera:  true,
+});
+
+// Computed value — true only when ALL are connected
+const allDevicesReady = 
+  deviceConnections.printer &&
+  deviceConnections.plc &&
+  deviceConnections.camera;
+
 
     const logAction = async (action, isError = false) => {
         try {
@@ -301,6 +314,7 @@ export default function ShipmentEdit() {
             logAction(`Updating status → ${status} (ShipmentID: ${id})`);
             await localApi.put(`/changeShipmentStatus/${id}/${status}/${userId}`);
             setShipmentStatus(status);
+            setGlobalShipmentStatus(status);
             logAction(`Status updated successfully → ${status}`);
         } catch (err) {
             logAction(`Failed to update status to ${status} - ${err.message} and error: ${err}`, true);
@@ -375,18 +389,18 @@ export default function ShipmentEdit() {
         if (actionType === "stop") {
             if (isOnline && syncSuccess) {
                 logAction(`Shipment ${code} stopped and synced successfully`);
-                toast.success(`Shipment ${code} stopped & synced`);
+                toast.success(`Shipment : ${code} stopped successfully.`);
             } else {
                 logAction(`Shipment ${code} stopped successfully (sync may have failed or offline)`);
-                toast.success(`Shipment ${code} stopped`);
+                toast.success(`Shipment : ${code} stopped successfully.`);
             }
         } else if (actionType === "close") {
             if (isOnline && syncSuccess) {
                 logAction(`Shipment ${code} closed and synced successfully`);
-                toast.success(`Shipment ${code} closed & synced`);
+                toast.success(`Shipment : ${code} completed successfully.`);
             } else {
                 logAction(`Shipment ${code} closed successfully (sync may have failed or offline)`);
-                toast.success(`Shipment ${code} closed`);
+                toast.success(`Shipment : ${code} completed successfully.`);
             }
         }
     };
@@ -688,6 +702,7 @@ export default function ShipmentEdit() {
                                 logAction("Outward_RSN.csv not found → skipping save, but marking as paused");
                                 await updateShipmentStatus(10);
                                 setCanDrag(true);
+                                setGlobalShipmentStatus(10);
                                 logAction("Marked shipment as paused (status 10) despite missing CSV");
                                 await localApi.post("/ShipmentSyncStatus", {
                                     shipmentId: id,
@@ -707,6 +722,7 @@ export default function ShipmentEdit() {
                                 logAction("Progress saved (/process-pause)");
                                 await updateShipmentStatus(10);
                                 setCanDrag(true);
+                                setGlobalShipmentStatus(10);
                                 logAction("Shipment marked as paused (status 10)");
                                 await localApi.post("/ShipmentSyncStatus", {
                                     shipmentId: id,
@@ -740,13 +756,6 @@ export default function ShipmentEdit() {
                         logAction("STOP timed out (30s)", true);
                     }
                 }, 30000);
-
-
-                // } else if (action === "RESUME") {
-                //     await getRSN();
-                //     const orderedShipmentData = getShipmentDataForStartResume();
-                //     send({ message: "RESUME", SCPtable: orderedShipmentData, RSNtable: rsnData, broadcast: true });
-                // }
             } else if (action === "RESUME") {
                 await getRSN();
                 const orderedShipmentData = getShipmentDataForStartResume();
@@ -1070,7 +1079,7 @@ export default function ShipmentEdit() {
         const trimmed = bypassRemark.trim();
 
         if (!trimmed) {
-            setBypassError("* Remark is required");
+            setBypassError("*");
             return;
         }
 
@@ -1322,6 +1331,41 @@ const sendData = (status) => {
     }
 };
 
+
+ // ─── If Camera Printer PLC Disconnected ───────────────────────────────────────
+ useEffect(() => {
+  const ws = wsRef.current;
+  if (!ws) return;
+
+  const handleDeviceStatus = (event) => {
+    try {
+      const data = JSON.parse(event.data);
+      if (data.type === "device_status") {
+        const { device, connected } = data;
+
+        // Only care about these three devices
+        if (device in deviceConnections) {
+          setDeviceConnections(prev => ({
+            ...prev,
+            [device]: Boolean(connected)   // make sure it's real boolean
+          }));
+        }
+      }
+    } catch (err) {
+      // Silent fail — don't break UI because of bad message
+      console.warn("Invalid device_status message:", err);
+    }
+  };
+
+  ws.addEventListener("message", handleDeviceStatus);
+
+  // Cleanup
+  return () => {
+    ws.removeEventListener("message", handleDeviceStatus);
+  };
+}, [wsRef]);   // ← depends on wsRef
+
+
     return (
         <>
             <div className="page-wrapper">
@@ -1438,7 +1482,6 @@ const sendData = (status) => {
                                                                     <div className="scp-info">
                                                                         <div className="scp-name">
                                                                             {group.name}
-                                                                            {group.code && <span className="scp-code"> ({group.code})</span>}
                                                                         </div>
                                                                     </div>
 
@@ -1540,7 +1583,7 @@ const sendData = (status) => {
                             getButtonText() === "RESUME" ? "btn-resume" :
                                 "btn-start"}`}
                     onClick={handleMainButton}
-                    disabled={isMainOperationLoading || getButtonText() === "CLOSED" || !isConnected}
+                    disabled={isMainOperationLoading || getButtonText() === "CLOSED" || !isConnected ||!allDevicesReady}
                 >
                     {getButtonText()}
                 </button>
@@ -1591,7 +1634,7 @@ const sendData = (status) => {
             >
                 <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
                     <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
-                        :: Bypass Confirmation ::
+                        :: User Confirmation ::
                     </Modal.Title>
                 </Modal.Header>
 
@@ -1631,7 +1674,7 @@ const sendData = (status) => {
                                     fontSize: "15px",
                                     outline: "none",
                                 }}
-                                placeholder="Enter reason for bypass..."
+                                placeholder="Enter bypass remark"
                                 value={bypassRemark}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -1639,7 +1682,7 @@ const sendData = (status) => {
 
                                     const trimmed = value.trim();
                                     if (!trimmed) {
-                                        setBypassError("* Remark is required");
+                                        setBypassError("*");
                                     } else if (value !== trimmed) {
                                         setBypassError("Remarks cannot start or end with spaces");
                                     } else {
@@ -1698,7 +1741,7 @@ const sendData = (status) => {
             >
                 <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
                     <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
-                        :: Bypass Confirmation ::
+                        :: User Confirmation ::
                     </Modal.Title>
                 </Modal.Header>
 
@@ -1738,7 +1781,7 @@ const sendData = (status) => {
                                     fontSize: "15px",
                                     outline: "none",
                                 }}
-                                placeholder="Enter reason for bypass..."
+                                placeholder="Enter bypass remark"
                                 value={bypassRemark}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -1746,7 +1789,7 @@ const sendData = (status) => {
 
                                     const trimmed = value.trim();
                                     if (!trimmed) {
-                                        setBypassError("* Remark is required");
+                                        setBypassError("*");
                                     } else if (value !== trimmed) {
                                         setBypassError("Remarks cannot start or end with spaces");
                                     } else {
@@ -1801,7 +1844,7 @@ const sendData = (status) => {
             >
                 <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
                     <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
-                        :: Near ExpiryDate Confirmation ::
+                        :: User Confirmation ::
                     </Modal.Title>
                 </Modal.Header>
 
@@ -1814,7 +1857,7 @@ const sendData = (status) => {
                             color: "#4a5568",
                         }}
                     >
-                        Are you sure you want pass this item with Near Expiry Date?
+                        This product is near expiry, Do you want to continue ?
                     </div>
                 </Modal.Body>
 
@@ -1856,7 +1899,7 @@ const sendData = (status) => {
             >
                 <Modal.Header style={{ justifyContent: "center", borderBottom: "none", }}>
                     <Modal.Title style={{ fontWeight: "700", color: "#4a5568", fontSize: "20px", marginTop: "20px" }}>
-                        :: Near Expiry With Bypass Confirmation ::
+                        :: User Confirmation ::
                     </Modal.Title>
                 </Modal.Header>
 
@@ -1896,7 +1939,7 @@ const sendData = (status) => {
                                     fontSize: "15px",
                                     outline: "none",
                                 }}
-                                placeholder="Enter reason for bypass..."
+                                placeholder="Enter bypass remark"
                                 value={bypassRemark}
                                 onChange={(e) => {
                                     const value = e.target.value;
@@ -1904,7 +1947,7 @@ const sendData = (status) => {
 
                                     const trimmed = value.trim();
                                     if (!trimmed) {
-                                        setBypassError("* Remark is required");
+                                        setBypassError("*");
                                     } else if (value !== trimmed) {
                                         setBypassError("Remarks cannot start or end with spaces");
                                     } else {

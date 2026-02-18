@@ -1,4 +1,4 @@
-use dispatch;
+use dispatchdatabase;
 SET SQL_SAFE_UPDATES = 0;
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE audittrail;
@@ -40,6 +40,10 @@ TRUNCATE TABLE shipmentreturnmaster;
 TRUNCATE TABLE usermaster;
 TRUNCATE TABLE userpwdtransaction;
 TRUNCATE TABLE userscpmaster;
+TRUNCATE TABLE dispatchaudit;
+TRUNCATE TABLE notificationdetails;
+TRUNCATE TABLE notificationmaster;
+TRUNCATE TABLE shipmenttransction;
 SET FOREIGN_KEY_CHECKS = 1;
 SET SQL_SAFE_UPDATES = 1;
 

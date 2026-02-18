@@ -31,6 +31,14 @@ export default function ShipmentScanning() {
     from: "",
     to: "",
   });
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const statusOptions = [
+    { value: null, label: "--Select Status--" },
+    { value: 2, label: "Approved" },
+    { value: 6, label: "Scanning" },
+    { value: 10, label: "Pending" },
+  ];
+
 
   const logAction = async (action, isError = false) => {
     try {
@@ -56,13 +64,6 @@ export default function ShipmentScanning() {
   }, []);
 
   const hasStatus6 = shipmentData.some(item => item.SHPH_Status === 6);
-
-  // const canEdit = (row) => {
-  //   const allowed = row.SHPH_Status === 2 || row.SHPH_Status === 6 || row.SHPH_Status === 10;
-  //   //logAction(`Edit permission check - ShipmentID: ${row.SHPH_ShipmentID}, Status: ${row.SHPH_Status}, Allowed: ${allowed}`);
-  //   return allowed;
-  // };
-
   const canEdit = (row) => {
     if (hasStatus6) {
       // If any shipment has status 6 → only status 6 is editable
@@ -86,17 +87,6 @@ export default function ShipmentScanning() {
 
         logAction(`Shipment list fetched successfully - Count: ${response.data.shipment?.length || 0} data: ${JSON.stringify(response.data.shipment)}`);
         setShipmentData(response.data.shipment || []);
-
-        // ────────────────────────────────────────────────
-        // DEBUG: Check real raw data for reverse sync candidates
-        // console.log("=== RAW shipmentData just loaded ===");
-        // (response.data.shipment || []).forEach((item, index) => {
-        //   console.log(
-        //     `#${index + 1} | ID:${item.SHPH_ShipmentID} | ` +
-        //     `Status:${item.SHPH_Status} | IsSync:${item.SHPH_IsSync} | ` +
-        //     `Code:${item.SHPH_ShipmentCode || '—'}`
-        //   );
-        // });
 
         const reverseCandidates = shipmentData.filter(item =>
           item.SHPH_IsSync === 0 && [6, 8, 10, 12].includes(item.SHPH_Status)
@@ -139,16 +129,6 @@ export default function ShipmentScanning() {
       );
 
       console.log(`At sync moment → ${reverseCandidatesHere.length} candidates found`);
-
-      // shipmentData.forEach((item, i) => {
-      //   const shouldTrigger =
-      //     item.SHPH_IsSync === 0 && [6, 8, 10, 12].includes(item.SHPH_Status);
-
-      //   console.log(
-      //     `${i + 1}) ID:${item.SHPH_ShipmentID} | Stat:${item.SHPH_Status} | Sync:${item.SHPH_IsSync} ` +
-      //     `→ ${shouldTrigger ? 'YES - should trigger reverse' : 'no'}`
-      //   );
-      // });
 
       const needsReverseSync = shipmentData.some(item =>
         item.SHPH_IsSync === 0 && [6, 8, 10, 12].includes(item.SHPH_Status)
@@ -207,7 +187,7 @@ export default function ShipmentScanning() {
 
         if (result.data.success) {
           if (isManual) {
-            toast.success("Shipment Sync Successfully.");
+            toast.success("Shipment data sync successfully.");
           }
 
           logAction(`Full forward sync completed successfully : `);
@@ -260,19 +240,6 @@ export default function ShipmentScanning() {
     }
   }, [shipmentData]);
 
-
-
-  // 2) Auto-sync AFTER data is actually loaded (when shipmentData changes)
-  // useEffect(() => {
-  //   if (shipmentData.length === 0) return; // skip if still empty
-
-  //   if (navigator.onLine) {
-  //     logAction("Data loaded → starting auto sync");
-  //     handleRefreshAuto();
-  //   } else {
-  //     logAction("Offline: Loaded local data only");
-  //   }
-  // }, [shipmentData]);
   // ────────────────────────────────────────────────
 
   const parseShipmentDate = (dateString) => {
@@ -283,7 +250,7 @@ export default function ShipmentScanning() {
   };
 
   const searchOptions = [
-    { value: "", label: "--Select--" },
+    { value: null, label: "--Select--" },
     { value: "SHPH_ShipmentCode", label: "Shipment Code" },
     { value: "SHPH_Date", label: "Shipment Date" },
     { value: "RUTL_Name", label: "Route Name" },
@@ -332,7 +299,11 @@ export default function ShipmentScanning() {
           .includes(search2.toLowerCase());
 
       // logAction(`Filtering ShipmentID ${item.SHPH_ShipmentID}: DateMatch=${dateMatch}, Match1=${match1}, Match2=${match2}`);
-      return dateMatch && match1 && match2;
+      const statusMatch =
+        !selectedStatus || item.SHPH_Status === selectedStatus;
+
+      return dateMatch && match1 && match2 && statusMatch;
+
     });
 
   useEffect(() => {
@@ -373,6 +344,19 @@ export default function ShipmentScanning() {
     return `${day}/${month}/${year}`;
   };
 
+  useEffect(() => {
+    const isDateSelected =
+      selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+
+    if (!isDateSelected) {
+      setFormData((prev) => ({
+        ...prev,
+        from: "",
+        to: "",
+      }));
+    }
+  }, [selectedField1, selectedField2]);
+
   const renderHeader = () => {
     const showDateRow =
       selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
@@ -380,9 +364,9 @@ export default function ShipmentScanning() {
       <>
         <form method="post">
           {/* ---------------- ROW 1 ---------------- */}
-          <div className="row mb-4 align-items-center">
+          <div className="row mb-4 align-items-center d-flex">
             {/* Selected Field 1 */}
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -391,11 +375,13 @@ export default function ShipmentScanning() {
                     options1.find((o) => o.value === selectedField1) || null
                   }
                   onChange={(val) => {
-                    setSelectedField1(val ? val.value : "");
+                    setSelectedField1(val ? val.value : null);
                     setSearch1("");
                   }}
                   onMenuOpen={() => setIsSelectOpen("s1")}
                   onMenuClose={() => setIsSelectOpen(null)}
+                  placeholder="--Select--"
+                  isSearchable={false}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s1" ? (
@@ -408,11 +394,11 @@ export default function ShipmentScanning() {
             </div>
 
             {/* Search 1 */}
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
-                placeholder="--Search--"
+                placeholder="Search"
                 value={search1}
                 onChange={(e) => setSearch1(e.target.value)}
                 style={{ color: "gray" }}
@@ -421,7 +407,7 @@ export default function ShipmentScanning() {
             </div>
 
             {/* Selected Field 2 */}
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -430,11 +416,13 @@ export default function ShipmentScanning() {
                     options2.find((o) => o.value === selectedField2) || null
                   }
                   onChange={(val) => {
-                    setSelectedField2(val ? val.value : "");
+                    setSelectedField2(val ? val.value : null);
                     setSearch2("");
                   }}
                   onMenuOpen={() => setIsSelectOpen("s2")}
                   onMenuClose={() => setIsSelectOpen(null)}
+                  placeholder="--Select--"
+                  isSearchable={false}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s2" ? (
@@ -447,18 +435,43 @@ export default function ShipmentScanning() {
             </div>
 
             {/* Search 2 */}
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
-                placeholder="--Search--"
+                placeholder="Search"
                 value={search2}
                 onChange={(e) => setSearch2(e.target.value)}
                 style={{ color: "gray" }}
                 disabled={selectedField2 === "SHPH_Date"}
               />
             </div>
+            {/* Search 3*/}
+            <div className="col" style={{ paddingRight: "0px" }}>
+              <div className="select-container">
+                <Select
+                  className="select-box_list"
+                  options={statusOptions}
+                  value={
+                    statusOptions.find((o) => o.value === selectedStatus) || null
+                  }
+                  onChange={(val) => setSelectedStatus(val ? val.value : null)}
+                  onMenuClose={() => setIsSelectOpen(null)}
+                  placeholder="--Select Status--"
+                  isSearchable={false}
+                />
+                <div className="icon-container_list">
+                  {isSelectOpen === "s1" ? (
+                    <IoCaretUpOutline />
+                  ) : (
+                    <IoCaretDownOutline />
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
+
+
 
           {/* ---------------- ROW 2 (SHOW ONLY IF SHIPMENT DATE SELECTED) ---------------- */}
           {showDateRow && (
@@ -525,6 +538,7 @@ export default function ShipmentScanning() {
       </>
     );
   };
+
 
   const handleRowSync = async (rowData) => {
     logAction(`Manual row sync initiated for ShipmentID: ${rowData.SHPH_ShipmentID}`);
@@ -644,7 +658,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.LGCVM_VehicleNumber || "-"}
-            
+
           />
           <Column
             field="ShipmentStatusName"
@@ -664,7 +678,7 @@ export default function ShipmentScanning() {
                 rowData.SHPH_Status === 12 && rowData.SHPH_IsSync === 0;
 
               return (
-                <div className="d-flex align-items-center gap-3">
+                <div className="d-flex align-items-center" style={{ gap: "10px" }}>
                   {/* EDIT ICON – SHOW ONLY IF ALLOWED */}
                   {canEditRow && (
                     <img
@@ -672,8 +686,8 @@ export default function ShipmentScanning() {
                       title="Edit"
                       alt="Edit Icon"
                       style={{
-                        width: "14px",
-                        height: "14px",
+                        width: "18px",
+                        height: "18px",
                         cursor: "pointer",
                       }}
                       onClick={() =>
@@ -686,9 +700,10 @@ export default function ShipmentScanning() {
                   <FaEye
                     title="View"
                     style={{
-                      width: "19px",
-                      height: "19px",
+                      width: "23px",
+                      height: "23px",
                       cursor: "pointer",
+                      color: "black",
 
                     }}
                     onClick={() =>

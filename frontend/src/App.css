@@ -19,7 +19,7 @@
   height: calc(84vh - 100px);
   overflow-y: auto;
   /* max-width: 100vw; */
-  margin: 13px 13px 13px 8px;
+  margin: 13px 13px 5px 8px;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -42,6 +42,14 @@
   flex: 1;
   padding: 10px;
   width: 80vw;
+}
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    gap: 12px;
 }
 
 .spinner {
@@ -213,7 +221,7 @@
   z-index: 9999;
 }
 .search-input {
-  height: 40px;
+  height: 42px;
   color: #295a80;
   padding: 0.375rem 0.75rem;
   font-size: 14px;
@@ -239,7 +247,7 @@
 
 .icon-container_list {
   width: 45px;
-  height: 38px;
+  height: 41px;
   /* height: 100%; */
   position: absolute;
   right: 0;
@@ -509,6 +517,7 @@ tbody {
   border-width: 1px 0 1px 0;
   padding: 1rem 1rem;
   font-weight: unset;
+  border-top: none;
 }
 img {
   cursor: pointer;
@@ -600,7 +609,7 @@ img {
 }
 .main_container {
   max-width: 100vw;
-  margin: 13px 13px 13px 8px;
+  margin: 13px 13px 5px 8px;
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -615,7 +624,7 @@ img {
 }
 .save_btn {
   border-radius: 7px;
-  height: 60px;
+  height: 54px;
   /* width: 211px; */
   width: 12%;
   background-color: #325880;
@@ -627,7 +636,7 @@ img {
 }
 .reset_btn {
   border-radius: 7px;
-  height: 60px;
+  height: 54px;
   width: 12%;
   background-color: #212c37;
   color: #ffffff;
@@ -678,7 +687,7 @@ select:focus {
   justify-content: center;
   position: relative;
   /* min-width: 250px; */
-  height: 40px;
+  height: 50px;
 }
 
 .pagination {
@@ -730,7 +739,7 @@ select:focus {
   padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
   font-size: var(--bs-pagination-font-size);
   /* font-weight: bold; */
-  color: #295a80;
+  /* color: #295a80; */
   text-decoration: none;
   background-color: var(--bs-pagination-bg);
   border: var(--bs-pagination-border-width) solid
@@ -813,7 +822,7 @@ select:focus {
 
 .save_btn {
   border-radius: 7px;
-  height: 60px;
+  height: 54px;
   /* width: 211px; */
   width: 12%;
   background-color: #325880;
@@ -826,7 +835,7 @@ select:focus {
 
 .reset_btn {
   border-radius: 7px;
-  height: 60px;
+  height: 54px;
   width: 12%;
   background-color: #212c37;
   color: #ffffff;
@@ -837,7 +846,7 @@ select:focus {
 
 .list_btn {
   border-radius: 7px;
-  height: 60px;
+  height: 54px;
   width: 15%;
   background-color: #a7a7a7;
   color: #ffffff;
@@ -1545,7 +1554,7 @@ select:focus {
 }
 
 .page-wrapper {
-  min-height: 80vh;
+  min-height: 77vh;
   background: #f9fafb;
   padding: 10px;
   font-family: "Segoe UI", sans-serif;
@@ -1649,7 +1658,7 @@ select:focus {
 }
 
 .scp-name {
-  font-size: 1.25rem;
+  font-size: 19px !important;
   font-weight: 700;
   color: #111827;
 }
@@ -1727,10 +1736,23 @@ select:focus {
   border-right: 2px solid #38B78E;
 }
 
+.p-paginator:disabled{
+   opacity: 0.8;
+  color: #6c757d !important;
+}
+
+/* Disabled paginator buttons */
+.p-paginator .p-paginator-first.p-disabled,
+.p-paginator .p-paginator-prev.p-disabled,
+.p-paginator .p-paginator-next.p-disabled,
+.p-paginator .p-paginator-last.p-disabled {
+  color: #6c757d !important;
+  opacity: 1 !important;   /* Important: remove faded look */
+  cursor: not-allowed !important;
+}
 
 button:disabled {
-  opacity: 0.8;
-  cursor: not-allowed !important;
+  opacity: 0.8;  
 }
 
 .acceptButton {
@@ -1843,7 +1865,7 @@ button:disabled {
 /* disabled */
 .bypass-icon-toggle.disabled {
   opacity: 0.5;
-  cursor: not-allowed;
+  
   animation: none;
 }
 
@@ -1998,10 +2020,14 @@ button:disabled {
     font-weight: 700;
 } */
 
-
+.pdf{
+  font-size: 20px !important;
+  cursor: pointer;
+  color: #325880;
+}
 
 .failcount-panel {
-  width: 45%;
+  width: 52%;
   display: flex;
   flex-direction: column;
 
@@ -2145,7 +2171,7 @@ button:disabled {
 }
 
 .scp-name {
-  font-size: 17px;
+  font-size: 19px !important;
   font-weight: 700;
   color: #0f172a;
 }
@@ -2218,7 +2244,7 @@ button:disabled {
 
 @media (max-width: 480px) {
   .scp-name {
-    font-size: 15px;
+    font-size: 19px !important;
   }
 
   .product-name {
@@ -2232,7 +2258,7 @@ button:disabled {
 
 .drag-disabled {
   opacity: 0.6;
-  cursor: not-allowed;
+  
 }
 
 
@@ -2259,3 +2285,73 @@ button:disabled {
   margin: 0;
 }
 
+/* About US*/
+
+  .aboutus{
+   color: #295a80;
+    font-size: 30px !important;
+    font-weight: bold;
+}
+.titleName{
+  color: #465a64;
+  font-size: 23px !important;
+  font-weight: bold;
+}
+.version{
+  color: #465a64;
+  font-size: 20px !important;
+  font-weight: bold;
+}
+.companyName{
+  color: #465a64;
+  font-size: 20px !important;
+  font-weight: bold;
+}
+.address{
+  color: #465a64;
+  font-size: 18px !important;
+  font-weight: 500;
+}
+
+.sync-icon {
+  font-size: 20px !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sync-online {
+  color: #325880;
+  opacity: 1;
+}
+
+.sync-offline {
+  color: #aaaaaa;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination {
+    --bs-pagination-padding-x: 0.75rem;
+    --bs-pagination-padding-y: 0.375rem;
+    --bs-pagination-font-size: 1rem;
+    --bs-pagination-color: var(--bs-link-color);
+    --bs-pagination-bg: var(--bs-body-bg);
+    --bs-pagination-border-width: var(--bs-border-width);
+    --bs-pagination-border-color: var(--bs-border-color);
+    --bs-pagination-border-radius: var(--bs-border-radius);
+    --bs-pagination-hover-color: var(--bs-link-hover-color);
+    --bs-pagination-hover-bg: var(--bs-tertiary-bg);
+    --bs-pagination-hover-border-color: var(--bs-border-color);
+    --bs-pagination-focus-color: var(--bs-link-hover-color);
+    --bs-pagination-focus-bg: var(--bs-secondary-bg);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-active-bg: #0d6efd;
+    --bs-pagination-active-border-color: #0d6efd;
+    --bs-pagination-disabled-color: var(--bs-secondary-color);
+    --bs-pagination-disabled-bg: var(--bs-secondary-bg);
+    --bs-pagination-disabled-border-color: var(--bs-border-color);
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+}

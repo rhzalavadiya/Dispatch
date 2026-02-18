@@ -14,6 +14,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import BhagwatiImage from "../../assest/images/Bhagwati_Logo.png";
 import { localApi } from "../../utils/api";
+import Icon8 from "../../assest/images/Icon8.png";
 
 export default function DispatchAuditReport() {
   const [shipmentData, setShipmentData] = useState([]);
@@ -116,7 +117,7 @@ export default function DispatchAuditReport() {
   };
 
   const searchOptions = [
-    { value: "", label: "--Select--" },
+    { value: null, label: "--Select--" },
     { value: "SHPH_ShipmentCode", label: "Shipment Code" },
     { value: "SHPH_Date", label: "Shipment Date" },
     { value: "RUTL_Name", label: "Route Name" },
@@ -215,11 +216,13 @@ export default function DispatchAuditReport() {
                   options={options1}
                   value={options1.find((o) => o.value === selectedField1) || null}
                   onChange={(val) => {
-                    setSelectedField1(val ? val.value : "");
+                    setSelectedField1(val ? val.value : null);
                     setSearch1("");
                   }}
                   onMenuOpen={() => setIsSelectOpen("s1")}
                   onMenuClose={() => setIsSelectOpen(null)}
+                  placeholder="--Select--"
+                  isSearchable={false}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s1" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
@@ -231,7 +234,7 @@ export default function DispatchAuditReport() {
               <input
                 type="text"
                 className="search-input"
-                placeholder="--Search--"
+                placeholder="Search"
                 value={search1}
                 onChange={(e) => setSearch1(e.target.value)}
                 style={{ color: "gray" }}
@@ -246,11 +249,13 @@ export default function DispatchAuditReport() {
                   options={options2}
                   value={options2.find((o) => o.value === selectedField2) || null}
                   onChange={(val) => {
-                    setSelectedField2(val ? val.value : "");
+                    setSelectedField2(val ? val.value : null);
                     setSearch2("");
                   }}
                   onMenuOpen={() => setIsSelectOpen("s2")}
                   onMenuClose={() => setIsSelectOpen(null)}
+                  placeholder="--Select--"
+                  isSearchable={false}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s2" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
@@ -262,7 +267,7 @@ export default function DispatchAuditReport() {
               <input
                 type="text"
                 className="search-input"
-                placeholder="--Search--"
+                placeholder="Search"
                 value={search2}
                 onChange={(e) => setSearch2(e.target.value)}
                 style={{ color: "gray" }}
@@ -335,7 +340,7 @@ export default function DispatchAuditReport() {
     logAction("Back button clicked - Navigating to Shipment Scanning");
     navigate("/shipmentscanning");
   };
-  
+
   const textColor = [0, 0, 0];
   const headerTextColor = [255, 255, 255];
   const headerColor = [38, 90, 128];
@@ -556,7 +561,7 @@ export default function DispatchAuditReport() {
       // 👉 Normal data row
       rsnBody.push([
         srNo++,
-         row.dis_rsn === "NO READ" ? "-" : (row.dis_rsn || "-"),
+        row.dis_rsn === "NO READ" ? "-" : (row.dis_rsn || "-"),
         row.Batch_Name || "-",
         row.Product_Name || "-",
         (row.dis_prod_weight != null
@@ -729,11 +734,17 @@ export default function DispatchAuditReport() {
             body={(rowData) => {
               return (
                 <div className="d-flex align-items-center justify-content-center gap-3">
-                  <FaFilePdf
-                    title="Generate PDF"
-                    style={{ fontSize: "20px", cursor: "pointer", color: "#325880" }}
+                  <img
+                    src={Icon8}
+                    title="Print"
+                    alt="Print Icon"
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      cursor: "pointer",
+                    }}
                     onClick={() => {
-                      logAction(`PDF icon clicked for completed ShipmentID: ${rowData.SHPH_ShipmentID}`);
+                      logAction(`PDF icon clicked for Audit Report on  ShipmentID: ${rowData.SHPH_ShipmentID}`);
                       handlePdf(rowData);
                     }}
                   />

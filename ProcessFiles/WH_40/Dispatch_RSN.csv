@@ -1,0 +1,9 @@
+IRS_ID,IRS_ProductID,PM_GrossWeight,PM_MaxOffset,PM_MinOffset,IRS_PackSize,IRS_BatchID,IRS_PhysicalLocation,IRS_CompanyID,IRS_RandomNo,IRS_SKU,IRS_ParentRandomNo,BL_ExpDate,IRS_ToSCP,isExpired,isNearExpiry
+246,83,5.5,500,500,1,163,6,1,01010846OR5SLV,https://vsecure.techtrio.com/ShreeBhagwati/01010846OR5SLV,,2026-08-11T13:00:00.000Z,,0,0
+196,61,5.5,500,500,1,121,6,1,0101061C3QZ8MV,https://vsecure.techtrio.com/ShreeBhagwati/0101061C3QZ8MV,,2026-05-12T13:00:00.000Z,,0,0
+195,61,5.5,500,500,1,120,6,1,0101061NQ8UVNR,https://vsecure.techtrio.com/ShreeBhagwati/0101061NQ8UVNR,,2026-05-05T13:00:00.000Z,,0,0
+194,61,5.5,500,500,1,120,6,1,0101061CTXYSP5,https://vsecure.techtrio.com/ShreeBhagwati/0101061CTXYSP5,,2026-05-05T13:00:00.000Z,,0,0
+193,61,5.5,500,500,1,120,6,1,0101061UFQX6SX,https://vsecure.techtrio.com/ShreeBhagwati/0101061UFQX6SX,,2026-05-05T13:00:00.000Z,,0,0
+192,61,5.5,500,500,1,120,6,1,010106103C9TNC,https://vsecure.techtrio.com/ShreeBhagwati/010106103C9TNC,,2026-05-05T13:00:00.000Z,,0,0
+191,61,5.5,500,500,1,113,6,1,010106166Y6DQH,https://vsecure.techtrio.com/ShreeBhagwati/010106166Y6DQH,,2026-05-11T13:00:00.000Z,,0,0
+190,61,5.5,500,500,1,112,6,1,0101061HSAEPB6,https://vsecure.techtrio.com/ShreeBhagwati/0101061HSAEPB6,,2026-05-26T13:00:00.000Z,,0,0

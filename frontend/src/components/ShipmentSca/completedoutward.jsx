@@ -10,11 +10,13 @@ import { config } from "../config/config";
 import { IoCaretUpOutline, IoCaretDownOutline } from "react-icons/io5";
 import "react-datepicker/dist/react-datepicker.css";
 import { IoCalendarOutline } from "react-icons/io5";
-import { FaFilePdf } from "react-icons/fa6";
+
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import BhagwatiImage from "../../assest/images/Bhagwati_Logo.png";
 import { localApi, vpsApi, showSuccess } from "../../utils/api";
+
+import Icon8 from "../../assest/images/Icon8.png";
 
 export default function CompletedOutward() {
   const [shipmentData, setShipmentData] = useState([]);
@@ -30,404 +32,408 @@ export default function CompletedOutward() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-	from: "",
-	to: "",
+    from: "",
+    to: "",
   });
 
   // ── Internet Connection Status ───────────────────────────────────────
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
-	const handleOnline = () => {
-	  setIsOnline(true);
-	  toast.info("Internet connection restored");
-	};
+    const handleOnline = () => {
+      setIsOnline(true);
+      toast.info("Internet connection restored");
+    };
 
-	const handleOffline = () => {
-	  setIsOnline(false);
-	  toast.warn("No internet connection");
-	};
+    const handleOffline = () => {
+      setIsOnline(false);
+      toast.warn("No internet connection");
+    };
 
-	window.addEventListener("online", handleOnline);
-	window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
-	// Cleanup listeners when component unmounts
-	return () => {
-	  window.removeEventListener("online", handleOnline);
-	  window.removeEventListener("offline", handleOffline);
-	};
+    // Cleanup listeners when component unmounts
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
   }, []);
 
   // === ENHANCED STRUCTURED LOGGING ===
   const logAction = async (action, isError = false) => {
-	try {
-	  const formattedAction = `User : ${action}`;
-	  await fetch(`${config.apiBaseUrl}/api/log`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({
-		  module: "Completed Outward",
-		  action: formattedAction,
-		  userCode: sessionStorage.getItem("userName"),
-		  isError,
-		}),
-	  });
-	} catch (error) {
-	  console.error("Error logging action:", error);
-	}
+    try {
+      const formattedAction = `User : ${action}`;
+      await fetch(`${config.apiBaseUrl}/api/log`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          module: "Completed Outward",
+          action: formattedAction,
+          userCode: sessionStorage.getItem("userName"),
+          isError,
+        }),
+      });
+    } catch (error) {
+      console.error("Error logging action:", error);
+    }
   };
 
   // Page access log
   useEffect(() => {
-	logAction("Completed Outward Page Accessed");
+    logAction("Completed Outward Page Accessed");
   }, []);
 
   const fetchShipmentList = async () => {
-	logAction(`Executing API: /completedshipment | CompanyID: ${UM_CompanyID}, FromSCP: ${SHPH_FromSCPCode}`);
-	try {
-	  const response = await localApi.post("/completedshipment", {
-		SHPH_CompanyID: UM_CompanyID,
-		SHPH_FromSCPCode: SHPH_FromSCPCode,
-	  });
-    logAction(`API Response received for completed shipments - Success: ${response.data.success}, Shipments Count: ${response.data.shipment?.length || 0}`);
-    console.log("API Response for completed shipments:", response.data);
-	  if (response.data.success) {
-		logAction(`Completed shipments fetched successfully - Count: ${response.data.shipment?.length || 0}`);
-		setShipmentData(response.data.shipment || []);
-	  } else {
-		logAction("No completed shipments found in response");
-		toast.info("No shipments found");
-		setShipmentData([]);
-	  }
-	} catch (error) {
-	  logAction(`Failed to fetch completed shipment list - Error: ${error.message}`, true);
-	  console.error("Fetch error:", error);
-	}
+    logAction(`Executing API: /completedshipment | CompanyID: ${UM_CompanyID}, FromSCP: ${SHPH_FromSCPCode}`);
+    try {
+      const response = await localApi.post("/completedshipment", {
+        SHPH_CompanyID: UM_CompanyID,
+        SHPH_FromSCPCode: SHPH_FromSCPCode,
+      });
+      logAction(`API Response received for completed shipments - Success: ${response.data.success}, Shipments Count: ${response.data.shipment?.length || 0}`);
+      console.log("API Response for completed shipments:", response.data);
+      if (response.data.success) {
+        logAction(`Completed shipments fetched successfully - Count: ${response.data.shipment?.length || 0}`);
+        setShipmentData(response.data.shipment || []);
+      } else {
+        logAction("No completed shipments found in response");
+        toast.info("No shipments found");
+        setShipmentData([]);
+      }
+    } catch (error) {
+      logAction(`Failed to fetch completed shipment list - Error: ${error.message}`, true);
+      console.error("Fetch error:", error);
+    }
   };
 
   // Load data on mount
   useEffect(() => {
-	logAction("Initial load of completed shipments triggered");
-	fetchShipmentList();
+    logAction("Initial load of completed shipments triggered");
+    fetchShipmentList();
   }, [UM_CompanyID, SHPH_FromSCPCode]);
 
   const parseShipmentDate = (dateString) => {
-	if (!dateString) return null;
-	const [dd, mm, yyyy] = dateString.split("-");
-	return new Date(`${yyyy}-${mm}-${dd}`);
+    if (!dateString) return null;
+    const [dd, mm, yyyy] = dateString.split("-");
+    return new Date(`${yyyy}-${mm}-${dd}`);
   };
 
   const searchOptions = [
-	{ value: "", label: "--Select--" },
-	{ value: "SHPH_ShipmentCode", label: "Shipment Code" },
-	{ value: "SHPH_Date", label: "Shipment Date" },
-	{ value: "RUTL_Name", label: "Route Name" },
-	{ value: "LGCM_Name", label: "Logistics Party Name" },
-	{ value: "LGCVM_VehicleNumber", label: "Vehicle Number" },
+    { value: null, label: "--Select--" },
+    { value: "SHPH_ShipmentCode", label: "Shipment Code" },
+    { value: "SHPH_Date", label: "Shipment Date" },
+    { value: "RUTL_Name", label: "Route Name" },
+    { value: "LGCM_Name", label: "Logistics Party Name" },
+    { value: "LGCVM_VehicleNumber", label: "Vehicle Number" },
   ];
 
   const options1 = searchOptions.map((o) => ({
-	...o,
-	isDisabled: selectedField2 === o.value && o.value !== "",
+    ...o,
+    isDisabled: selectedField2 === o.value && o.value !== "",
   }));
 
   const options2 = searchOptions.map((o) => ({
-	...o,
-	isDisabled: selectedField1 === o.value && o.value !== "",
+    ...o,
+    isDisabled: selectedField1 === o.value && o.value !== "",
   }));
 
   const filterData = shipmentData
-	.filter((item) => item.SHPH_Status === 8)
-	.filter((item) => {
-	  const shipmentDate = item.SHPH_Date ? parseShipmentDate(item.SHPH_Date) : null;
-	  const fromDate = formData.from ? new Date(formData.from) : null;
-	  const toDate = formData.to ? new Date(formData.to) : null;
+    .filter((item) => item.SHPH_Status === 8)
+    .filter((item) => {
+      const shipmentDate = item.SHPH_Date ? parseShipmentDate(item.SHPH_Date) : null;
+      const fromDate = formData.from ? new Date(formData.from) : null;
+      const toDate = formData.to ? new Date(formData.to) : null;
 
-	  const dateMatch =
-		(!fromDate || (shipmentDate && shipmentDate >= fromDate)) &&
-		(!toDate || (shipmentDate && shipmentDate <= toDate));
+      const dateMatch =
+        (!fromDate || (shipmentDate && shipmentDate >= fromDate)) &&
+        (!toDate || (shipmentDate && shipmentDate <= toDate));
 
-	  const match1 =
-		!search1 ||
-		!selectedField1 ||
-		String(item[selectedField1] || "").toLowerCase().includes(search1.toLowerCase());
+      const match1 =
+        !search1 ||
+        !selectedField1 ||
+        String(item[selectedField1] || "").toLowerCase().includes(search1.toLowerCase());
 
-	  const match2 =
-		!search2 ||
-		!selectedField2 ||
-		String(item[selectedField2] || "").toLowerCase().includes(search2.toLowerCase());
+      const match2 =
+        !search2 ||
+        !selectedField2 ||
+        String(item[selectedField2] || "").toLowerCase().includes(search2.toLowerCase());
 
-	  return dateMatch && match1 && match2;
-	});
+      return dateMatch && match1 && match2;
+    });
 
   useEffect(() => {
-	logAction(`Filtering applied - Total completed: ${shipmentData.length}, After filter: ${filterData.length}`);
-	if (filterData.length === 0) {
-	  logAction("No records found after filtering - updating empty message");
-	}
+    logAction(`Filtering applied - Total completed: ${shipmentData.length}, After filter: ${filterData.length}`);
+    if (filterData.length === 0) {
+      logAction("No records found after filtering - updating empty message");
+    }
   }, [filterData, shipmentData]);
 
   useEffect(() => {
-	if (filterData.length === 0) {
-	  logAction("Customizing empty message in DataTable");
-	  const tr = document.querySelector(".p-datatable-emptymessage");
-	  if (tr) {
-		const td = tr.querySelector("td");
-		if (td) {
-		  td.innerHTML = "No Records Found";
-		  td.style.textAlign = "center";
-		  td.style.border = "1px solid #e4e4e4";
-		}
-	  }
+    if (filterData.length === 0) {
+      logAction("Customizing empty message in DataTable");
+      const tr = document.querySelector(".p-datatable-emptymessage");
+      if (tr) {
+        const td = tr.querySelector("td");
+        if (td) {
+          td.innerHTML = "No Records Found";
+          td.style.textAlign = "center";
+          td.style.border = "1px solid #e4e4e4";
+        }
+      }
 
-	  const paginator = document.querySelector(".p-paginator-bottom");
-	  if (paginator) {
-		const first = paginator.querySelector(".p-paginator-first");
-		const prev = paginator.querySelector(".p-paginator-prev");
-		const next = paginator.querySelector(".p-paginator-next");
-		const last = paginator.querySelector(".p-paginator-last");
+      const paginator = document.querySelector(".p-paginator-bottom");
+      if (paginator) {
+        const first = paginator.querySelector(".p-paginator-first");
+        const prev = paginator.querySelector(".p-paginator-prev");
+        const next = paginator.querySelector(".p-paginator-next");
+        const last = paginator.querySelector(".p-paginator-last");
 
-		if (first) first.innerHTML = "First";
-		if (prev) prev.innerHTML = "Previous";
-		if (next) next.innerHTML = "Next";
-		if (last) last.innerHTML = "Last";
-	  }
-	}
+        if (first) first.innerHTML = "First";
+        if (prev) prev.innerHTML = "Previous";
+        if (next) next.innerHTML = "Next";
+        if (last) last.innerHTML = "Last";
+      }
+    }
   }, [filterData]);
 
   const formatDate = (dateString) => {
-	if (!dateString) return "";
-	const [dd, mm, yyyy] = dateString.split("-");
-	const isoDate = `${yyyy}-${mm}-${dd}`;
-	const d = new Date(isoDate);
-	if (isNaN(d)) return "";
-	return d.toLocaleDateString("en-GB");
+    if (!dateString) return "";
+    const [dd, mm, yyyy] = dateString.split("-");
+    const isoDate = `${yyyy}-${mm}-${dd}`;
+    const d = new Date(isoDate);
+    if (isNaN(d)) return "";
+    return d.toLocaleDateString("en-GB");
   };
 
   const renderHeader = () => {
-	const showDateRow = selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
-	return (
-	  <>
-		<form method="post">
-		  <div className="row mb-4 align-items-center">
-			<div className="col-md-3">
-			  <div className="select-container">
-				<Select
-				  className="select-box_list"
-				  options={options1}
-				  value={options1.find((o) => o.value === selectedField1) || null}
-				  onChange={(val) => {
-					setSelectedField1(val ? val.value : "");
-					setSearch1("");
-				  }}
-				  onMenuOpen={() => setIsSelectOpen("s1")}
-				  onMenuClose={() => setIsSelectOpen(null)}
-				/>
-				<div className="icon-container_list">
-				  {isSelectOpen === "s1" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
-				</div>
-			  </div>
-			</div>
+    const showDateRow = selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+    return (
+      <>
+        <form method="post">
+          <div className="row mb-4 align-items-center">
+            <div className="col-md-3">
+              <div className="select-container">
+                <Select
+                  className="select-box_list"
+                  options={options1}
+                  value={options1.find((o) => o.value === selectedField1) || null}
+                  onChange={(val) => {
+                    setSelectedField1(val ? val.value : null);
+                    setSearch1("");
+                  }}
+                  onMenuOpen={() => setIsSelectOpen("s1")}
+                  onMenuClose={() => setIsSelectOpen(null)}
+                  placeholder="--Select--"
+                  isSearchable={false}
+                />
+                <div className="icon-container_list">
+                  {isSelectOpen === "s1" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
+                </div>
+              </div>
+            </div>
 
-			<div className="col-md-3">
-			  <input
-				type="text"
-				className="search-input"
-				placeholder="--Search--"
-				value={search1}
-				onChange={(e) => setSearch1(e.target.value)}
-				style={{ color: "gray" }}
-				disabled={selectedField1 === "SHPH_Date"}
-			  />
-			</div>
+            <div className="col-md-3">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search"
+                value={search1}
+                onChange={(e) => setSearch1(e.target.value)}
+                style={{ color: "gray" }}
+                disabled={selectedField1 === "SHPH_Date"}
+              />
+            </div>
 
-			<div className="col-md-3">
-			  <div className="select-container">
-				<Select
-				  className="select-box_list"
-				  options={options2}
-				  value={options2.find((o) => o.value === selectedField2) || null}
-				  onChange={(val) => {
-					setSelectedField2(val ? val.value : "");
-					setSearch2("");
-				  }}
-				  onMenuOpen={() => setIsSelectOpen("s2")}
-				  onMenuClose={() => setIsSelectOpen(null)}
-				/>
-				<div className="icon-container_list">
-				  {isSelectOpen === "s2" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
-				</div>
-			  </div>
-			</div>
+            <div className="col-md-3">
+              <div className="select-container">
+                <Select
+                  className="select-box_list"
+                  options={options2}
+                  value={options2.find((o) => o.value === selectedField2) || null}
+                  onChange={(val) => {
+                    setSelectedField2(val ? val.value : null);
+                    setSearch2("");
+                  }}
+                  onMenuOpen={() => setIsSelectOpen("s2")}
+                  onMenuClose={() => setIsSelectOpen(null)}
+                  placeholder="--Select--"
+                  isSearchable={false}
+                />
+                <div className="icon-container_list">
+                  {isSelectOpen === "s2" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
+                </div>
+              </div>
+            </div>
 
-			<div className="col-md-3">
-			  <input
-				type="text"
-				className="search-input"
-				placeholder="--Search--"
-				value={search2}
-				onChange={(e) => setSearch2(e.target.value)}
-				style={{ color: "gray" }}
-				disabled={selectedField2 === "SHPH_Date"}
-			  />
-			</div>
-		  </div>
+            <div className="col-md-3">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search"
+                value={search2}
+                onChange={(e) => setSearch2(e.target.value)}
+                style={{ color: "gray" }}
+                disabled={selectedField2 === "SHPH_Date"}
+              />
+            </div>
+          </div>
 
-		  {showDateRow && (
-			<div className="row mb-4 align-items-center">
-			  <div className="col-md-6">
-				<label>From</label>
-				<div className="select-container">
-				  <DatePicker
-					className="select-box_list"
-					selected={formData.from ? new Date(formData.from) : null}
-					onChange={(date) =>
-					  setFormData((prev) => ({
-						...prev,
-						from: date ? date.toLocaleDateString("en-CA") : "",
-						to: prev.to && new Date(prev.to) < date ? "" : prev.to,
-					  }))
-					}
-					dateFormat="dd/MM/yyyy"
-					minDate={new Date("1970-01-01")}
-					maxDate={new Date()}
-					showYearDropdown
-					showMonthDropdown
-					placeholderText="--Select--"
-					onKeyDown={(e) => e.preventDefault()}
-				  />
-				  <div className="calendaricon-container_list">
-					<IoCalendarOutline />
-				  </div>
-				</div>
-			  </div>
+          {showDateRow && (
+            <div className="row mb-4 align-items-center">
+              <div className="col-md-6">
+                <label>From</label>
+                <div className="select-container">
+                  <DatePicker
+                    className="select-box_list"
+                    selected={formData.from ? new Date(formData.from) : null}
+                    onChange={(date) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        from: date ? date.toLocaleDateString("en-CA") : "",
+                        to: prev.to && new Date(prev.to) < date ? "" : prev.to,
+                      }))
+                    }
+                    dateFormat="dd/MM/yyyy"
+                    minDate={new Date("1970-01-01")}
+                    maxDate={new Date()}
+                    showYearDropdown
+                    showMonthDropdown
+                    placeholderText="--Select--"
+                    onKeyDown={(e) => e.preventDefault()}
+                  />
+                  <div className="calendaricon-container_list">
+                    <IoCalendarOutline />
+                  </div>
+                </div>
+              </div>
 
-			  <div className="col-md-6">
-				<label>To</label>
-				<div className="select-container">
-				  <DatePicker
-					className="select-box_list"
-					selected={formData.to ? new Date(formData.to) : null}
-					onChange={(date) =>
-					  setFormData((prev) => ({
-						...prev,
-						to: date ? date.toLocaleDateString("en-CA") : "",
-					  }))
-					}
-					dateFormat="dd/MM/yyyy"
-					minDate={formData.from ? new Date(formData.from) : null}
-					maxDate={new Date()}
-					showYearDropdown
-					showMonthDropdown
-					placeholderText="--Select--"
-					onKeyDown={(e) => e.preventDefault()}
-				  />
-				  <div className="calendaricon-container_list">
-					<IoCalendarOutline />
-				  </div>
-				</div>
-			  </div>
-			</div>
-		  )}
-		</form>
-	  </>
-	);
+              <div className="col-md-6">
+                <label>To</label>
+                <div className="select-container">
+                  <DatePicker
+                    className="select-box_list"
+                    selected={formData.to ? new Date(formData.to) : null}
+                    onChange={(date) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        to: date ? date.toLocaleDateString("en-CA") : "",
+                      }))
+                    }
+                    dateFormat="dd/MM/yyyy"
+                    minDate={formData.from ? new Date(formData.from) : null}
+                    maxDate={new Date()}
+                    showYearDropdown
+                    showMonthDropdown
+                    placeholderText="--Select--"
+                    onKeyDown={(e) => e.preventDefault()}
+                  />
+                  <div className="calendaricon-container_list">
+                    <IoCalendarOutline />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </form>
+      </>
+    );
   };
 
   const handleRowSync = async (rowData) => {
-	const shipmentId = rowData.SHPH_ShipmentID;
-	const shipmentCode = rowData.SHPH_ShipmentCode || "Unknown";
+    const shipmentId = rowData.SHPH_ShipmentID;
+    const shipmentCode = rowData.SHPH_ShipmentCode || "Unknown";
 
-	logAction(`Manual sync initiated for completed ShipmentID: ${shipmentId} (Code: ${shipmentCode})`);
+    logAction(`Manual sync initiated for completed ShipmentID: ${shipmentId} (Code: ${shipmentCode})`);
 
-	if (!navigator.onLine) {
-	  toast.warn("No internet connection. Sync will be available when online.");
-	  logAction("Sync attempted while offline - skipped", true);
-	  return;
-	}
+    if (!navigator.onLine) {
+      toast.warn("No internet connection. Sync will be available when online.");
+      logAction("Sync attempted while offline - skipped", true);
+      return;
+    }
 
-	try {
-	  logAction(`Executing API: /sync-local-to-vps | ShipmentID: ${shipmentId}`);
-	  const response = await localApi.post("/sync-local-to-vps", {
-		shipmentId: shipmentId,
-		fromSCPId: SHPH_FromSCPCode,
-	  });
+    try {
+      logAction(`Executing API: /sync-local-to-vps | ShipmentID: ${shipmentId}`);
+      const response = await localApi.post("/sync-local-to-vps", {
+        shipmentId: shipmentId,
+        fromSCPId: SHPH_FromSCPCode,
+      });
 
-	  if (!response.data.success) {
-		throw new Error(response.data.message || "Failed to prepare sync data");
-	  }
+      if (!response.data.success) {
+        throw new Error(response.data.message || "Failed to prepare sync data");
+      }
 
-	  logAction(`Executing API: /syncsingleshipment on VPS`);
-	  const result = await vpsApi.post("/syncsingleshipment", response.data.data);
+      logAction(`Executing API: /syncsingleshipment on VPS`);
+      const result = await vpsApi.post("/syncsingleshipment", response.data.data);
 
-	  if (result.data.success) {
-		logAction(`Marking as synced: /ShipmentSyncStatus for ${shipmentId} response received: ${JSON.stringify(result.data)}`);
-		await localApi.post("/ShipmentSyncStatus", {
-		  shipmentId: shipmentId,
-		  isSynced: true,
-		});
+      if (result.data.success) {
+        logAction(`Marking as synced: /ShipmentSyncStatus for ${shipmentId} response received: ${JSON.stringify(result.data)}`);
+        await localApi.post("/ShipmentSyncStatus", {
+          shipmentId: shipmentId,
+          isSynced: true,
+        });
 
-		showSuccess(`Shipment ${shipmentCode} synced successfully`);
-		logAction(`Completed shipment synced successfully`);
+        showSuccess(`Shipment ${shipmentCode} synced successfully`);
+        logAction(`Completed shipment synced successfully`);
 
-		fetchShipmentList();
-	  } else {
-		throw new Error(result.data.message || "Sync to central server failed");
-	  }
-	} catch (err) {
-	  console.error("Sync error:", err);
-	  logAction(`Row sync failed for ShipmentID ${shipmentId}: ${err.message}`, true);
-	  toast.error("Failed to sync shipment. Please try again.");
-	}
+        fetchShipmentList();
+      } else {
+        throw new Error(result.data.message || "Sync to central server failed");
+      }
+    } catch (err) {
+      console.error("Sync error:", err);
+      logAction(`Row sync failed for ShipmentID ${shipmentId}: ${err.message}`, true);
+      toast.error("Failed to sync shipment. Please try again.");
+    }
   };
 
   const BackPage = () => {
-	logAction("Back button clicked - Navigating to Shipment Scanning");
-	navigate("/shipmentscanning");
+    logAction("Back button clicked - Navigating to Shipment Scanning");
+    navigate("/shipmentscanning");
   };
 
   const PDF_REF_STYLE = {
-  BLUE: [38, 90, 128],
-  BLACK: [0, 0, 0],
-  WHITE: [255, 255, 255],
+    BLUE: [38, 90, 128],
+    BLACK: [0, 0, 0],
+    WHITE: [255, 255, 255],
 
-  title: {
-    fontSize: 20,
-    color: [0, 0, 0],
-    fontStyle: "bold"
-  },
+    title: {
+      fontSize: 20,
+      color: [0, 0, 0],
+      fontStyle: "bold"
+    },
 
-  table: {
-    fontSize: 10,
-    textColor: [0, 0, 0],
-    lineColor: [0, 0, 0],
-    lineWidth: 0.5,
-    cellPadding: 0.3,
-    halign: "center"
-  },
+    table: {
+      fontSize: 10,
+      textColor: [0, 0, 0],
+      lineColor: [0, 0, 0],
+      lineWidth: 0.5,
+      cellPadding: 0.3,
+      halign: "center"
+    },
 
-  tableHeader: {
-    fillColor: [38, 90, 128],
-    textColor: [255, 255, 255],
-    fontSize: 10,
-    fontStyle: "bold",
-    halign: "center",
-    cellPadding: { top: 1, bottom: 1 }
-  },
+    tableHeader: {
+      fillColor: [38, 90, 128],
+      textColor: [255, 255, 255],
+      fontSize: 10,
+      fontStyle: "bold",
+      halign: "center",
+      cellPadding: { top: 1, bottom: 1 }
+    },
 
-  sectionHeader: {
-    fillColor: [38, 90, 128],
-    textColor: [255, 255, 255],
-    fontSize: 12,
-    fontStyle: "bold",
-    halign: "center"
-  },
+    sectionHeader: {
+      fillColor: [38, 90, 128],
+      textColor: [255, 255, 255],
+      fontSize: 12,
+      fontStyle: "bold",
+      halign: "center"
+    },
 
-  signature: {
-    fontSize: 11,
-    color: [0, 0, 0]
-  }
-};
+    signature: {
+      fontSize: 11,
+      color: [0, 0, 0]
+    }
+  };
 
   const textColor = [0, 0, 0];
   const headerTextColor = [255, 255, 255];
@@ -535,12 +541,12 @@ export default function CompletedOutward() {
 
       logAction(`PDF generation completed for ShipmentID: ${shipmentId} - ${data.result.length} file(s) created + combined`);
     } catch (error) {
-  const msg =
-    error.response?.data?.message ||
-    "Failed to generate PDF";
-  toast.error(msg);
-  logAction(`PDF generation failed - ${msg}`, true);
-}
+      const msg =
+        error.response?.data?.message ||
+        "Failed to generate PDF";
+      toast.error(msg);
+      logAction(`PDF generation failed - ${msg}`, true);
+    }
   };
 
   const generateDeliveryChallanPDF = (doc, shipment, products, toScpName) => {
@@ -551,7 +557,7 @@ export default function CompletedOutward() {
     const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
     const startX = doc.internal.pageSize.getWidth() - 55;
     doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
-   doc.setFontSize(10);
+    doc.setFontSize(10);
     doc.text("Printed On", startX, 18);
     doc.text(":", startX + 18, 18);
     doc.text(formattedDate, startX + 20, 18);
@@ -561,9 +567,9 @@ export default function CompletedOutward() {
     doc.text(UM_UserCode, startX + 20, 24);
 
     /* ---------------- TITLE ---------------- */
-  doc.setFontSize(PDF_REF_STYLE.title.fontSize);
-doc.setTextColor(...PDF_REF_STYLE.title.color);
-doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
+    doc.setFontSize(PDF_REF_STYLE.title.fontSize);
+    doc.setTextColor(...PDF_REF_STYLE.title.color);
+    doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
 
     doc.text("Delivery Challan", doc.internal.pageSize.width / 2, 40, { align: "center" });
     doc.setTextColor(...PDF_REF_STYLE.signature.color);
@@ -590,7 +596,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       styles: PDF_STYLE.tableRow,
-       headStyles: PDF_STYLE.tableHeader,
+      headStyles: PDF_STYLE.tableHeader,
     });
 
     /* ---------------- Shipping To ---------------- */
@@ -614,8 +620,8 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
         ["Contact No.", shipment.LCM_ContactNumber],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
-       styles: PDF_STYLE.tableRow,
-       headStyles: PDF_STYLE.tableHeader,
+      styles: PDF_STYLE.tableRow,
+      headStyles: PDF_STYLE.tableHeader,
     });
 
     /* ---------------- SHIPMENT INFO ---------------- */
@@ -647,7 +653,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
       body: shipmentInfoRows,
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       styles: PDF_STYLE.tableRow,
-       headStyles: PDF_STYLE.tableHeader,
+      headStyles: PDF_STYLE.tableHeader,
     });
 
     /* ---------------- PRODUCT PAGE ---------------- */
@@ -684,7 +690,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
       theme: "grid",
       headStyles: PDF_STYLE.tableHeader,
       styles: PDF_STYLE.tableRow,
-       
+
     });
 
     /* ---------------- SIGNATURE ---------------- */
@@ -715,7 +721,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     // doc.line(10, lineStartY, 200, lineStartY);
     const tableContent = [
       [
-        { content: "Recieved By", styles: { fontStyle: "bold" } },
+        { content: "Received By", styles: { fontStyle: "bold" } },
         "            ",
         { content: "Delivered By", styles: { fontStyle: "bold" } },
         "",
@@ -758,9 +764,9 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     doc.text(UM_UserCode, startX + 20, 24);
 
     /* ---------------- TITLE ---------------- */
-   doc.setFontSize(PDF_REF_STYLE.title.fontSize);
-doc.setTextColor(...PDF_REF_STYLE.title.color);
-doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
+    doc.setFontSize(PDF_REF_STYLE.title.fontSize);
+    doc.setTextColor(...PDF_REF_STYLE.title.color);
+    doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
 
     doc.text("Delivery Challan", doc.internal.pageSize.width / 2, 40, { align: "center" });
     doc.setTextColor(...PDF_REF_STYLE.signature.color);
@@ -838,7 +844,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     tableData.push(
       headers.map((header) => ({
         content: header,
-       headStyles: PDF_STYLE.tableHeader,
+        headStyles: PDF_STYLE.tableHeader,
         styles: PDF_STYLE.tableHeader,
       }))
     );
@@ -897,7 +903,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     // doc.line(10, lineStartY, 200, lineStartY);
     const tableContent = [
       [
-        { content: "Recieved By", styles: { fontStyle: "bold" } },
+        { content: "Received By", styles: { fontStyle: "bold" } },
         "            ",
         { content: "Delivered By", styles: { fontStyle: "bold" } },
         "",
@@ -921,7 +927,7 @@ doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
     addFooter(doc);
   };
 
-function addFooter(doc) {
+  function addFooter(doc) {
     const totalPages = doc.internal.getNumberOfPages();
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -948,7 +954,7 @@ function addFooter(doc) {
     }
   }
 
- return (
+  return (
     <>
       <div className="main_container">
         <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -1021,12 +1027,7 @@ function addFooter(doc) {
                   {canSync && (
                     <LuRefreshCcw
                       title={isOnline ? "Sync to server" : "No internet connection - Sync disabled"}
-                      style={{
-                        fontSize: "20px",
-                        cursor: isOnline ? "pointer" : "not-allowed",
-                        color: isOnline ? "#325880" : "#aaaaaa",
-                        opacity: isOnline ? 1 : 0.5,
-                      }}
+                      className={`sync-icon ${isOnline ? "sync-online" : "sync-offline"}`}
                       onClick={() => {
                         if (!isOnline) {
                           toast.warn("No internet connection. Sync is disabled.");
@@ -1037,10 +1038,15 @@ function addFooter(doc) {
                       }}
                     />
                   )}
-
-                  <FaFilePdf
-                    title="Generate PDF"
-                    style={{ fontSize: "20px", cursor: "pointer", color: "#325880" }}
+                  <img
+                    src={Icon8}
+                    title="Print"
+                    alt="Print Icon"
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      cursor: "pointer",
+                    }}
                     onClick={() => {
                       logAction(`PDF icon clicked for completed ShipmentID: ${rowData.SHPH_ShipmentID}`);
                       handlePdf(rowData);

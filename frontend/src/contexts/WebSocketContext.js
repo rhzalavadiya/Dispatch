@@ -7,6 +7,12 @@ const WebSocketContext = createContext(null);
 export const WebSocketProvider = ({ children }) => {
   const wsRef = useRef(null);
   const reconnectTimerRef = useRef(null);
+  // Track latest device status
+const deviceStatusRef = useRef({});
+
+// Track disconnect intervals per device
+const disconnectTimersRef = useRef({});
+
   const [isConnected, setIsConnected] = useState(false);
   const isInitialConnect = useRef(true);
   const lastHeartbeatLogTime = useRef(0);
@@ -74,25 +80,81 @@ export const WebSocketProvider = ({ children }) => {
     };
 
 
-    ws.onmessage = (event) => {
-      const message = event.data;
-      console.log("GLOBAL WS Message:", message);
-      try {
-        const data = JSON.parse(message);
-        if (data.type === "heartbeat") {
-          const now = Date.now();
-          if (now - lastHeartbeatLogTime.current >= 120000) { // 2 minutes in ms
-            logAction(`"GLOBAL WS Message : ${message}`);
-            lastHeartbeatLogTime.current = now;
-          }
+   ws.onmessage = (event) => {
+  const message = event.data;
+  console.log("GLOBAL WS Message:", message);
+
+  try {
+    const data = JSON.parse(message);
+
+    /* ================================
+       🔴 DEVICE STATUS BLOCK (ADDED)
+    ================================== */
+    if (data.type === "device_status") {
+      const { device, connected } = data;
+
+      const deviceName = {
+        printer: "Printer",
+        plc: "PLC",
+        camera: "Camera",
+      };
+
+      // Save latest status
+      deviceStatusRef.current[device] = connected;
+
+      // If DISCONNECTED
+      if (!connected) {
+
+        // If already running → do nothing
+        if (disconnectTimersRef.current[device]) {
+          // Still log message below
         } else {
-          logAction(`"GLOBAL WS Message : ${message}`);
+
+          // Show immediately first time
+          toast.error(`${deviceName[device]} Disconnected.`);
+
+          // Start 5 sec repeating
+          disconnectTimersRef.current[device] = setInterval(() => {
+            if (!deviceStatusRef.current[device]) {
+              toast.error(`${deviceName[device]} Disconnected.`);
+            }
+          }, 5000);
         }
-      } catch (e) {
-        // If not JSON, log as is
-        logAction(`"GLOBAL WS Message : ${message}`);
       }
-    };
+
+      // If CONNECTED
+      else {
+
+        if (disconnectTimersRef.current[device]) {
+          clearInterval(disconnectTimersRef.current[device]);
+          delete disconnectTimersRef.current[device];
+        }
+
+        toast.success(`${deviceName[device]} Connected.`);
+      }
+    }
+
+    /* ================================
+       YOUR ORIGINAL LOGIC (UNCHANGED)
+    ================================== */
+
+    if (data.type === "heartbeat") {
+      const now = Date.now();
+      if (now - lastHeartbeatLogTime.current >= 120000) {
+        logAction(`"GLOBAL WS Message : ${message}`);
+        lastHeartbeatLogTime.current = now;
+      }
+    } else {
+      logAction(`"GLOBAL WS Message : ${message}`);
+    }
+
+  } catch (e) {
+    logAction(`"GLOBAL WS Message : ${message}`);
+  }
+};
+
+
+
     ws.onclose = () => {
       console.log("GLOBAL WS Disconnected. Reconnecting...");
       setIsConnected(false);
@@ -129,6 +191,7 @@ export const WebSocketProvider = ({ children }) => {
     return () => {
       try { wsRef.current?.close(); } catch { }
       if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+      Object.values(disconnectTimersRef.current).forEach(clearInterval);
     };
   }, [connect]);
 
@@ -140,11 +203,6 @@ export const WebSocketProvider = ({ children }) => {
     }
     wsRef.current.send(JSON.stringify(data));
   };
-  //  useEffect(() => {
-  //     if (!isConnected) {
-  //         toast.error("Please check the Python service.");
-  //     }
-  // }, [isConnected]);
 
   return (
     <WebSocketContext.Provider value={{ wsRef, send, isConnected }}>

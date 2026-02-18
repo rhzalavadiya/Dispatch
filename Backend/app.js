@@ -875,8 +875,8 @@ app.get("/api/read-fail-csv", (req, res) => {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
   //console.log("Shipment Code for Fail CSV : ", shipmentCode);
-  const basePath = process.env.DISPATCH_BASE_PATH;
-  //const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  //const basePath = process.env.DISPATCH_BASE_PATH;
+  const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
 
   // 👉 FAIL data file (rowData.csv)
   const fileName = process.env.RowDataFile;
