@@ -88,17 +88,17 @@ export default function ShipmentEdit() {
     const [highlightRsn, setHighlightRsn] = useState(null);
 
     // Track connection status of critical devices
-const [deviceConnections, setDeviceConnections] = useState({
-  printer: true,
-  plc:     true,
-  camera:  true,
-});
+    const [deviceConnections, setDeviceConnections] = useState({
+        printer: true,
+        plc: true,
+        camera: true,
+    });
 
-// Computed value — true only when ALL are connected
-const allDevicesReady = 
-  deviceConnections.printer &&
-  deviceConnections.plc &&
-  deviceConnections.camera;
+    // Computed value — true only when ALL are connected
+    const allDevicesReady =
+        deviceConnections.printer &&
+        deviceConnections.plc &&
+        deviceConnections.camera;
 
 
     const logAction = async (action, isError = false) => {
@@ -542,7 +542,7 @@ const allDevicesReady =
             const res = await localApi.post("/rsnremark", payload);
             logAction(`Bypass remark save response for RSN ${rsn} - Success: ${res.data?.success}, Message: ${res.data?.message}`);
             if (res.data?.success) {
-                toast.success("Bypass The Shipment.");
+                toast.success("RSN bypassed successfully.");
 
                 // Tell Python it's okay to continue
                 send({ message: "BYPASS_YES" });
@@ -602,7 +602,7 @@ const allDevicesReady =
             const res = await localApi.post("/rsnremark", payload);
             logAction(`Bypass with Near Expiry remark save response for RSN ${rsn} - Success: ${res.data?.success}, Message: ${res.data?.message}`);
             if (res.data?.success) {
-                toast.success("Bypass The Shipment.");
+                toast.success("RSN bypassed successfully.");
 
                 // Tell Python it's okay to continue
                 send({ message: "BYPASS_YES" });
@@ -841,6 +841,25 @@ const allDevicesReady =
     const BackPage = () => {
         logAction("Back to list");
         navigate("/shipmentscanning");
+    };
+
+    const Bypass = () => {
+        const rsn = '01010012GXE1UE';
+
+        if (!rsn) {
+            logAction("Bypass request rejected: no RSN provided", true);
+            toast.error("Bypass request invalid – no RSN received");
+            return;
+        }
+        setCurrentBypassRsnId(rsn);           // just store the rsn number
+        setBypassRemark("");
+        setBypassError("");
+        setShowBypassModal(true);
+
+        // 👉 store bypass in cookie (1 year)
+        const ONE_YEAR_MINUTES = 365 * 24 * 60;
+        setCookie("BYPASS_PENDING", "true", ONE_YEAR_MINUTES);
+        setCookie("BYPASS_RSN", rsn, ONE_YEAR_MINUTES);
     };
 
     const performFullSyncAfterStopOrClose = async () => {
@@ -1303,67 +1322,67 @@ const allDevicesReady =
     // ok undewr wirth overweight ////
 
     const generateRandomData = (status) => {
-    return {
-        BatchId: "BATCH-" + Math.floor(Math.random() * 1000),
-        UserId: Math.floor(Math.random() * 10) + 1,
-        CurrentAlarm: Math.floor(Math.random() * 5),
-        MachineStatus: Math.floor(Math.random() * 3),
-        TotalProductCount: Math.floor(Math.random() * 500),
-        TotalPassCount: Math.floor(Math.random() * 400),
-        ProductDynamicWeight: (Math.random() * 100).toFixed(2),
-        OffsetPlus: (Math.random() * 5).toFixed(2),
-        OffsetMinus: (Math.random() * 5).toFixed(2),
-        CurrentWeight: (Math.random() * 100).toFixed(2),
-        CurrentWeightStatus: status, // 👈 dynamic
-        UnderWeightCount: Math.floor(Math.random() * 50),
-        OverWeightCount: Math.floor(Math.random() * 50),
-        DoubleCounts: Math.floor(Math.random() * 10),
-        BatchStatus: Math.floor(Math.random() * 2)
+        return {
+            BatchId: "BATCH-" + Math.floor(Math.random() * 1000),
+            UserId: Math.floor(Math.random() * 10) + 1,
+            CurrentAlarm: Math.floor(Math.random() * 5),
+            MachineStatus: Math.floor(Math.random() * 3),
+            TotalProductCount: Math.floor(Math.random() * 500),
+            TotalPassCount: Math.floor(Math.random() * 400),
+            ProductDynamicWeight: (Math.random() * 100).toFixed(2),
+            OffsetPlus: (Math.random() * 5).toFixed(2),
+            OffsetMinus: (Math.random() * 5).toFixed(2),
+            CurrentWeight: (Math.random() * 100).toFixed(2),
+            CurrentWeightStatus: status, // 👈 dynamic
+            UnderWeightCount: Math.floor(Math.random() * 50),
+            OverWeightCount: Math.floor(Math.random() * 50),
+            DoubleCounts: Math.floor(Math.random() * 10),
+            BatchStatus: Math.floor(Math.random() * 2)
+        };
     };
-};
-const sendData = (status) => {
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-        const payload = generateRandomData(status);
-        send({ RowData: payload, broadcast: true });
-        console.log("📤 Sent:", payload);
-    } else {
-        console.log("⚠ WebSocket not connected");
-    }
-};
-
-
- // ─── If Camera Printer PLC Disconnected ───────────────────────────────────────
- useEffect(() => {
-  const ws = wsRef.current;
-  if (!ws) return;
-
-  const handleDeviceStatus = (event) => {
-    try {
-      const data = JSON.parse(event.data);
-      if (data.type === "device_status") {
-        const { device, connected } = data;
-
-        // Only care about these three devices
-        if (device in deviceConnections) {
-          setDeviceConnections(prev => ({
-            ...prev,
-            [device]: Boolean(connected)   // make sure it's real boolean
-          }));
+    const sendData = (status) => {
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+            const payload = generateRandomData(status);
+            send({ RowData: payload, broadcast: true });
+            console.log("📤 Sent:", payload);
+        } else {
+            console.log("⚠ WebSocket not connected");
         }
-      }
-    } catch (err) {
-      // Silent fail — don't break UI because of bad message
-      console.warn("Invalid device_status message:", err);
-    }
-  };
+    };
 
-  ws.addEventListener("message", handleDeviceStatus);
 
-  // Cleanup
-  return () => {
-    ws.removeEventListener("message", handleDeviceStatus);
-  };
-}, [wsRef]);   // ← depends on wsRef
+    // ─── If Camera Printer PLC Disconnected ───────────────────────────────────────
+    useEffect(() => {
+        const ws = wsRef.current;
+        if (!ws) return;
+
+        const handleDeviceStatus = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === "device_status") {
+                    const { device, connected } = data;
+
+                    // Only care about these three devices
+                    if (device in deviceConnections) {
+                        setDeviceConnections(prev => ({
+                            ...prev,
+                            [device]: Boolean(connected)   // make sure it's real boolean
+                        }));
+                    }
+                }
+            } catch (err) {
+                // Silent fail — don't break UI because of bad message
+                console.warn("Invalid device_status message:", err);
+            }
+        };
+
+        ws.addEventListener("message", handleDeviceStatus);
+
+        // Cleanup
+        return () => {
+            ws.removeEventListener("message", handleDeviceStatus);
+        };
+    }, [wsRef]);   // ← depends on wsRef
 
 
     return (
@@ -1385,7 +1404,7 @@ const sendData = (status) => {
                         {hasBypassPermission && (
                             <div
                                 className={`bypass-icon-toggle ${isFullBypassOn ? "on" : "off"} 
-        ${shipmentStatus !== 6 || isFullBypassOn ? "disabled" : ""}`}
+            ${shipmentStatus !== 6 || isFullBypassOn ? "disabled" : ""}`}
                                 onClick={() => {
                                     if (shipmentStatus !== 6 || isFullBypassOn) return;
                                     setBypassRemark("");
@@ -1462,19 +1481,18 @@ const sendData = (status) => {
                                                             {...provided.draggableProps}
                                                             {...provided.dragHandleProps}
                                                             className={`
-  queue-item
-  scp-group-wrapper
-  ${group.groupStatus === "COMPLETED" ? "drag-disabled" : ""}
-  ${isRunning ? "in-progress current-scanning running" : ""}
-  ${isInProgress && !isRunning ? "in-progress" : ""}
-  ${isCompleted ? "completed" : ""}
-  ${snapshot.isDragging ? "dragging" : ""}
-  ${isStopped ? "in-progress" : ""}
-`}
+    queue-item
+    scp-group-wrapper
+    ${group.groupStatus === "COMPLETED" ? "drag-disabled" : ""}
+    ${isRunning ? "in-progress current-scanning running" : ""}
+    ${isInProgress && !isRunning ? "in-progress" : ""}
+    ${isCompleted ? "completed" : ""}
+    ${snapshot.isDragging ? "dragging" : ""}
+    ${isStopped ? "in-progress" : ""}
+    `}
 
                                                         >
 
-                                                            {/* <div className="left-border"></div> */}
 
                                                             <div className="group-block">
 
@@ -1498,7 +1516,7 @@ const sendData = (status) => {
                                                                     </div>
                                                                 </div>
 
-                                                                {/* Compact product list */}
+
                                                                 <div className="group-products-container">
                                                                     {group.products.map(item => {
                                                                         const prog = productProgress[String(item.SHPD_ShipmentMID)] || {};
@@ -1527,7 +1545,6 @@ const sendData = (status) => {
                             </Droppable>
                         </DragDropContext>
                     </div>
-
                     {/* ✅ NEW — FAIL COUNT DATA PANEL */}
                     {failRsnList.length > 0 && (
                         <div className="failcount-panel">
@@ -1583,7 +1600,7 @@ const sendData = (status) => {
                             getButtonText() === "RESUME" ? "btn-resume" :
                                 "btn-start"}`}
                     onClick={handleMainButton}
-                    disabled={isMainOperationLoading || getButtonText() === "CLOSED" || !isConnected ||!allDevicesReady}
+                    disabled={isMainOperationLoading || getButtonText() === "CLOSED" || !isConnected || !allDevicesReady}
                 >
                     {getButtonText()}
                 </button>
@@ -1592,12 +1609,20 @@ const sendData = (status) => {
                     disabled={isMainOperationLoading || shipmentStatus === 6}>
                     BACK
                 </button>
+
+                {/* <button className="reset_btn"
+                    style={{ backgroundColor: "#9b2f0e", color: "white", border: "none" }}
+                    onClick={Bypass}
+                    disabled={isMainOperationLoading || shipmentStatus === 6}>
+                    BYPASS
+                </button> */}
+
                 {config?.AutoProcess === true && (
                     <>
                         <button
                             className="reset_btn"
                             style={{ backgroundColor: "#0f6b12", color: "white", border: "none" }}
-                             onClick={() => sendData(2)}
+                            onClick={() => sendData(2)}
                         >
                             OK
                         </button>
@@ -1605,7 +1630,7 @@ const sendData = (status) => {
                         <button
                             className="reset_btn"
                             style={{ backgroundColor: "#af4c4c", color: "white", border: "none" }}
-                             onClick={() => sendData(3)}
+                            onClick={() => sendData(3)}
                         >
                             OVER WEIGHT
                         </button>
@@ -1613,7 +1638,7 @@ const sendData = (status) => {
                         <button
                             className="reset_btn"
                             style={{ backgroundColor: "#458899", color: "white", border: "none" }}
-                             onClick={() => sendData(1)}
+                            onClick={() => sendData(1)}
                         >
                             UNDER WEIGHT
                         </button>
@@ -1647,7 +1672,7 @@ const sendData = (status) => {
                             color: "#4a5568",
                         }}
                     >
-                        Are you sure you want to Bypass this item?
+                        Are you sure you want to Bypass this Shipment : {shipmentCode} ?
                     </div>
 
                     <div
@@ -1662,12 +1687,16 @@ const sendData = (status) => {
                             <label style={{ fontWeight: "600", fontSize: "18px" }}>
                                 Remark:
                             </label>
-
+                            {bypassError && (
+                                <div style={{ color: "red", fontSize: "13px", fontWeight: "500" }}>
+                                    {bypassError}
+                                </div>
+                            )}
                             <textarea
                                 rows={2}
                                 style={{
                                     width: "420px",
-                                    border: `1px solid ${bypassError ? "#dc3545" : "#ced4da"}`,
+                                    border: `1px solid #ced4da`,
                                     padding: "10px",
                                     borderRadius: "6px",
                                     resize: "none",
@@ -1693,11 +1722,7 @@ const sendData = (status) => {
                         </div>
 
                         {/* ✅ Error Text */}
-                        {bypassError && (
-                            <div style={{ color: "#dc3545", fontSize: "13px" }}>
-                                {bypassError}
-                            </div>
-                        )}
+
                     </div>
                 </Modal.Body>
 
@@ -1707,7 +1732,7 @@ const sendData = (status) => {
                     <button
                         className="acceptButton"
                         onClick={handleConfirmBypass}
-                        disabled={!bypassRemark.trim() || !!bypassError}
+                    //disabled={!bypassRemark.trim() || !!bypassError}
                     >
                         YES
                     </button>
@@ -1769,12 +1794,16 @@ const sendData = (status) => {
                             <label style={{ fontWeight: "600", fontSize: "18px" }}>
                                 Remark:
                             </label>
-
+                            {bypassError && (
+                                <div style={{ color: "red", fontSize: "13px", fontWeight: "500" }}>
+                                    {bypassError}
+                                </div>
+                            )}
                             <textarea
                                 rows={2}
                                 style={{
                                     width: "420px",
-                                    border: `1px solid ${bypassError ? "#dc3545" : "#ced4da"}`,
+                                    border: `1px solid #ced4da`,
                                     padding: "10px",
                                     borderRadius: "6px",
                                     resize: "none",
@@ -1798,13 +1827,6 @@ const sendData = (status) => {
                                 }}
                             />
                         </div>
-
-                        {/* ✅ Error Text */}
-                        {bypassError && (
-                            <div style={{ color: "#dc3545", fontSize: "13px" }}>
-                                {bypassError}
-                            </div>
-                        )}
                     </div>
                 </Modal.Body>
 
@@ -1814,7 +1836,7 @@ const sendData = (status) => {
                     <button
                         className="acceptButton"
                         onClick={handleConfirmFullBypass}
-                        disabled={!bypassRemark.trim() || !!bypassError}
+                    //disabled={!bypassRemark.trim() || !!bypassError}
                     >
                         YES
                     </button>
@@ -1927,12 +1949,16 @@ const sendData = (status) => {
                             <label style={{ fontWeight: "600", fontSize: "18px" }}>
                                 Remark:
                             </label>
-
+                            {bypassError && (
+                                <div style={{ color: "red", fontSize: "13px", fontWeight: "500" }}>
+                                    {bypassError}
+                                </div>
+                            )}
                             <textarea
                                 rows={2}
                                 style={{
                                     width: "420px",
-                                    border: `1px solid ${bypassError ? "#dc3545" : "#ced4da"}`,
+                                    border: `1px solid #ced4da`,
                                     padding: "10px",
                                     borderRadius: "6px",
                                     resize: "none",
@@ -1956,13 +1982,6 @@ const sendData = (status) => {
                                 }}
                             />
                         </div>
-
-                        {/* ✅ Error Text */}
-                        {bypassError && (
-                            <div style={{ color: "#dc3545", fontSize: "13px" }}>
-                                {bypassError}
-                            </div>
-                        )}
                     </div>
                 </Modal.Body>
 
@@ -1972,7 +1991,7 @@ const sendData = (status) => {
                     <button
                         className="acceptButton"
                         onClick={handleConfirmBypasswithnearExpiry}
-                        disabled={!bypassRemark.trim() || !!bypassError}
+                    //disabled={!bypassRemark.trim() || !!bypassError}
                     >
                         YES
                     </button>

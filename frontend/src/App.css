@@ -20,7 +20,7 @@
   overflow-y: auto;
   /* max-width: 100vw; */
   margin: 13px 13px 5px 8px;
-  padding: 20px;
+  padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   width: 100%;
@@ -177,6 +177,9 @@
   border: 1px solid #ddd;
   text-align: center;
   white-space: nowrap;
+  position: sticky;
+  z-index: 1;
+  top: 0;
 }
 .p-datatable-tbody > tr > td {
   padding: 10px;
@@ -247,7 +250,7 @@
 
 .icon-container_list {
   width: 45px;
-  height: 41px;
+  height: 39px;
   /* height: 100%; */
   position: absolute;
   right: 0;
@@ -396,6 +399,7 @@ td {
   background-color: #f9f9f9;
   border: none;
   padding: 0.5rem 0rem;
+  position: static;
 }
 
 .p-paginator-bottom > button {
@@ -518,6 +522,7 @@ tbody {
   padding: 1rem 1rem;
   font-weight: unset;
   border-top: none;
+  position: static;
 }
 img {
   cursor: pointer;
@@ -610,7 +615,7 @@ img {
 .main_container {
   max-width: 100vw;
   margin: 13px 13px 5px 8px;
-  padding: 20px;
+  padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   min-height: 76vh;
@@ -818,6 +823,7 @@ select:focus {
   justify-content: flex-end;
   gap: 20px;
   margin-right: 13px;
+  position: static;
 }
 
 .save_btn {
@@ -1790,7 +1796,7 @@ button:disabled {
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
   flex-grow: 1;
-  padding: 20px;
+  padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   margin: 3px 1px 10px 0;
@@ -2354,4 +2360,35 @@ button:disabled {
     display: flex;
     padding-left: 0;
     list-style: none;
+}
+
+
+.queue-card-wrapper {
+ /* contain: paint; */
+ contain: strict;
+}
+.datatable-small .p-datatable-wrapper {
+    overflow: auto;
+    max-height: 32dvh;
+}
+
+.datatable-large .p-datatable-wrapper {
+    overflow: auto;
+    max-height: 44dvh;
+}
+.css-1nmdiq5-menu {
+    top: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 3 !important;
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 11px hsla(0, 0%, 0%, 0.1);
+    margin-bottom: 8px;
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+.react-datepicker-popper {
+    z-index: 3 !important;
+    line-height: 0;
 }

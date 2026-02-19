@@ -211,7 +211,7 @@ export default function CompletedOutward() {
     return (
       <>
         <form method="post">
-          <div className="row mb-4 align-items-center">
+          <div className="row align-items-center">
             <div className="col-md-3">
               <div className="select-container">
                 <Select
@@ -280,7 +280,7 @@ export default function CompletedOutward() {
           </div>
 
           {showDateRow && (
-            <div className="row mb-4 align-items-center">
+            <div className="row align-items-center">
               <div className="col-md-6">
                 <label>From</label>
                 <div className="select-container">
@@ -953,11 +953,12 @@ export default function CompletedOutward() {
       );
     }
   }
-
+  const isDateSelected =
+  selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
   return (
     <>
       <div className="main_container">
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "space-between",position:"static" }}>
           <h1 className="formHeading">Completed Outward</h1>
         </div>
 
@@ -967,6 +968,7 @@ export default function CompletedOutward() {
           paginator
           rows={10}
           emptyMessage="No Records Found"
+          className={isDateSelected ? "datatable-small" : "datatable-large"}
         >
           <Column
             header="Sr. No."
