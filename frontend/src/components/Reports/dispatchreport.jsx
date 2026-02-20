@@ -643,7 +643,9 @@ export default function DispatchReport() {
           paginator
           rows={10}
           emptyMessage="No Records Found"
-          className={isDateSelected ? "datatable-small" : "datatable-large"}
+          // className={isDateSelected ? "datatable-small" : "datatable-large"}
+          scrollHeight={isDateSelected ? "32dvh" : "44dvh"}
+          scrollable
         >
           <Column
             header="Sr. No."

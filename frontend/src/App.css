@@ -165,10 +165,11 @@
 }
 .p-datatable-scrollable {
   display: block;
-  overflow-x: auto;
-  overflow-y: auto;
+  /* overflow-x: auto;
+  overflow-y: auto; */
   max-height: 400px;
   white-space: nowrap;
+  scrollbar-width: none;
 }
 .p-datatable-thead > tr > th {
   padding: 10px;
@@ -399,7 +400,7 @@ td {
   background-color: #f9f9f9;
   border: none;
   padding: 0.5rem 0rem;
-  position: static;
+  position: sticky;
   padding-bottom: 0px !important;
 }
 
@@ -619,7 +620,7 @@ img {
   padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
-  min-height: 74vh;
+  min-height: 77vh;
   /* max-height: 100%; */
 }
 .button-container {
@@ -2400,3 +2401,22 @@ button:disabled {
 .css-1dimb5e-singleValue {
       color: #465a64 !important;
 }
+
+.p-datatable .p-paginator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: flex-end;
+    width: auto;
+    background: #f9f9f9;
+    border: none;
+    top : 390px
+}
+/* thead{
+  margin-top: -1px;
+  position: fixed;
+  
+} */
+
+
