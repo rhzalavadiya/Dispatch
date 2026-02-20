@@ -225,7 +225,8 @@ export default function DispatchReport() {
                   isSearchable={false}
                 />
                 <div className="icon-container_list">
-                  {isSelectOpen === "s1" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
+                  {isSelectOpen === "s1" ? <IoCaretUpOutline className="upicon" />
+                    : <IoCaretDownOutline className="upicon" />}
                 </div>
               </div>
             </div>
@@ -258,7 +259,8 @@ export default function DispatchReport() {
                   isSearchable={false}
                 />
                 <div className="icon-container_list">
-                  {isSelectOpen === "s2" ? <IoCaretUpOutline /> : <IoCaretDownOutline />}
+                  {isSelectOpen === "s2" ? <IoCaretUpOutline className="upicon" />
+                    : <IoCaretDownOutline className="upicon" />}
                 </div>
               </div>
             </div>
@@ -614,12 +616,24 @@ export default function DispatchReport() {
       );
     }
   }
+  useEffect(() => {
     const isDateSelected =
-  selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+      selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+
+    if (!isDateSelected) {
+      setFormData((prev) => ({
+        ...prev,
+        from: "",
+        to: "",
+      }));
+    }
+  }, [selectedField1, selectedField2]);
+  const isDateSelected =
+    selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
   return (
     <>
       <div className="main_container">
-        <div style={{ display: "flex", justifyContent: "space-between", position:"static" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", position: "static" }}>
           <h1 className="formHeading">Dispatch Report</h1>
         </div>
 

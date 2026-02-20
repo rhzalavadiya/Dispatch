@@ -19,6 +19,6 @@ html {
 } 
 
 /* Hide scrollbar */
- ::-webkit-scrollbar {
+ /* ::-webkit-scrollbar {
   display: none;
-}
+} */

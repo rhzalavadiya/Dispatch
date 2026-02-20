@@ -15,6 +15,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.3.1",
     "images": "^3.2.4",
+    "ionicons": "^8.0.13",
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.544.0",

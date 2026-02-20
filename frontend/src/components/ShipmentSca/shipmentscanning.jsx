@@ -385,9 +385,9 @@ export default function ShipmentScanning() {
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s1" ? (
-                    <IoCaretUpOutline />
+                    <IoCaretUpOutline className="upicon" />
                   ) : (
-                    <IoCaretDownOutline />
+                    <IoCaretDownOutline className="upicon" />
                   )}
                 </div>
               </div>
@@ -426,9 +426,9 @@ export default function ShipmentScanning() {
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s2" ? (
-                    <IoCaretUpOutline />
+                    <IoCaretUpOutline className="upicon" />
                   ) : (
-                    <IoCaretDownOutline />
+                    <IoCaretDownOutline className="upicon" />
                   )}
                 </div>
               </div>
@@ -462,9 +462,9 @@ export default function ShipmentScanning() {
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s1" ? (
-                    <IoCaretUpOutline />
+                    <IoCaretUpOutline className="upicon" />
                   ) : (
-                    <IoCaretDownOutline />
+                    <IoCaretDownOutline className="upicon" />
                   )}
                 </div>
               </div>
