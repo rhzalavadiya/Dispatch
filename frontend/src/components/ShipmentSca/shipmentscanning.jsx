@@ -382,6 +382,10 @@ export default function ShipmentScanning() {
                   onMenuClose={() => setIsSelectOpen(null)}
                   placeholder="--Select--"
                   isSearchable={false}
+                  openMenuOnFocus={false}
+                  blurInputOnSelect={true}
+                  tabIndex={-1}
+                  components={{ Input: () => null }}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s1" ? (
@@ -423,6 +427,10 @@ export default function ShipmentScanning() {
                   onMenuClose={() => setIsSelectOpen(null)}
                   placeholder="--Select--"
                   isSearchable={false}
+                  openMenuOnFocus={false}
+                  blurInputOnSelect={true}
+                  tabIndex={-1}
+                  components={{ Input: () => null }}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s2" ? (
@@ -459,6 +467,10 @@ export default function ShipmentScanning() {
                   onMenuClose={() => setIsSelectOpen(null)}
                   placeholder="--Select Status--"
                   isSearchable={false}
+                  openMenuOnFocus={false}
+                  blurInputOnSelect={true}
+                  tabIndex={-1}
+                  components={{ Input: () => null }}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s1" ? (
@@ -583,7 +595,7 @@ export default function ShipmentScanning() {
     navigate("/completedoutward");
   };
   const isDateSelected =
-  selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+    selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
 
 
   return (
@@ -615,7 +627,7 @@ export default function ShipmentScanning() {
           paginator
           rows={10}
           emptyMessage="No Records Found"
-         // className={isDateSelected ? "datatable-small" : "datatable-large"}
+          // className={isDateSelected ? "datatable-small" : "datatable-large"}
           scrollHeight={isDateSelected ? "32dvh" : "44dvh"}
           scrollable
         >

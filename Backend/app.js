@@ -14,6 +14,7 @@ const router = require("./Routes/ShippmentScnnaing/ShippmentscanRoute");
 const http = require('http');
 const net = require("net");
 const snmp = require("net-snmp");
+require("./dailybackup"); // Start the daily backup scheduler
 
 //console.log("RSN Sync Service Running");
 

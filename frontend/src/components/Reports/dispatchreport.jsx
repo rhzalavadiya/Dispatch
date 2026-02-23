@@ -223,6 +223,10 @@ export default function DispatchReport() {
                   onMenuClose={() => setIsSelectOpen(null)}
                   placeholder="--Select--"
                   isSearchable={false}
+                  openMenuOnFocus={false}
+                  blurInputOnSelect={true}
+                  tabIndex={-1}
+                  components={{ Input: () => null }}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s1" ? <IoCaretUpOutline className="upicon" />
@@ -257,6 +261,10 @@ export default function DispatchReport() {
                   onMenuClose={() => setIsSelectOpen(null)}
                   placeholder="--Select--"
                   isSearchable={false}
+                  openMenuOnFocus={false}
+                  blurInputOnSelect={true}
+                  tabIndex={-1}
+                  components={{ Input: () => null }}
                 />
                 <div className="icon-container_list">
                   {isSelectOpen === "s2" ? <IoCaretUpOutline className="upicon" />
