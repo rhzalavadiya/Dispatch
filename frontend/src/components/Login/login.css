@@ -92,19 +92,35 @@ header{
   justify-content: center;
   /* align-items: center; */
 }
-
+.custom-modal{
+   top: 130px;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   letter-spacing: 0.5px;
+}
+.custom-modal .modal-content {
+    margin: auto;
+    width: 95%;
+}
+.password-reset{
+  color: rgb(70, 90, 100);
+  margin-left: 126px;
+  font-size: calc(1.275rem + .3vw) !important;
+}
 .input-box input {
-  display: flex;
-  width: 412px;
-  height: 50px;
-  border-radius: 4px;
-  margin-left: 30px;
-  outline: none;
-  font-size: 18px;
-  color:  #8a8e92;
-  font-weight: 600;
-  border-width: 1px;
-  border-color: #b9b9b9 ;
+    border-color: #b9b9b9;
+    border-radius: 4px;
+    border-width: 1px;
+    color: #8a8e92;
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+    height: 50px;
+    margin-left: 30px;
+    outline: none;
+    width: 412px;
 }
 
 .password_input {
@@ -124,9 +140,9 @@ header{
 }
 
 .button-spacing {
-  margin-right: 8px; /* Adjust the value as needed */
-  width: 201px;
-  height: 72px;
+    margin-right: 8px;
+    width: 201px;
+    height: 72px;
 }
 
 .btnLogin {
@@ -146,11 +162,11 @@ header{
 }
 
 .buttons {
-  margin-top: 20px;
+  margin-top: 70px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+ 
 
 }
 
@@ -271,7 +287,7 @@ header{
     position: relative;
     background-color: white;
     width: 497px;
-    height: 450px;
+    height: 66dvh;
     max-height: auto;
     min-height: auto;
     max-width: auto;
@@ -319,21 +335,7 @@ header{
      margin-bottom: 10px;
   }
    
-  
-  .input-box input {
-    display: flex;
-    width: 412px;
-    height: 50px;
-    border-radius: 4px;
-    /* margin-left: 30px; */
-    outline: none;
-    font-size: 18px;
-    color:  #8a8e92;
-    font-weight: 600;
-    border-width: 1px;
-    border-color: #b9b9b9 ;
-    margin: auto;
-  }
+
   
   
     
@@ -357,12 +359,7 @@ header{
     position: relative;
   }
   
-  .button-spacing {
-    margin-right: 8px;
-    width: 180px;
-    height: 60px;
-  }
-  
+
   .btnLogin {
     background-color: #325880;
     border-radius: 7px ;

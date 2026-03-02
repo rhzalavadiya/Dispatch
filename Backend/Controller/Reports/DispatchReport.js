@@ -196,20 +196,19 @@ WHERE ad.dis_shipmentid = ?`;
         //     em.Description
         // ORDER BY
         //     ad.dis_reasoncode`;
-        const query3 = `SELECT
-    em.EnumVal AS dis_reasoncode,
+
+        const query3 = `SELECT 
     em.Description AS Reason_Description,
-    COUNT(ad.dis_reasoncode) AS Reason_Count
-FROM enummaster em
-LEFT JOIN dispatchaudit ad
+    COUNT(*) AS Reason_Count
+FROM dispatchaudit ad
+LEFT JOIN enummaster em
        ON ad.dis_reasoncode = em.EnumVal
-      AND ad.dis_shipmentid = ?
-WHERE em.EnumType = 'RSNReason'
+      AND em.EnumType = 'RSNReason'
+WHERE ad.dis_shipmentid = ?
 GROUP BY
-    em.EnumVal,
     em.Description
 ORDER BY
-    em.EnumVal`;
+    em.Description;`;
         const query4 = `SELECT
     SUM(CASE WHEN dis_status = 22 THEN 1 ELSE 0 END) AS Total_Pass,
     SUM(CASE WHEN dis_status = 4  THEN 1 ELSE 0 END) AS Total_Fail

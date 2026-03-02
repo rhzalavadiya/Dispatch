@@ -400,6 +400,88 @@ const updateShipmentSyncStatus = async (req, res) => {
 	}
 };
 
+
+const updateShipmentQty = async (req, res) => {
+	const { shipmentId} = req.body;
+	console.log("Data for reset qty :",req.body);
+
+	// Basic validation
+	if (!shipmentId) {
+		return res.status(400).json({
+			success: false,
+			message: "shipmentId is required in request body"
+		});
+	}
+	console.log("Updating shipment qty for ShipmentID:", shipmentId);
+	try {
+
+		const updateSql = `
+        UPDATE shipmentmaster 
+      SET SHPD_Qty = 0
+      WHERE SHPD_ShipmentID = ?`;
+
+		const [result] = await conn.query(updateSql, [shipmentId]);
+		console.log("Shipment qty update result:", result);
+
+		if (result.affectedRows === 0) {
+			return res.status(404).json({
+				success: false,
+				message: `No shipment found with ID: ${shipmentId}`
+			});
+		}
+
+		return res.status(200).json({
+			success: true,
+			message: `Shipment Master qty reset successfully for ShipmentID: ${shipmentId}`,
+		});
+	} catch (error) {
+		console.error("Error updating shipment qty:", {
+			shipmentId,
+			error: error.message,
+			stack: error.stack
+		});
+
+		return res.status(500).json({
+			success: false,
+			message: "Server error while updating shipment qty",
+			error: error.message
+		});
+	}
+};
+const updateShipmentQtyall = async (req, res) => {
+	try {
+
+		const updateSql = `
+        UPDATE shipmentmaster 
+      SET SHPD_Qty = 0`;
+
+		const [result] = await conn.query(updateSql);
+
+		if (result.affectedRows === 0) {
+			return res.status(404).json({
+				success: false,
+				message: `No shipment found `
+			});
+		}
+
+		return res.status(200).json({
+			success: true,
+			message: `Shipment Master qty reset successfully for all shipments`,
+		});
+	} catch (error) {
+		console.error("Error updating shipment qty:", {
+			error: error.message,
+			stack: error.stack
+		});
+
+		return res.status(500).json({
+			success: false,
+			message: "Server error while updating shipment qty",
+			error: error.message
+		});
+	}
+};
+
 const deliverychallanData = async (req, res) => {
 	const { shipmentId, selectedScpId } = req.params;
 
@@ -869,7 +951,9 @@ module.exports = {
 	rsnRemark,
 	shipmentRemark,
 	logShipmentEvent,
-	CompletedShipment
+	CompletedShipment,
+	updateShipmentQty,
+	updateShipmentQtyall
 };
 
 

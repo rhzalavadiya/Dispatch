@@ -21,7 +21,11 @@ const disconnectTimersRef = useRef({});
   const lastMessageLogTime = useRef(0);
   const lastConnectLogTime = useRef(0);
 
-
+const [deviceConnections, setDeviceConnections] = useState({
+  printer: true,   // ← default true as per your requirement
+  plc: true,
+  camera: true,
+});
 
   // const url = "ws://192.168.1.2:9003/ws";
 
@@ -83,6 +87,7 @@ const disconnectTimersRef = useRef({});
    ws.onmessage = (event) => {
   const message = event.data;
   console.log("GLOBAL WS Message:", message);
+  logAction(`GLOBAL WS Message: ${message}`);
 
   try {
     const data = JSON.parse(message);
@@ -92,7 +97,10 @@ const disconnectTimersRef = useRef({});
     ================================== */
     if (data.type === "device_status") {
       const { device, connected } = data;
-
+      setDeviceConnections(prev => ({
+    ...prev,
+    [device]: Boolean(connected),   // force boolean
+  }));
       const deviceName = {
         printer: "Printer",
         plc: "PLC",
@@ -205,7 +213,7 @@ const disconnectTimersRef = useRef({});
   };
 
   return (
-    <WebSocketContext.Provider value={{ wsRef, send, isConnected }}>
+    <WebSocketContext.Provider value={{ wsRef, send, isConnected,deviceConnections }}>
       {children}
     </WebSocketContext.Provider>
   );

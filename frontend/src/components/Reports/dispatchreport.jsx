@@ -125,14 +125,26 @@ export default function DispatchReport() {
     { value: "LGCVM_VehicleNumber", label: "Vehicle Number" },
   ];
 
+  // const options1 = searchOptions.map((o) => ({
+  //   ...o,
+  //   isDisabled: selectedField2 === o.value && o.value !== "",
+  // }));
+
+  // const options2 = searchOptions.map((o) => ({
+  //   ...o,
+  //   isDisabled: selectedField1 === o.value && o.value !== "",
+  // }));
+
   const options1 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField2 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField2 === o.value
   }));
 
   const options2 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField1 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField1 === o.value
   }));
 
   const filterData = shipmentData
@@ -209,7 +221,7 @@ export default function DispatchReport() {
       <>
         <form method="post">
           <div className="row align-items-center">
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -235,7 +247,7 @@ export default function DispatchReport() {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -247,7 +259,7 @@ export default function DispatchReport() {
               />
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -273,7 +285,7 @@ export default function DispatchReport() {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -288,7 +300,7 @@ export default function DispatchReport() {
 
           {showDateRow && (
             <div className="row align-items-center">
-              <div className="col-md-6">
+              <div className="col">
                 <label>From</label>
                 <div className="select-container">
                   <DatePicker
@@ -315,7 +327,7 @@ export default function DispatchReport() {
                 </div>
               </div>
 
-              <div className="col-md-6">
+              <div className="col" style={{ paddingRight: "0px" }}>
                 <label>To</label>
                 <div className="select-container">
                   <DatePicker
@@ -346,10 +358,6 @@ export default function DispatchReport() {
       </>
     );
   };
-  const BackPage = () => {
-    logAction("Back button clicked - Navigating to Shipment Scanning");
-    navigate("/shipmentscanning");
-  };
 
   const textColor = [0, 0, 0];
   const headerTextColor = [255, 255, 255];
@@ -364,7 +372,8 @@ export default function DispatchReport() {
       fillColor: headerColor,
       fontStyle: "bold",
       cellPadding: 2,
-      halign: "center"
+      halign: "center",
+      valign: "middle"
     },
     tableRow: {
       fontSize: 10,
@@ -441,17 +450,18 @@ export default function DispatchReport() {
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
 
     const date = new Date();
-    const formattedDate = date.toLocaleDateString("en-GB");
+    const formattedDateTime = date.toLocaleString("en-GB");
+
     const startX = doc.internal.pageSize.getWidth() - 55;
 
     doc.setFontSize(10);
     doc.text("Printed On", startX, 18);
     doc.text(":", startX + 18, 18);
-    doc.text(formattedDate, startX + 20, 18);
+    doc.text(formattedDateTime, startX + 20, 18);
 
-    doc.text("Printed By", startX, 24);
-    doc.text(":", startX + 18, 24);
-    doc.text(UM_UserCode, startX + 20, 24);
+    // doc.text("Printed By", startX, 24);
+    // doc.text(":", startX + 18, 24);
+    // doc.text(UM_UserCode, startX + 20, 24);
 
 
     /* ---------------- TITLE ---------------- */
@@ -500,7 +510,7 @@ export default function DispatchReport() {
       "Batch Name",
       "Weight",
       "Actual Weight",
-      "Measuring Date & Time",
+      "Timestamp",
     ];
 
     const rsnBody = [];
@@ -520,6 +530,7 @@ export default function DispatchReport() {
               fontStyle: "bold",
               fillColor: [230, 230, 230],
               fontSize: 11,
+
             },
           },
         ]);
@@ -533,10 +544,11 @@ export default function DispatchReport() {
         row.PL_ProductName,
         row.BL_BatchName,
         (row.Weight != null
-          ? (row.Weight / 1000).toFixed(2) + " kg"
+          ? Number(row.Weight).toFixed(2) + " kg"
           : "-"),
+
         (row.ActualWeight != null
-          ? (row.ActualWeight / 1000).toFixed(2) + " kg"
+          ? Number(row.ActualWeight).toFixed(2) + " kg"
           : "-"),
         formatDateTime(row.IRS_LastModifiedTimeStamp),
       ]);
@@ -548,6 +560,9 @@ export default function DispatchReport() {
       body: rsnBody,
       styles: PDF_STYLE.tableRow,
       headStyles: PDF_STYLE.tableHeader,
+      bodyStyles: {
+        halign: "center"
+      },
       columnStyles: {
         0: { cellWidth: 10, overflow: "linebreak" },
         1: { cellWidth: 35, overflow: "linebreak" },
@@ -565,39 +580,34 @@ export default function DispatchReport() {
     addFooter(doc);
   };
 
-  function addSignatureSection(doc) {
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const SIGNATURE_HEIGHT = 30;
-    const BOTTOM_MARGIN = 15;
 
+  function addSignatureSection(doc) {
     let startY = doc.lastAutoTable
       ? doc.lastAutoTable.finalY + 10
       : 60;
 
     autoTable(doc, {
       body: [
-        ['', 'Name', 'Sign', 'Date'],
-        ['Printed By :', '_______________________________', '_______________________________', '_______________________________'],
-        ['Checked By :', '_______________________________', '_______________________________', '_______________________________'],
-        ['Verified By :', '_______________________________', '_______________________________', '_______________________________'],
+        ['', '', 'Name', 'Sign', 'Date'],
+        ['Printed By', ':', '_______________________________', '_______________________________', '_______________________________'],
+        ['Checked By', ':', '_______________________________', '_______________________________', '_______________________________'],
+        ['Verified By', ':', '_______________________________', '_______________________________', '_______________________________'],
       ],
       startY,
       theme: 'plain',
-      pageBreak: 'avoid',
-      rowPageBreak: 'avoid',
       styles: {
         fontSize: 8,
         cellPadding: 2,
       },
       columnStyles: {
-        0: { halign: 'left' },
-        1: { halign: 'center' },
+        0: { cellWidth: 20, halign: 'left' },  // 👈 fixed width label column
+        1: { cellWidth: 5, halign: 'left' },   // 👈 colon column
         2: { halign: 'center' },
         3: { halign: 'center' },
+        4: { halign: 'center' },
       },
     });
   }
-
   function addFooter(doc) {
     const totalPages = doc.internal.getNumberOfPages();
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -640,7 +650,7 @@ export default function DispatchReport() {
     selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
   return (
     <>
-      <div className="main_container">
+      <div className="main_containerreport">
         <div style={{ display: "flex", justifyContent: "space-between", position: "static" }}>
           <h1 className="formHeading">Dispatch Report</h1>
         </div>
@@ -652,8 +662,9 @@ export default function DispatchReport() {
           rows={10}
           emptyMessage="No Records Found"
           // className={isDateSelected ? "datatable-small" : "datatable-large"}
-          scrollHeight={isDateSelected ? "32dvh" : "44dvh"}
+          scrollHeight={isDateSelected ? "40dvh" : "54dvh"}
           scrollable
+          className="report-table"
         >
           <Column
             header="Sr. No."
@@ -730,12 +741,6 @@ export default function DispatchReport() {
             }}
           />
         </DataTable>
-      </div>
-
-      <div className="button-container">
-        <button className="reset_btn" onClick={BackPage}>
-          BACK
-        </button>
       </div>
     </>
   );

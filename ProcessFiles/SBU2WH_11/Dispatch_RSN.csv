@@ -1,0 +1,4 @@
+IRS_ID,IRS_ProductID,PM_GrossWeight,PM_MaxOffset,PM_MinOffset,IRS_PackSize,IRS_BatchID,IRS_PhysicalLocation,IRS_CompanyID,IRS_RandomNo,IRS_SKU,IRS_ParentRandomNo,BL_ExpDate,IRS_ToSCP,isExpired,isNearExpiry
+120,16,2.7,200,200,1,168,3,1,0101016QUIY8S8,https://vsecure.techtrio.com/ShreeBhagwati/0101016QUIY8S8,,2026-03-08T18:30:00.000Z,,0,0
+116,16,2.7,200,200,1,150,3,1,0101016SQ2O5VU,https://vsecure.techtrio.com/ShreeBhagwati/0101016SQ2O5VU,,2026-03-08T18:30:00.000Z,,0,0
+115,16,2.7,200,200,1,150,3,1,01010161JYIWHF,https://vsecure.techtrio.com/ShreeBhagwati/01010161JYIWHF,,2026-03-08T18:30:00.000Z,,0,0

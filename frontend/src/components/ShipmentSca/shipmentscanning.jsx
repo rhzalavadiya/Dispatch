@@ -5,7 +5,8 @@ import DatePicker from "react-datepicker";
 import { Column } from "primereact/column";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import { LuRefreshCcw } from "react-icons/lu";
+// import { LuRefreshCcw } from "react-icons/lu";
+import { FaSyncAlt } from "react-icons/fa";
 import { config } from "../config/config";
 import { FaEye } from "react-icons/fa";
 import Icon3 from "../../assest/images/Icon3.png";
@@ -156,6 +157,8 @@ export default function ShipmentScanning() {
 
           if (syncResponse.data.success) {
             logAction("Reverse sync to central server completed successfully");
+                const shipmentqty=await localApi.post(`/Shipmentqtyall`);
+                logAction(`Shipment qty all response: ${JSON.stringify(shipmentqty)}`);
           } else {
             throw new Error(syncResponse.data.message || "Reverse sync failed");
           }
@@ -260,12 +263,14 @@ export default function ShipmentScanning() {
 
   const options1 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField2 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField2 === o.value
   }));
 
   const options2 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField1 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField1 === o.value
   }));
 
   const filterData = shipmentData
@@ -465,6 +470,7 @@ export default function ShipmentScanning() {
                   }
                   onChange={(val) => setSelectedStatus(val ? val.value : null)}
                   onMenuClose={() => setIsSelectOpen(null)}
+                  onMenuOpen={() => setIsSelectOpen("s3")}
                   placeholder="--Select Status--"
                   isSearchable={false}
                   openMenuOnFocus={false}
@@ -473,7 +479,7 @@ export default function ShipmentScanning() {
                   components={{ Input: () => null }}
                 />
                 <div className="icon-container_list">
-                  {isSelectOpen === "s1" ? (
+                  {isSelectOpen === "s3" ? (
                     <IoCaretUpOutline className="upicon" />
                   ) : (
                     <IoCaretDownOutline className="upicon" />
@@ -489,7 +495,7 @@ export default function ShipmentScanning() {
           {showDateRow && (
             <div className="row align-items-center">
               {/* FROM DATE */}
-              <div className="col-md-6">
+              <div className="col">
                 <label>From</label>
                 <div className="select-container">
                   <DatePicker
@@ -518,7 +524,7 @@ export default function ShipmentScanning() {
               </div>
 
               {/* TO DATE */}
-              <div className="col-md-6">
+              <div className="col" style={{ paddingRight: "0px" }}>
                 <label>To</label>
                 <div className="select-container">
                   <DatePicker
@@ -552,43 +558,6 @@ export default function ShipmentScanning() {
   };
 
 
-  const handleRowSync = async (rowData) => {
-    logAction(`Manual row sync initiated for ShipmentID: ${rowData.SHPH_ShipmentID}`);
-    try {
-      logAction(`Executing API: /ShipmentSyncStatus | ShipmentID: ${rowData.SHPH_ShipmentID}`);
-      await localApi.post("/ShipmentSyncStatus", {
-        shipmentId: rowData.SHPH_ShipmentID,
-      });
-      logAction(`ShipmentSyncStatus updated for ShipmentID ${rowData.SHPH_ShipmentID}`);
-
-      logAction(`Executing API: /sync-local-to-vps | ShipmentID: ${rowData.SHPH_ShipmentID}, FromSCP: ${SHPH_FromSCPCode}`);
-      const response = await localApi.post("/sync-local-to-vps", {
-        shipmentId: rowData.SHPH_ShipmentID,
-        fromSCPId: SHPH_FromSCPCode,
-      });
-
-      console.log("response : ", response);
-      if (response.data.success) {
-        logAction(`Local to VPS sync data received for ShipmentID `);
-        logAction(`Executing API: /syncsingleshipment on VPS : `);
-
-        const result = await vpsApi.post("/syncsingleshipment", response.data.data);
-
-        console.log("Result : ", result);
-        if (result.data.success) {
-          logAction(`Single shipment sync successful - ShipmentID: `);
-          showSuccess(result.data.message || "Shipment synced successfully");
-          fetchShipmentList();
-        } else {
-          logAction(`Single shipment sync failed on VPS - ShipmentID: ${rowData.SHPH_ShipmentID}`, true);
-          toast.error("Failed to sync shipment");
-        }
-      }
-    } catch (err) {
-      logAction(`Row sync failed for ShipmentID: ${rowData.SHPH_ShipmentID} - ${err.message}`, true);
-      toast.error("Failed to sync shipment");
-    }
-  };
 
   const CompletedOutward = () => {
     logAction("Navigated to Completed Outward List");
@@ -614,7 +583,7 @@ export default function ShipmentScanning() {
             disabled={manualLoading}
             style={{ background: "none", border: "none", cursor: "pointer" }}
           >
-            <LuRefreshCcw
+            <FaSyncAlt
               className={manualLoading ? "spin" : "sync"}
               // style={{ fontSize: "38px", color: "#295a80" }}
               title="Shipment Sync"
@@ -731,17 +700,6 @@ export default function ShipmentScanning() {
                   />
 
                   {/* SYNC ICON – SHOW ONLY WHEN STATUS = 12 & NOT SYNCED */}
-                  {showSync && (
-                    <LuRefreshCcw
-                      title="Sync"
-                      style={{
-                        fontSize: "19px",
-                        cursor: "pointer",
-                        color: "#325880",
-                      }}
-                      onClick={() => handleRowSync(rowData)}
-                    />
-                  )}
                 </div>
               );
             }}

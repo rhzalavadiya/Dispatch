@@ -124,15 +124,16 @@ export default function DispatchAuditReport() {
     { value: "LGCM_Name", label: "Logistics Party Name" },
     { value: "LGCVM_VehicleNumber", label: "Vehicle Number" },
   ];
-
   const options1 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField2 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField2 === o.value
   }));
 
   const options2 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField1 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField1 === o.value
   }));
 
   const filterData = shipmentData
@@ -209,7 +210,7 @@ export default function DispatchAuditReport() {
       <>
         <form method="post">
           <div className="row align-items-center">
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -235,7 +236,7 @@ export default function DispatchAuditReport() {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -247,7 +248,7 @@ export default function DispatchAuditReport() {
               />
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -273,7 +274,7 @@ export default function DispatchAuditReport() {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -288,7 +289,7 @@ export default function DispatchAuditReport() {
 
           {showDateRow && (
             <div className="row align-items-center">
-              <div className="col-md-6">
+              <div className="col">
                 <label>From</label>
                 <div className="select-container">
                   <DatePicker
@@ -315,7 +316,7 @@ export default function DispatchAuditReport() {
                 </div>
               </div>
 
-              <div className="col-md-6">
+              <div className="col" style={{ paddingRight: "0px" }}>
                 <label>To</label>
                 <div className="select-container">
                   <DatePicker
@@ -346,10 +347,7 @@ export default function DispatchAuditReport() {
       </>
     );
   };
-  const BackPage = () => {
-    logAction("Back button clicked - Navigating to Shipment Scanning");
-    navigate("/shipmentscanning");
-  };
+
 
   const textColor = [0, 0, 0];
   const headerTextColor = [255, 255, 255];
@@ -364,7 +362,8 @@ export default function DispatchAuditReport() {
       fillColor: headerColor,
       fontStyle: "bold",
       cellPadding: 2,
-      halign: "center"
+      halign: "center",
+      valign: "middle"
     },
     tableRow: {
       fontSize: 10,
@@ -451,18 +450,19 @@ export default function DispatchAuditReport() {
     /* ---------------- HEADER ---------------- */
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
 
-    const date = new Date();
-    const formattedDate = date.toLocaleDateString("en-GB");
+const date = new Date();
+    const formattedDateTime = date.toLocaleString("en-GB");
+
     const startX = doc.internal.pageSize.getWidth() - 55;
 
     doc.setFontSize(10);
     doc.text("Printed On", startX, 18);
     doc.text(":", startX + 18, 18);
-    doc.text(formattedDate, startX + 20, 18);
+    doc.text(formattedDateTime, startX + 20, 18);
 
-    doc.text("Printed By", startX, 24);
-    doc.text(":", startX + 18, 24);
-    doc.text(UM_UserCode, startX + 20, 24);
+    // doc.text("Printed By", startX, 24);
+    // doc.text(":", startX + 18, 24);
+    // doc.text(UM_UserCode, startX + 20, 24);
 
     /* ---------------- TITLE ---------------- */
     doc.setFontSize(20);
@@ -508,11 +508,11 @@ export default function DispatchAuditReport() {
         { content: "Dispatch Analysis", colSpan: 2, styles: PDF_STYLE.sectionHeader }
       ],
       [
-        { content: "Total Pass", styles: { fontStyle: "bold" } },
+        { content: "Total Pass" },
         summaryData.Total_Pass,
       ],
       [
-        { content: "Total Fail", styles: { fontStyle: "bold" } },
+        { content: "Total Fail" },
         summaryData.Total_Fail,
       ],
       ...reasonData.map((r) => ([
@@ -535,7 +535,7 @@ export default function DispatchAuditReport() {
     /* ---------------- RSN TABLE ---------------- */
 
     const rsnBody = [];
-    const rsnHeaders = ["Sr.No",
+    const rsnHeaders = ["Sr.No.",
       "RSN",
       "Batch Name",
       "Product Name",
@@ -591,10 +591,14 @@ export default function DispatchAuditReport() {
     autoTable(doc, {
       startY: doc.lastAutoTable.finalY + 8,
       theme: "grid",
+      margin: { left: 10, right: 7 },
       head: [rsnHeaders],
       body: rsnBody,
       styles: PDF_STYLE.tableRow,
       headStyles: PDF_STYLE.tableHeader,
+      bodyStyles: {
+        halign: "center"
+      },
       columnStyles: {
         0: { cellWidth: 10, overflow: "linebreak" },   // Sr.No ❌ no wrap
         1: { cellWidth: 35, overflow: "linebreak" },   // RSN ❌ no wrap
@@ -616,39 +620,66 @@ export default function DispatchAuditReport() {
     addFooter(doc);
   };
 
+  // function addSignatureSection(doc) {
+  //   const pageHeight = doc.internal.pageSize.getHeight();
+  //   const SIGNATURE_HEIGHT = 30;
+  //   const BOTTOM_MARGIN = 15;
+
+  //   let startY = doc.lastAutoTable
+  //     ? doc.lastAutoTable.finalY + 10
+  //     : 60;
+
+  //   autoTable(doc, {
+  //     body: [
+  //       ['', 'Name', 'Sign', 'Date'],
+  //       ['Printed By :', '_______________________________', '_______________________________', '_______________________________'],
+  //       ['Checked By :', '_______________________________', '_______________________________', '_______________________________'],
+  //       ['Verified By :', '_______________________________', '_______________________________', '_______________________________'],
+  //     ],
+  //     startY,
+  //     theme: 'plain',
+  //     pageBreak: 'avoid',
+  //     rowPageBreak: 'avoid',
+  //     styles: {
+  //       fontSize: 8,
+  //       cellPadding: 2,
+  //     },
+  //     columnStyles: {
+  //       0: { halign: 'left' },
+  //       1: { halign: 'center' },
+  //       2: { halign: 'center' },
+  //       3: { halign: 'center' },
+  //     },
+  //   });
+  // }
+
   function addSignatureSection(doc) {
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const SIGNATURE_HEIGHT = 30;
-    const BOTTOM_MARGIN = 15;
+  let startY = doc.lastAutoTable
+    ? doc.lastAutoTable.finalY + 10
+    : 60;
 
-    let startY = doc.lastAutoTable
-      ? doc.lastAutoTable.finalY + 10
-      : 60;
-
-    autoTable(doc, {
-      body: [
-        ['', 'Name', 'Sign', 'Date'],
-        ['Printed By :', '_______________________________', '_______________________________', '_______________________________'],
-        ['Checked By :', '_______________________________', '_______________________________', '_______________________________'],
-        ['Verified By :', '_______________________________', '_______________________________', '_______________________________'],
-      ],
-      startY,
-      theme: 'plain',
-      pageBreak: 'avoid',
-      rowPageBreak: 'avoid',
-      styles: {
-        fontSize: 8,
-        cellPadding: 2,
-      },
-      columnStyles: {
-        0: { halign: 'left' },
-        1: { halign: 'center' },
-        2: { halign: 'center' },
-        3: { halign: 'center' },
-      },
-    });
-  }
-
+  autoTable(doc, {
+    body: [
+      ['', '', 'Name', 'Sign', 'Date'],
+      ['Printed By', ':', '_______________________________', '_______________________________', '_______________________________'],
+      ['Checked By', ':', '_______________________________', '_______________________________', '_______________________________'],
+      ['Verified By', ':', '_______________________________', '_______________________________', '_______________________________'],
+    ],
+    startY,
+    theme: 'plain',
+    styles: {
+      fontSize: 8,
+      cellPadding: 2,
+    },
+    columnStyles: {
+      0: { cellWidth: 20, halign: 'left' },  // 👈 fixed width label column
+      1: { cellWidth: 5, halign: 'left' },   // 👈 colon column
+      2: { halign: 'center' },
+      3: { halign: 'center' },
+      4: { halign: 'center' },
+    },
+  });
+}
   function addFooter(doc) {
     const totalPages = doc.internal.getNumberOfPages();
     const pageWidth = doc.internal.pageSize.getWidth();
@@ -691,7 +722,7 @@ export default function DispatchAuditReport() {
     selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
   return (
     <>
-      <div className="main_container">
+      <div className="main_containerreport">
         <div style={{ display: "flex", justifyContent: "space-between", position: "static" }}>
           <h1 className="formHeading">Dispatch Audit Report</h1>
         </div>
@@ -703,8 +734,9 @@ export default function DispatchAuditReport() {
           rows={10}
           emptyMessage="No Records Found"
           // className={isDateSelected ? "datatable-small" : "datatable-large"}
-          scrollHeight={isDateSelected ? "32dvh" : "44dvh"}
+          scrollHeight={isDateSelected ? "40dvh" : "54dvh"}
           scrollable
+          className="report-table"
         >
           <Column
             header="Sr. No."
@@ -779,12 +811,6 @@ export default function DispatchAuditReport() {
             }}
           />
         </DataTable>
-      </div>
-
-      <div className="button-container">
-        <button className="reset_btn" onClick={BackPage}>
-          BACK
-        </button>
       </div>
     </>
   );

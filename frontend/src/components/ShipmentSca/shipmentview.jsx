@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link ,useNavigate} from "react-router-dom";
+
 import axios from "axios";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { config } from "../config/config";
 
 export default function ShipmentView() {
+    const navigate = useNavigate();
   const { shipmentCode } = useParams();
 
   const [header, setHeader] = useState(null);
@@ -69,7 +71,7 @@ export default function ShipmentView() {
     <>
       <div className="main_container">
         {/* Page Heading */}
-        <div className="row">
+        <div className="row" style={{maxWidth: "178dvh"}}>
           <div className="col-md-12">
             <h1 className="formHeading">Shipment Master</h1>
           </div>
@@ -77,7 +79,7 @@ export default function ShipmentView() {
 
         {/* Header Section */}
         {header && (
-          <div className="row">
+          <div className="row" style={{maxWidth: "178dvh"}}>
             <div className="col-md-6">
               <label>Shipment Type</label>
               <input
@@ -137,7 +139,7 @@ export default function ShipmentView() {
 
         {/* Table */}
         {products.length > 0 && (
-          <DataTable value={products} style={{marginTop:"20px"}}>
+          <DataTable value={products} style={{marginTop:"20px", maxHeight:"10dvh"}}>
             <Column
               bodyClassName="custom-description"
               headerClassName="custom-header"
@@ -199,13 +201,14 @@ export default function ShipmentView() {
         )}
       </div>
 
-      <Link
-        className="back_btn"
-        to="/shipmentscanning"
-        onClick={() => console.log("Back button clicked from Appliction List ")}
-      >
-        BACK
-      </Link>
+      <div className="button-container">
+        <button className="reset_btn" onClick={() => {
+          console.log("Back button clicked from Appliction List ");
+          navigate("/shipmentscanning");
+        }}>
+          BACK
+        </button>
+      </div>
     </>
   );
 }

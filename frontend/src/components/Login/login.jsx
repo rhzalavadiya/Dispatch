@@ -470,25 +470,28 @@ const redirectResumeShipment = async () => {
                     logAction("Closed password change modal");
                 }}
                 backdrop="static"
-                style={{ top: '130px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', letterSpacing: '0.5px' }}
+                className="custom-modal"
+            
             >
                 <Modal.Header draggable={false} closeButton>
-                    <Modal.Title style={{ color: 'rgb(70, 90, 100)', marginLeft: '158px' }}>Password Reset</Modal.Title>
+                    <Modal.Title className="password-reset">Password Reset</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
                         <div className="text-center mb-3">
-                            <label htmlFor="newPassword" className="form-label" style={{ width: '445px' }}>New Password</label>
+                            <label htmlFor="newPassword" className="form-label" style={{ width: '445px' }}>New Password
+                             <span style={{ color: "red", paddingLeft:"2px"}}>{newPwdErrMsg.pwdval}</span></label> 
                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <input style={{ width: "97%" }} type="password" className="form-control" onChange={handleChangePwd} name="pwdval" />
-                                <span style={{ color: "red", width: "3%" }}>{newPwdErrMsg.pwdval}</span>
+                               
                             </div>
                         </div>
                         <div className="text-center mb-3">
-                            <label htmlFor="confirmPassword" className="form-label" style={{ width: '445px' }}>Confirm New Password</label>
+                            <label htmlFor="confirmPassword" className="form-label" style={{ width: '445px' }}>Confirm New Password
+                             <span style={{ color: "red", paddingLeft:"2px"}}>{newPwdErrMsg.confirmPwdVal}</span> </label>
                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <input style={{ width: "97%" }} type="password" className="form-control" onChange={handleChangePwd} name="confirmPwdVal" />
-                                <span style={{ color: "red", width: "3%" }}>{newPwdErrMsg.confirmPwdVal}</span>
+                               
                             </div>
                         </div>
                     </form>

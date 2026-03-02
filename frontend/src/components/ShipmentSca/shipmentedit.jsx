@@ -34,7 +34,7 @@ const deleteCookie = (name) => {
 export default function ShipmentEdit() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { wsRef, send, isConnected } = useWebSocket();
+    const { wsRef, send, isConnected, deviceConnections } = useWebSocket();
 
     const isFetchingProgressRef = useRef(false);
     const isFetchingFailRef = useRef(false);
@@ -87,18 +87,14 @@ export default function ShipmentEdit() {
     const [failRsnList, setFailRsnList] = useState([]);
     const [highlightRsn, setHighlightRsn] = useState(null);
 
-    // Track connection status of critical devices
-    const [deviceConnections, setDeviceConnections] = useState({
-        printer: true,
-        plc: true,
-        camera: true,
-    });
 
     // Computed value — true only when ALL are connected
-    const allDevicesReady =
-        deviceConnections.printer &&
-        deviceConnections.plc &&
-        deviceConnections.camera;
+// Near the top, after other states
+const allDevicesReady = 
+  isConnected &&
+  deviceConnections?.printer &&
+  deviceConnections?.plc &&
+  deviceConnections?.camera;
 
 
     const logAction = async (action, isError = false) => {
@@ -141,8 +137,13 @@ export default function ShipmentEdit() {
                     setShipmentData(updatedData);
                     setOriginalShipmentData(updatedData);
                     setShipmentStatus(products[0]?.SHPH_Status ?? null);
+                    setGlobalShipmentStatus(products[0]?.SHPH_Status ?? null);
                     setIsShipmentLoaded(true);
-
+                    if (updatedData.length > 0) {
+                        const dbStatus = updatedData[0]?.SHPH_Status ?? null;
+                       // const status= dbStatus === 6 ? 6 : null; // Only set to 6 if DB status is 6, otherwise null
+                        setGlobalShipmentStatus(dbStatus);
+                    }
                     logAction(`Shipment loaded - ID: ${id} | Products: ${products.length} | Status: ${products[0]?.SHPH_Status}`);
                 } else {
                     logAction(`No shipment data found for ID: ${id}`);
@@ -635,6 +636,8 @@ export default function ShipmentEdit() {
     };
 
     const handleMainButton = async () => {
+        if(isMainOperationLoading || getButtonText() === "CLOSED" || !isConnected || !allDevicesReady)
+            return;
         if (!isConnected) {
             logAction("Main button clicked - WS disconnected", true);
             toast.warn("WebSocket not connected");
@@ -887,8 +890,17 @@ export default function ShipmentEdit() {
                 if (!revRes.data.success) throw new Error(revRes.data.message || "Reverse failed");
                 logAction(`Reverse sync successful, now syncing to VPS ${JSON.stringify(revRes.data.data)}`);
                 const syncRes = await vpsApi.post("/revers-sync", revRes.data.data);
-
-                if (!syncRes.data.success) throw new Error(syncRes.data.message || "Reverse sync failed");
+                logAction(`Reverse sync to VPS response - Success: ${syncRes.data.success}, Message: ${syncRes.data.message}`);
+                logAction(`Reverse sync to VPS completed resert the qty : ${id}`);
+                if(syncRes.data.success){
+                        const shipmentqty=await localApi.post(`/Shipmentqty`, {
+                    shipmentId: id,
+                });
+                logAction(`Shipment qty response: ${JSON.stringify(shipmentqty)}`);
+                }
+            
+                
+                if (!syncRes.data.success) throw new Error(syncRes.data.message || "Reverse sync failed");               
             }
 
             const grpId = sessionStorage.getItem("CompanyGroupId");
@@ -990,19 +1002,19 @@ export default function ShipmentEdit() {
 
     //─── LEFt Pannel Disable  ───────────────────────────────
 
-    useEffect(() => {
-        if (isShipmentLoaded && shipmentData.length > 0) {
-            const dbStatus = shipmentData[0]?.SHPH_Status ?? null;
+    // useEffect(() => {
+    //     if (isShipmentLoaded && shipmentData.length > 0) {
+    //         const dbStatus = shipmentData[0]?.SHPH_Status ?? null;
 
-            setGlobalShipmentStatus((prevStatus) => {
-                // If already scanning, don't override
-                if (prevStatus === 6) {
-                    return 6;
-                }
-                return dbStatus;
-            });
-        }
-    }, [isShipmentLoaded, shipmentData]);
+    //         setGlobalShipmentStatus((prevStatus) => {
+    //             // If already scanning, don't override
+    //             if (prevStatus === 6) {
+    //                 return 6;
+    //             }
+    //             return dbStatus;
+    //         });
+    //     }
+    // }, [isShipmentLoaded, shipmentData]);
 
 
     // Sync whenever status changes (START → 6, STOP → 10, CLOSE → 8, etc.)
@@ -1052,7 +1064,9 @@ export default function ShipmentEdit() {
                 setFailRsnList(
                     sorted.map(r => ({
                         rsn: (!r.rsn || r.rsn.toUpperCase() === "NO READ") ? "-" : r.rsn,
-                        reason: r.reason,
+                        reason: r.reason && r.reason.toUpperCase() === "UNKNOWN FAILURE"
+                            ? "INVALID RSN"
+                            : r.reason,
                         time: formatCsvTime(r.timestamp),
                         status: r.status || "-"
                     }))
@@ -1352,37 +1366,37 @@ export default function ShipmentEdit() {
 
 
     // ─── If Camera Printer PLC Disconnected ───────────────────────────────────────
-    useEffect(() => {
-        const ws = wsRef.current;
-        if (!ws) return;
+    // useEffect(() => {
+    //     const ws = wsRef.current;
+    //     if (!ws) return;
 
-        const handleDeviceStatus = (event) => {
-            try {
-                const data = JSON.parse(event.data);
-                if (data.type === "device_status") {
-                    const { device, connected } = data;
+    //     const handleDeviceStatus = (event) => {
+    //         try {
+    //             const data = JSON.parse(event.data);
+    //             if (data.type === "device_status") {
+    //                 const { device, connected } = data;
 
-                    // Only care about these three devices
-                    if (device in deviceConnections) {
-                        setDeviceConnections(prev => ({
-                            ...prev,
-                            [device]: Boolean(connected)   // make sure it's real boolean
-                        }));
-                    }
-                }
-            } catch (err) {
-                // Silent fail — don't break UI because of bad message
-                console.warn("Invalid device_status message:", err);
-            }
-        };
+    //                 // Only care about these three devices
+    //                 if (device in deviceConnections) {
+    //                     setDeviceConnections(prev => ({
+    //                         ...prev,
+    //                         [device]: Boolean(connected)   // make sure it's real boolean
+    //                     }));
+    //                 }
+    //             }
+    //         } catch (err) {
+    //             // Silent fail — don't break UI because of bad message
+    //             console.warn("Invalid device_status message:", err);
+    //         }
+    //     };
 
-        ws.addEventListener("message", handleDeviceStatus);
+    //     ws.addEventListener("message", handleDeviceStatus);
 
-        // Cleanup
-        return () => {
-            ws.removeEventListener("message", handleDeviceStatus);
-        };
-    }, [wsRef]);   // ← depends on wsRef
+    //     // Cleanup
+    //     return () => {
+    //         ws.removeEventListener("message", handleDeviceStatus);
+    //     };
+    // }, [wsRef]);   // ← depends on wsRef
 
 
     return (

@@ -39,7 +39,7 @@ const AboutUs = () => {
             About Us
           </h3>
           <h3 className="titleName">
-            Shipment Dispatch Software
+            Shipment Dispatch
           </h3>
           <h3 className="version">
             Version : {config.configversion}

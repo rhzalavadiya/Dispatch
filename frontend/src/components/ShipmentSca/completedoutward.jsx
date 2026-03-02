@@ -130,12 +130,14 @@ export default function CompletedOutward() {
 
   const options1 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField2 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField2 === o.value
   }));
 
   const options2 = searchOptions.map((o) => ({
     ...o,
-    isDisabled: selectedField1 === o.value && o.value !== "",
+    isDisabled:
+      o.value !== null && selectedField1 === o.value
   }));
 
   const filterData = shipmentData
@@ -212,7 +214,7 @@ export default function CompletedOutward() {
       <>
         <form method="post">
           <div className="row align-items-center">
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -238,7 +240,7 @@ export default function CompletedOutward() {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -250,7 +252,7 @@ export default function CompletedOutward() {
               />
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <div className="select-container">
                 <Select
                   className="select-box_list"
@@ -276,7 +278,7 @@ export default function CompletedOutward() {
               </div>
             </div>
 
-            <div className="col-md-3">
+            <div className="col" style={{ paddingRight: "0px" }}>
               <input
                 type="text"
                 className="search-input"
@@ -291,7 +293,7 @@ export default function CompletedOutward() {
 
           {showDateRow && (
             <div className="row align-items-center">
-              <div className="col-md-6">
+              <div className="col">
                 <label>From</label>
                 <div className="select-container">
                   <DatePicker
@@ -318,7 +320,7 @@ export default function CompletedOutward() {
                 </div>
               </div>
 
-              <div className="col-md-6">
+              <div className="col" style={{ paddingRight: "0px" }}>
                 <label>To</label>
                 <div className="select-container">
                   <DatePicker
@@ -378,6 +380,10 @@ export default function CompletedOutward() {
 
       if (result.data.success) {
         logAction(`Marking as synced: /ShipmentSyncStatus for ${shipmentId} response received: ${JSON.stringify(result.data)}`);
+          const shipmentqty=await localApi.post(`/Shipmentqty`, {
+                    shipmentId: shipmentId,
+                });
+                logAction(`Shipment qty response: ${JSON.stringify(shipmentqty)}`);
         await localApi.post("/ShipmentSyncStatus", {
           shipmentId: shipmentId,
           isSynced: true,
@@ -563,30 +569,39 @@ export default function CompletedOutward() {
     const imgData = BhagwatiImage;
     /* ---------------- HEADER ---------------- */
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
+    // const date = new Date();
+    // const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
+    // const startX = doc.internal.pageSize.getWidth() - 55;
+    // doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
+    // doc.setFontSize(10);
+    // doc.text("Printed On", startX, 18);
+    // doc.text(":", startX + 18, 18);
+    // doc.text(formattedDate, startX + 20, 18);
     const date = new Date();
-    const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
+    const formattedDateTime = date.toLocaleString("en-GB");
+
     const startX = doc.internal.pageSize.getWidth() - 55;
-    doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
+
     doc.setFontSize(10);
     doc.text("Printed On", startX, 18);
     doc.text(":", startX + 18, 18);
-    doc.text(formattedDate, startX + 20, 18);
+    doc.text(formattedDateTime, startX + 20, 18);
 
     doc.text("Printed By", startX, 24);
     doc.text(":", startX + 18, 24);
     doc.text(UM_UserCode, startX + 20, 24);
 
     /* ---------------- TITLE ---------------- */
-    doc.setFontSize(PDF_REF_STYLE.title.fontSize);
-    doc.setTextColor(...PDF_REF_STYLE.title.color);
-    doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
-
+    doc.setFontSize(20);
+    doc.setFont(undefined, "bold");
     doc.text("Delivery Challan", doc.internal.pageSize.width / 2, 40, { align: "center" });
-    doc.setTextColor(...PDF_REF_STYLE.signature.color);
+    doc.setFont(undefined, "normal");
+
     const columnWidth = (doc.internal.pageSize.width - 30) / 2;
+
     /* ---------------- DELIVERED BY ---------------- */
     autoTable(doc, {
-      startY: 50,
+      startY: 45,
       theme: "grid",
       body: [
         [
@@ -596,13 +611,13 @@ export default function CompletedOutward() {
             styles: PDF_STYLE.sectionHeader,
           },
         ],
-        ["From Party", shipment.FromParty],
+        ["From SCP", shipment.FromParty],
         ["Address", `${shipment.Street1}, ${shipment.Street2}`],
         ["City", shipment.City],
         ["State", shipment.State],
         ["Country", shipment.Country],
-        ["Email Address", shipment.Email],
-        ["Contact No.", shipment.CNo],
+        ["Email ID", shipment.Email],
+        ["Phone Number", shipment.CNo],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       styles: PDF_STYLE.tableRow,
@@ -621,13 +636,13 @@ export default function CompletedOutward() {
             styles: PDF_STYLE.sectionHeader,
           },
         ],
-        ["To Party", shipment.ToParty],
+        ["To SCP", shipment.ToParty],
         ["Address", `${shipment.LCM_LocationStreet1}, ${shipment.LCM_LocationStreet2}`],
         ["City", shipment.LCM_City],
         ["State", shipment.LCM_State],
         ["Country", shipment.LCM_Country],
-        ["Email Address", shipment.LCM_EmailID],
-        ["Contact No.", shipment.LCM_ContactNumber],
+        ["Email ID", shipment.LCM_EmailID],
+        ["Phone Number", shipment.LCM_ContactNumber],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       styles: PDF_STYLE.tableRow,
@@ -644,8 +659,8 @@ export default function CompletedOutward() {
         },
       ],
       ["Delivery No", shipment.dcl_DeliveryNo],
-      ["From Party", shipment.FromParty],
-      ["To Party", shipment.ToParty],
+      ["From SCP", shipment.FromParty],
+      ["To SCP", shipment.ToParty],
       ["Logistic Party Name", shipment.LGCM_Name],
       ["Vehicle Number", shipment.LGCVM_VehicleNumber],
     ];
@@ -654,7 +669,7 @@ export default function CompletedOutward() {
       shipmentInfoRows.push(["Driver Name", shipment.SHPH_DriverName]);
     }
     if (shipment.SHPH_DriverContactNo) {
-      shipmentInfoRows.push(["Driver Contact No.", shipment.SHPH_DriverContactNo]);
+      shipmentInfoRows.push(["Driver Phone Number", shipment.SHPH_DriverContactNo]);
     }
 
     autoTable(doc, {
@@ -724,34 +739,30 @@ export default function CompletedOutward() {
     });
 
     /* ---------------- RECEIVED / DELIVERED ---------------- */
-    // const previousTableFinalY = doc.lastAutoTable.finalY;
-    // const lineStartY = previousTableFinalY + 5;
-    // doc.setDrawColor(135, 206, 250);
-    // doc.setLineWidth(0.5);
-    // doc.line(10, lineStartY, 200, lineStartY);
-    const tableContent = [
-      [
-        { content: "Received By", styles: { fontStyle: "bold" } },
-        "            ",
-        { content: "Delivered By", styles: { fontStyle: "bold" } },
-        "",
-      ],
-      ["Name", ":            ", "Name", ":"],
-      ["Date", ":            ", "Date", ":"],
-      ["Signature", ":            ", "Signature", ":"],
-    ];
-    autoTable(doc, {
-      startY: doc.lastAutoTable.finalY + 5,
-      body: tableContent,
-      theme: "plain",
-      columnStyles: {
-        0: { cellWidth: 40 },
-        1: { cellWidth: 60 },
-        2: { cellWidth: 40 },
-      },
-      styles: { fontSize: 11 },
-      headStyles: PDF_STYLE.tableHeaderHeader,
-    });
+   const tableContent = [
+  [
+    { content: "Received By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } },
+    { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
+  ],
+  ["Name", ":", "________________________", "Name", ":",  "________________________"],
+  ["Date", ":",  "________________________", "Date", ":",  "________________________"],
+  ["Sign", ":",  "________________________", "Sign", ":",  "________________________"],
+];
+
+autoTable(doc, {
+  startY: doc.lastAutoTable.finalY + 15,
+  body: tableContent,
+  theme: "plain",
+  styles: { fontSize: 11 },
+  columnStyles: {
+    0: { cellWidth: 20 },
+    1: { cellWidth: 10 },
+    2: { cellWidth: 60 },
+    3: { cellWidth: 20 },
+    4: { cellWidth: 10 },
+    5: { cellWidth: 60 },
+  }
+});
     addFooter(doc);
   };
 
@@ -761,26 +772,27 @@ export default function CompletedOutward() {
     /* ---------------- HEADER ---------------- */
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
     const date = new Date();
-    const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
+    const formattedDateTime = date.toLocaleString("en-GB");
+
     const startX = doc.internal.pageSize.getWidth() - 55;
-    doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
+
     doc.setFontSize(10);
     doc.text("Printed On", startX, 18);
     doc.text(":", startX + 18, 18);
-    doc.text(formattedDate, startX + 20, 18);
+    doc.text(formattedDateTime, startX + 20, 18);
 
     doc.text("Printed By", startX, 24);
     doc.text(":", startX + 18, 24);
     doc.text(UM_UserCode, startX + 20, 24);
 
     /* ---------------- TITLE ---------------- */
-    doc.setFontSize(PDF_REF_STYLE.title.fontSize);
-    doc.setTextColor(...PDF_REF_STYLE.title.color);
-    doc.setFont(undefined, PDF_REF_STYLE.title.fontStyle);
-
+     doc.setFontSize(20);
+    doc.setFont(undefined, "bold");
     doc.text("Delivery Challan", doc.internal.pageSize.width / 2, 40, { align: "center" });
-    doc.setTextColor(...PDF_REF_STYLE.signature.color);
+    doc.setFont(undefined, "normal");
+
     const columnWidth = (doc.internal.pageSize.width - 30) / 2;
+
     /* ---------------- DELIVERED BY ---------------- */
 
     // Handle potential missing/undefined Street1 and Street2 to avoid "undefined, undefined"
@@ -794,7 +806,7 @@ export default function CompletedOutward() {
     }
 
     autoTable(doc, {
-      startY: 50,
+      startY: 45,
       theme: "grid",
       body: [
         [
@@ -804,13 +816,13 @@ export default function CompletedOutward() {
             styles: PDF_STYLE.sectionHeader,
           },
         ],
-        ["From Party", mainShipment.FromParty || ''],
+        ["From SCP", mainShipment.FromParty || ''],
         ["Address", address],
         ["City", mainShipment.City || ''],
         ["State", mainShipment.State || ''],
         ["Country", mainShipment.Country || ''],
-        ["Email Address", mainShipment.Email || ''],
-        ["Contact No.", mainShipment.CNo || ''],
+        ["Email ID", mainShipment.Email || ''],
+        ["Phone Number", mainShipment.CNo || ''],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       headStyles: PDF_STYLE.tableHeader,
@@ -906,34 +918,30 @@ export default function CompletedOutward() {
     });
 
     /* ---------------- RECEIVED / DELIVERED ---------------- */
-    // const previousTableFinalY = doc.lastAutoTable.finalY;
-    // const lineStartY = previousTableFinalY + 5;
-    // doc.setDrawColor(135, 206, 250);
-    // doc.setLineWidth(0.5);
-    // doc.line(10, lineStartY, 200, lineStartY);
     const tableContent = [
-      [
-        { content: "Received By", styles: { fontStyle: "bold" } },
-        "            ",
-        { content: "Delivered By", styles: { fontStyle: "bold" } },
-        "",
-      ],
-      ["Name", ":            ", "Name", ":"],
-      ["Date", ":            ", "Date", ":"],
-      ["Signature", ":            ", "Signature", ":"],
-    ];
-    autoTable(doc, {
-      startY: doc.lastAutoTable.finalY + 5,
-      body: tableContent,
-      theme: "plain",
-      columnStyles: {
-        0: { cellWidth: 40 },
-        1: { cellWidth: 60 },
-        2: { cellWidth: 40 },
-      },
-      styles: { fontSize: 11 },
-      headStyles: PDF_STYLE.tableHeaderHeader,
-    });
+  [
+    { content: "Received By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } },
+    { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
+  ],
+  ["Name", ":",  "________________________", "Name", ":",  "________________________"],
+  ["Date", ":",  "________________________", "Date", ":",  "________________________"],
+  ["Sign", ":",  "________________________", "Sign", ":",  "________________________"],
+];
+
+autoTable(doc, {
+  startY: doc.lastAutoTable.finalY + 5,
+  body: tableContent,
+  theme: "plain",
+  styles: { fontSize: 11 },
+  columnStyles: {
+    0: { cellWidth: 20 },
+    1: { cellWidth: 10 },
+    2: { cellWidth: 60 },
+    3: { cellWidth: 20 },
+    4: { cellWidth: 10 },
+    5: { cellWidth: 60 },
+  }
+});
     addFooter(doc);
   };
 

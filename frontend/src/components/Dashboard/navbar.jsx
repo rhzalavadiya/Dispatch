@@ -56,6 +56,7 @@ const Navbar = () => {
     logAction("Navbar Accessed");
   }, []);
   const logOutFunction = async () => {
+ 
     try {
       const userId = sessionStorage.getItem("userId");
       logAction("User Logged Out");
@@ -64,6 +65,7 @@ const Navbar = () => {
       sessionStorage.clear();
       logAction("Session Cleared on Logout");
       navigate("/");
+      setLogoutVisible(false);
 
       window.history.pushState(null, "", "/");
       window.history.pushState(null, "", "/");
@@ -156,6 +158,32 @@ const Navbar = () => {
     return msg;
   };
 
+useEffect(() => {
+  const handleClickOutside = (event) => {
+
+    // 🔔 Notification Close
+    if (
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target)
+    ) {
+      setNotificationVisible(false);
+    }
+
+    // 🔓 Logout Close
+    if (
+      logoutRef.current &&
+      !logoutRef.current.contains(event.target)
+    ) {
+      setLogoutVisible(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
 
   return (
     <>
@@ -222,7 +250,7 @@ const Navbar = () => {
           </div>
 
           {/* 🔓 Logout */}
-          <div className="logout">
+          <div className="logout" ref={logoutRef}>
             <Link onClick={toggleLogout}>
               <Image src={Icon2} alt="menu" className="menu" />
             </Link>
@@ -230,7 +258,6 @@ const Navbar = () => {
             {logoutVisible && (
               <div
                 className="logout-popup"
-                ref={logoutRef}
                 onClick={logOutFunction}
               >
                 <button className="logout_btn" style={{ zIndex: "999" }}>

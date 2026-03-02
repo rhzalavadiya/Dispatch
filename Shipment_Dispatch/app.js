@@ -355,6 +355,11 @@ app.post("/syncsingleshipment", async (req, res) => {
 
       // Filter only columns that exist locally
       let dataColumns = Object.keys(records[0]);
+      if (table.name === "inventory") {
+        dataColumns = dataColumns.filter(
+          c => c !== "inv_blockqty" && c !== "inv_availableqty"
+        );
+      }
       dataColumns = dataColumns.filter((c) => existingColumns.includes(c));
 
       if (dataColumns.length === 0 || !dataColumns.includes(table.key)) {
@@ -386,6 +391,28 @@ app.post("/syncsingleshipment", async (req, res) => {
       const values = records.flatMap((r) => dataColumns.map((c) => r[c]));
 
       await conn.query(insertSQL, values);
+     if (table.name === "shipmentmaster") {
+
+  // Use data coming from local (records)
+  for (const shipment of records) {
+
+    if (!shipment.SHPD_ProductCode || !shipment.SHPD_Qty) continue;
+
+    await conn.query(`
+      UPDATE inventory i
+      JOIN productlist p 
+        ON p.PL_ProductId = i.inv_productid
+      SET 
+        i.inv_blockqty = GREATEST(IFNULL(i.inv_blockqty,0) - ?, 0),
+        i.inv_availableqty = GREATEST(IFNULL(i.inv_availableqty,0) - ?, 0)
+      WHERE p.PL_ProductCode = ?
+    `, [
+      shipment.SHPD_Qty,
+      shipment.SHPD_Qty,
+      shipment.SHPD_ProductCode
+    ]);
+  }
+}
     }
 
     res.json({
@@ -422,6 +449,7 @@ app.post("/revers-sync", async (req, res) => {
 
   try {
     for (const table of tablesToSync) {
+
       const records = data[table.name] || [];
       if (!Array.isArray(records) || records.length === 0) continue;
 
@@ -444,6 +472,11 @@ app.post("/revers-sync", async (req, res) => {
 
       // Get columns from data and filter to only those that exist in local schema
       let dataColumns = Object.keys(records[0]);
+      if (table.name === "inventory") {
+        dataColumns = dataColumns.filter(
+          c => c !== "inv_blockqty" && c !== "inv_availableqty"
+        );
+      }
       dataColumns = dataColumns.filter((c) => existingColumns.includes(c));
 
       // Skip if no valid columns or if the primary key is missing
@@ -482,6 +515,30 @@ app.post("/revers-sync", async (req, res) => {
       const values = records.flatMap((r) => dataColumns.map((c) => r[c]));
 
       await conn.query(insertSQL, values);
+
+     if (table.name === "shipmentmaster") {
+
+  // Use data coming from local (records)
+  for (const shipment of records) {
+
+    if (!shipment.SHPD_ProductCode || !shipment.SHPD_Qty) continue;
+
+   const result = await conn.query(`
+      UPDATE inventory i
+      JOIN productlist p 
+        ON p.PL_ProductId = i.inv_productid
+      SET 
+        i.inv_blockqty = GREATEST(IFNULL(i.inv_blockqty,0) - ?, 0),
+        i.inv_availableqty = GREATEST(IFNULL(i.inv_availableqty,0) - ?, 0)
+      WHERE p.PL_ProductCode = ?
+    `, [
+      shipment.SHPD_Qty,
+      shipment.SHPD_Qty,
+      shipment.SHPD_ProductCode
+    ]);
+    console.log("Reverse sync inventory update result:", result);
+  }
+}
     }
 
     res.json({

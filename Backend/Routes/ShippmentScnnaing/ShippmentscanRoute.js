@@ -1,5 +1,5 @@
 const express = require("express");
-const { shipmentListData, shipmentEditData, shipmentViewData, getRSNData, chnageShipmentStatus, updateShipmentSyncStatus, deliverychallanData, getSchemeData, getBatchData, rsnRemark, deliverychallanAll, shipmentRemark, logShipmentEvent, CompletedShipment } = require("../../Controller/ShippmentScnnaing/ShippmentscanController");
+const { shipmentListData, shipmentEditData, shipmentViewData, getRSNData, chnageShipmentStatus, updateShipmentSyncStatus, deliverychallanData, getSchemeData, getBatchData, rsnRemark, deliverychallanAll, shipmentRemark, logShipmentEvent, CompletedShipment, updateShipmentQty, updateShipmentQtyall } = require("../../Controller/ShippmentScnnaing/ShippmentscanController");
 
 const router = express.Router();
 router.post(`/ShipListData`, shipmentListData);
@@ -8,6 +8,8 @@ router.get(`/ShipmentView/:shipmentCode`,shipmentViewData);
 router.get(`/rsnData/:irsLocation/:id`,getRSNData);
 router.put(`/changeShipmentStatus/:shipmentId/:newStatus/:userId`,chnageShipmentStatus);
 router.post("/ShipmentSyncStatus",updateShipmentSyncStatus);
+router.post("/Shipmentqty",updateShipmentQty);
+router.post("/Shipmentqtyall",updateShipmentQtyall);
 //router.post("/suspendshipment",suspendShipment);
 router.get("/deliverychallan/:shipmentId/:selectedScpId",deliverychallanData);
 router.get('/deliverychallan/all/:shipmentId/:selectedScpId',deliverychallanAll);

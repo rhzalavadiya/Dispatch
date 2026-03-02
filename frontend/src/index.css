@@ -16,7 +16,9 @@ code {
 
 html {
   scroll-behavior: smooth;
+  
 } 
+
 
 /* Hide scrollbar */
  /* ::-webkit-scrollbar {

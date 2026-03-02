@@ -950,47 +950,79 @@ app.get("/check-autoclose/:shipmentCode", (req, res) => {
 
   res.json({ exists });
 });
-
-
 app.get("/get-running-csv", async (req, res) => {
-//  console.log("hit")
-  const basePath = process.env.DISPATCH_BASE_PATH;
-  //const basePath = "D:/Project Work Space/Bhagvati/Dispatch/Backend/ProcessFiles";
-  const dispatchFile = process.env.DispatchFile || "Dispatch_SCP.csv"; // fallback if not set
-
-  if (!basePath) {
-    return res.status(500).json({ error: "DISPATCH_BASE_PATH not configured" });
-  }
-
   try {
+    const basePath = process.env.DISPATCH_BASE_PATH;
+    const dispatchFile = process.env.DispatchFile || "Dispatch_SCP.csv";
 
-    const query = `select * from shipmentlist order by SHPH_ModifiedTimestamp desc limit 1`;
-
-    const [getData] = await conn.query(query);
-
-    const folders = fs.readdirSync(basePath).filter(f => {
-      const fullPath = path.join(basePath, f);
-      return fs.lstatSync(fullPath).isDirectory();
-    });
-
-    // getData comes from DB
-    const shipmentCodeval = getData[0].SHPH_ShipmentCode;
-
-    // Decide folder name based on status
-    let targetFolderName = null;
-
-    if (getData[0].SHPH_Status === 10) {
-      // Completed / normal shipment
-      targetFolderName = shipmentCodeval;
-    } else if (getData[0].SHPH_Status === 6) {
-      // Running shipment
-      targetFolderName = `${shipmentCodeval}-1`;
+    if (!basePath) {
+      return res.status(500).json({ error: "DISPATCH_BASE_PATH not configured" });
     }
 
-    // Find that folder
-    let runningFolder = null;
-    for (const folder of folders) {
+    // 1️⃣ Get latest shipment from DB
+    const query = `
+      SELECT * 
+      FROM shipmentlist 
+      ORDER BY SHPH_ModifiedTimestamp DESC 
+      LIMIT 1
+    `;
 
+    const [rowsFromDB] = await conn.query(query);
+
+    // If no shipment found
+    if (!rowsFromDB || rowsFromDB.length === 0) {
+      return res.json({
+        shipmentSatus: false,
+        shipmentCode: null,
+        data: []
+      });
+    }
+
+    const latestShipment = rowsFromDB[0];
+
+    if (!latestShipment?.SHPH_ShipmentCode) {
+      return res.json({
+        shipmentSatus: false,
+        shipmentCode: null,
+        data: []
+      });
+    }
+
+    const shipmentCodeval = latestShipment.SHPH_ShipmentCode;
+
+    // 2️⃣ Decide target folder name
+    let targetFolderName = null;
+
+    if (latestShipment.SHPH_Status === 10) {
+      targetFolderName = shipmentCodeval;
+    }
+    else if (latestShipment.SHPH_Status === 6) {
+      targetFolderName = `${shipmentCodeval}-1`;
+    }
+    else {
+      return res.json({
+        shipmentSatus: false,
+        shipmentCode: shipmentCodeval,
+        data: []
+      });
+    }
+
+    // 3️⃣ Read folders safely
+    let folders = [];
+    try {
+      folders = fs.readdirSync(basePath).filter(f => {
+        const fullPath = path.join(basePath, f);
+        return fs.existsSync(fullPath) && fs.lstatSync(fullPath).isDirectory();
+      });
+    } catch (err) {
+      console.error("Folder read error:", err);
+      return res.status(500).json({ error: "Failed to read dispatch folders" });
+    }
+
+    // 4️⃣ Find matching folder
+    let runningFolder = null;
+
+    for (const folder of folders) {
       if (folder === targetFolderName) {
         const csvPath = path.join(basePath, folder, dispatchFile);
         if (fs.existsSync(csvPath)) {
@@ -1000,44 +1032,150 @@ app.get("/get-running-csv", async (req, res) => {
       }
     }
 
-
-    // Step 2: If no "-1" folder found → no active shipment
+    // If no folder found
     if (!runningFolder) {
       return res.json({
-        shipmentCode: null,
+        shipmentSatus: false,
+        shipmentCode: shipmentCodeval,
         data: []
       });
     }
 
-    // Step 3: Read the CSV from the running folder
+    // 5️⃣ Read CSV safely
     const csvPath = path.join(basePath, runningFolder, dispatchFile);
-    const data = fs.readFileSync(csvPath, "utf8");
-    const parsed = Papa.parse(data, { header: true, skipEmptyLines: true });
-    let rows = parsed.data;
 
-    // Optional: Normalize status
-    rows = rows.map(row => ({
+    if (!fs.existsSync(csvPath)) {
+      return res.json({
+        shipmentSatus: false,
+        shipmentCode: shipmentCodeval,
+        data: []
+      });
+    }
+
+    const fileContent = fs.readFileSync(csvPath, "utf8");
+
+    const parsed = Papa.parse(fileContent, {
+      header: true,
+      skipEmptyLines: true
+    });
+
+    let csvRows = parsed.data || [];
+
+    // Normalize status
+    csvRows = csvRows.map(row => ({
       ...row,
       status: (row.status || "").trim().toUpperCase()
     }));
 
-    // Step 4: Get clean shipment code (remove -1 from folder name)
-    const cleanCode = runningFolder.slice(0, -2); // "WH_7-1" → "WH_7"
+    // Remove "-1" if exists
+    const cleanCode = runningFolder.endsWith("-1")
+      ? runningFolder.slice(0, -2)
+      : runningFolder;
 
-    const shipmentCode = rows[0]?.SHPH_ShipmentCode?.trim() || cleanCode;
-    //console.log("Running Shipment Code : ", shipmentCode);
-    // Success: return current running data
-    res.json({
-      shipmentSatus: getData[0].SHPH_Status === 6,
+    const shipmentCode =
+      csvRows[0]?.SHPH_ShipmentCode?.trim() || cleanCode;
+
+    // 6️⃣ Success response
+    return res.json({
+      shipmentSatus: latestShipment.SHPH_Status === 6,
       shipmentCode,
-      data: rows
+      data: csvRows
     });
 
   } catch (err) {
-    console.log("Error in /get-running-csv:", err);
-    res.status(500).json({ error: "Failed to read running shipment" });
+    console.error("Error in /get-running-csv:", err);
+    return res.status(500).json({
+      error: "Failed to read running shipment"
+    });
   }
 });
+
+// app.get("/get-running-csv", async (req, res) => {
+// //  console.log("hit")
+//   const basePath = process.env.DISPATCH_BASE_PATH;
+//   //const basePath = "D:/Project Work Space/Bhagvati/Dispatch/Backend/ProcessFiles";
+//   const dispatchFile = process.env.DispatchFile || "Dispatch_SCP.csv"; // fallback if not set
+
+//   if (!basePath) {
+//     return res.status(500).json({ error: "DISPATCH_BASE_PATH not configured" });
+//   }
+
+//   try {
+
+//     const query = `select * from shipmentlist order by SHPH_ModifiedTimestamp desc limit 1`;
+
+//     const [getData] = await conn.query(query);
+
+//     const folders = fs.readdirSync(basePath).filter(f => {
+//       const fullPath = path.join(basePath, f);
+//       return fs.lstatSync(fullPath).isDirectory();
+//     });
+
+//     // getData comes from DB
+//     const shipmentCodeval = getData[0].SHPH_ShipmentCode;
+
+//     // Decide folder name based on status
+//     let targetFolderName = null;
+
+//     if (getData[0].SHPH_Status === 10) {
+//       // Completed / normal shipment
+//       targetFolderName = shipmentCodeval;
+//     } else if (getData[0].SHPH_Status === 6) {
+//       // Running shipment
+//       targetFolderName = `${shipmentCodeval}-1`;
+//     }
+
+//     // Find that folder
+//     let runningFolder = null;
+//     for (const folder of folders) {
+
+//       if (folder === targetFolderName) {
+//         const csvPath = path.join(basePath, folder, dispatchFile);
+//         if (fs.existsSync(csvPath)) {
+//           runningFolder = folder;
+//           break;
+//         }
+//       }
+//     }
+
+
+//     // Step 2: If no "-1" folder found → no active shipment
+//     if (!runningFolder) {
+//       return res.json({
+//         shipmentCode: null,
+//         data: []
+//       });
+//     }
+
+//     // Step 3: Read the CSV from the running folder
+//     const csvPath = path.join(basePath, runningFolder, dispatchFile);
+//     const data = fs.readFileSync(csvPath, "utf8");
+//     const parsed = Papa.parse(data, { header: true, skipEmptyLines: true });
+//     let rows = parsed.data;
+
+//     // Optional: Normalize status
+//     rows = rows.map(row => ({
+//       ...row,
+//       status: (row.status || "").trim().toUpperCase()
+//     }));
+
+//     // Step 4: Get clean shipment code (remove -1 from folder name)
+//     const cleanCode = runningFolder.slice(0, -2); // "WH_7-1" → "WH_7"
+
+//     const shipmentCode = rows[0]?.SHPH_ShipmentCode?.trim() || cleanCode;
+//     //console.log("Running Shipment Code : ", shipmentCode);
+//     // Success: return current running data
+//     res.json({
+//       shipmentSatus: getData[0].SHPH_Status === 6,
+//       shipmentCode,
+//       data: rows
+//     });
+
+//   } catch (err) {
+//     console.log("Error in /get-running-csv:", err);
+//     res.status(500).json({ error: "Failed to read running shipment" });
+//   }
+// });
 
 // 6. Check internet connectivity
 app.get("/checkinternet", (req, res) => {
@@ -1109,64 +1247,139 @@ app.post("/process-pause", async (req, res) => {
         shipmentType: item.SHPH_ShipmentType
       };
     });
+     const shipmentUpdateMap = {};
 
-    // 1. Update SHPD_ScanQty in shipmentmaster - FIXED for NULL values
-    const passCountByMid = {};
     newRsnRows.forEach(row => {
-      if (row.Status === "PASS") {
-        const info = scpMap[row.SCPM_Code];
-        if (info?.mid) {
-          passCountByMid[info.mid] = (passCountByMid[info.mid] || 0) + 1;
-        }
+      if (row.Status !== "PASS") return;
+
+      const mid = row.SHPD_ShipmentMID;
+      const productId = row.IRS_ProductID;
+      const scpCode = row.SCPM_Code;
+
+      if (!mid || !productId || !scpCode) return;
+
+      const key = `${mid}_${productId}_${scpCode}`;
+
+      if (!shipmentUpdateMap[key]) {
+        shipmentUpdateMap[key] = {
+          mid,
+          productId,
+          scpCode,
+          count: 0
+        };
       }
+
+      shipmentUpdateMap[key].count++;
     });
 
-    console.log("Pass counts by MID:", passCountByMid);
+    console.log("Final Shipment Update Map:", shipmentUpdateMap);
 
     let shipmentMasterUpdates = 0;
-    for (const [mid, count] of Object.entries(passCountByMid)) {
-      console.log(`Updating shipment master MID: ${mid} with count: ${count}`);
+
+    for (const key in shipmentUpdateMap) {
+      const item = shipmentUpdateMap[key];
+
       try {
-        // First check if record exists
-        const [check] = await conn.query(
-          `SELECT SHPD_ShipmentMID, SHPD_ScanQty FROM shipmentmaster WHERE SHPD_ShipmentMID = ?`,
-          [mid]
+        // 1️⃣ Get SCP ID
+        const [scpRes] = await conn.query(
+          `SELECT SCPM_Id FROM scpmaster WHERE SCPM_Code = ?`,
+          [item.scpCode]
         );
 
-        if (check.length === 0) {
-          console.error(`No shipment master record found for MID: ${mid}`);
+        if (!scpRes.length) {
+          console.warn("Invalid SCP Code:", item.scpCode);
+          continue;
+        }
+        const [productRes] = await conn.query(
+          `SELECT PL_ProductCode FROM productlist WHERE PL_ProductId = ?`,
+          [item.productId]
+        );
+
+        const scpId = scpRes[0].SCPM_Id;
+        const productCode = productRes[0]?.PL_ProductCode;
+
+        // 2️⃣ BEFORE UPDATE
+        const [beforeRows] = await conn.query(
+          `SELECT 
+          SHPD_ShipQty,
+          COALESCE(SHPD_ScanQty,0) as ScanQty,
+          COALESCE(SHPD_Qty,0) as Qty
+       FROM shipmentmaster
+       WHERE SHPD_ShipmentMID = ?
+       AND SHPD_ProductCode = ?
+       AND SHPD_SCPCode = ?`,
+          [item.mid, productCode, scpId]
+        );
+
+        if (!beforeRows.length) {
+          console.warn("No shipmentmaster row found for:", item);
           continue;
         }
 
-        console.log(`Before update - MID ${mid}: ScanQty = ${check[0].SHPD_ScanQty}`);
+        const before = beforeRows[0];
 
-        // Handle NULL values properly - use COALESCE
+        console.log("------------------------------------------------");
+        console.log("🔵 BEFORE UPDATE");
+        console.log("MID:", item.mid);
+        console.log("Product:", item.productId);
+        console.log("SCP:", item.scpCode, "(ID:", scpId, ")");
+        console.log("ShipQty:", before.SHPD_ShipQty);
+        console.log("ScanQty:", before.ScanQty);
+        console.log("Qty:", before.Qty);
+        console.log("Adding Count:", item.count);
+
+        // 3️⃣ UPDATE
         const [result] = await conn.query(
           `UPDATE shipmentmaster 
-           SET SHPD_ScanQty = COALESCE(SHPD_ScanQty, 0) + ?, 
-               SHPD_ModifiedTimestamp = NOW(), 
-               SHPD_ModifiedBy = ?
-           WHERE SHPD_ShipmentMID = ?`,
-          [count, userId, mid]
+       SET 
+         SHPD_ScanQty = COALESCE(SHPD_ScanQty, 0) + ?, 
+         SHPD_Qty = COALESCE(SHPD_Qty, 0) + ?,
+         SHPD_ModifiedTimestamp = NOW(),
+         SHPD_ModifiedBy = ?
+       WHERE 
+         SHPD_ShipmentMID = ?
+         AND SHPD_ProductCode = ?
+         AND SHPD_SCPCode = ?`,
+          [
+            item.count,
+            item.count,
+            userId,
+            item.mid,
+            productCode,
+            scpId
+          ]
         );
 
-        console.log("Shipment master update result:", result);
+        // 4️⃣ AFTER UPDATE
+        const [afterRows] = await conn.query(
+          `SELECT 
+          SHPD_ShipQty,
+          COALESCE(SHPD_ScanQty,0) as ScanQty,
+          COALESCE(SHPD_Qty,0) as Qty
+       FROM shipmentmaster
+       WHERE SHPD_ShipmentMID = ?
+       AND SHPD_ProductCode = ?
+       AND SHPD_SCPCode = ?`,
+          [item.mid, productCode, scpId]
+        );
+
+        const after = afterRows[0];
+
+        console.log("🟢 AFTER UPDATE");
+        console.log("ShipQty:", after.SHPD_ShipQty);
+        console.log("ScanQty:", after.ScanQty);
+        console.log("Qty:", after.Qty);
+        console.log("Affected Rows:", result.affectedRows);
+        console.log("------------------------------------------------");
 
         if (result.affectedRows > 0) {
           shipmentMasterUpdates++;
-          // Verify the update
-          const [verify] = await conn.query(
-            `SELECT SHPD_ScanQty FROM shipmentmaster WHERE SHPD_ShipmentMID = ?`,
-            [mid]
-          );
-          console.log(`After update - MID ${mid}: ScanQty = ${verify[0]?.SHPD_ScanQty}`);
         }
+
       } catch (err) {
-        console.error(`Error updating shipment master for MID ${mid}:`, err);
-        console.error("SQL Error:", err.sqlMessage);
+        console.error("Shipment master update error:", err);
       }
     }
-
     // 2. Update inventory
     const inventoryDeduction = {};
     newRsnRows.forEach(row => {
@@ -1751,20 +1964,36 @@ router.post('/api/insertNotification', async (req, res) => {
 // ---------------------------Reprint Label---------------------------
 
 
+// const getPrnTemplate = () => {
+//   // When running as pkg executable
+//   if (process.pkg) {
+//     return fs.readFileSync(
+//       path.join(path.dirname(process.execPath), "prnfiles", "Dispatch.prn"),
+//       "utf-8"
+//     );
+//   }
+
+//   // Normal node run
+//   return fs.readFileSync(
+//     path.join(__dirname, "prnfiles", "Dispatch.prn"),
+//     "utf-8"
+//   );
+// };
+
 const getPrnTemplate = () => {
-  // When running as pkg executable
-  if (process.pkg) {
-    return fs.readFileSync(
-      path.join(path.dirname(process.execPath), "prnfiles", "Dispatch.prn"),
-      "utf-8"
-    );
+  const basePath = process.pkg
+    ? process.cwd()      // 👈 use working directory when pkg
+    : __dirname;
+
+  const filePath = path.join(basePath, "prnfiles", "Dispatch.prn");
+
+  console.log("Reading PRN from:", filePath);
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`PRN file not found at ${filePath}`);
   }
 
-  // Normal node run
-  return fs.readFileSync(
-    path.join(__dirname, "prnfiles", "Dispatch.prn"),
-    "utf-8"
-  );
+  return fs.readFileSync(filePath, "utf-8");
 };
 
 

@@ -65,7 +65,7 @@ export default function ReprintLabel() {
             <ToastContainer style={{ marginTop: "73px", fontSize: "14px", width: "40%" }} />
             <form id="Form">
                 <div className='main_container'>
-                    <div className='row'>
+                    <div className='row'  style={{maxWidth:"159dvh"}}>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <h1 className="formHeading">Reprint Label</h1>
                         </div>
