@@ -2395,7 +2395,6 @@ button:disabled {
 
 .queue-card-wrapper {
  contain: paint;
- /* contain: strict; */
 }
 .datatable-small .p-datatable-wrapper {
     overflow: auto;
