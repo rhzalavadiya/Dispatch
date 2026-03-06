@@ -872,6 +872,7 @@ app.post("/delete-dispatch-files", (req, res) => {
 
 app.get("/api/read-fail-csv", (req, res) => {
   const { shipmentCode } = req.query;
+  
   if (!shipmentCode) {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
@@ -1247,7 +1248,7 @@ app.post("/process-pause", async (req, res) => {
         shipmentType: item.SHPH_ShipmentType
       };
     });
-     const shipmentUpdateMap = {};
+    const shipmentUpdateMap = {};
 
     newRsnRows.forEach(row => {
       if (row.Status !== "PASS") return;
@@ -1331,8 +1332,7 @@ app.post("/process-pause", async (req, res) => {
         // 3️⃣ UPDATE
         const [result] = await conn.query(
           `UPDATE shipmentmaster 
-       SET 
-         SHPD_ScanQty = COALESCE(SHPD_ScanQty, 0) + ?, 
+       SET  
          SHPD_Qty = COALESCE(SHPD_Qty, 0) + ?,
          SHPD_ModifiedTimestamp = NOW(),
          SHPD_ModifiedBy = ?
@@ -1341,7 +1341,6 @@ app.post("/process-pause", async (req, res) => {
          AND SHPD_ProductCode = ?
          AND SHPD_SCPCode = ?`,
           [
-            item.count,
             item.count,
             userId,
             item.mid,
@@ -1600,7 +1599,7 @@ app.post("/api/audit-dispatch-from-csv", async (req, res) => {
   const trimmedShipmentCode = shipmentCode.trim();
 
   // Find CSV file - same logic as your /api/read-csv
-  const basePath = process.env.DISPATCH_BASE_PATH;;
+  const basePath = process.env.DISPATCH_BASE_PATH;
   const fileName = process.env.RowDataFile || "rowdata.csv";
 
   const tryPaths = [
@@ -1741,6 +1740,225 @@ app.get('/check-camera', async (req, res) => {
     res.status(500).json({ status: 'error', message: error.message });
   }
 });
+
+//------------------------------------------Api for Batchid Count ---------------------------
+
+app.get("/api/readbatchcount", async (req, res) => {
+
+  const { shipmentCode } = req.query;
+console.log("Batchcout For :",req.query);
+  if (!shipmentCode) {
+    return res.status(400).json({ error: "shipmentCode is required" });
+  }
+
+  const basePath = process.env.DISPATCH_BASE_PATH;
+  //const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
+  const dispatchFile = process.env.DispatchFile;
+  const rsnFile = process.env.RSNFile;
+
+  try {
+
+    // --------------------------------------------------
+    // FIND DISPATCH FILE
+    // --------------------------------------------------
+
+    const dispatchPaths = [
+      path.join(basePath, `${shipmentCode.trim()}-1`, dispatchFile),
+      path.join(basePath, shipmentCode.trim(), dispatchFile),
+    ];
+
+    let dispatchPath = null;
+
+    for (const p of dispatchPaths) {
+      if (fs.existsSync(p)) {
+        dispatchPath = p;
+        break;
+      }
+    }
+
+    if (!dispatchPath) {
+      return res.status(404).json({ error: "Dispatch CSV not found" });
+    }
+
+    const dispatchData = fs.readFileSync(dispatchPath, "utf8");
+
+    const dispatchParsed = Papa.parse(dispatchData, {
+      header: true,
+      skipEmptyLines: true
+    });
+
+    const row = dispatchParsed.data[0];
+
+    if (!row) {
+      return res.json({ success: true, updated: [], extraBatch: [] });
+    }
+
+    const batchIds = row.BatchId
+      ? row.BatchId.split(",").map(v => v.trim())
+      : [];
+
+    const counts = row.Count
+      ? row.Count.split(",").map(v => Number(v.trim()))
+      : [];
+
+    const usedCounts = row.UsedCount
+      ? row.UsedCount.split(",").map(v => Number(v.trim()))
+      : [];
+
+    const updatedBatches = [];
+
+    // --------------------------------------------------
+    // UPDATE DB FROM DISPATCH CSV
+    // --------------------------------------------------
+
+    for (let i = 0; i < batchIds.length; i++) {
+
+      const batchId = batchIds[i];
+      const limit = counts[i] || 0;
+      const used = usedCounts[i] || 0;
+
+      const remaining = limit - used;
+
+      console.log("Batch:", batchId, "Remaining:", remaining);
+
+      if (remaining <= 0) continue;
+
+      await conn.query(
+        `UPDATE batchlist
+         SET BL_UsedCount = BL_UsedCount + ?
+         WHERE BL_ID = ?`,
+        [remaining, batchId]
+      );
+
+      updatedBatches.push({
+        batchId,
+        addedQty: remaining
+      });
+
+    }
+
+    // --------------------------------------------------
+    // FIND RSN FILE
+    // --------------------------------------------------
+
+    const rsnPaths = [
+      path.join(basePath, `${shipmentCode.trim()}-1`, rsnFile),
+      path.join(basePath, shipmentCode.trim(), rsnFile)
+    ];
+
+    let rsnPath = null;
+
+    for (const p of rsnPaths) {
+      if (fs.existsSync(p)) {
+        rsnPath = p;
+        break;
+      }
+    }
+
+    if (!rsnPath) {
+      return res.json({
+        success: true,
+        updated: updatedBatches,
+        extraBatch: []
+      });
+    }
+
+    // --------------------------------------------------
+    // READ RSN CSV
+    // --------------------------------------------------
+
+    const rsnData = fs.readFileSync(rsnPath, "utf8");
+
+    const rsnParsed = Papa.parse(rsnData, {
+      header: true,
+      skipEmptyLines: true
+    });
+
+    const batchCounts = {};
+
+    rsnParsed.data.forEach(r => {
+
+      const batch = r.IRS_BatchID;
+
+      if (!batch) return;
+
+      batchCounts[batch] = (batchCounts[batch] || 0) + 1;
+
+    });
+
+    const firstFileBatches = new Set(batchIds);
+
+    const extraBatch = [];
+
+    // --------------------------------------------------
+    // HANDLE EXTRA BATCH
+    // --------------------------------------------------
+
+    for (const [batchId, count] of Object.entries(batchCounts)) {
+
+      if (!firstFileBatches.has(batchId)) {
+
+        extraBatch.push({
+          batchId,
+          count
+        });
+
+        await conn.query(
+          `UPDATE batchlist
+           SET BL_UsedCount = BL_UsedCount - ?
+           WHERE BL_ID = ?`,
+          [count, batchId]
+        );
+
+      }
+
+    }
+
+    console.log("Extra Batch:", extraBatch);
+
+    // --------------------------------------------------
+    // FINAL RESPONSE
+    // --------------------------------------------------
+
+    res.json({
+      success: true,
+      updated: updatedBatches,
+      extraBatch
+    });
+
+  } catch (error) {
+
+    console.error("API Error:", error);
+
+    res.status(500).json({
+      success: false,
+      error: "Internal Server Error"
+    });
+
+  }
+
+});
+
+
+// ------------------------------------get batch data----------------------------------------
+
+const getBatchData= async (req, res) => {
+  try {
+    const [batchlist] = await conn.query(`SELECT BL_ID,BL_UsedCount FROM batchlist;`);
+
+    res.json({
+      success: true,
+      data: {
+        batchlist
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Sync data fetch failed" });
+  }
+};
+app.get("/syncbatchdata", getBatchData);
+
 
 //-------------------------Check  shipment running status for login ---------------------------
 
@@ -2059,9 +2277,7 @@ app.get("/reprint", async (req, res) => {
         BOX_NUMBER: `${record.IRS_Boxno}/${record.SHPD_ShipQty}`,
         ORDER_NUMBER: record.ORDM_OrderNumber,
         SCP_NAME: record.SCPM_Name,
-        SCPM_Caption: record.SCPM_Caption,
-        ADDRESS: record.LCM_LocationName,
-        LCM_LocationStreet1: record.LCM_LocationStreet1
+        SCP_Caption: record.SCPM_Caption,
       };
 
       // 🔹 Replace dynamically

@@ -89,12 +89,12 @@ export default function ShipmentEdit() {
 
 
     // Computed value — true only when ALL are connected
-// Near the top, after other states
-const allDevicesReady = 
-  isConnected &&
-  deviceConnections?.printer &&
-  deviceConnections?.plc &&
-  deviceConnections?.camera;
+    // Near the top, after other states
+    const allDevicesReady =
+        isConnected &&
+        deviceConnections?.printer &&
+        deviceConnections?.plc &&
+        deviceConnections?.camera;
 
 
     const logAction = async (action, isError = false) => {
@@ -141,7 +141,7 @@ const allDevicesReady =
                     setIsShipmentLoaded(true);
                     if (updatedData.length > 0) {
                         const dbStatus = updatedData[0]?.SHPH_Status ?? null;
-                       // const status= dbStatus === 6 ? 6 : null; // Only set to 6 if DB status is 6, otherwise null
+                        // const status= dbStatus === 6 ? 6 : null; // Only set to 6 if DB status is 6, otherwise null
                         setGlobalShipmentStatus(dbStatus);
                     }
                     logAction(`Shipment loaded - ID: ${id} | Products: ${products.length} | Status: ${products[0]?.SHPH_Status}`);
@@ -636,7 +636,7 @@ const allDevicesReady =
     };
 
     const handleMainButton = async () => {
-        if(isMainOperationLoading || getButtonText() === "CLOSED" || !isConnected || !allDevicesReady)
+        if (isMainOperationLoading || getButtonText() === "CLOSED" || !isConnected || !allDevicesReady)
             return;
         if (!isConnected) {
             logAction("Main button clicked - WS disconnected", true);
@@ -892,15 +892,15 @@ const allDevicesReady =
                 const syncRes = await vpsApi.post("/revers-sync", revRes.data.data);
                 logAction(`Reverse sync to VPS response - Success: ${syncRes.data.success}, Message: ${syncRes.data.message}`);
                 logAction(`Reverse sync to VPS completed resert the qty : ${id}`);
-                if(syncRes.data.success){
-                        const shipmentqty=await localApi.post(`/Shipmentqty`, {
-                    shipmentId: id,
-                });
-                logAction(`Shipment qty response: ${JSON.stringify(shipmentqty)}`);
+                if (syncRes.data.success) {
+                    const shipmentqty = await localApi.post(`/Shipmentqty`, {
+                        shipmentId: id,
+                    });
+                    logAction(`Shipment qty response: ${JSON.stringify(shipmentqty)}`);
                 }
-            
-                
-                if (!syncRes.data.success) throw new Error(syncRes.data.message || "Reverse sync failed");               
+
+
+                if (!syncRes.data.success) throw new Error(syncRes.data.message || "Reverse sync failed");
             }
 
             const grpId = sessionStorage.getItem("CompanyGroupId");
@@ -970,12 +970,45 @@ const allDevicesReady =
                     shipmentId: id   // your shipment ID (number)
                 });
                 logAction("Audit entry created after CLOSE");
+
+                //--------update BatchData -----------
+                logAction("Call api api/readbatchcount to update bactch count");
+                const Batchres = await localApi.get("api/readbatchcount", { params: { shipmentCode } });
+                logAction(`BatchData Update Ressponse : ${JSON.stringify(Batchres)}`)
+
+                //-------set sccan qty -------------
+                logAction("Update scann qty from //changesccanqty");
+                const changeqty=await localApi.post('/changesccanqty', {
+                        shipmentId: id,
+                    });
+                logAction(`Response of update : ${JSON.stringify(changeqty)}`)
+
                 logAction("Deleting local dispatch files after CLOSE");
                 await localApi.post("/delete-dispatch-files", { shipmentCode });
                 let syncSuccess = false;
                 if (navigator.onLine) {
                     logAction("Starting full sync after CLOSE");
                     syncSuccess = await performFullSyncAfterStopOrClose();
+
+                    //sync the batch data //
+
+                    const batch = await localApi.get("/syncbatchdata");
+
+                    if (batch.data.success) {
+                        logAction(`Batch Data response : ${JSON.stringify(batch)}`)
+                        
+
+                        // 2️⃣ Send data to sync API
+                        logAction("Call api to dump data in vps : /batchdata-sync")
+                        const syncResponse = await vpsApi.post("/batchdata-sync", {
+                            batchlist: batch.data.data.batchlist
+                        });
+                        logAction(`sync Reaponse of Batch : ${JSON.stringify(syncResponse)}`)
+                        console.log("Batch Sync Response:", syncResponse.data);
+                    }
+                    logAction("Reset use count from batchlist");
+                    const reset=await localApi.post("/resetusecount");
+                    logAction(`Data reset sucessfully : ${reset}`)
 
                     logAction("Marked shipment synced");
                     await localApi.post("/ShipmentSyncStatus", {

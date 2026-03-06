@@ -380,10 +380,29 @@ export default function CompletedOutward() {
 
       if (result.data.success) {
         logAction(`Marking as synced: /ShipmentSyncStatus for ${shipmentId} response received: ${JSON.stringify(result.data)}`);
-          const shipmentqty=await localApi.post(`/Shipmentqty`, {
-                    shipmentId: shipmentId,
-                });
-                logAction(`Shipment qty response: ${JSON.stringify(shipmentqty)}`);
+        const shipmentqty = await localApi.post(`/Shipmentqty`, {
+          shipmentId: shipmentId,
+        });
+        logAction(`Shipment qty response: ${JSON.stringify(shipmentqty)}`);
+
+        const batch = await localApi.get("/syncbatchdata");
+
+        if (batch.data.success) {
+          logAction(`Batch Data response : ${JSON.stringify(batch)}`)
+
+
+          // 2️⃣ Send data to sync API
+          logAction("Call api to dump data in vps : /batchdata-sync")
+          const syncResponse = await vpsApi.post("/batchdata-sync", {
+            batchlist: batch.data.data.batchlist
+          });
+          logAction(`sync Reaponse of Batch : ${JSON.stringify(syncResponse)}`)
+          console.log("Batch Sync Response:", syncResponse.data);
+        }
+        logAction("Reset use count from batchlist");
+        const reset = await localApi.post("/resetusecount");
+        logAction(`Data reset sucessfully : ${reset}`)
+
         await localApi.post("/ShipmentSyncStatus", {
           shipmentId: shipmentId,
           isSynced: true,
@@ -739,30 +758,30 @@ export default function CompletedOutward() {
     });
 
     /* ---------------- RECEIVED / DELIVERED ---------------- */
-   const tableContent = [
-  [
-    { content: "Received By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } },
-    { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
-  ],
-  ["Name", ":", "________________________", "Name", ":",  "________________________"],
-  ["Date", ":",  "________________________", "Date", ":",  "________________________"],
-  ["Sign", ":",  "________________________", "Sign", ":",  "________________________"],
-];
+    const tableContent = [
+      [
+        { content: "Received By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } },
+        { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
+      ],
+      ["Name", ":", "________________________", "Name", ":", "________________________"],
+      ["Date", ":", "________________________", "Date", ":", "________________________"],
+      ["Sign", ":", "________________________", "Sign", ":", "________________________"],
+    ];
 
-autoTable(doc, {
-  startY: doc.lastAutoTable.finalY + 15,
-  body: tableContent,
-  theme: "plain",
-  styles: { fontSize: 11 },
-  columnStyles: {
-    0: { cellWidth: 20 },
-    1: { cellWidth: 10 },
-    2: { cellWidth: 60 },
-    3: { cellWidth: 20 },
-    4: { cellWidth: 10 },
-    5: { cellWidth: 60 },
-  }
-});
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 15,
+      body: tableContent,
+      theme: "plain",
+      styles: { fontSize: 11 },
+      columnStyles: {
+        0: { cellWidth: 20 },
+        1: { cellWidth: 10 },
+        2: { cellWidth: 60 },
+        3: { cellWidth: 20 },
+        4: { cellWidth: 10 },
+        5: { cellWidth: 60 },
+      }
+    });
     addFooter(doc);
   };
 
@@ -786,7 +805,7 @@ autoTable(doc, {
     doc.text(UM_UserCode, startX + 20, 24);
 
     /* ---------------- TITLE ---------------- */
-     doc.setFontSize(20);
+    doc.setFontSize(20);
     doc.setFont(undefined, "bold");
     doc.text("Delivery Challan", doc.internal.pageSize.width / 2, 40, { align: "center" });
     doc.setFont(undefined, "normal");
@@ -919,29 +938,29 @@ autoTable(doc, {
 
     /* ---------------- RECEIVED / DELIVERED ---------------- */
     const tableContent = [
-  [
-    { content: "Received By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } },
-    { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
-  ],
-  ["Name", ":",  "________________________", "Name", ":",  "________________________"],
-  ["Date", ":",  "________________________", "Date", ":",  "________________________"],
-  ["Sign", ":",  "________________________", "Sign", ":",  "________________________"],
-];
+      [
+        { content: "Received By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } },
+        { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
+      ],
+      ["Name", ":", "________________________", "Name", ":", "________________________"],
+      ["Date", ":", "________________________", "Date", ":", "________________________"],
+      ["Sign", ":", "________________________", "Sign", ":", "________________________"],
+    ];
 
-autoTable(doc, {
-  startY: doc.lastAutoTable.finalY + 5,
-  body: tableContent,
-  theme: "plain",
-  styles: { fontSize: 11 },
-  columnStyles: {
-    0: { cellWidth: 20 },
-    1: { cellWidth: 10 },
-    2: { cellWidth: 60 },
-    3: { cellWidth: 20 },
-    4: { cellWidth: 10 },
-    5: { cellWidth: 60 },
-  }
-});
+    autoTable(doc, {
+      startY: doc.lastAutoTable.finalY + 5,
+      body: tableContent,
+      theme: "plain",
+      styles: { fontSize: 11 },
+      columnStyles: {
+        0: { cellWidth: 20 },
+        1: { cellWidth: 10 },
+        2: { cellWidth: 60 },
+        3: { cellWidth: 20 },
+        4: { cellWidth: 10 },
+        5: { cellWidth: 60 },
+      }
+    });
     addFooter(doc);
   };
 

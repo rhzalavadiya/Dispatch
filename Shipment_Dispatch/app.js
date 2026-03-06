@@ -554,6 +554,54 @@ app.post("/revers-sync", async (req, res) => {
   }
 });
 
+
+// -------------------------- BatchData Sync------------------
+
+app.post("/batchdata-sync", async (req, res) => {
+  const { batchlist } = req.body;
+
+  if (!Array.isArray(batchlist)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid batch data"
+    });
+  }
+
+  try {
+
+    for (const record of batchlist) {
+
+      if (!record.BL_ID || record.BL_UsedCount === undefined) continue;
+
+      console.log("Processing Batch:", record);
+
+      await conn.query(
+        `UPDATE batchlist
+         SET BL_BlockCount = IFNULL(BL_BlockCount,0) - ?
+         WHERE BL_ID = ?`,
+        [record.BL_UsedCount, record.BL_ID]
+      );
+
+    }
+
+    res.json({
+      success: true,
+      message: "Batch BlockCount synced successfully",
+      syncedAt: new Date().toISOString()
+    });
+
+  } catch (err) {
+
+    console.error("Sync failed:", err);
+
+    res.status(500).json({
+      success: false,
+      message: "Sync failed",
+      error: err.message
+    });
+
+  }
+});
 //------------------- Login Sync -------------------//
 
 

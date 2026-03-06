@@ -155,39 +155,51 @@ const shipmentEditData = async (req, res) => {
 
 	try {
 		const query1 = `SELECT
-    shipmentmaster.SHPD_ShipmentMID,
+    MAX(shipmentmaster.SHPD_ShipmentMID) AS SHPD_ShipmentMID,
     shipmentlist.SHPH_ShipmentID,
     shipmentlist.SHPH_ShipmentType,
     shipmentlist.SHPH_Status,
     shipmentlist.SHPH_ShipmentCode,
     MAX(orderlist.ORDM_OrderNumber) AS ORDM_OrderNumber,
-    MAX(scpmaster.SCPM_ID) AS SCPM_ID,
+    scpmaster.SCPM_ID,
     MAX(scpmaster.SCPM_Code) AS SCPM_Code,
     MAX(scpmaster.SCPM_Name) AS SCPM_Name,
-	MAX(scpmaster.SCPM_Caption) AS SCPM_Caption,
+    MAX(scpmaster.SCPM_Caption) AS SCPM_Caption,
     MAX(logisticcompanymaster.LGCM_Name) AS LGCM_Name,
     MAX(logisticcompanyvehiclemaster.LGCVM_VehicleNumber) AS LGCVM_VehicleNumber,
     MAX(shipmentmaster.SHPD_ProductName) AS SHPD_ProductName,
     shipmentmaster.SHPD_ProductCode,
-    productlist.PL_ProductId AS PL_ProductId,
+    productlist.PL_ProductId,
     MAX(productmaster.PM_PackSize) AS PM_PackSize,
     MAX(productmaster.PM_GrossWeight) AS PM_GrossWeight,
     MAX(productmaster.PM_MinOffset) AS PM_MinOffset,
     MAX(productmaster.PM_MaxOffset) AS PM_MaxOffset,
-    shipmentmaster.SHPD_ShipQty,
+    SUM(shipmentmaster.SHPD_ShipQty) AS SHPD_ShipQty,
+    /* BatchId merged */
     (
-        SELECT GROUP_CONCAT(SBA_BatchID ORDER BY SBA_BatchID)
-        FROM shipmentbatchallocation sba
-        WHERE sba.SBA_SHPH_ShipmentID = shipmentlist.SHPH_ShipmentID
-          AND sba.SBA_SCPID = scpmaster.SCPM_ID
-          AND sba.SBA_ProductID = productlist.PL_ProductId
+        SELECT GROUP_CONCAT(BatchID ORDER BY BatchID)
+        FROM (
+            SELECT SBA_BatchID AS BatchID
+            FROM shipmentbatchallocation
+            WHERE SBA_SHPH_ShipmentID = shipmentlist.SHPH_ShipmentID
+              AND SBA_SCPID = scpmaster.SCPM_ID
+              AND SBA_ProductID = productlist.PL_ProductId
+            GROUP BY SBA_BatchID
+        ) b
     ) AS BatchId,
+    /* Count summed for same batch */
     (
-        SELECT GROUP_CONCAT(SBA_Count ORDER BY SBA_BatchID)
-        FROM shipmentbatchallocation sba
-        WHERE sba.SBA_SHPH_ShipmentID = shipmentlist.SHPH_ShipmentID
-          AND sba.SBA_SCPID = scpmaster.SCPM_ID
-          AND sba.SBA_ProductID = productlist.PL_ProductId
+        SELECT GROUP_CONCAT(TotalCount ORDER BY BatchID)
+        FROM (
+            SELECT 
+                SBA_BatchID AS BatchID,
+                SUM(SBA_Count) AS TotalCount
+            FROM shipmentbatchallocation
+            WHERE SBA_SHPH_ShipmentID = shipmentlist.SHPH_ShipmentID
+              AND SBA_SCPID = scpmaster.SCPM_ID
+              AND SBA_ProductID = productlist.PL_ProductId
+            GROUP BY SBA_BatchID
+        ) c
     ) AS Count,
     MAX(locationmaster.LCM_LocationName) AS LCM_LocationName,
     MAX(
@@ -220,8 +232,8 @@ LEFT JOIN locationmaster
     ON locationmaster.LCM_SCPID = scpmaster.SCPM_ID
 WHERE shipmentmaster.SHPD_ShipmentID = ?
 GROUP BY
-    shipmentmaster.SHPD_ShipmentMID,
     shipmentlist.SHPH_ShipmentID,
+    scpmaster.SCPM_ID,
     productlist.PL_ProductId,
     shipmentmaster.SHPD_ProductCode
 ORDER BY SCPM_ID;`;
@@ -400,6 +412,53 @@ const updateShipmentSyncStatus = async (req, res) => {
 	}
 };
 
+// change scann qty 
+
+const updateShipQtyFromScan = async (req, res) => {
+
+  const { shipmentId } = req.body;
+
+  console.log("Update ShipSccanQty request:", req.body);
+
+  if (!shipmentId) {
+    return res.status(400).json({
+      success: false,
+      message: "shipmentId is required"
+    });
+  }
+
+  try {
+
+    const updateSql = `
+      UPDATE shipmentmaster
+SET SHPD_ScanQty = IFNULL(SHPD_ShipQty,0)
+WHERE SHPD_ShipmentMID > 0
+AND SHPD_ShipmentID = ?
+    `;
+
+    const [result] = await conn.query(updateSql, [shipmentId]);
+
+    console.log("Shipment update result:", result);
+
+    return res.status(200).json({
+      success: true,
+      message: "ShipQty updated from ScanQty",
+      affectedRows: result.affectedRows
+    });
+
+  } catch (error) {
+
+    console.error("Error updating shipment:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message
+    });
+
+  }
+
+};
 
 const updateShipmentQty = async (req, res) => {
 	const { shipmentId} = req.body;
@@ -467,6 +526,41 @@ const updateShipmentQtyall = async (req, res) => {
 		return res.status(200).json({
 			success: true,
 			message: `Shipment Master qty reset successfully for all shipments`,
+		});
+	} catch (error) {
+		console.error("Error updating shipment qty:", {
+			error: error.message,
+			stack: error.stack
+		});
+
+		return res.status(500).json({
+			success: false,
+			message: "Server error while updating shipment qty",
+			error: error.message
+		});
+	}
+};
+
+
+const ResetusedCount = async (req, res) => {
+	try {
+
+		const updateSql = `
+        UPDATE batchlist 
+      SET BL_UsedCount = 0`;
+
+		const [result] = await conn.query(updateSql);
+
+		if (result.affectedRows === 0) {
+			return res.status(404).json({
+				success: false,
+				message: `No shipment found `
+			});
+		}
+
+		return res.status(200).json({
+			success: true,
+			message: `batchlist used qty reset successfully for all `,
 		});
 	} catch (error) {
 		console.error("Error updating shipment qty:", {
@@ -953,7 +1047,9 @@ module.exports = {
 	logShipmentEvent,
 	CompletedShipment,
 	updateShipmentQty,
-	updateShipmentQtyall
+	updateShipmentQtyall,
+	updateShipQtyFromScan,
+	ResetusedCount,
 };
 
 
