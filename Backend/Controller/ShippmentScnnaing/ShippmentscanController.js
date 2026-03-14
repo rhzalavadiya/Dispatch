@@ -202,6 +202,8 @@ const shipmentEditData = async (req, res) => {
         ) c
     ) AS Count,
     MAX(locationmaster.LCM_LocationName) AS LCM_LocationName,
+    MAX(locationmaster.LCM_LabelAddress1) AS LCM_LabelAddress1,
+    MAX(locationmaster.LCM_LabelAddress2) AS LCM_LabelAddress2,
     MAX(
         CONCAT_WS(', ',
             locationmaster.LCM_LocationStreet1,
@@ -595,17 +597,13 @@ const deliverychallanData = async (req, res) => {
         shipmentlist.SHPH_DriverContactNo,
 		logisticcompanymaster.LGCM_Name,
 		logisticcompanyvehiclemaster.LGCVM_VehicleNumber,
-		locationmaster.LCM_LocationName,
-		locationmaster.LCM_LocationStreet1,
-		locationmaster.LCM_LocationStreet2,
+		locationmaster.LCM_LabelAddress1,
 		locationmaster.LCM_City,
 		locationmaster.LCM_State,
 		locationmaster.LCM_Country,
 		locationmaster.LCM_EmailID,
 		locationmaster.LCM_ContactNumber,
-		LCM.LCM_LocationName AS Location,
-		LCM.LCM_LocationStreet1 AS Street1,
-		LCM.LCM_LocationStreet2 AS Street2,
+		LCM.LCM_LabelAddress1 AS Location,
 		LCM.LCM_City AS City,
 		LCM.LCM_State AS State,
 		LCM.LCM_Country AS Country,
@@ -620,7 +618,7 @@ const deliverychallanData = async (req, res) => {
 		JOIN locationmaster ON locationmaster.LCM_SCPID = deliverychallanlist.dcl_scpto 
 		JOIN locationmaster AS LCM ON LCM.LCM_SCPID = deliverychallanlist.dcl_scpfrom 
 		WHERE shipmentlist.SHPH_ShipmentID = ?
-		AND deliverychallanlist.dcl_scpfrom = ? 
+		AND deliverychallanlist.dcl_scpfrom = ?
 		AND deliverychallanlist.dcl_scpto = ?
 		AND deliverychallanlist.dcl_ShipmentType = 1;`;
 
@@ -717,9 +715,7 @@ const deliverychallanAll = async (req, res) => {
       sm.SCPM_Name AS ToParty,
       logisticcompanymaster.LGCM_Name,
       logisticcompanyvehiclemaster.LGCVM_VehicleNumber,
-        LCM.LCM_LocationName AS Location,
-      LCM.LCM_LocationStreet1 AS Street1,
-      LCM.LCM_LocationStreet2 AS Street2,
+	  LCM.LCM_LabelAddress1 AS Location,
       LCM.LCM_City AS City,
       LCM.LCM_State AS State,
       LCM.LCM_Country AS Country,

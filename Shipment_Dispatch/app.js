@@ -367,18 +367,48 @@ app.post("/syncsingleshipment", async (req, res) => {
         continue;
       }
 
-      // Convert datetime strings
+    
+      // ────────────────────────────────────────────────
+      // 2. Normalize all date/datetime values
+      // ────────────────────────────────────────────────
       for (const record of records) {
         for (const col of dateColumns) {
-          if (record[col] && typeof record[col] === "string" && record[col].includes("T")) {
-            const d = new Date(record[col]);
-            if (!isNaN(d)) {
-              record[col] = d.toISOString().slice(0, 19).replace("T", " ");
+          let val = record[col];
+
+          if (val == null || val === "") {
+            record[col] = null;
+            continue;
+          }
+
+          if (typeof val === "string") {
+            const trimmed = val.trim();
+
+            // Accept valid MySQL DATE or DATETIME and keep as-is
+            if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
+              /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+              record[col] = trimmed;
+              continue;
             }
           }
+
+          // fallback parsing
+          const dt = new Date(val);
+          if (isNaN(dt.getTime())) {
+            record[col] = null;
+            continue;
+          }
+
+          const pad = (n) => String(n).padStart(2, "0");
+
+          record[col] =
+            dt.getFullYear() + "-" +
+            pad(dt.getMonth() + 1) + "-" +
+            pad(dt.getDate()) + " " +
+            pad(dt.getHours()) + ":" +
+            pad(dt.getMinutes()) + ":" +
+            pad(dt.getSeconds());
         }
       }
-
       const placeholders = dataColumns.map(() => "?").join(", ");
       const updateClause = dataColumns.map((c) => `${c} = VALUES(${c})`).join(", ");
 
@@ -391,14 +421,14 @@ app.post("/syncsingleshipment", async (req, res) => {
       const values = records.flatMap((r) => dataColumns.map((c) => r[c]));
 
       await conn.query(insertSQL, values);
-     if (table.name === "shipmentmaster") {
+      if (table.name === "shipmentmaster") {
 
-  // Use data coming from local (records)
-  for (const shipment of records) {
+        // Use data coming from local (records)
+        for (const shipment of records) {
 
-    if (!shipment.SHPD_ProductCode || !shipment.SHPD_Qty) continue;
+          if (!shipment.SHPD_ProductCode || !shipment.SHPD_Qty) continue;
 
-    await conn.query(`
+          await conn.query(`
       UPDATE inventory i
       JOIN productlist p 
         ON p.PL_ProductId = i.inv_productid
@@ -407,12 +437,12 @@ app.post("/syncsingleshipment", async (req, res) => {
         i.inv_availableqty = GREATEST(IFNULL(i.inv_availableqty,0) - ?, 0)
       WHERE p.PL_ProductCode = ?
     `, [
-      shipment.SHPD_Qty,
-      shipment.SHPD_Qty,
-      shipment.SHPD_ProductCode
-    ]);
-  }
-}
+            shipment.SHPD_Qty,
+            shipment.SHPD_Qty,
+            shipment.SHPD_ProductCode
+          ]);
+        }
+      }
     }
 
     res.json({
@@ -485,19 +515,46 @@ app.post("/revers-sync", async (req, res) => {
         continue;
       }
 
-      // Convert all datetime values in records (only for existing date columns)
+     
+      // ────────────────────────────────────────────────
+      // 2. Normalize all date/datetime values
+      // ────────────────────────────────────────────────
       for (const record of records) {
         for (const col of dateColumns) {
-          if (
-            record[col] &&
-            typeof record[col] === "string" &&
-            record[col].includes("T")
-          ) {
-            const d = new Date(record[col]);
-            if (!isNaN(d)) {
-              record[col] = d.toISOString().slice(0, 19).replace("T", " ");
+          let val = record[col];
+
+          if (val == null || val === "") {
+            record[col] = null;
+            continue;
+          }
+
+          if (typeof val === "string") {
+            const trimmed = val.trim();
+
+            // Accept valid MySQL DATE or DATETIME and keep as-is
+            if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
+              /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+              record[col] = trimmed;
+              continue;
             }
           }
+
+          // fallback parsing
+          const dt = new Date(val);
+          if (isNaN(dt.getTime())) {
+            record[col] = null;
+            continue;
+          }
+
+          const pad = (n) => String(n).padStart(2, "0");
+
+          record[col] =
+            dt.getFullYear() + "-" +
+            pad(dt.getMonth() + 1) + "-" +
+            pad(dt.getDate()) + " " +
+            pad(dt.getHours()) + ":" +
+            pad(dt.getMinutes()) + ":" +
+            pad(dt.getSeconds());
         }
       }
 
@@ -516,14 +573,14 @@ app.post("/revers-sync", async (req, res) => {
 
       await conn.query(insertSQL, values);
 
-     if (table.name === "shipmentmaster") {
+      if (table.name === "shipmentmaster") {
 
-  // Use data coming from local (records)
-  for (const shipment of records) {
+        // Use data coming from local (records)
+        for (const shipment of records) {
 
-    if (!shipment.SHPD_ProductCode || !shipment.SHPD_Qty) continue;
+          if (!shipment.SHPD_ProductCode || !shipment.SHPD_Qty) continue;
 
-   const result = await conn.query(`
+          const result = await conn.query(`
       UPDATE inventory i
       JOIN productlist p 
         ON p.PL_ProductId = i.inv_productid
@@ -532,13 +589,13 @@ app.post("/revers-sync", async (req, res) => {
         i.inv_availableqty = GREATEST(IFNULL(i.inv_availableqty,0) - ?, 0)
       WHERE p.PL_ProductCode = ?
     `, [
-      shipment.SHPD_Qty,
-      shipment.SHPD_Qty,
-      shipment.SHPD_ProductCode
-    ]);
-    console.log("Reverse sync inventory update result:", result);
-  }
-}
+            shipment.SHPD_Qty,
+            shipment.SHPD_Qty,
+            shipment.SHPD_ProductCode
+          ]);
+          console.log("Reverse sync inventory update result:", result);
+        }
+      }
     }
 
     res.json({
@@ -742,15 +799,46 @@ app.post("/syncuserdetail", async (req, res) => {
         continue;
       }
 
-      // Convert datetime
+    
+      // ────────────────────────────────────────────────
+      // 2. Normalize all date/datetime values
+      // ────────────────────────────────────────────────
       for (const record of records) {
         for (const col of dateColumns) {
-          if (record[col] && typeof record[col] === "string" && record[col].includes("T")) {
-            const d = new Date(record[col]);
-            if (!isNaN(d)) {
-              record[col] = d.toISOString().slice(0, 19).replace("T", " ");
+          let val = record[col];
+
+          if (val == null || val === "") {
+            record[col] = null;
+            continue;
+          }
+
+          if (typeof val === "string") {
+            const trimmed = val.trim();
+
+            // Accept valid MySQL DATE or DATETIME and keep as-is
+            if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
+              /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+              record[col] = trimmed;
+              continue;
             }
           }
+
+          // fallback parsing
+          const dt = new Date(val);
+          if (isNaN(dt.getTime())) {
+            record[col] = null;
+            continue;
+          }
+
+          const pad = (n) => String(n).padStart(2, "0");
+
+          record[col] =
+            dt.getFullYear() + "-" +
+            pad(dt.getMonth() + 1) + "-" +
+            pad(dt.getDate()) + " " +
+            pad(dt.getHours()) + ":" +
+            pad(dt.getMinutes()) + ":" +
+            pad(dt.getSeconds());
         }
       }
 
@@ -805,13 +893,48 @@ async function syncPasswordTransactionsSafely(records, conn) {
         .map((col) => col.COLUMN_NAME);
 
       for (const record of userRecords) {
-        // Convert datetimes
+        
+      // ────────────────────────────────────────────────
+      // 2. Normalize all date/datetime values
+      // ────────────────────────────────────────────────
+      for (const record of records) {
         for (const col of dateColumns) {
-          if (record[col] && typeof record[col] === "string" && record[col].includes("T")) {
-            const d = new Date(record[col]);
-            if (!isNaN(d)) record[col] = d.toISOString().slice(0, 19).replace("T", " ");
+          let val = record[col];
+
+          if (val == null || val === "") {
+            record[col] = null;
+            continue;
           }
+
+          if (typeof val === "string") {
+            const trimmed = val.trim();
+
+            // Accept valid MySQL DATE or DATETIME and keep as-is
+            if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
+              /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+              record[col] = trimmed;
+              continue;
+            }
+          }
+
+          // fallback parsing
+          const dt = new Date(val);
+          if (isNaN(dt.getTime())) {
+            record[col] = null;
+            continue;
+          }
+
+          const pad = (n) => String(n).padStart(2, "0");
+
+          record[col] =
+            dt.getFullYear() + "-" +
+            pad(dt.getMonth() + 1) + "-" +
+            pad(dt.getDate()) + " " +
+            pad(dt.getHours()) + ":" +
+            pad(dt.getMinutes()) + ":" +
+            pad(dt.getSeconds());
         }
+      }
 
         // Use all columns except auto-increment primary key if needed
         const columns = Object.keys(record).filter((c) => existingColumns.includes(c));

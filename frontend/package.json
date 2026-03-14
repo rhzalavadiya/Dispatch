@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dnd-kit/modifiers": "^9.0.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@fortawesome/react-fontawesome": "^3.1.1",
     "@hello-pangea/dnd": "^18.0.1",
@@ -26,6 +27,7 @@
     "react-bootstrap": "^2.10.10",
     "react-datepicker": "^8.9.0",
     "react-dom": "^19.2.0",
+    "react-draggable": "^4.5.0",
     "react-icons": "^5.5.0",
     "react-idle-timer": "^5.7.2",
     "react-router-dom": "^7.9.6",

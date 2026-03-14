@@ -227,7 +227,6 @@ app.post("/sync-vps-to-local", async (req, res) => {
     { name: "ordermaster", key: "ORDIT_ORDERMID" },
     { name: "schememaster", key: "SM_ID" },
     { name: "orderschememaster", key: "OSM_ID" },
-    { name: "orderschememaster", key: "OSM_ID" },
     { name: "notificationmaster", key: "NFM_ID" },
   ];
 
@@ -275,49 +274,40 @@ app.post("/sync-vps-to-local", async (req, res) => {
         for (const col of dateColumns) {
           let val = record[col];
 
-          // null / empty → keep as null
-          if (val == null || val === '') {
+          if (val == null || val === "") {
             record[col] = null;
             continue;
           }
 
-          // Already good MySQL format?
-          if (typeof val === 'string') {
+          if (typeof val === "string") {
             const trimmed = val.trim();
-            // DATE:      2025-12-24
-            // DATETIME:  2025-12-24 14:30:00
-            if (/^\d{4}-\d{2}-\d{2}( \d{2}:\d{2}:\d{2})?$/.test(trimmed)) {
+
+            // Accept valid MySQL DATE or DATETIME and keep as-is
+            if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
+              /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
               record[col] = trimmed;
               continue;
             }
           }
 
-          // Try to parse (accepts ISO, timestamps, etc.)
+          // fallback parsing
           const dt = new Date(val);
-
           if (isNaN(dt.getTime())) {
-            console.warn(`Bad date → NULL: ${table.name}.${col} = ${val}`);
             record[col] = null;
             continue;
           }
 
-          // Decide format by actual column type
-          const colType = columnsInfo
-            .find(c => c.COLUMN_NAME === col)
-            ?.DATA_TYPE?.toLowerCase();
+          const pad = (n) => String(n).padStart(2, "0");
 
-          if (colType === 'date') {
-            // Only date part — very important for DATE columns
-            record[col] = dt.toISOString().slice(0, 10);
-          } else {
-            // DATETIME / TIMESTAMP → full datetime without millis & Z
-            record[col] = dt.toISOString()
-              .replace('T', ' ')
-              .slice(0, 19);
-          }
+          record[col] =
+            dt.getFullYear() + "-" +
+            pad(dt.getMonth() + 1) + "-" +
+            pad(dt.getDate()) + " " +
+            pad(dt.getHours()) + ":" +
+            pad(dt.getMinutes()) + ":" +
+            pad(dt.getSeconds());
         }
       }
-
       // ────────────────────────────────────────────────
       // 3. Prepare bulk INSERT ... ON DUPLICATE KEY UPDATE
       // ────────────────────────────────────────────────
@@ -345,7 +335,10 @@ app.post("/sync-vps-to-local", async (req, res) => {
     return res.json({
       success: true,
       message: "Local database synchronized successfully",
-      syncedAt: new Date().toISOString()
+      syncedAt: new Date().toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour12: false
+      })
     });
   } catch (err) {
     console.error("Sync endpoint failed:", err);
@@ -573,15 +566,45 @@ app.post("/sync-login-details", async (req, res) => {
         continue;
       }
 
-      // Convert datetime formats
+       // ────────────────────────────────────────────────
+      // 2. Normalize all date/datetime values
+      // ────────────────────────────────────────────────
       for (const record of records) {
         for (const col of dateColumns) {
-          if (record[col] && typeof record[col] === "string" && record[col].includes("T")) {
-            const d = new Date(record[col]);
-            if (!isNaN(d)) {
-              record[col] = d.toISOString().slice(0, 19).replace("T", " ");
+          let val = record[col];
+
+          if (val == null || val === "") {
+            record[col] = null;
+            continue;
+          }
+
+          if (typeof val === "string") {
+            const trimmed = val.trim();
+
+            // Accept valid MySQL DATE or DATETIME and keep as-is
+            if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
+              /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+              record[col] = trimmed;
+              continue;
             }
           }
+
+          // fallback parsing
+          const dt = new Date(val);
+          if (isNaN(dt.getTime())) {
+            record[col] = null;
+            continue;
+          }
+
+          const pad = (n) => String(n).padStart(2, "0");
+
+          record[col] =
+            dt.getFullYear() + "-" +
+            pad(dt.getMonth() + 1) + "-" +
+            pad(dt.getDate()) + " " +
+            pad(dt.getHours()) + ":" +
+            pad(dt.getMinutes()) + ":" +
+            pad(dt.getSeconds());
         }
       }
 
@@ -872,7 +895,7 @@ app.post("/delete-dispatch-files", (req, res) => {
 
 app.get("/api/read-fail-csv", (req, res) => {
   const { shipmentCode } = req.query;
-  
+
   if (!shipmentCode) {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
@@ -1746,7 +1769,7 @@ app.get('/check-camera', async (req, res) => {
 app.get("/api/readbatchcount", async (req, res) => {
 
   const { shipmentCode } = req.query;
-console.log("Batchcout For :",req.query);
+  console.log("Batchcout For :", req.query);
   if (!shipmentCode) {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
@@ -1942,7 +1965,7 @@ console.log("Batchcout For :",req.query);
 
 // ------------------------------------get batch data----------------------------------------
 
-const getBatchData= async (req, res) => {
+const getBatchData = async (req, res) => {
   try {
     const [batchlist] = await conn.query(`SELECT BL_ID,BL_UsedCount FROM batchlist;`);
 

@@ -157,8 +157,8 @@ export default function ShipmentScanning() {
 
           if (syncResponse.data.success) {
             logAction("Reverse sync to central server completed successfully");
-                const shipmentqty=await localApi.post(`/Shipmentqtyall`);
-                logAction(`Shipment qty all response: ${JSON.stringify(shipmentqty)}`);
+            const shipmentqty = await localApi.post(`/Shipmentqtyall`);
+            logAction(`Shipment qty all response: ${JSON.stringify(shipmentqty)}`);
           } else {
             throw new Error(syncResponse.data.message || "Reverse sync failed");
           }
@@ -508,13 +508,21 @@ export default function ShipmentScanning() {
                         to: prev.to && new Date(prev.to) < date ? "" : prev.to,
                       }))
                     }
+                    onChangeRaw={(e) => {
+                      const value = e.target.value;
+
+                      // Allow only numbers and /
+                      if (!/^[0-9/]*$/.test(value)) {
+                        e.preventDefault();
+                      }
+                    }}
                     dateFormat="dd/MM/yyyy"
                     minDate={new Date("1970-01-01")}
                     maxDate={new Date()}
                     showYearDropdown
                     showMonthDropdown
                     placeholderText="--Select--"
-                    onKeyDown={(e) => e.preventDefault()}
+
                   />
 
                   <div className="calendaricon-container_list">
@@ -536,13 +544,20 @@ export default function ShipmentScanning() {
                         to: date ? date.toLocaleDateString("en-CA") : "",
                       }))
                     }
+                    onChangeRaw={(e) => {
+                      const value = e.target.value;
+
+                      // Allow only numbers and /
+                      if (!/^[0-9/]*$/.test(value)) {
+                        e.preventDefault();
+                      }
+                    }}
                     dateFormat="dd/MM/yyyy"
                     minDate={formData.from ? new Date(formData.from) : null}
                     maxDate={new Date()}
                     showYearDropdown
                     showMonthDropdown
                     placeholderText="--Select--"
-                    onKeyDown={(e) => e.preventDefault()}
                   />
 
                   <div className="calendaricon-container_list">
@@ -620,7 +635,7 @@ export default function ShipmentScanning() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            body={(row) => formatDate(row.SHPH_Date)}
+          //body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
             field="RUTL_Name"
@@ -629,6 +644,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
+            style={{ textWrap:"auto"}}
           />
           <Column
             field="LGCM_Name"
@@ -637,6 +653,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.LGCM_Name || "-"}
+            style={{ textWrap:"auto"}}
           />
           <Column
             field="LGCVM_VehicleNumber"

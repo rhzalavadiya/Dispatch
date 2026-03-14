@@ -302,13 +302,21 @@ export default function DispatchAuditReport() {
                         to: prev.to && new Date(prev.to) < date ? "" : prev.to,
                       }))
                     }
+                    onChangeRaw={(e) => {
+                      const value = e.target.value;
+
+                      // Allow only numbers and /
+                      if (!/^[0-9/]*$/.test(value)) {
+                        e.preventDefault();
+                      }
+                    }}
                     dateFormat="dd/MM/yyyy"
                     minDate={new Date("1970-01-01")}
                     maxDate={new Date()}
                     showYearDropdown
                     showMonthDropdown
                     placeholderText="--Select--"
-                    onKeyDown={(e) => e.preventDefault()}
+                    
                   />
                   <div className="calendaricon-container_list">
                     <IoCalendarOutline />
@@ -328,13 +336,21 @@ export default function DispatchAuditReport() {
                         to: date ? date.toLocaleDateString("en-CA") : "",
                       }))
                     }
+                    onChangeRaw={(e) => {
+                      const value = e.target.value;
+
+                      // Allow only numbers and /
+                      if (!/^[0-9/]*$/.test(value)) {
+                        e.preventDefault();
+                      }
+                    }}
                     dateFormat="dd/MM/yyyy"
                     minDate={formData.from ? new Date(formData.from) : null}
                     maxDate={new Date()}
                     showYearDropdown
                     showMonthDropdown
                     placeholderText="--Select--"
-                    onKeyDown={(e) => e.preventDefault()}
+                    
                   />
                   <div className="calendaricon-container_list">
                     <IoCalendarOutline />
@@ -476,7 +492,7 @@ const date = new Date();
     const shipmentInfoRows = [
       [{ content: "Shipment Information", colSpan: 2, styles: PDF_STYLE.sectionHeader }],
       ["Shipment Code", shipment.SHPH_ShipmentCode],
-      ["Shipment Date", formatDate(shipment.SHPH_ShipmentDate)],
+      ["Shipment Date", shipment.SHPH_ShipmentDate],
       ["Shipment Duration", shipment.Duration_HMS],
       ["Route Name", shipment.RUTL_Name],
       ["Logistic Party Name", shipment.LGCM_Name],
@@ -597,7 +613,8 @@ const date = new Date();
       styles: PDF_STYLE.tableRow,
       headStyles: PDF_STYLE.tableHeader,
       bodyStyles: {
-        halign: "center"
+        halign: "center",
+        valign:"middle"
       },
       columnStyles: {
         0: { cellWidth: 10, overflow: "linebreak" },   // Sr.No ❌ no wrap
@@ -758,7 +775,7 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            body={(row) => formatDate(row.SHPH_Date)}
+            //body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
             field="RUTL_Name"
@@ -767,6 +784,7 @@ const date = new Date();
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
+            style={{ textWrap:"auto"}}
           />
           <Column
             field="LGCM_Name"
@@ -775,6 +793,7 @@ const date = new Date();
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.LGCM_Name || "-"}
+            style={{ textWrap:"auto"}}
           />
           <Column
             field="LGCVM_VehicleNumber"

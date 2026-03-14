@@ -179,7 +179,7 @@ export default function ShipmentView() {
               bodyClassName="custom-description"
               headerClassName="custom-header"
               className="rowx"
-              style={{width:"12%"}}
+              style={{width:"10%"}}
             />
             <Column
               field="SHPD_OrderQty"
@@ -187,7 +187,7 @@ export default function ShipmentView() {
               bodyClassName="custom-description"
               headerClassName="custom-header"
               className="rowx"
-              style={{width:"12%"}}
+              style={{width:"10%"}}
             />
             <Column
               field="SHPD_ShipQty"

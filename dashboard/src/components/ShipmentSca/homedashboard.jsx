@@ -177,7 +177,7 @@ export function ProductionQueue({
 											</span>
 											<span style={{ fontWeight: "bold" }}>
 												QTY:{" "}
-												{parseInt(item.SHPD_ShipQty, 10).toLocaleString()}
+												{parseInt(item.SHPD_ShipQty - item.pass, 10).toLocaleString()}
 											</span>
 										</div>
 									))}
@@ -204,7 +204,7 @@ export default function HomeDashboard() {
 	const [prevOrderLength, setPrevOrderLength] = useState(0);
 	const [prevShipmentCode, setPrevShipmentCode] = useState("");
 	const [elapsedTime, setElapsedTime] = useState(0);
-
+	const timeoutRef = useRef(null);
 
 
 
@@ -382,7 +382,7 @@ export default function HomeDashboard() {
 				const currentShipment = res.data.shipmentCode || "No Active Shipment";
 
 				let dataChanged = false;
-				
+
 				if (currentLength > 0) {
 					const processedData = res.data.data.map(row => ({
 						...row,
@@ -579,6 +579,26 @@ export default function HomeDashboard() {
 	};
 
 
+	// const pendingOrders = useMemo(() => {
+	// 	if (!Array.isArray(order)) return [];
+
+	// 	const scpmMap = {};
+
+	// 	order.forEach((o) => {
+	// 		scpmMap[o.SCPM_ID] ??= {
+	// 			SCPM_Name: o.SCPM_Name,
+	// 			rows: []
+	// 		};
+	// 		scpmMap[o.SCPM_ID].rows.push(o);
+	// 	});
+
+	// 	return Object.values(scpmMap).filter(group =>
+	// 		group.rows.every(
+	// 			o => +o.pass !== +o.total && o.status !== "RUNNING"
+	// 		)
+	// 	);
+	// }, [order]);
+
 	const pendingOrders = useMemo(() => {
 		if (!Array.isArray(order)) return [];
 
@@ -593,20 +613,76 @@ export default function HomeDashboard() {
 			scpmMap[o.SCPM_ID].rows.push(o);
 		});
 
-		return Object.values(scpmMap).filter(group =>
-			group.rows.every(
-				o => +o.pass !== +o.total && o.status !== "RUNNING"
-			)
-		);
+		return Object.values(scpmMap)
+			.map(group => ({
+				...group,
+				rows: group.rows.filter(
+					o =>
+						!["RUNNING", "COMPLETED"].includes(o.status) &&
+						+o.pass !== +o.total
+				)
+			}))
+			.filter(group => group.rows.length > 0);
+
 	}, [order]);
+
+	console.log(pendingOrders)
 
 	const uniqueScpmIds = useMemo(() => {
 		if (!Array.isArray(order)) return [];
 		return [...new Set(order.map(o => o.SCPM_ID))];
 	}, [order]);
-	useEffect(() => {
-		let intervalId;
 
+	// useEffect(() => {
+	// 	let intervalId;
+
+	// 	const fetchTime = async () => {
+	// 		try {
+	// 			if (!SHPH_ShipmentID) return;
+
+	// 			const response = await axios.get(
+	// 				`${config.apiBaseUrl}/fetchtime/${SHPH_ShipmentID}`
+	// 			);
+	// 			logAction(`Response of Fetchtime : ${JSON.stringify(response)}`)
+
+	// 			const seconds = Number(response.data?.data[0]?.total_duration) || 0;
+
+	// 			// set initial time
+	// 			if (isMachineRunning) {
+	// 				console.log(response.data?.data[0]?.latest_status_seconds)
+	// 				const gettimeVal = response.data?.data[0]?.latest_status_seconds
+	// 				const serverNow = response.data?.data[0]?.server_now;
+	// 				setElapsedTime(seconds + (serverNow - gettimeVal));
+
+	// 			}
+	// 			else {
+	// 				setElapsedTime(seconds);
+	// 			}
+
+
+	// 			// start timer
+	// 			if (isMachineRunning) {
+	// 				intervalId = setInterval(() => {
+	// 					setElapsedTime(prev => prev + 1);
+	// 				}, 1000);
+	// 			}
+
+	// 		} catch (error) {
+	// 			logAction(`Elapsed time fetch failed: ${error} and message : ${error.message}`, true);
+	// 			console.error(error);
+	// 		}
+	// 	};
+
+	// 	fetchTime();
+
+	// 	// cleanup
+	// 	return () => {
+	// 		if (intervalId) clearInterval(intervalId);
+	// 	};
+	// }, [SHPH_ShipmentID, isMachineRunning]);
+
+
+	useEffect(() => {
 		const fetchTime = async () => {
 			try {
 				if (!SHPH_ShipmentID) return;
@@ -615,41 +691,48 @@ export default function HomeDashboard() {
 					`${config.apiBaseUrl}/fetchtime/${SHPH_ShipmentID}`
 				);
 
+				logAction(`Response of Fetchtime : ${JSON.stringify(response)}`);
+
 				const seconds = Number(response.data?.data[0]?.total_duration) || 0;
 
-				// set initial time
 				if (isMachineRunning) {
-					console.log(response.data?.data[0]?.latest_status_seconds)
-					const gettimeVal = response.data?.data[0]?.latest_status_seconds
+					const gettimeVal = response.data?.data[0]?.latest_status_seconds;
 					const serverNow = response.data?.data[0]?.server_now;
-					setElapsedTime(seconds + (serverNow - gettimeVal));
 
-				}
-				else {
+					const diff = Math.floor((serverNow - gettimeVal) / 1000);
+
+					setElapsedTime(seconds + diff);
+
+					startTimer();
+				} else {
 					setElapsedTime(seconds);
 				}
-
-
-				// start timer
-				if (isMachineRunning) {
-					intervalId = setInterval(() => {
-						setElapsedTime(prev => prev + 1);
-					}, 1000);
-				}
-
 			} catch (error) {
-				logAction(`Elapsed time fetch failed: ${error} and message : ${error.message}`, true);
+				logAction(
+					`Elapsed time fetch failed: ${error} and message : ${error.message}`,
+					true
+				);
 				console.error(error);
 			}
 		};
 
+		const startTimer = () => {
+			timeoutRef.current = setTimeout(() => {
+				setElapsedTime(prev => prev + 1);
+				startTimer(); // recursive call
+			}, 1000);
+		};
+
 		fetchTime();
 
-		// cleanup
 		return () => {
-			if (intervalId) clearInterval(intervalId);
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
 		};
-	}, [SHPH_ShipmentID]);
+	}, [SHPH_ShipmentID, isMachineRunning]);
+
+
 	useEffect(() => {
 		const running = order.find(i => i.status === "RUNNING");
 		const runningInfo = running ? `${running.SCPM_Name} - ${running.SHPD_ProductName}` : "None";

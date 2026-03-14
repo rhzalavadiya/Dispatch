@@ -306,13 +306,21 @@ export default function CompletedOutward() {
                         to: prev.to && new Date(prev.to) < date ? "" : prev.to,
                       }))
                     }
+                    onChangeRaw={(e) => {
+                      const value = e.target.value;
+
+                      // Allow only numbers and /
+                      if (!/^[0-9/]*$/.test(value)) {
+                        e.preventDefault();
+                      }
+                    }}
                     dateFormat="dd/MM/yyyy"
                     minDate={new Date("1970-01-01")}
                     maxDate={new Date()}
                     showYearDropdown
                     showMonthDropdown
                     placeholderText="--Select--"
-                    onKeyDown={(e) => e.preventDefault()}
+                    
                   />
                   <div className="calendaricon-container_list">
                     <IoCalendarOutline />
@@ -332,13 +340,21 @@ export default function CompletedOutward() {
                         to: date ? date.toLocaleDateString("en-CA") : "",
                       }))
                     }
+                    onChangeRaw={(e) => {
+                      const value = e.target.value;
+
+                      // Allow only numbers and /
+                      if (!/^[0-9/]*$/.test(value)) {
+                        e.preventDefault();
+                      }
+                    }}
                     dateFormat="dd/MM/yyyy"
                     minDate={formData.from ? new Date(formData.from) : null}
                     maxDate={new Date()}
                     showYearDropdown
                     showMonthDropdown
                     placeholderText="--Select--"
-                    onKeyDown={(e) => e.preventDefault()}
+                    
                   />
                   <div className="calendaricon-container_list">
                     <IoCalendarOutline />
@@ -588,14 +604,6 @@ export default function CompletedOutward() {
     const imgData = BhagwatiImage;
     /* ---------------- HEADER ---------------- */
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
-    // const date = new Date();
-    // const formattedDate = `${String(date.getDate()).padStart(2, "0")}/${String(date.getMonth() + 1).padStart(2, "0")}/${date.getFullYear()}`;
-    // const startX = doc.internal.pageSize.getWidth() - 55;
-    // doc.setFontSize(PDF_REF_STYLE.signature.fontSize);
-    // doc.setFontSize(10);
-    // doc.text("Printed On", startX, 18);
-    // doc.text(":", startX + 18, 18);
-    // doc.text(formattedDate, startX + 20, 18);
     const date = new Date();
     const formattedDateTime = date.toLocaleString("en-GB");
 
@@ -631,12 +639,12 @@ export default function CompletedOutward() {
           },
         ],
         ["From SCP", shipment.FromParty],
-        ["Address", `${shipment.Street1}, ${shipment.Street2}`],
-        ["City", shipment.City],
-        ["State", shipment.State],
-        ["Country", shipment.Country],
-        ["Email ID", shipment.Email],
-        ["Phone Number", shipment.CNo],
+        ["Address", `${shipment.Location}` || '-'],
+        ["City", shipment.City || '-'],
+        ["State", shipment.State || '-'],
+        ["Country", shipment.Country || '-'],
+        ["Email ID", shipment.Email || '-'],
+        ["Phone Number", shipment.CNo || '-'],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       styles: PDF_STYLE.tableRow,
@@ -656,12 +664,12 @@ export default function CompletedOutward() {
           },
         ],
         ["To SCP", shipment.ToParty],
-        ["Address", `${shipment.LCM_LocationStreet1}, ${shipment.LCM_LocationStreet2}`],
-        ["City", shipment.LCM_City],
-        ["State", shipment.LCM_State],
-        ["Country", shipment.LCM_Country],
-        ["Email ID", shipment.LCM_EmailID],
-        ["Phone Number", shipment.LCM_ContactNumber],
+        ["Address", `${shipment.LCM_LabelAddress1}` || '-'],
+        ["City", shipment.LCM_City || '-'],
+        ["State", shipment.LCM_State || '-'],
+        ["Country", shipment.LCM_Country || '-'],
+        ["Email ID", shipment.LCM_EmailID || '-'],
+        ["Phone Number", shipment.LCM_ContactNumber || '-'],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       styles: PDF_STYLE.tableRow,
@@ -814,16 +822,6 @@ export default function CompletedOutward() {
 
     /* ---------------- DELIVERED BY ---------------- */
 
-    // Handle potential missing/undefined Street1 and Street2 to avoid "undefined, undefined"
-    const street1 = mainShipment.Street1 || '';
-    const street2 = mainShipment.Street2 || '';
-    let address = '';
-    if (street1 && street2) {
-      address = `${street1}, ${street2}`;
-    } else if (street1 || street2) {
-      address = street1 || street2;
-    }
-
     autoTable(doc, {
       startY: 45,
       theme: "grid",
@@ -836,12 +834,12 @@ export default function CompletedOutward() {
           },
         ],
         ["From SCP", mainShipment.FromParty || ''],
-        ["Address", address],
-        ["City", mainShipment.City || ''],
-        ["State", mainShipment.State || ''],
-        ["Country", mainShipment.Country || ''],
-        ["Email ID", mainShipment.Email || ''],
-        ["Phone Number", mainShipment.CNo || ''],
+        ["Address", mainShipment.Location || '-'],
+        ["City", mainShipment.City || '-'],
+        ["State", mainShipment.State || '-'],
+        ["Country", mainShipment.Country || '-'],
+        ["Email ID", mainShipment.Email || '-'],
+        ["Phone Number", mainShipment.CNo || '-'],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
       headStyles: PDF_STYLE.tableHeader,
@@ -1041,7 +1039,7 @@ export default function CompletedOutward() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            body={(row) => formatDate(row.SHPH_Date)}
+            //body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
             field="RUTL_Name"
@@ -1050,6 +1048,8 @@ export default function CompletedOutward() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
+            style={{ textWrap:"auto"}}
+            
           />
           <Column
             field="LGCM_Name"
@@ -1058,6 +1058,7 @@ export default function CompletedOutward() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.LGCM_Name || "-"}
+            style={{ textWrap:"auto"}}
           />
           <Column
             field="LGCVM_VehicleNumber"
