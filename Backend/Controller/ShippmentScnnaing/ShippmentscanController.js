@@ -589,38 +589,94 @@ const deliverychallanData = async (req, res) => {
 		JOIN scpmaster ON scpmaster.SCPM_ID = deliverychallanlist.dcl_scpto 
 		WHERE dcl_scpfrom = ? AND shipmentlist.SHPH_ShipmentID = ? AND deliverychallanlist.dcl_ShipmentType = 1`;
 
-		const getShipmentData = `SELECT 
-		deliverychallanlist.dcl_DeliveryNo, 
-		scpmaster.SCPM_Name AS FromParty, 
-		sm.SCPM_Name AS ToParty,
-        shipmentlist.SHPH_DriverName,
-        shipmentlist.SHPH_DriverContactNo,
-		logisticcompanymaster.LGCM_Name,
-		logisticcompanyvehiclemaster.LGCVM_VehicleNumber,
-		locationmaster.LCM_LabelAddress1,
-		locationmaster.LCM_City,
-		locationmaster.LCM_State,
-		locationmaster.LCM_Country,
-		locationmaster.LCM_EmailID,
-		locationmaster.LCM_ContactNumber,
-		LCM.LCM_LabelAddress1 AS Location,
-		LCM.LCM_City AS City,
-		LCM.LCM_State AS State,
-		LCM.LCM_Country AS Country,
-		LCM.LCM_EmailID AS Email,
-		LCM.LCM_ContactNumber AS CNo 
-		FROM deliverychallanlist 
-		JOIN scpmaster ON scpmaster.SCPM_ID = deliverychallanlist.dcl_scpfrom 
-		JOIN scpmaster AS sm ON sm.SCPM_ID = deliverychallanlist.dcl_scpto 
-		JOIN shipmentlist ON shipmentlist.SHPH_ShipmentID = deliverychallanlist.dcl_shipmentID 
-		JOIN logisticcompanymaster ON logisticcompanymaster.LGCM_ID = shipmentlist.SHPH_LogisticPartyID 
-		LEFT JOIN logisticcompanyvehiclemaster ON logisticcompanyvehiclemaster.LGCVM_ID = shipmentlist.SHPH_LogisticVehicleID 
-		JOIN locationmaster ON locationmaster.LCM_SCPID = deliverychallanlist.dcl_scpto 
-		JOIN locationmaster AS LCM ON LCM.LCM_SCPID = deliverychallanlist.dcl_scpfrom 
-		WHERE shipmentlist.SHPH_ShipmentID = ?
-		AND deliverychallanlist.dcl_scpfrom = ?
-		AND deliverychallanlist.dcl_scpto = ?
-		AND deliverychallanlist.dcl_ShipmentType = 1;`;
+		// const getShipmentData = `SELECT 
+		// deliverychallanlist.dcl_DeliveryNo, 
+		// scpmaster.SCPM_Name AS FromParty, 
+		// sm.SCPM_Name AS ToParty,
+        // shipmentlist.SHPH_DriverName,
+        // shipmentlist.SHPH_DriverContactNo,
+		// logisticcompanymaster.LGCM_Name,
+		// logisticcompanyvehiclemaster.LGCVM_VehicleNumber,
+		// locationmaster.LCM_LabelAddress1,
+		// locationmaster.LCM_City,
+		// locationmaster.LCM_State,
+		// locationmaster.LCM_Country,
+		// locationmaster.LCM_EmailID,
+		// locationmaster.LCM_ContactNumber,
+		// LCM.LCM_LabelAddress1 AS Location,
+		// LCM.LCM_City AS City,
+		// LCM.LCM_State AS State,
+		// LCM.LCM_Country AS Country,
+		// LCM.LCM_EmailID AS Email,
+		// LCM.LCM_ContactNumber AS CNo 
+		// FROM deliverychallanlist 
+		// JOIN scpmaster ON scpmaster.SCPM_ID = deliverychallanlist.dcl_scpfrom 
+		// JOIN scpmaster AS sm ON sm.SCPM_ID = deliverychallanlist.dcl_scpto 
+		// JOIN shipmentlist ON shipmentlist.SHPH_ShipmentID = deliverychallanlist.dcl_shipmentID 
+		// JOIN logisticcompanymaster ON logisticcompanymaster.LGCM_ID = shipmentlist.SHPH_LogisticPartyID 
+		// LEFT JOIN logisticcompanyvehiclemaster ON logisticcompanyvehiclemaster.LGCVM_ID = shipmentlist.SHPH_LogisticVehicleID 
+		// JOIN locationmaster ON locationmaster.LCM_SCPID = deliverychallanlist.dcl_scpto 
+		// JOIN locationmaster AS LCM ON LCM.LCM_SCPID = deliverychallanlist.dcl_scpfrom 
+		// WHERE shipmentlist.SHPH_ShipmentID = ?
+		// AND deliverychallanlist.dcl_scpfrom = ?
+		// AND deliverychallanlist.dcl_scpto = ?
+		// AND deliverychallanlist.dcl_ShipmentType = 1;`;
+
+		const getShipmentData =`SELECT distinct
+     dcl.dcl_DeliveryNo,
+    scpfrom.SCPM_Name AS FromParty,
+    scpto.SCPM_Name AS ToParty,
+    shp.SHPH_DriverName,
+    shp.SHPH_DriverContactNo,
+    lg.LGCM_Name,
+    lgv.LGCVM_VehicleNumber,
+    locTo.LCM_LabelAddress1,
+    locTo.LCM_City,
+    locTo.LCM_State,
+    locTo.LCM_Country,
+    uf.UM_EmailAddress AS FromEmail,
+    uf.UM_PhoneNumber AS FromContact,
+    locFrom.LCM_LabelAddress1 AS Location,
+    locFrom.LCM_City AS City,
+    locFrom.LCM_State AS State,
+    locFrom.LCM_Country AS Country,
+    ut.UM_EmailAddress AS ToEmail,
+    ut.UM_PhoneNumber AS ToContact
+FROM deliverychallanlist dcl
+JOIN scpmaster scpfrom 
+    ON scpfrom.SCPM_ID = dcl.dcl_scpfrom
+JOIN scpmaster scpto 
+    ON scpto.SCPM_ID = dcl.dcl_scpto
+JOIN shipmentlist shp 
+    ON shp.SHPH_ShipmentID = dcl.dcl_shipmentID
+JOIN logisticcompanymaster lg 
+    ON lg.LGCM_ID = shp.SHPH_LogisticPartyID
+LEFT JOIN logisticcompanyvehiclemaster lgv 
+    ON lgv.LGCVM_ID = shp.SHPH_LogisticVehicleID
+LEFT JOIN usermaster uf 
+ON uf.UM_UserId = (
+    SELECT u1.UM_UserId
+    FROM usermaster u1
+    WHERE u1.UM_DefaultSCPId = dcl.dcl_scpfrom
+    ORDER BY u1.UM_UserId 
+    LIMIT 1
+)
+LEFT JOIN usermaster ut 
+ON ut.UM_UserId = (
+    SELECT u2.UM_UserId
+    FROM usermaster u2
+    WHERE u2.UM_DefaultSCPId = dcl.dcl_scpto
+    ORDER BY u2.UM_UserId 
+    LIMIT 1
+)
+LEFT JOIN locationmaster locTo 
+ON locTo.LCM_SCPID = dcl.dcl_scpto
+LEFT JOIN locationmaster locFrom 
+ON locFrom.LCM_SCPID = dcl.dcl_scpfrom
+WHERE shp.SHPH_ShipmentID = ?
+AND dcl.dcl_scpfrom = ?
+AND dcl.dcl_scpto = ?
+AND dcl.dcl_ShipmentType = 1;`;
 
 		const getProductData = `      
  SELECT 
@@ -710,7 +766,7 @@ const deliverychallanAll = async (req, res) => {
 	console.log(req.params);
 	// Define your queries
 	const getShipmentDetailsQuery = `
-    SELECT 
+    SELECT distinct
       scpmaster.SCPM_Name AS FromParty, 
       sm.SCPM_Name AS ToParty,
       logisticcompanymaster.LGCM_Name,
@@ -719,14 +775,20 @@ const deliverychallanAll = async (req, res) => {
       LCM.LCM_City AS City,
       LCM.LCM_State AS State,
       LCM.LCM_Country AS Country,
-      LCM.LCM_EmailID AS Email,
-      LCM.LCM_ContactNumber AS CNo
+     uf.UM_EmailAddress AS FromEmail,
+    uf.UM_PhoneNumber AS FromContact
     FROM 
       deliverychallanlist
     JOIN 
       scpmaster ON scpmaster.SCPM_ID = deliverychallanlist.dcl_scpfrom
     JOIN 
       scpmaster AS sm ON sm.SCPM_ID = deliverychallanlist.dcl_scpto
+	LEFT JOIN usermaster uf ON uf.UM_UserId = (
+    SELECT u1.UM_UserId
+    FROM usermaster u1
+    WHERE u1.UM_DefaultSCPId = deliverychallanlist.dcl_scpfrom
+    ORDER BY u1.UM_UserId 
+    LIMIT 1)
     JOIN 
       shipmentlist ON shipmentlist.SHPH_ShipmentID = deliverychallanlist.dcl_shipmentID
     JOIN 
@@ -736,9 +798,8 @@ const deliverychallanAll = async (req, res) => {
        JOIN 
       locationmaster AS LCM ON LCM.LCM_SCPID = deliverychallanlist.dcl_scpfrom
     WHERE 
-      shipmentlist.SHPH_ShipmentID =?  
-      AND deliverychallanlist.dcl_scpfrom = ? AND deliverychallanlist.dcl_ShipmentType = 1
-  `;
+      shipmentlist.SHPH_ShipmentID =?
+      AND deliverychallanlist.dcl_scpfrom = ? AND deliverychallanlist.dcl_ShipmentType = 1`;
 
 	const getProductDetailsQuery = `
      SELECT 

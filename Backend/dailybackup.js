@@ -17,73 +17,73 @@ if (!fs.existsSync(backupDir)) {
 }
 
 //Function to delete old backups
-function deleteOldBackups() {
-  const files = fs.readdirSync(backupDir);
-  const now = Date.now();
-  const retentionMillis = retentionDays * 24 * 60 * 60 * 1000;
-
-  files.forEach(file => {
-    if (file.endsWith(".sql")) {
-      const filePath = path.join(backupDir, file);
-      const stats = fs.statSync(filePath);
-      const age = now - stats.mtimeMs;
-
-      if (age > retentionMillis) {
-        fs.unlinkSync(filePath);
-        console.log(`Deleted old backup: ${file}`);
-      }
-    }
-  });
-}
-
-// const archiveDir = process.env.ARCHIVE_BACKUP_PATH;
-
-// // Ensure archive folder exists
-// if (!fs.existsSync(archiveDir)) {
-//   fs.mkdirSync(archiveDir, { recursive: true });
-// }
-
 // function deleteOldBackups() {
 //   const files = fs.readdirSync(backupDir);
 //   const now = Date.now();
 //   const retentionMillis = retentionDays * 24 * 60 * 60 * 1000;
 
 //   files.forEach(file => {
-//     if (!file.endsWith(".sql")) return;
+//     if (file.endsWith(".sql")) {
+//       const filePath = path.join(backupDir, file);
+//       const stats = fs.statSync(filePath);
+//       const age = now - stats.mtimeMs;
 
-//     const sourcePath = path.join(backupDir, file);
-//     const stats = fs.statSync(sourcePath);
-//     const age = now - stats.mtimeMs;
-
-//     if (age > retentionMillis) {
-//       const destinationPath = path.join(archiveDir, file);
-
-//       try {
-//         console.log(`Archiving: ${file}`);
-
-//         // Step 1: Copy file to Windows
-//         fs.copyFileSync(sourcePath, destinationPath);
-
-//         // Step 2: Verify copy
-//         if (fs.existsSync(destinationPath)) {
-//           const srcSize = fs.statSync(sourcePath).size;
-//           const destSize = fs.statSync(destinationPath).size;
-
-//           if (srcSize === destSize) {
-//             // Step 3: Delete original
-//             fs.unlinkSync(sourcePath);
-//             console.log(`Archived & deleted: ${file}`);
-//           } else {
-//             console.error(`Size mismatch! Not deleting: ${file}`);
-//           }
-//         }
-
-//       } catch (err) {
-//         console.error(`Error archiving ${file}:`, err.message);
+//       if (age > retentionMillis) {
+//         fs.unlinkSync(filePath);
+//         console.log(`Deleted old backup: ${file}`);
 //       }
 //     }
 //   });
 // }
+
+const archiveDir = process.env.ARCHIVE_BACKUP_PATH;
+
+// Ensure archive folder exists
+if (!fs.existsSync(archiveDir)) {
+  fs.mkdirSync(archiveDir, { recursive: true });
+}
+
+function deleteOldBackups() {
+  const files = fs.readdirSync(backupDir);
+  const now = Date.now();
+  const retentionMillis = retentionDays * 24 * 60 * 60 * 1000;
+
+  files.forEach(file => {
+    if (!file.endsWith(".sql")) return;
+
+    const sourcePath = path.join(backupDir, file);
+    const stats = fs.statSync(sourcePath);
+    const age = now - stats.mtimeMs;
+
+    if (age > retentionMillis) {
+      const destinationPath = path.join(archiveDir, file);
+
+      try {
+        console.log(`Archiving: ${file}`);
+
+        // Step 1: Copy file to Windows
+        fs.copyFileSync(sourcePath, destinationPath);
+
+        // Step 2: Verify copy
+        if (fs.existsSync(destinationPath)) {
+          const srcSize = fs.statSync(sourcePath).size;
+          const destSize = fs.statSync(destinationPath).size;
+
+          if (srcSize === destSize) {
+            // Step 3: Delete original
+            fs.unlinkSync(sourcePath);
+            console.log(`Archived & deleted: ${file}`);
+          } else {
+            console.error(`Size mismatch! Not deleting: ${file}`);
+          }
+        }
+
+      } catch (err) {
+        console.error(`Error archiving ${file}:`, err.message);
+      }
+    }
+  });
+}
 
 // Schedule the backup using node-cron
 cron.schedule(`${minute} ${hour} * * *`, () => {

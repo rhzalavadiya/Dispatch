@@ -367,7 +367,7 @@ app.post("/syncsingleshipment", async (req, res) => {
         continue;
       }
 
-    
+
       // ────────────────────────────────────────────────
       // 2. Normalize all date/datetime values
       // ────────────────────────────────────────────────
@@ -515,7 +515,7 @@ app.post("/revers-sync", async (req, res) => {
         continue;
       }
 
-     
+
       // ────────────────────────────────────────────────
       // 2. Normalize all date/datetime values
       // ────────────────────────────────────────────────
@@ -677,6 +677,7 @@ const LoginSync = async () => {
 
     const { SCPM_ID, SCPM_CompanyID } = scpmRows[0];
 
+
     /* 2️⃣ Remaining queries using CompanyID and SCPID */
     console.log(process.env.APPName);
     const [usermaster] = await conn.query(
@@ -685,8 +686,8 @@ const LoginSync = async () => {
       join userscpmaster on userscpmaster.USM_UserID=usermaster.UM_UserId
       join scpmaster on scpmaster.SCPM_ID=usermaster.UM_DefaultSCPId 
       join appmaster on appmaster.AppId=grouproleinfo.gri_AppID
-      where scpmaster.SCPM_Code=? and appmaster.AppName=?;`,
-      [process.env.SCPMCode, process.env.APPName]
+      where usermaster.UM_CompanyID=? and appmaster.AppName=?;`,
+      [SCPM_CompanyID, process.env.APPName]
     );
 
     const [groupmaster] = await conn.query(
@@ -799,7 +800,7 @@ app.post("/syncuserdetail", async (req, res) => {
         continue;
       }
 
-    
+
       // ────────────────────────────────────────────────
       // 2. Normalize all date/datetime values
       // ────────────────────────────────────────────────
@@ -893,48 +894,48 @@ async function syncPasswordTransactionsSafely(records, conn) {
         .map((col) => col.COLUMN_NAME);
 
       for (const record of userRecords) {
-        
-      // ────────────────────────────────────────────────
-      // 2. Normalize all date/datetime values
-      // ────────────────────────────────────────────────
-      for (const record of records) {
-        for (const col of dateColumns) {
-          let val = record[col];
 
-          if (val == null || val === "") {
-            record[col] = null;
-            continue;
-          }
+        // ────────────────────────────────────────────────
+        // 2. Normalize all date/datetime values
+        // ────────────────────────────────────────────────
+        for (const record of records) {
+          for (const col of dateColumns) {
+            let val = record[col];
 
-          if (typeof val === "string") {
-            const trimmed = val.trim();
-
-            // Accept valid MySQL DATE or DATETIME and keep as-is
-            if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
-              /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
-              record[col] = trimmed;
+            if (val == null || val === "") {
+              record[col] = null;
               continue;
             }
+
+            if (typeof val === "string") {
+              const trimmed = val.trim();
+
+              // Accept valid MySQL DATE or DATETIME and keep as-is
+              if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed) ||
+                /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(trimmed)) {
+                record[col] = trimmed;
+                continue;
+              }
+            }
+
+            // fallback parsing
+            const dt = new Date(val);
+            if (isNaN(dt.getTime())) {
+              record[col] = null;
+              continue;
+            }
+
+            const pad = (n) => String(n).padStart(2, "0");
+
+            record[col] =
+              dt.getFullYear() + "-" +
+              pad(dt.getMonth() + 1) + "-" +
+              pad(dt.getDate()) + " " +
+              pad(dt.getHours()) + ":" +
+              pad(dt.getMinutes()) + ":" +
+              pad(dt.getSeconds());
           }
-
-          // fallback parsing
-          const dt = new Date(val);
-          if (isNaN(dt.getTime())) {
-            record[col] = null;
-            continue;
-          }
-
-          const pad = (n) => String(n).padStart(2, "0");
-
-          record[col] =
-            dt.getFullYear() + "-" +
-            pad(dt.getMonth() + 1) + "-" +
-            pad(dt.getDate()) + " " +
-            pad(dt.getHours()) + ":" +
-            pad(dt.getMinutes()) + ":" +
-            pad(dt.getSeconds());
         }
-      }
 
         // Use all columns except auto-increment primary key if needed
         const columns = Object.keys(record).filter((c) => existingColumns.includes(c));

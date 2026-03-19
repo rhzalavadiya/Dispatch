@@ -1,5 +1,6 @@
 const conn = require("../../Database/database");
 const { encrypt, decrypt } = require("../../CryptoUtils");
+require("dotenv").config();
 
 /* -------------------------------- LOGIN -------------------------------- */
 
@@ -13,7 +14,7 @@ const loginWithPassword = async (req, res) => {
                 message: "Username and password are required."
             });
         }
-
+        //console.log(process.env.SCPMCode);
        const [rows] = await conn.query(
   `SELECT usermaster.*, 
           companyitpolicymaster.CITPM_PolicyName,
@@ -22,9 +23,10 @@ const loginWithPassword = async (req, res) => {
    JOIN groupmaster 
      ON groupmaster.GRPM_GroupId = usermaster.UM_GroupId
    JOIN companyitpolicymaster 
-     ON companyitpolicymaster.CITPM_PolicyID = groupmaster.GRPM_ITPolicyId 
-   WHERE UM_UserCode = ?`,
-  [UM_UserCode]
+     ON companyitpolicymaster.CITPM_PolicyID = groupmaster.GRPM_ITPolicyId
+   JOIN scpmaster on scpmaster.SCPM_ID=usermaster.UM_DefaultSCPId
+   WHERE UM_UserCode = ? AND scpmaster.SCPM_Code=?`,
+  [UM_UserCode,process.env.SCPMCode]
 );
 
 if (rows.length === 0) {

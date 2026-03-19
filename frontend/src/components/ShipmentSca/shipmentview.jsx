@@ -93,7 +93,7 @@ export default function ShipmentView() {
               <label>Shipment Date</label>
               <input
                 className="form-input"
-                value={formatDate(header.SHPH_ShipmentDate)}
+                value={header.SHPH_ShipmentDate}
                 readOnly
               />
             </div>
