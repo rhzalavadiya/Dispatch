@@ -1040,49 +1040,168 @@ ORDER BY sl.SHPH_ShipmentID DESC;
 };
 
 // POST /api/log-shipment-event
+// const logShipmentEvent = async (req, res) => {
+//   const { shipmentId, event, status } = req.body;
+
+//   if (!shipmentId || !event || status === undefined) {
+//     return res.status(400).json({
+//       success: false,
+//       message: "Missing required fields"
+//     });
+//   }
+
+//   let durationSeconds = 0;
+
+//   // Calculate duration only for Stop / Close
+//   if (event === "Stop" || event === "Close") {
+//     const [rows] = await conn.query(`
+//       SELECT ST_time
+//       FROM shipmenttransction
+//       WHERE ST_shipmentId = ?
+//         AND ST_event IN ('Start', 'Resume')
+//       ORDER BY ST_time DESC
+//       LIMIT 1
+//     `, [shipmentId]);
+
+//     if (rows.length > 0) {
+//       const startTime = new Date(rows[0].ST_time);
+//       const now = new Date();
+//       durationSeconds = Math.floor((now - startTime) / 1000);
+//     }
+//   }
+
+//   // ✅ INSERT — MySQL sets ST_time automatically
+//   await conn.query(`
+//     INSERT INTO shipmenttransction
+//     (ST_shipmentId, ST_event, ST_duration, ST_status)
+//     VALUES (?, ?, ?, ?)
+//   `, [shipmentId, event, durationSeconds, status]);
+
+//   return res.json({
+//     success: true,
+//     message: "Shipment event logged successfully"
+//   });
+// };
+
+
 const logShipmentEvent = async (req, res) => {
-  const { shipmentId, event, status } = req.body;
+    try {
+        const { shipmentId, event, status,totalCount } = req.body;
+		console.log("Log Shipment Event Request:", req.body);
 
-  if (!shipmentId || !event || status === undefined) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing required fields"
-    });
-  }
+        if (!shipmentId || !event || status === undefined) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing required fields"
+            });
+        }
 
-  let durationSeconds = 0;
+        // ─────────────────────────────────────────────
+        // Get last event
+        // ─────────────────────────────────────────────
+        const [latest] = await conn.query(`
+            SELECT ST_event, ST_time
+            FROM shipmenttransction 
+            WHERE ST_shipmentId = ?
+            ORDER BY ST_time DESC 
+            LIMIT 1
+        `, [shipmentId]);
 
-  // Calculate duration only for Stop / Close
-  if (event === "Stop" || event === "Close") {
-    const [rows] = await conn.query(`
-      SELECT ST_time
-      FROM shipmenttransction
-      WHERE ST_shipmentId = ?
-        AND ST_event IN ('Start', 'Resume')
-      ORDER BY ST_time DESC
-      LIMIT 1
-    `, [shipmentId]);
+        const lastEvent = latest.length > 0 ? latest[0].ST_event : null;
 
-    if (rows.length > 0) {
-      const startTime = new Date(rows[0].ST_time);
-      const now = new Date();
-      durationSeconds = Math.floor((now - startTime) / 1000);
+        // ─────────────────────────────────────────────
+        // 1. START → Only once (first event)
+        // ─────────────────────────────────────────────
+        if (event === "Start") {
+            if (lastEvent !== null) {
+                return res.json({
+                    success: true,
+                    message: "Start already exists. Skipped."
+                });
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // 2. STOP → Only after Start or Resume
+        // ─────────────────────────────────────────────
+        if (event === "Stop") {
+            if (!["Start", "Resume"].includes(lastEvent)) {
+                return res.json({
+                    success: true,
+                    message: "Stop not allowed now."
+                });
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // 3. RESUME → Only after Stop
+        // ─────────────────────────────────────────────
+        if (event === "Resume") {
+            if (lastEvent !== "Stop") {
+                return res.json({
+                    success: true,
+                    message: "Resume only allowed after Stop."
+                });
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // 4. CLOSE → Only after Start or Resume
+        //    (covers both flows)
+        // ─────────────────────────────────────────────
+        if (event === "Close") {
+            if (!["Start", "Resume"].includes(lastEvent)) {
+                return res.json({
+                    success: true,
+                    message: "Close not allowed now."
+                });
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // 5. Duration Calculation
+        // ─────────────────────────────────────────────
+        let durationSeconds = 0;
+
+        if (event === "Stop" || event === "Close") {
+            const [rows] = await conn.query(`
+                SELECT ST_time
+                FROM shipmenttransction
+                WHERE ST_shipmentId = ?
+                  AND ST_event IN ('Start', 'Resume')
+                ORDER BY ST_time DESC
+                LIMIT 1
+            `, [shipmentId]);
+
+            if (rows.length > 0) {
+                const startTime = new Date(rows[0].ST_time);
+                const now = new Date();
+                durationSeconds = Math.floor((now - startTime) / 1000);
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // 6. Insert event
+        // ─────────────────────────────────────────────
+        await conn.query(`
+            INSERT INTO shipmenttransction
+            (ST_shipmentId, ST_event, ST_duration, ST_status,ST_totalCount)
+            VALUES (?, ?, ?, ?, ?)
+        `, [shipmentId, event, durationSeconds, status, totalCount]);
+
+        return res.json({
+            success: true,
+            message: "Shipment event logged successfully"
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        });
     }
-  }
-
-  // ✅ INSERT — MySQL sets ST_time automatically
-  await conn.query(`
-    INSERT INTO shipmenttransction
-    (ST_shipmentId, ST_event, ST_duration, ST_status)
-    VALUES (?, ?, ?, ?)
-  `, [shipmentId, event, durationSeconds, status]);
-
-  return res.json({
-    success: true,
-    message: "Shipment event logged successfully"
-  });
 };
-
 
 
 // Export in your router/controller

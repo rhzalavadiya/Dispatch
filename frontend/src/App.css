@@ -200,7 +200,7 @@
   padding: 10px;
   background-color: #ddd;
   font-weight: bold;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   text-align: center;
   white-space: nowrap;
   position: sticky;
@@ -2479,4 +2479,35 @@ input:focus, select:focus .form-control:focus {
     box-shadow: none !important;
     outline: none !important;
     outline-color: #e4e4e4 !important;
+}
+
+
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.custom-table .p-paginator {
+    border: none;
+}
+
+/* When filtered */
+.custom-table.paginator-filtered .p-paginator {
+    top: 396px;
+}
+
+/* When normal */
+.custom-table.paginator-normal .p-paginator {
+    top: 380px;
+}
+@media (min-height: 768px) {
+  .custom-table.paginator-filtered .p-paginator {
+    top: 465px;
+  }
+}
+@media (min-height: 768px) {
+  .custom-table.paginator-normal .p-paginator {
+    top: 465px;
+  }
 }

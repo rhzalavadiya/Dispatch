@@ -110,11 +110,21 @@ export default function DispatchAuditReport() {
     fetchShipmentList();
   }, [UM_CompanyID, SHPH_FromSCPCode]);
 
-  const parseShipmentDate = (dateString) => {
-    if (!dateString) return null;
-    const [dd, mm, yyyy] = dateString.split("-");
-    return new Date(`${yyyy}-${mm}-${dd}`);
-  };
+const parseShipmentDate = (dateString) => {
+  if (!dateString) return null;
+
+  // Convert "-" → "/" so both formats work
+  const normalized = dateString.replace(/-/g, "/");
+
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return null;
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  return isNaN(date) ? null : date;
+};
+
 
   const searchOptions = [
     { value: null, label: "--Select--" },
@@ -195,14 +205,27 @@ export default function DispatchAuditReport() {
     }
   }, [filterData]);
 
+ 
   const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const [dd, mm, yyyy] = dateString.split("-");
-    const isoDate = `${yyyy}-${mm}-${dd}`;
-    const d = new Date(isoDate);
-    if (isNaN(d)) return "";
-    return d.toLocaleDateString("en-GB");
-  };
+  if (!dateString) return "";
+
+  // Normalize both formats
+  const normalized = dateString.replace(/-/g, "/");
+
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return "";
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  if (isNaN(date)) return "";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
 
   const renderHeader = () => {
     const showDateRow = selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
@@ -467,7 +490,7 @@ export default function DispatchAuditReport() {
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
 
 const date = new Date();
-    const formattedDateTime = date.toLocaleString("en-GB");
+    const formattedDateTime = date.toLocaleString("en-GB").replace(",", "");
 
     const startX = doc.internal.pageSize.getWidth() - 55;
 
@@ -761,6 +784,7 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"65px"}}
           />
           <Column
             field="SHPH_ShipmentCode"
@@ -768,6 +792,7 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"150px"}}
           />
           <Column
             field="SHPH_Date"
@@ -775,7 +800,8 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            //body={(row) => formatDate(row.SHPH_Date)}
+            style={{width:"150px"}}
+            body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
             field="RUTL_Name"
@@ -784,7 +810,7 @@ const date = new Date();
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
-            style={{ textWrap:"auto"}}
+            style={{ textWrap:"auto", width:"180px"}}
           />
           <Column
             field="LGCM_Name"
@@ -801,6 +827,7 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"150px"}}
             body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
@@ -808,6 +835,7 @@ const date = new Date();
             className="rowx"
             headerClassName="custom-header"
             bodyClassName="custom-description"
+            style={{width:"75px"}}
             body={(rowData) => {
               return (
                 <div className="d-flex align-items-center justify-content-center gap-3">

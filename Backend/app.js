@@ -566,7 +566,7 @@ app.post("/sync-login-details", async (req, res) => {
         continue;
       }
 
-       // ────────────────────────────────────────────────
+      // ────────────────────────────────────────────────
       // 2. Normalize all date/datetime values
       // ────────────────────────────────────────────────
       for (const record of records) {
@@ -1765,17 +1765,23 @@ app.get('/check-camera', async (req, res) => {
 });
 
 //------------------------------------------Api for Batchid Count ---------------------------
-
 app.get("/api/readbatchcount", async (req, res) => {
 
   const { shipmentCode } = req.query;
-  console.log("Batchcout For :", req.query);
+
+  console.log("🚀 API HIT /api/readbatchcount");
+  console.log("👉 Shipment Code:", shipmentCode);
+
   if (!shipmentCode) {
+    console.log("❌ shipmentCode missing");
     return res.status(400).json({ error: "shipmentCode is required" });
   }
 
+   const [ShipmentCode] = await conn.query(
+    `SELECT SHPH_ShipmentID FROM shipmentlist WHERE SHPH_ShipmentCode = ? LIMIT 1`,
+    [shipmentCode]
+  );
   const basePath = process.env.DISPATCH_BASE_PATH;
-  //const basePath = "D:/ProjectWorkspace/Dispatch/ProcessFiles";
   const dispatchFile = process.env.DispatchFile;
   const rsnFile = process.env.RSNFile;
 
@@ -1793,6 +1799,7 @@ app.get("/api/readbatchcount", async (req, res) => {
     let dispatchPath = null;
 
     for (const p of dispatchPaths) {
+      console.log("🔍 Checking Dispatch Path:", p);
       if (fs.existsSync(p)) {
         dispatchPath = p;
         break;
@@ -1800,8 +1807,11 @@ app.get("/api/readbatchcount", async (req, res) => {
     }
 
     if (!dispatchPath) {
+      console.log("❌ Dispatch CSV not found");
       return res.status(404).json({ error: "Dispatch CSV not found" });
     }
+
+    console.log("✅ Dispatch File Found:", dispatchPath);
 
     const dispatchData = fs.readFileSync(dispatchPath, "utf8");
 
@@ -1810,58 +1820,55 @@ app.get("/api/readbatchcount", async (req, res) => {
       skipEmptyLines: true
     });
 
-    const row = dispatchParsed.data[0];
+    console.log("📦 Dispatch Rows:", dispatchParsed.data.length);
 
-    if (!row) {
+    if (!dispatchParsed.data.length) {
       return res.json({ success: true, updated: [], extraBatch: [] });
     }
 
-    const batchIds = row.BatchId
-      ? row.BatchId.split(",").map(v => v.trim())
-      : [];
-
-    const counts = row.Count
-      ? row.Count.split(",").map(v => Number(v.trim()))
-      : [];
-
-    const usedCounts = row.UsedCount
-      ? row.UsedCount.split(",").map(v => Number(v.trim()))
-      : [];
-
-    const updatedBatches = [];
-
     // --------------------------------------------------
-    // UPDATE DB FROM DISPATCH CSV
+    // MERGE DISPATCH DATA
     // --------------------------------------------------
 
-    for (let i = 0; i < batchIds.length; i++) {
+    const batchMap = {};
 
-      const batchId = batchIds[i];
-      const limit = counts[i] || 0;
-      const used = usedCounts[i] || 0;
+    dispatchParsed.data.forEach((row, index) => {
 
-      const remaining = limit - used;
+      const batchIds = row.BatchId
+        ? row.BatchId.split(",").map(v => v.trim())
+        : [];
 
-      console.log("Batch:", batchId, "Remaining:", remaining);
+      const counts = row.Count
+        ? row.Count.split(",").map(v => Number(v.trim()))
+        : [];
 
-      if (remaining <= 0) continue;
+      const usedCounts = row.UsedCount
+        ? row.UsedCount.split(",").map(v => Number(v.trim()))
+        : [];
 
-      await conn.query(
-        `UPDATE batchlist
-         SET BL_UsedCount = BL_UsedCount + ?
-         WHERE BL_ID = ?`,
-        [remaining, batchId]
-      );
-
-      updatedBatches.push({
-        batchId,
-        addedQty: remaining
+      console.log(`📄 Row ${index + 1} =>`, {
+        batchIds,
+        counts,
+        usedCounts
       });
 
-    }
+      batchIds.forEach((batchId, i) => {
+
+        if (!batchMap[batchId]) {
+          batchMap[batchId] = { count: 0, used: 0 };
+        }
+
+        batchMap[batchId].count += counts[i] || 0;
+        batchMap[batchId].used += usedCounts[i] || 0;
+
+      });
+
+    });
+
+    console.log("📊 Merged Dispatch BatchMap:", batchMap);
 
     // --------------------------------------------------
-    // FIND RSN FILE
+    // READ RSN FILE
     // --------------------------------------------------
 
     const rsnPaths = [
@@ -1872,75 +1879,176 @@ app.get("/api/readbatchcount", async (req, res) => {
     let rsnPath = null;
 
     for (const p of rsnPaths) {
+      console.log("🔍 Checking RSN Path:", p);
       if (fs.existsSync(p)) {
         rsnPath = p;
         break;
       }
     }
 
-    if (!rsnPath) {
-      return res.json({
-        success: true,
-        updated: updatedBatches,
-        extraBatch: []
+    let rsnBatchCounts = {};
+    let rsnBatchDetails = {};
+
+    if (rsnPath) {
+      console.log("✅ RSN File Found:", rsnPath);
+
+      const rsnData = fs.readFileSync(rsnPath, "utf8");
+
+      const rsnParsed = Papa.parse(rsnData, {
+        header: true,
+        skipEmptyLines: true
       });
+
+      console.log("📦 RSN Rows:", rsnParsed.data.length);
+
+     rsnParsed.data.forEach((r, index) => {
+  const batch = r.IRS_BatchID;
+  if (!batch) return;
+
+  const productId = r.IRS_ProductID;
+  const scpCode = r.SCPM_Code;
+
+  // existing count logic (DO NOT REMOVE)
+  rsnBatchCounts[batch] = (rsnBatchCounts[batch] || 0) + 1;
+
+  // NEW: store extra details
+  if (!rsnBatchDetails[batch]) {
+    rsnBatchDetails[batch] = {
+      productId,
+      scpCode,
+      count: 0
+    };
+  }
+
+  rsnBatchDetails[batch].count += 1;
+
+  console.log(`🔢 RSN Row ${index + 1} => Batch ${batch}`);
+});
+    } else {
+      console.log("⚠️ RSN File not found");
     }
 
+    console.log("📊 RSN Batch Counts:", rsnBatchCounts);
+    console.log("📊 RSN Batch Detail:", rsnBatchDetails);
     // --------------------------------------------------
-    // READ RSN CSV
+// INSERT RSN DATA INTO shipmentbatchcount
+// --------------------------------------------------
+
+for (const batchId in rsnBatchDetails) {
+
+  const { productId, scpCode, count } = rsnBatchDetails[batchId];
+
+  // 👉 GET shipment ID (example: from request or DB)
+  const shipmentId = ShipmentCode[0].SHPH_ShipmentID;;
+
+  // 👉 OPTIONAL: Convert SCP Code → SCP ID (if needed)
+  let scpId = null;
+
+  const [scpResult] = await conn.query(
+    `SELECT SCPM_ID FROM scpmaster WHERE SCPM_Code = ? LIMIT 1`,
+    [scpCode]
+  );
+
+  if (scpResult.length > 0) {
+    scpId = scpResult[0].SCPM_ID;
+  }
+
+  console.log("🆕 Insert Shipment Batch:", {
+    shipmentId,
+    scpId,
+    productId,
+    batchId,
+    count
+  });
+
+  await conn.query(
+    `INSERT INTO shipmentbatchcount 
+      (SHB_shipmentid, SHB_scpid, SHB_productid, SHB_batchid, SHB_count)
+     VALUES (?, ?, ?, ?, ?)
+     ON DUPLICATE KEY UPDATE 
+       SHB_count = SHB_count + VALUES(SHB_count)`,
+    [shipmentId, scpId, productId, batchId, count]
+  );
+}
+
+    // --------------------------------------------------
+    // FINAL CALCULATION
     // --------------------------------------------------
 
-    const rsnData = fs.readFileSync(rsnPath, "utf8");
-
-    const rsnParsed = Papa.parse(rsnData, {
-      header: true,
-      skipEmptyLines: true
-    });
-
-    const batchCounts = {};
-
-    rsnParsed.data.forEach(r => {
-
-      const batch = r.IRS_BatchID;
-
-      if (!batch) return;
-
-      batchCounts[batch] = (batchCounts[batch] || 0) + 1;
-
-    });
-
-    const firstFileBatches = new Set(batchIds);
-
+    const updatedBatches = [];
     const extraBatch = [];
 
-    // --------------------------------------------------
-    // HANDLE EXTRA BATCH
-    // --------------------------------------------------
+    const allBatchIds = new Set([
+      ...Object.keys(batchMap),
+      ...Object.keys(rsnBatchCounts)
+    ]);
 
-    for (const [batchId, count] of Object.entries(batchCounts)) {
+    console.log("🧩 All Batch IDs:", [...allBatchIds]);
 
-      if (!firstFileBatches.has(batchId)) {
+    for (const batchId of allBatchIds) {
 
-        extraBatch.push({
+      const dispatchCount = batchMap[batchId]?.count || 0;
+      const dispatchUsed = batchMap[batchId]?.used || 0;
+      const rsnCount = rsnBatchCounts[batchId] || 0;
+
+      let remaining = dispatchCount - dispatchUsed;
+      let extra = rsnCount - dispatchCount;
+
+      if (remaining === 0 && extra === 0) {
+        console.log(`⏭ Skipping Batch ${batchId} (No Change)`);
+        continue;
+      }
+      console.log("--------------------------------------------------");
+      console.log(`📦 Batch ${batchId}`);
+      console.log(`➡ Dispatch Count: ${dispatchCount}`);
+      console.log(`➡ Dispatch Used : ${dispatchUsed}`);
+      console.log(`➡ RSN Count     : ${rsnCount}`);
+      console.log(`➡ Remaining     : ${remaining}`);
+      console.log(`➡ Extra         : ${extra}`);
+
+      // ---------- NORMAL UPDATE ----------
+      if (remaining > 0) {
+
+        console.log(`✅ Updating Remaining for Batch ${batchId}: +${remaining}`);
+
+        await conn.query(
+          `UPDATE batchlist
+           SET BL_UsedCount = BL_UsedCount + ?
+           WHERE BL_ID = ?`,
+          [remaining, batchId]
+        );
+
+        updatedBatches.push({
           batchId,
-          count
+          addedQty: remaining
         });
+      }
+
+      // ---------- EXTRA RSN ----------
+      if (extra > 0) {
+
+        console.log(`❌ Extra detected for Batch ${batchId}: -${extra}`);
 
         await conn.query(
           `UPDATE batchlist
            SET BL_UsedCount = BL_UsedCount - ?
            WHERE BL_ID = ?`,
-          [count, batchId]
+          [extra, batchId]
         );
 
+        extraBatch.push({
+          batchId,
+          extraQty: extra
+        });
       }
 
     }
 
-    console.log("Extra Batch:", extraBatch);
+    console.log("✅ FINAL UPDATED:", updatedBatches);
+    console.log("⚠️ FINAL EXTRA:", extraBatch);
 
     // --------------------------------------------------
-    // FINAL RESPONSE
+    // RESPONSE
     // --------------------------------------------------
 
     res.json({
@@ -1951,7 +2059,7 @@ app.get("/api/readbatchcount", async (req, res) => {
 
   } catch (error) {
 
-    console.error("API Error:", error);
+    console.error("🔥 API ERROR:", error);
 
     res.status(500).json({
       success: false,
@@ -1961,7 +2069,6 @@ app.get("/api/readbatchcount", async (req, res) => {
   }
 
 });
-
 
 // ------------------------------------get batch data----------------------------------------
 
@@ -2055,7 +2162,13 @@ app.get("/fetchtime/:id", async (req, res) => {
             WHEN ST_status = 6 
             THEN UNIX_TIMESTAMP(ST_time) 
           END
-        ) AS latest_status_seconds
+        ) AS latest_status_seconds,
+		MAX(
+          CASE 
+            WHEN ST_status = 10 
+            THEN ST_totalCount 
+          END
+        ) AS last_count
       FROM shipmenttransction
       WHERE ST_shipmentId = ?;
     `, [id]);

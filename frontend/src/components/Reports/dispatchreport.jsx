@@ -111,10 +111,20 @@ export default function DispatchReport() {
   }, [UM_CompanyID, SHPH_FromSCPCode]);
 
   const parseShipmentDate = (dateString) => {
-    if (!dateString) return null;
-    const [dd, mm, yyyy] = dateString.split("-");
-    return new Date(`${yyyy}-${mm}-${dd}`);
-  };
+  if (!dateString) return null;
+
+  // Convert "-" → "/" so both formats work
+  const normalized = dateString.replace(/-/g, "/");
+
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return null;
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  return isNaN(date) ? null : date;
+};
+
 
   const searchOptions = [
     { value: null, label: "--Select--" },
@@ -125,15 +135,7 @@ export default function DispatchReport() {
     { value: "LGCVM_VehicleNumber", label: "Vehicle Number" },
   ];
 
-  // const options1 = searchOptions.map((o) => ({
-  //   ...o,
-  //   isDisabled: selectedField2 === o.value && o.value !== "",
-  // }));
 
-  // const options2 = searchOptions.map((o) => ({
-  //   ...o,
-  //   isDisabled: selectedField1 === o.value && o.value !== "",
-  // }));
 
   const options1 = searchOptions.map((o) => ({
     ...o,
@@ -206,14 +208,27 @@ export default function DispatchReport() {
     }
   }, [filterData]);
 
+  
   const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const [dd, mm, yyyy] = dateString.split("-");
-    const isoDate = `${yyyy}-${mm}-${dd}`;
-    const d = new Date(isoDate);
-    if (isNaN(d)) return "";
-    return d.toLocaleDateString("en-GB");
-  };
+  if (!dateString) return "";
+
+  // Normalize both formats
+  const normalized = dateString.replace(/-/g, "/");
+
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return "";
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  if (isNaN(date)) return "";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
 
   const renderHeader = () => {
     const showDateRow = selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
@@ -466,7 +481,7 @@ export default function DispatchReport() {
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
 
     const date = new Date();
-    const formattedDateTime = date.toLocaleString("en-GB");
+    const formattedDateTime = date.toLocaleString("en-GB").replace(",", "");
 
     const startX = doc.internal.pageSize.getWidth() - 55;
 
@@ -546,7 +561,6 @@ export default function DispatchReport() {
               fontStyle: "bold",
               fillColor: [230, 230, 230],
               fontSize: 11,
-
             },
           },
         ]);
@@ -577,7 +591,8 @@ export default function DispatchReport() {
       styles: PDF_STYLE.tableRow,
       headStyles: PDF_STYLE.tableHeader,
       bodyStyles: {
-        halign: "center"
+        halign: "center",
+        valign:"middle"
       },
       columnStyles: {
         0: { cellWidth: 10, overflow: "linebreak" },
@@ -688,6 +703,7 @@ export default function DispatchReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"65px"}}
           />
           <Column
             field="SHPH_ShipmentCode"
@@ -695,6 +711,7 @@ export default function DispatchReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"150px"}}
           />
           <Column
             field="SHPH_Date"
@@ -702,7 +719,8 @@ export default function DispatchReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            //body={(row) => formatDate(row.SHPH_Date)}
+            style={{width:"150px"}}
+            body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
             field="RUTL_Name"
@@ -711,7 +729,7 @@ export default function DispatchReport() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
-            style={{ textWrap:"auto"}}
+            style={{ textWrap:"auto", width:"180px"}}
           />
           <Column
             field="LGCM_Name"
@@ -728,6 +746,7 @@ export default function DispatchReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"150px"}}
             body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
@@ -735,6 +754,7 @@ export default function DispatchReport() {
             className="rowx"
             headerClassName="custom-header"
             bodyClassName="custom-description"
+            style={{width:"75px"}}
             body={(rowData) => {
               return (
                 <div className="d-flex align-items-center justify-content-center gap-3">

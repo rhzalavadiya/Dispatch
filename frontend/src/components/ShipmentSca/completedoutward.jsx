@@ -113,11 +113,20 @@ export default function CompletedOutward() {
     fetchShipmentList();
   }, [UM_CompanyID, SHPH_FromSCPCode]);
 
-  const parseShipmentDate = (dateString) => {
-    if (!dateString) return null;
-    const [dd, mm, yyyy] = dateString.split("-");
-    return new Date(`${yyyy}-${mm}-${dd}`);
-  };
+const parseShipmentDate = (dateString) => {
+  if (!dateString) return null;
+
+  // Convert "-" → "/" so both formats work
+  const normalized = dateString.replace(/-/g, "/");
+
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return null;
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  return isNaN(date) ? null : date;
+};
 
   const searchOptions = [
     { value: null, label: "--Select--" },
@@ -200,13 +209,25 @@ export default function CompletedOutward() {
   }, [filterData]);
 
   const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const [dd, mm, yyyy] = dateString.split("-");
-    const isoDate = `${yyyy}-${mm}-${dd}`;
-    const d = new Date(isoDate);
-    if (isNaN(d)) return "";
-    return d.toLocaleDateString("en-GB");
-  };
+  if (!dateString) return "";
+
+  // Normalize both formats
+  const normalized = dateString.replace(/-/g, "/");
+
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return "";
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  if (isNaN(date)) return "";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
 
   const renderHeader = () => {
     const showDateRow = selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
@@ -605,7 +626,7 @@ export default function CompletedOutward() {
     /* ---------------- HEADER ---------------- */
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
     const date = new Date();
-    const formattedDateTime = date.toLocaleString("en-GB");
+    const formattedDateTime = date.toLocaleString("en-GB").replace(",", "");
 
     const startX = doc.internal.pageSize.getWidth() - 55;
 
@@ -643,7 +664,7 @@ export default function CompletedOutward() {
         ["City", shipment.City || '-'],
         ["State", shipment.State || '-'],
         ["Country", shipment.Country || '-'],
-        ["Email ID", shipment.FromEmail || '-'],
+        ["Email", shipment.FromEmail || '-'],
         ["Phone Number", shipment.FromContact || '-'],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
@@ -668,7 +689,7 @@ export default function CompletedOutward() {
         ["City", shipment.LCM_City || '-'],
         ["State", shipment.LCM_State || '-'],
         ["Country", shipment.LCM_Country || '-'],
-        ["Email ID", shipment.ToEmail || '-'],
+        ["Email", shipment.ToEmail || '-'],
         ["Phone Number", shipment.ToContact || '-'],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
@@ -712,7 +733,7 @@ export default function CompletedOutward() {
     //doc.addPage();
     const batchDataHeaderText = "Product Details";
     const hasScp = shipment.ToParty;
-    const headers = ["Sr. No.", "Product Code", "Product Name", "Quantity"];
+    const headers = ["Sr. No.",  "Product Name","Product Code", "Quantity"];
     const numCols = headers.length;
     let tableData = [];
     tableData.push([
@@ -732,8 +753,8 @@ export default function CompletedOutward() {
     tableData = tableData.concat(
       products.map((row, index) => [
         { content: index + 1, styles: { halign: "center" } },
-        row.dcm_productCode,
         row.dcm_productname,
+        row.dcm_productCode,
         row.dcm_qty,
       ])
     );
@@ -772,8 +793,9 @@ export default function CompletedOutward() {
         { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
       ],
       ["Name", ":", "________________________", "Name", ":", "________________________"],
-      ["Date", ":", "________________________", "Date", ":", "________________________"],
       ["Sign", ":", "________________________", "Sign", ":", "________________________"],
+      ["Date", ":", "________________________", "Date", ":", "________________________"],
+      
     ];
 
     autoTable(doc, {
@@ -799,7 +821,7 @@ export default function CompletedOutward() {
     /* ---------------- HEADER ---------------- */
     doc.addImage(imgData, "PNG", 10, 10, 40, 20);
     const date = new Date();
-    const formattedDateTime = date.toLocaleString("en-GB");
+    const formattedDateTime = date.toLocaleString("en-GB").replace(",", "");
 
     const startX = doc.internal.pageSize.getWidth() - 55;
 
@@ -838,7 +860,7 @@ export default function CompletedOutward() {
         ["City", mainShipment.City || '-'],
         ["State", mainShipment.State || '-'],
         ["Country", mainShipment.Country || '-'],
-        ["Email ID", mainShipment.FromEmail || '-'],
+        ["Email", mainShipment.FromEmail || '-'],
         ["Phone Number", mainShipment.FromContact || '-'],
       ],
       columnStyles: { 0: { cellWidth: columnWidth }, 1: { cellWidth: columnWidth } },
@@ -870,7 +892,7 @@ export default function CompletedOutward() {
 
     /* ---------------- PRODUCT PAGE ---------------- */
     const batchDataHeaderText = "Product Details";
-    const headers = ["Sr. No.", "SCP Name", "Product Code", "Product Name", "Quantity"];
+    const headers = ["Sr. No.", "SCP Name", "Product Name", "Product Code", "Quantity"];
     const numCols = headers.length;
     let tableData = [];
     tableData.push([
@@ -891,8 +913,8 @@ export default function CompletedOutward() {
       products.map((row, index) => [
         { content: index + 1, styles: { halign: "center" } },
         row.SCPM_Name || '',
-        row.dcm_productCode || '',
         row.dcm_productname || '',
+        row.dcm_productCode || '',
         row.dcm_qty || '',
       ])
     );
@@ -941,8 +963,9 @@ export default function CompletedOutward() {
         { content: "Delivered By", colSpan: 3, styles: { halign: "center", fontStyle: "bold" } }
       ],
       ["Name", ":", "________________________", "Name", ":", "________________________"],
-      ["Date", ":", "________________________", "Date", ":", "________________________"],
       ["Sign", ":", "________________________", "Sign", ":", "________________________"],
+      ["Date", ":", "________________________", "Date", ":", "________________________"],
+      
     ];
 
     autoTable(doc, {
@@ -1025,6 +1048,7 @@ export default function CompletedOutward() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"65px"}}
           />
           <Column
             field="SHPH_ShipmentCode"
@@ -1032,6 +1056,7 @@ export default function CompletedOutward() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"150px"}}
           />
           <Column
             field="SHPH_Date"
@@ -1039,7 +1064,8 @@ export default function CompletedOutward() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            //body={(row) => formatDate(row.SHPH_Date)}
+            style={{width:"150px"}}
+            body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
             field="RUTL_Name"
@@ -1048,7 +1074,7 @@ export default function CompletedOutward() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
-            style={{ textWrap:"auto"}}
+            style={{ textWrap:"auto", width:"180px"}}
             
           />
           <Column
@@ -1066,6 +1092,7 @@ export default function CompletedOutward() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"150px"}}
             body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
@@ -1073,6 +1100,7 @@ export default function CompletedOutward() {
             className="rowx"
             headerClassName="custom-header"
             bodyClassName="custom-description"
+            style={{width:"75px"}}
             body={(rowData) => {
               const canSync = rowData.SHPH_Status === 8 && rowData.SHPH_IsSync === 0;
 

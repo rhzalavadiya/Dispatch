@@ -245,13 +245,20 @@ export default function ShipmentScanning() {
 
   // ────────────────────────────────────────────────
 
-  const parseShipmentDate = (dateString) => {
-    if (!dateString) return null;
+ const parseShipmentDate = (dateString) => {
+  if (!dateString) return null;
 
-    const [dd, mm, yyyy] = dateString.split("-");
-    return new Date(`${yyyy}-${mm}-${dd}`);
-  };
+  // Convert "-" → "/" so both formats work
+  const normalized = dateString.replace(/-/g, "/");
 
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return null;
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  return isNaN(date) ? null : date;
+};
   const searchOptions = [
     { value: null, label: "--Select--" },
     { value: "SHPH_ShipmentCode", label: "Shipment Code" },
@@ -337,22 +344,31 @@ export default function ShipmentScanning() {
     }
   }, [filterData]);
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const [dd, mm, yyyy] = dateString.split("-");
-    const isoDate = `${yyyy}-${mm}-${dd}`;
-    const d = new Date(isoDate);
-    if (isNaN(d)) return ""; // safety check
-    const day = d.getDate().toString().padStart(2, "0");
-    const month = (d.getMonth() + 1).toString().padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
+ const formatDate = (dateString) => {
+  if (!dateString) return "";
+
+  // Normalize both formats
+  const normalized = dateString.replace(/-/g, "/");
+
+  const parts = normalized.split("/");
+  if (parts.length !== 3) return "";
+
+  const [dd, mm, yyyy] = parts;
+
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  if (isNaN(date)) return "";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
 
   useEffect(() => {
     const isDateSelected =
       selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
-
+      
     if (!isDateSelected) {
       setFormData((prev) => ({
         ...prev,
@@ -580,8 +596,6 @@ export default function ShipmentScanning() {
   };
   const isDateSelected =
     selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
-
-
   return (
     <>
       {manualLoading && (
@@ -614,6 +628,9 @@ export default function ShipmentScanning() {
           // className={isDateSelected ? "datatable-small" : "datatable-large"}
           scrollHeight={isDateSelected ? "32dvh" : "44dvh"}
           scrollable
+           className={`custom-table ${
+    isDateSelected ? "paginator-filtered" : "paginator-normal"
+  }`}
         >
           <Column
             header="Sr. No."
@@ -621,6 +638,7 @@ export default function ShipmentScanning() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{width:"65px"}}
           />
           <Column
             field="SHPH_ShipmentCode"
@@ -635,7 +653,7 @@ export default function ShipmentScanning() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-          //body={(row) => formatDate(row.SHPH_Date)}
+            body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
             field="RUTL_Name"
@@ -644,7 +662,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
-            style={{ textWrap:"auto"}}
+            style={{ textWrap:"auto", width:"100px"}}
           />
           <Column
             field="LGCM_Name"
@@ -670,12 +688,14 @@ export default function ShipmentScanning() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+             style={{width:"100px"}}
           />
           <Column
             header="Action"
             className="rowx"
             headerClassName="custom-header"
             bodyClassName="custom-description"
+            style={{width:"75px"}}
             body={(rowData) => {
               const canEditRow = canEdit(rowData);
               const showSync =

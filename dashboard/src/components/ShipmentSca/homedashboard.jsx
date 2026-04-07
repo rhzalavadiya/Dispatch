@@ -1,211 +1,33 @@
-import { useState, useEffect, useRef, useMemo, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { IoSettingsOutline } from "react-icons/io5";
-import { HiOutlineCheckCircle, HiTrendingUp } from "react-icons/hi";
+import { HiOutlineCheckCircle } from "react-icons/hi";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { Toast } from "primereact/toast";
 import logo from "../../assest/images/Logo.png"; // Update path if needed
 import { useWebSocket } from "../../contexts/WebSocketContext";
 import axios from "axios";
 import { config } from "../config/config";
+import { ProductionQueue } from "./queue";
+import React from "react";
 
-export function ProductionQueue({
-	pendingOrders = [],
-	order = [],
-	uniqueScpmIds = [],
-}) {
-	const containerRef = useRef(null);
-	const itemRefs = useRef([]);
-	const measuredRef = useRef(false);
 
-	const [visibleCount, setVisibleCount] = useState(0);
-
-	/* 🔹 Reset measurement ONLY when real data size changes */
-	useEffect(() => {
-		measuredRef.current = false;
-	}, [pendingOrders.length]);
-
-	/* 🔹 Measure how many FULL cards fit (RUNS ONCE → NO BLINK) */
-	useLayoutEffect(() => {
-		if (!containerRef.current) return;
-		if (measuredRef.current) return; // 🔒 LOCK
-
-		const containerHeight = containerRef.current.offsetHeight;
-		let usedHeight = 0;
-		let count = 0;
-
-		for (let i = 0; i < itemRefs.current.length; i++) {
-			const el = itemRefs.current[i];
-			if (!el) continue;
-
-			const cardHeight = el.offsetHeight;
-
-			if (usedHeight + cardHeight <= containerHeight) {
-				usedHeight += cardHeight;
-				count++;
-			} else {
-				break; // ❌ stop before half card
-			}
-		}
-
-		measuredRef.current = true; // 🔒 lock measurement
-		setVisibleCount(count);
-	}, [pendingOrders]);
-
-	return (
-		<div
-			style={{
-				background: "white",
-				borderRadius: "20px",
-				padding: "10px",
-				boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-				flex: 1,
-				display: "flex",
-				flexDirection: "column",
-				overflow: "hidden",
-				fontSize: "12px",
-				height: "100%", // 🔴 parent MUST have fixed height
-			}}
-		>
-			{/* HEADER */}
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "center",
-					marginBottom: "1rem",
-					flexShrink: 0,
-				}}
-			>
-				<h2
-					style={{
-						fontSize: "1.5rem",
-						fontWeight: "500",
-						color: "#0C0C0C",
-						margin: 0,
-					}}
-				>
-					PRODUCTION QUEUE –{" "}
-					<span style={{ color: "#A53331", fontSize: "1rem" }}>
-						{pendingOrders.length} / {uniqueScpmIds.length} Still in queue
-					</span>
-				</h2>
-			</div>
-
-			{/* LIST CONTAINER (NO SCROLL) */}
-			<div
-				ref={containerRef}
-				style={{
-					flex: 1,
-					overflow: "hidden", // ✅ REQUIRED
-					paddingBottom: "16px", // spacing handled here
-				}}
-			>
-				{order.length === 0 || pendingOrders.length === 0 ? (
-					<div
-						style={{
-							background: "#ffffff",
-							padding: "10px",
-							borderRadius: "12px",
-							textAlign: "center",
-							color: "#A53331",
-							fontSize: "1.3rem",
-							fontWeight: "600",
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-							height: "100%",
-						}}
-					>
-						No pending shipments in queue.
-					</div>
-				) : (
-					pendingOrders.map((group, index) => (
-						<div
-							key={index}
-							ref={(el) => (itemRefs.current[index] = el)}
-							style={{
-								paddingBottom: "16px", // ✅ padding, NOT margin
-								visibility: index < visibleCount ? "visible" : "hidden",
-								height: index < visibleCount ? "auto" : 0,
-								overflow: "hidden",
-							}}
-						>
-							<div
-								style={{
-									background: "#F1F2F4",
-									borderRadius: "16px",
-									padding: "10px",
-									fontSize: "1rem",
-								}}
-							>
-								{/* SCPM HEADER */}
-								<div
-									style={{
-										textAlign: "center",
-										fontSize: "1.3rem",
-										fontWeight: "bold",
-										color: "#1f2937",
-										marginBottom: "1rem",
-									}}
-								>
-									{group.SCPM_Name}
-								</div>
-
-								{/* PRODUCTS GRID */}
-								<div
-									style={{
-										display: "grid",
-										gridTemplateColumns: "repeat(3, 1fr)",
-										gap: "10px",
-									}}
-								>
-									{group.rows.map((item, i) => (
-										<div
-											key={i}
-											style={{
-												background: "#FFFFFF",
-												borderRadius: "10px",
-												padding: "4px 6px",
-												display: "flex",
-												justifyContent: "space-between",
-												alignItems: "center",
-											}}
-										>
-											<span style={{ fontSize: "1rem", color: "#1f2937" }}>
-												{item.SHPD_ProductName}
-											</span>
-											<span style={{ fontWeight: "bold" }}>
-												QTY:{" "}
-												{parseInt(item.SHPD_ShipQty - item.pass, 10).toLocaleString()}
-											</span>
-										</div>
-									))}
-								</div>
-							</div>
-						</div>
-					))
-				)}
-			</div>
-		</div>
-	);
-}
 
 export default function HomeDashboard() {
 	const toast = useRef(null);
 	const [order, setOrder] = useState([]);
 	const [csvOrder, setCsvOrder] = useState([]);
-	const [currentShipmentCode, setCurrentShipmentCode] = useState("No Active Shipment");
+	const [, setCurrentShipmentCode] = useState("No Active Shipment");
 	//const currentIndex = order.findIndex(item => item.status === "RUNNING");
 	const currentIndex = csvOrder.findIndex(item => item.status === "RUNNING");
 	const { wsRef } = useWebSocket();
 	const [isMachineRunning, setIsMachineRunning] = useState(false);
 
 	const [prevOrderLength, setPrevOrderLength] = useState(0);
-	const [prevShipmentCode, setPrevShipmentCode] = useState("");
+	const [, setPrevShipmentCode] = useState("");
 	const [elapsedTime, setElapsedTime] = useState(0);
 	const timeoutRef = useRef(null);
-
+	const lastCountRef = useRef(0);
+	const [isInitialized, setIsInitialized] = useState(false);
 
 
 	// === DERIVED DATA ===
@@ -215,9 +37,12 @@ export default function HomeDashboard() {
 	const vehicalCompany = csvOrder[0]?.LGCM_Name || "N/A";
 	//SHPH_ShipmentCode
 	const shipmentCodeVal = csvOrder[0]?.SHPH_ShipmentCode || "N/A";
+	const locationName = csvOrder[0]?.LCM_LocationName || "N/A";
+
+
 
 	const totalProcessed = order.reduce((sum, item) =>
-		sum + (parseInt(item.pass || 0) + parseInt(item.fail || 0)), 0);
+		sum + (parseInt(item.total || 0)), 0);
 	const totalPassed = order.reduce((sum, item) =>
 		sum + parseInt(item.pass || 0), 0);
 	const totalCount = order.reduce((sum, item) =>
@@ -243,7 +68,10 @@ export default function HomeDashboard() {
 	};
 
 
+
 	const currentProcessing = order[currentIndex] || null;
+
+
 	const logAction = async (action, isError = false) => {
 		try {
 			const formattedAction = `User : ${action}`;
@@ -377,7 +205,7 @@ export default function HomeDashboard() {
 			try {
 				logAction("Fetching running shipment data via CSV fallback endpoint }/get-running-csv");
 				const res = await axios.get(`${config.apiBaseUrl}/get-running-csv`);
-				logAction(`CSV fallback data received: ${res.data} items | Shipment: ${res.data.shipmentCode || "N/A"}`);
+				logAction(`CSV fallback data received: ${JSON.stringify(res.data)}`);
 				const currentLength = res.data.data?.length || 0;
 				const currentShipment = res.data.shipmentCode || "No Active Shipment";
 
@@ -491,10 +319,12 @@ export default function HomeDashboard() {
 	);
 
 	// 2️⃣ Check if the last shipment is currently running
-	const lastItemIsRunning =
-		order.length > 0 && order[order.length - 1].status === "RUNNING";
+	const lastItemIsRunning = order.length > 0 && order[order.length - 1].status === "RUNNING";
+
 
 	const runningOrders = order?.filter((order) => order.status === "RUNNING");
+	const SCPM_ID = runningOrders[0]?.SCPM_ID;
+	const completedrunningOrders = order?.filter((order) => order.SCPM_ID === SCPM_ID && order.status === "COMPLETED");
 	const [visibleRows, setVisibleRows] = useState([]);
 
 	const completedScpmNames = useMemo(() => {
@@ -526,7 +356,7 @@ export default function HomeDashboard() {
 			intervalRef.current = null;
 		}
 
-		if (completedScpmNames.length <= 5) {
+		if (completedScpmNames.length <= 6) {
 			setVisibleRows(completedScpmNames);
 			return;
 		}
@@ -534,10 +364,10 @@ export default function HomeDashboard() {
 		shuffledRef.current = shuffleArray(completedScpmNames);
 		indexRef.current = 0;
 
-		setVisibleRows(shuffledRef.current.slice(0, 5));
+		setVisibleRows(shuffledRef.current.slice(0, 6));
 
 		intervalRef.current = setInterval(() => {
-			indexRef.current += 5;
+			indexRef.current += 6;
 
 			if (indexRef.current >= shuffledRef.current.length) {
 				shuffledRef.current = shuffleArray(completedScpmNames);
@@ -559,15 +389,12 @@ export default function HomeDashboard() {
 	const getNextFive = (arr, startIndex) => {
 		const result = [];
 
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < 6; i++) {
 			result.push(arr[(startIndex + i) % arr.length]);
 		}
 
 		return result;
 	};
-
-
-
 
 	const shuffleArray = (arr) => {
 		const copy = [...arr];
@@ -626,7 +453,6 @@ export default function HomeDashboard() {
 
 	}, [order]);
 
-	console.log(pendingOrders)
 
 	const uniqueScpmIds = useMemo(() => {
 		if (!Array.isArray(order)) return [];
@@ -682,6 +508,59 @@ export default function HomeDashboard() {
 	// }, [SHPH_ShipmentID, isMachineRunning]);
 
 
+	// useEffect(() => {
+	// 	const fetchTime = async () => {
+	// 		try {
+	// 			if (!SHPH_ShipmentID) return;
+
+	// 			const response = await axios.get(
+	// 				`${config.apiBaseUrl}/fetchtime/${SHPH_ShipmentID}`
+	// 			);
+
+	// 			logAction(`Response of Fetchtime : ${JSON.stringify(response)}`);
+	// 			console.log(response)
+
+	// 			const seconds = Number(response.data?.data[0]?.total_duration) || 0;
+
+	// 			const lastCount = Number(response.data?.data[0]?.last_count) || 0;
+
+
+	// 			if (isMachineRunning && lastCount < totalPassed+totalFailed) {
+	// 				const gettimeVal = response.data?.data[0]?.latest_status_seconds;
+	// 				const serverNow = response.data?.data[0]?.server_now;
+
+	// 				const diff = Math.floor((serverNow - gettimeVal) / 1000);
+
+	// 				setElapsedTime(seconds + diff);
+
+	// 				startTimer();
+	// 			} else {
+	// 				setElapsedTime(seconds);
+	// 			}
+	// 		} catch (error) {
+	// 			logAction(
+	// 				`Elapsed time fetch failed: ${error} and message : ${error.message}`,
+	// 				true
+	// 			);
+	// 			console.error(error);
+	// 		}
+	// 	};
+
+	// 	const startTimer = () => {
+	// 		timeoutRef.current = setTimeout(() => {
+	// 			setElapsedTime(prev => prev + 1);
+	// 			startTimer(); // recursive call
+	// 		}, 1000);
+	// 	};
+
+	// 	fetchTime();
+
+	// 	return () => {
+	// 		if (timeoutRef.current) {
+	// 			clearTimeout(timeoutRef.current);
+	// 		}
+	// 	};
+	// }, [SHPH_ShipmentID, isMachineRunning]);
 	useEffect(() => {
 		const fetchTime = async () => {
 			try {
@@ -691,36 +570,54 @@ export default function HomeDashboard() {
 					`${config.apiBaseUrl}/fetchtime/${SHPH_ShipmentID}`
 				);
 
-				logAction(`Response of Fetchtime : ${JSON.stringify(response)}`);
+				const data = response.data?.data[0];
+				console.log(data)
 
-				const seconds = Number(response.data?.data[0]?.total_duration) || 0;
+				// const seconds = Number(data?.total_duration) || 0;
+				// const gettimeVal = data?.latest_status_seconds;
+				// const serverNow = data?.server_now;
 
-				if (isMachineRunning) {
-					const gettimeVal = response.data?.data[0]?.latest_status_seconds;
-					const serverNow = response.data?.data[0]?.server_now;
+				// const diff = Math.floor((serverNow - gettimeVal) / 1000);
+				// const newTime = seconds + diff;
 
-					const diff = Math.floor((serverNow - gettimeVal) / 1000);
+				// setElapsedTime(newTime);
+
+
+				const seconds = Number(data?.total_duration) || 0;
+				const lastCount = Number(data?.last_count) || 0;
+
+				const gettimeVal = data?.latest_status_seconds;
+				const serverNow = data?.server_now;
+
+				// ✅ ALWAYS restore running timer (NO count condition)
+
+
+				if (isMachineRunning && gettimeVal && serverNow && totalPassed + totalFailed > Number(data?.last_count)) {
+
+					const diff = Math.floor((serverNow - gettimeVal));
+					
+					console.log("go",diff,seconds,Math.floor(Date.now()))
 
 					setElapsedTime(seconds + diff);
-
-					startTimer();
 				} else {
 					setElapsedTime(seconds);
 				}
+
+				lastCountRef.current = lastCount;
+
+				// ✅ store correct lastCount
+				lastCountRef.current = Number(data?.last_count) || 0;
+
+				// ✅ mark ready
+				setIsInitialized(true);
+
+				// ✅ start timer if needed
+				if (isMachineRunning && totalPassed + totalFailed > lastCountRef.current) {
+					startTimer();
+				}
 			} catch (error) {
-				logAction(
-					`Elapsed time fetch failed: ${error} and message : ${error.message}`,
-					true
-				);
 				console.error(error);
 			}
-		};
-
-		const startTimer = () => {
-			timeoutRef.current = setTimeout(() => {
-				setElapsedTime(prev => prev + 1);
-				startTimer(); // recursive call
-			}, 1000);
 		};
 
 		fetchTime();
@@ -731,6 +628,32 @@ export default function HomeDashboard() {
 			}
 		};
 	}, [SHPH_ShipmentID, isMachineRunning]);
+
+	useEffect(() => {
+		if (!isInitialized) return; // 🚀 IMPORTANT
+
+		const currentCount = totalPassed + totalFailed;
+
+		if (isMachineRunning && currentCount > lastCountRef.current) {
+			startTimer();
+		}
+
+		lastCountRef.current = currentCount;
+
+	}, [totalPassed, totalFailed, isMachineRunning, isInitialized]);
+
+	const startTimer = () => {
+		if (timeoutRef.current) return;
+
+		const tick = () => {
+			timeoutRef.current = setTimeout(() => {
+				setElapsedTime(prev => prev + 1);
+				tick();
+			}, 1000);
+		};
+
+		tick();
+	};
 
 
 	useEffect(() => {
@@ -761,7 +684,7 @@ export default function HomeDashboard() {
 						alignItems: "center",
 						justifyContent: "space-between",
 						gap: "5px",
-						fontSize: "18px",
+						fontSize: "32px",
 						fontWeight: "600",
 						color: "#1e293b",
 						flexShrink: 0, // Prevent shrinking
@@ -770,24 +693,48 @@ export default function HomeDashboard() {
 					<div>
 						<img src={logo} alt="Shubham Automation" style={{ height: "32px" }} />
 					</div>
-					{shipmentCodeVal !== "N/A" && (
-						<div>
-							<span style={{ marginLeft: "8px" }}>
+					<div className="d-flex justify-content-center align-items-center">
+						{shipmentCodeVal !== "N/A" && (
+							<div className="d-flex justify-content-center align-items-center">
+								{/* <span style={{ marginLeft: "8px" }}>
 								{shipmentCodeVal} &nbsp; | &nbsp;
-							</span>
-							<LiaShippingFastSolid style={{ fontSize: "26px", color: "#1e293b" }} />
-							VEHICLE INFO : {" "}
-							<span style={{ marginLeft: "8px" }}>
-								No. {vehicleNumber} &nbsp; | &nbsp;
-							</span>
-							<span style={{ marginLeft: "8px" }}>
-								{vehicalCompany}
-							</span>
+							</span> */}
+								<LiaShippingFastSolid style={{ fontSize: "32px", marginRight: "8px", color: "#1e293b" }} />
+								VEHICLE INFO : {" "}
+								<span style={{ marginLeft: "8px" }}>
+									No. {vehicleNumber} &nbsp; | &nbsp;
+								</span>
+								<span style={{ marginLeft: "8px" }}>
+									{vehicalCompany}  &nbsp; | &nbsp;
+								</span>
+							</div>
+						)}
+						<div
+							style={{
+								// background: isMachineRunning ? "#0E9A6D" : "#A53331",
+								padding: "10px",
+								position: "relative",
+								borderRadius: "8px",
+								color: "white",
+								display: "flex",
+								justifyContent: "center",
+								alignItems: "center"
+							}}
+						>
+							<span
+								style={{
+									position: "absolute",
+									top: "2px",
+									right: "8px",
+									height: "20px",
+									width: "20px",
+									backgroundColor: isMachineRunning ? "#0E9A6D" : "#A53331",
+									borderRadius: "50%",
+								}}
+							/>
 						</div>
-					)}
-
+					</div>
 				</div>
-
 
 				<div style={{
 					flex: 1,
@@ -799,10 +746,10 @@ export default function HomeDashboard() {
 				}}>
 
 					<div className="container-fluid mb-2">
-						<div className="row g-3">
+						<div className="row  row-cols-5 g-3">
 
 							{/* MACHINE */}
-							<div className="col-2">
+							{/* <div className="col-2">
 								<div
 									className="card h-100 text-white position-relative"
 									style={{
@@ -823,10 +770,10 @@ export default function HomeDashboard() {
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> */}
 
 							{/* TOTAL */}
-							<div className="col-2">
+							<div className="col">
 								<div className="card h-100 border-0 shadow-sm">
 									<div
 										className="card-body d-flex flex-column justify-content-between"
@@ -841,7 +788,7 @@ export default function HomeDashboard() {
 							</div>
 
 							{/* PASSED */}
-							<div className="col-2">
+							<div className="col">
 								<div className="card h-100 border-0 shadow-sm">
 									<div
 										className="card-body d-flex flex-column justify-content-between"
@@ -860,7 +807,7 @@ export default function HomeDashboard() {
 							</div>
 
 							{/* FAILED */}
-							<div className="col-2">
+							<div className="col">
 								<div className="card h-100 border-0 shadow-sm">
 									<div
 										className="card-body d-flex flex-column justify-content-between"
@@ -879,7 +826,7 @@ export default function HomeDashboard() {
 							</div>
 
 							{/* EFFICIENCY 1 */}
-							<div className="col-2">
+							<div className="col">
 								<div className="card h-100 border-0 shadow-sm">
 									<div
 										className="card-body d-flex flex-column justify-content-between"
@@ -901,7 +848,7 @@ export default function HomeDashboard() {
 							</div>
 
 							{/* EFFICIENCY 2 */}
-							<div className="col-2">
+							<div className="col">
 								<div className="card h-100 border-0 shadow-sm">
 									<div
 										className="card-body d-flex flex-column justify-content-between"
@@ -934,18 +881,18 @@ export default function HomeDashboard() {
 							<div
 								style={{
 									display: "grid",
-									gridTemplateColumns: "0.5fr 2fr 1fr",
+									gridTemplateColumns: "0.5fr 2.5fr 0.5fr",
 									gap: "12px",
-									fontSize: "1.5rem",
+									fontSize: "2rem",
 									fontWeight: "bold",
-									paddingBottom: "6px",
-									marginBottom: "6px",
+									paddingBottom: "2px",
+									marginBottom: "2px",
 									borderBottom: "1px solid rgba(255,255,255,0.4)",
 								}}
 							>
 								<div style={{ textAlign: "center" }}>Sr. No.</div>
 								<div>Product Name</div>
-								<div style={{ textAlign: "center" }}>Shipment Qty</div>
+								<div style={{ textAlign: "center" }}>Qty</div>
 							</div>
 						);
 
@@ -955,9 +902,9 @@ export default function HomeDashboard() {
 									key={startIndex + index}
 									style={{
 										display: "grid",
-										gridTemplateColumns: "0.5fr 2fr 1fr",
+										gridTemplateColumns: "0.5fr 2.5fr 0.5fr",
 										gap: "18px",
-										fontSize: "1rem",
+										fontSize: "1.5rem",
 										padding: "6px 0",
 										borderBottom: "1px dashed rgba(255,255,255,0.25)",
 										alignItems: "center",
@@ -1000,22 +947,49 @@ export default function HomeDashboard() {
 									padding: "8px 20px",
 									marginBottom: "10px",
 									fontFamily: "system-ui, sans-serif",
-									height: "40%"
+									height: "45%"
 								}}
 							>
 								<div
 									style={{
 										width: "100%",
-										textAlign: "center",
-										fontSize: "3rem",
-										fontWeight: "600",
-										marginBottom: "6px",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "space-between",
 										borderBottom: "1px solid rgba(255,255,255,0.4)",
-										paddingBottom: "0.5rem",
+										paddingBottom: "0.2rem",
+										marginBottom: "4px",
+										position: "relative",
+										padding: "1rem"
 									}}
 								>
-									{runningOrders[0].SCPM_Name}
+									{/* Center Text */}
+									<div
+										style={{
+											position: "absolute",
+											left: "50%",
+											transform: "translateX(-50%)",
+											fontSize: "2.8rem",
+											fontWeight: "600",
+											textAlign: "center",
+
+										}}
+									>
+										{runningOrders[0].SCPM_Name} ({runningOrders[0].LCM_LocationName})
+									</div>
+
+									{/* Right Side Total */}
+									<div
+										style={{
+											marginLeft: "auto",
+											fontSize: "1.5rem",
+											fontWeight: "600"
+										}}
+									>
+										Total: {completedrunningOrders.length}/{completedrunningOrders.length + runningOrders.length}
+									</div>
 								</div>
+
 								<div
 									style={{
 										display: "grid",
@@ -1046,9 +1020,9 @@ export default function HomeDashboard() {
 					})()}
 					<div
 						style={{
-							height: "40vh", // 🔥 NOT "40%"
-							display: "flex",
-							gap: "20px",
+							height: "45vh", // 🔥 NOT "40%"
+							// display: "flex",
+							// gap: "20px",
 							overflow: "hidden",
 						}}
 					>
@@ -1059,10 +1033,11 @@ export default function HomeDashboard() {
 						/>
 						<div
 							style={{
+								height: "30%",
 								background: "white",
 								borderRadius: "20px",
 								padding: "10px",
-								boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+								// boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
 								flex: 1,
 								display: "flex",
 								flexDirection: "column",
@@ -1076,7 +1051,7 @@ export default function HomeDashboard() {
 									display: "flex",
 									justifyContent: "space-between",
 									alignItems: "center",
-									marginBottom: "1rem",
+									marginBottom: "0.5rem",
 									flexShrink: 0,
 								}}
 							>
@@ -1099,82 +1074,89 @@ export default function HomeDashboard() {
 									flex: 1,
 									overflowY: "auto",
 									paddingRight: "5px",
+
+									// ✅ Center only when empty
+									display:
+										order.length === 0 || visibleRows.length === 0 ? "flex" : "flex",
+									// flexDirection: "column",
+									gap: "10px",
+
+									alignItems:
+										order.length === 0 || visibleRows.length === 0
+											? "center"
+											: "flex-start",
+									justifyContent:
+										order.length === 0 || visibleRows.length === 0
+											? "center"
+											: "flex-start",
 								}}
 							>
-								{/* 🔹 NO QUEUED ITEMS */}
+								{/* 🔹 NO DATA */}
 								{order.length === 0 || visibleRows.length === 0 ? (
 									<div
 										style={{
 											background: "#ffffff",
-											padding: "10px",
+											padding: "12px 18px",
 											borderRadius: "12px",
 											color: "#A53331",
 											fontSize: "1.3rem",
 											fontWeight: "600",
-											display: "flex",
-											justifyContent: "center",
-											alignItems: "center",
-											height: "100%"
+											textAlign: "center",
+											width: "fit-content",
 										}}
 									>
 										No completed shipments in queue.
 									</div>
-
 								) : (
-									/* 🔹 SHOW FIRST 3 QUEUED ITEMS */
-									visibleRows.slice(0, 5).map((item, index) => (
+									/* 🔹 LIST ITEMS */
+									[...visibleRows].slice(0, 6).map((item, index) => (
 										<div
-											key={item.SHPD_ShipmentMID}
+											key={item?.SHPD_ShipmentMID}
 											style={{
 												background: "#F1F2F4",
 												borderRadius: "16px",
-												padding: "10px",
-												marginBottom: "16px",
-												display: "flex",
+												padding: "10px 14px",
+												marginBottom: "12px",
+
+												// ✅ IMPORTANT: content-based width
+												display: "inline-flex",
 												alignItems: "center",
-												justifyContent: "space-between",
-												fontSize: "12px",
+												gap: "16px",
+												width: "fit-content",
+												fontSize: "16px",
 											}}
 										>
+											{/* INDEX */}
 											<div
 												style={{
+													width: "24px",
+													height: "24px",
+													background: "#FFFFFF",
+													color: "#313131",
+													borderRadius: "50%",
 													display: "flex",
 													alignItems: "center",
-													gap: "20px",
+													justifyContent: "center",
+													fontSize: "0.9rem",
+													fontWeight: "bold",
 												}}
 											>
-												{/* INDEX */}
-												<div
-													style={{
-														width: "20px",
-														height: "20px",
-														background: "#FFFFFF",
-														color: "#313131",
-														borderRadius: "20%",
-														padding: "17px",
-														display: "flex",
-														alignItems: "center",
-														justifyContent: "center",
-														fontSize: "1rem",
-														fontWeight: "bold",
-													}}
-												>
-													{index + 1}
-												</div>
-
-												{/* SHIPMENT INFO */}
-												<div
-													style={{
-														fontSize: "12px",
-														color: "#1f2937",
-													}}
-												>
-													<strong style={{ fontSize: "1rem" }}>
-														{item}
-													</strong>
-												</div>
+												{index + 1}
 											</div>
-										</div>))
+
+											{/* SHIPMENT INFO */}
+											<div
+												style={{
+													fontSize: "0.9rem",
+													color: "#1f2937",
+													maxWidth: "250px",
+													wordBreak: "break-word",
+												}}
+											>
+												<strong>{item}</strong>
+											</div>
+										</div>
+									))
 								)}
 							</div>
 						</div>

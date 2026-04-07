@@ -96,7 +96,8 @@ export default function ShipmentEdit() {
         deviceConnections?.plc &&
         deviceConnections?.camera;
 
-
+    const prevLengthRef = useRef(0);
+    const isResumedRef = useRef(false);
     const logAction = async (action, isError = false) => {
         try {
             const formattedAction = `User: ${action}`;
@@ -354,11 +355,11 @@ export default function ShipmentEdit() {
                     logAction("START OK received");
                     await updateShipmentStatus(6);
                     logAction("Shipment status updated to 6 (Started)");
-                    await localApi.post("/log-shipment-event", {
-                        shipmentId: id,
-                        event: "Start",
-                        status: 6,
-                    });
+                    // await localApi.post("/log-shipment-event", {
+                    //     shipmentId: id,
+                    //     event: "Start",
+                    //     status: 6,
+                    // });
                     saveDispatchJson();
                     saveRSNJson();
                     setCanDrag(false);
@@ -688,7 +689,9 @@ export default function ShipmentEdit() {
                             await localApi.post("/log-shipment-event", {
                                 shipmentId: id,
                                 event: "Stop",
-                                status: 10
+                                status: 10,
+                                totalCount:failRsnList.length,
+
                             });
                             logAction("Progress save request sent to /process-pause");
                             const res = await localApi.post("/process-pause", {
@@ -789,12 +792,14 @@ export default function ShipmentEdit() {
                             logAction("RESUME OK received");
                             await updateShipmentStatus(6);
                             setCanDrag(false);
-                            logAction("Shipment status updated to 6 (Resumed)");
-                            await localApi.post("/log-shipment-event", {
-                                shipmentId: id,
-                                event: "Resume",
-                                status: 6
-                            });
+                             isResumedRef.current = true;
+    prevLengthRef.current = failRsnList.length;
+                            // logAction("Shipment status updated to 6 (Resumed)");
+                            // await localApi.post("/log-shipment-event", {
+                            //     shipmentId: id,
+                            //     event: "Resume",
+                            //     status: 6
+                            // });
 
                             setIsMainOperationLoading(false);
                             setLoadingAction("");
@@ -939,7 +944,8 @@ export default function ShipmentEdit() {
             await localApi.post("/log-shipment-event", {
                 shipmentId: id,
                 event: "Close",
-                status: 8
+                status: 8,
+                totalCount:failRsnList.length,
             });
             logAction(`executing api : ${config.apiBaseUrl}/process-pause for shipment ${shipmentCode}`);
             const res = await localApi.post("/process-pause", {
@@ -978,9 +984,9 @@ export default function ShipmentEdit() {
 
                 //-------set sccan qty -------------
                 logAction("Update scann qty from //changesccanqty");
-                const changeqty=await localApi.post('/changesccanqty', {
-                        shipmentId: id,
-                    });
+                const changeqty = await localApi.post('/changesccanqty', {
+                    shipmentId: id,
+                });
                 logAction(`Response of update : ${JSON.stringify(changeqty)}`)
 
                 logAction("Deleting local dispatch files after CLOSE");
@@ -996,7 +1002,7 @@ export default function ShipmentEdit() {
 
                     if (batch.data.success) {
                         logAction(`Batch Data response : ${JSON.stringify(batch)}`)
-                        
+
 
                         // 2️⃣ Send data to sync API
                         logAction("Call api to dump data in vps : /batchdata-sync")
@@ -1007,7 +1013,7 @@ export default function ShipmentEdit() {
                         console.log("Batch Sync Response:", syncResponse.data);
                     }
                     logAction("Reset use count from batchlist");
-                    const reset=await localApi.post("/resetusecount");
+                    const reset = await localApi.post("/resetusecount");
                     logAction(`Data reset sucessfully : ${reset}`)
 
                     logAction("Marked shipment synced");
@@ -1397,40 +1403,68 @@ export default function ShipmentEdit() {
         }
     };
 
+    // ─── Log "Start" ONLY when first RSN is scanned (covers Start + Resume sessions) ───
+useEffect(() => {
+    if (shipmentStatus !== 6 || failRsnList.length !== 1 || !id) return;
 
-    // ─── If Camera Printer PLC Disconnected ───────────────────────────────────────
-    // useEffect(() => {
-    //     const ws = wsRef.current;
-    //     if (!ws) return;
+    const logStartEvent = async () => {
+        try {
+            logAction(`First RSN scanned (failRsnList.length = 1) → Logging Start event`);
 
-    //     const handleDeviceStatus = (event) => {
-    //         try {
-    //             const data = JSON.parse(event.data);
-    //             if (data.type === "device_status") {
-    //                 const { device, connected } = data;
+            await localApi.post("/log-shipment-event", {
+                shipmentId: id,
+                event: "Start",     // We log "Start" even for resume sessions
+                status: 6,
+                totalCount:failRsnList.length,
+            });
 
-    //                 // Only care about these three devices
-    //                 if (device in deviceConnections) {
-    //                     setDeviceConnections(prev => ({
-    //                         ...prev,
-    //                         [device]: Boolean(connected)   // make sure it's real boolean
-    //                     }));
-    //                 }
-    //             }
-    //         } catch (err) {
-    //             // Silent fail — don't break UI because of bad message
-    //             console.warn("Invalid device_status message:", err);
-    //         }
-    //     };
+            logAction(`Start event logged successfully for shipment ${id}`);
+        } catch (err) {
+            logAction(`Failed to log Start event - ${err.message}`, true);
+            console.error(err);
+        }
+    };
 
-    //     ws.addEventListener("message", handleDeviceStatus);
+    logStartEvent();
+}, [failRsnList.length, shipmentStatus, id]);
+useEffect(() => {
+    if (shipmentStatus !== 6 || !id) return;
 
-    //     // Cleanup
-    //     return () => {
-    //         ws.removeEventListener("message", handleDeviceStatus);
-    //     };
-    // }, [wsRef]);   // ← depends on wsRef
+    const currentLength = failRsnList.length;
+    const prevLength = prevLengthRef.current;
 
+    // ✅ Only log when resumed AND new RSN scanned
+    if (isResumedRef.current && currentLength > prevLength) {
+
+        const logResumeEvent = async () => {
+            try {
+                logAction("New RSN scanned after Resume → Logging Resume event");
+
+                await localApi.post("/log-shipment-event", {
+                    shipmentId: id,
+                    event: "Resume",
+                    status: 6,
+                    totalCount: failRsnList.length
+                });
+
+                logAction(`Resume event logged successfully for shipment ${id}`);
+
+                // reset flag so it logs only once per resume
+                isResumedRef.current = false;
+
+            } catch (err) {
+                logAction(`Resume log failed - ${err.message}`, true);
+                console.error(err);
+            }
+        };
+
+        logResumeEvent();
+    }
+
+    // always update previous length
+    prevLengthRef.current = currentLength;
+
+}, [failRsnList.length, shipmentStatus, id]);
 
     return (
         <>
@@ -1611,11 +1645,14 @@ export default function ShipmentEdit() {
                                     body={(rowData, options) => options.rowIndex + 1}
                                     bodyClassName="custom-description"
                                     headerClassName="custom-header"
+                                    style={{width:"80px"}}
                                 />
 
                                 <Column field="rsn" header="RSN"
                                     bodyClassName="custom-description"
-                                    headerClassName="custom-header" />
+                                    headerClassName="custom-header" 
+                                    style={{width:"170px"}}
+                                    />
 
                                 <Column
                                     field="reason"
