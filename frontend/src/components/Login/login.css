@@ -93,7 +93,6 @@ header{
   /* align-items: center; */
 }
 .custom-modal{
-   top: 130px;
    width: 100%;
    display: flex;
    justify-content: center;

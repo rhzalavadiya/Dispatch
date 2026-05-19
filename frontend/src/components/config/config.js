@@ -7,4 +7,5 @@ export const config = {
   filePath:"/home/smart/Dispatch/ProcessFiles/Dispatch_SCP.csv",
   deleteFilePath:"/home/smart/Dispatch/ProcessFiles",
   SCPM_Code:"WH",
+  printerData: window._env_?.REACT_APP_PRINTER_DATA || "[]" 
 };

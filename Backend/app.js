@@ -1777,7 +1777,7 @@ app.get("/api/readbatchcount", async (req, res) => {
     return res.status(400).json({ error: "shipmentCode is required" });
   }
 
-   const [ShipmentCode] = await conn.query(
+  const [ShipmentCode] = await conn.query(
     `SELECT SHPH_ShipmentID FROM shipmentlist WHERE SHPH_ShipmentCode = ? LIMIT 1`,
     [shipmentCode]
   );
@@ -1901,29 +1901,29 @@ app.get("/api/readbatchcount", async (req, res) => {
 
       console.log("📦 RSN Rows:", rsnParsed.data.length);
 
-     rsnParsed.data.forEach((r, index) => {
-  const batch = r.IRS_BatchID;
-  if (!batch) return;
+      rsnParsed.data.forEach((r, index) => {
+        const batch = r.IRS_BatchID;
+        if (!batch) return;
 
-  const productId = r.IRS_ProductID;
-  const scpCode = r.SCPM_Code;
+        const productId = r.IRS_ProductID;
+        const scpCode = r.SCPM_Code;
 
-  // existing count logic (DO NOT REMOVE)
-  rsnBatchCounts[batch] = (rsnBatchCounts[batch] || 0) + 1;
+        // existing count logic (DO NOT REMOVE)
+        rsnBatchCounts[batch] = (rsnBatchCounts[batch] || 0) + 1;
 
-  // NEW: store extra details
-  if (!rsnBatchDetails[batch]) {
-    rsnBatchDetails[batch] = {
-      productId,
-      scpCode,
-      count: 0
-    };
-  }
+        // NEW: store extra details
+        if (!rsnBatchDetails[batch]) {
+          rsnBatchDetails[batch] = {
+            productId,
+            scpCode,
+            count: 0
+          };
+        }
 
-  rsnBatchDetails[batch].count += 1;
+        rsnBatchDetails[batch].count += 1;
 
-  console.log(`🔢 RSN Row ${index + 1} => Batch ${batch}`);
-});
+        console.log(`🔢 RSN Row ${index + 1} => Batch ${batch}`);
+      });
     } else {
       console.log("⚠️ RSN File not found");
     }
@@ -1931,45 +1931,45 @@ app.get("/api/readbatchcount", async (req, res) => {
     console.log("📊 RSN Batch Counts:", rsnBatchCounts);
     console.log("📊 RSN Batch Detail:", rsnBatchDetails);
     // --------------------------------------------------
-// INSERT RSN DATA INTO shipmentbatchcount
-// --------------------------------------------------
+    // INSERT RSN DATA INTO shipmentbatchcount
+    // --------------------------------------------------
 
-for (const batchId in rsnBatchDetails) {
+    for (const batchId in rsnBatchDetails) {
 
-  const { productId, scpCode, count } = rsnBatchDetails[batchId];
+      const { productId, scpCode, count } = rsnBatchDetails[batchId];
 
-  // 👉 GET shipment ID (example: from request or DB)
-  const shipmentId = ShipmentCode[0].SHPH_ShipmentID;;
+      // 👉 GET shipment ID (example: from request or DB)
+      const shipmentId = ShipmentCode[0].SHPH_ShipmentID;;
 
-  // 👉 OPTIONAL: Convert SCP Code → SCP ID (if needed)
-  let scpId = null;
+      // 👉 OPTIONAL: Convert SCP Code → SCP ID (if needed)
+      let scpId = null;
 
-  const [scpResult] = await conn.query(
-    `SELECT SCPM_ID FROM scpmaster WHERE SCPM_Code = ? LIMIT 1`,
-    [scpCode]
-  );
+      const [scpResult] = await conn.query(
+        `SELECT SCPM_ID FROM scpmaster WHERE SCPM_Code = ? LIMIT 1`,
+        [scpCode]
+      );
 
-  if (scpResult.length > 0) {
-    scpId = scpResult[0].SCPM_ID;
-  }
+      if (scpResult.length > 0) {
+        scpId = scpResult[0].SCPM_ID;
+      }
 
-  console.log("🆕 Insert Shipment Batch:", {
-    shipmentId,
-    scpId,
-    productId,
-    batchId,
-    count
-  });
+      console.log("🆕 Insert Shipment Batch:", {
+        shipmentId,
+        scpId,
+        productId,
+        batchId,
+        count
+      });
 
-  await conn.query(
-    `INSERT INTO shipmentbatchcount 
+      await conn.query(
+        `INSERT INTO shipmentbatchcount 
       (SHB_shipmentid, SHB_scpid, SHB_productid, SHB_batchid, SHB_count)
      VALUES (?, ?, ?, ?, ?)
      ON DUPLICATE KEY UPDATE 
        SHB_count = SHB_count + VALUES(SHB_count)`,
-    [shipmentId, scpId, productId, batchId, count]
-  );
-}
+        [shipmentId, scpId, productId, batchId, count]
+      );
+    }
 
     // --------------------------------------------------
     // FINAL CALCULATION
@@ -2350,91 +2350,147 @@ const getPrnTemplate = () => {
   return fs.readFileSync(filePath, "utf-8");
 };
 
+const getLabelDataByRSN = async (rsnval) => {
+  const [labeldata] = await conn.query(
+    `
+   SELECT 
+      irs.IRS_RandomNo,
+      s.SCPM_Name,
+      s.SCPM_Caption,
+      irs.IRS_Boxno,
+      sl.SHPH_ShipmentCode,
+      sm.SHPD_ShipQty,
+      o.ORDM_OrderNumber,
+      l.LCM_LocationName,
+      l.LCM_LocationStreet1
+    FROM importrsnshipment irs
+    JOIN scpmaster s 
+      ON s.SCPM_ID = irs.IRS_ToSCP
+	JOIN shipmentlist sl ON sl.SHPH_ShipmentID=irs.IRS_ShipmentID
+    JOIN shipmentmaster sm 
+      ON sm.SHPD_ShipmentID = irs.IRS_ShipmentID
+      AND sm.SHPD_ProductCode = (
+        SELECT PL_ProductCode 
+        FROM productlist 
+        WHERE PL_ProductId = irs.IRS_ProductID
+      )
+    JOIN productlist p 
+      ON p.PL_ProductId = irs.IRS_ProductID
+    JOIN orderlist o 
+      ON o.ORDM_OrderID = sm.SHPD_OrderID
+    JOIN locationmaster l 
+      ON l.LCM_SCPID = s.SCPM_ID
+    WHERE irs.IRS_RandomNo = ?
+    `,
+    [rsnval]
+  );
 
+  return labeldata;
+};
 
-app.get("/reprint", async (req, res) => {
-  const { rsnval } = req.query;
-  const printerIP = process.env.PRINTER_IP;
-  const printerPort = Number(process.env.PRINTER_PORT || 9100);
-  const community = 'public';
+const extractPrnKeys = (template) => {
+  const matches = template.match(/{{(.*?)}}/g) || [];
+  return [...new Set(matches.map((m) => m.replace(/[{}]/g, "").trim()))];
+};
 
+const buildPrnData = (record) => ({
+  SCP_NAME: record.SCPM_Name || "",
+  SCP_CAPTION: record.SCPM_Caption || "",
+  SHIP_QTY: record.SHPD_ShipQty || "",
+  BOX_NUMBER: record.IRS_Boxno || "",
+  ORDER_NUMBER: record.ORDM_OrderNumber || "",
+  LCM_LocationName: record.LCM_LocationName || "",
+  SHPH_ShipmentCode: record.SHPH_ShipmentCode || "",
+  LCM_LocationStreet1: record.LCM_LocationStreet1 || "",
+});
+const getFilteredPrnData = (record, template) => {
+  const prnKeys = extractPrnKeys(template);
+  const prnData = buildPrnData(record);
+
+  const filteredData = {};
+
+  prnKeys.forEach((key) => {
+    filteredData[key] = prnData[key] ?? "";
+  });
+
+  return filteredData;
+};
+
+app.get("/reprint/search", async (req, res) => {
   try {
-    if (!rsnval) {
-      return res.status(400).json({ message: "RSN is required" });
+    const { rsnval } = req.query;
+
+   
+
+    const labeldata = await getLabelDataByRSN(rsnval);
+
+    if (labeldata.length === 0) {
+      return res.status(404).json({ message: "Invalid RSN please enter valid RSN." });
     }
 
-    const printerStatus = await queryPrinterStatus(printerIP, community);
-    if (printerStatus !== 'Printer is ready') {
+    const template = getPrnTemplate();
+
+    const filteredData = getFilteredPrnData(labeldata[0], template);
+
+    res.json({
+      success: true,
+      data: filteredData,
+    });
+  } catch (error) {
+    console.error("Reprint search error:", error);
+    res.status(500).json({
+      message: error?.message || "Internal server error",
+    });
+  }
+});
+app.post("/reprint/print", async (req, res) => {
+  try {
+    const { rsnval, printerIP, printerPort } = req.body;
+    if (!printerIP) {
+      return res.status(400).json({ message: "Printer IP is required" });
+    }
+
+    const finalPrinterPort = Number(printerPort || 9100);
+
+    const printerStatus = await queryPrinterStatus(printerIP, finalPrinterPort);
+
+    if (printerStatus !== "Printer is ready") {
       return res.status(503).json({ message: printerStatus });
     }
 
-    const [labeldata] = await conn.query(
-      `SELECT SCPM_Name,IRS_Boxno,SHPD_ShipQty,
-      ORDM_OrderNumber,LCM_LocationName,LCM_LocationStreet1,SCPM_Caption 
-      FROM importrsnshipment irs 
-      JOIN scpmaster s ON s.SCPM_ID = irs.IRS_ToSCP 
-      JOIN shipmentmaster sm ON sm.SHPD_ShipmentID = irs.IRS_ShipmentID 
-      AND sm.SHPD_ProductCode = (SELECT PL_ProductCode FROM productlist WHERE PL_ProductId = irs.IRS_ProductID) 
-      JOIN productlist p ON p.PL_ProductId = irs.IRS_ProductID 
-      JOIN orderlist o ON o.ORDM_OrderID = sm.SHPD_OrderID 
-      JOIN locationmaster l ON l.LCM_SCPID = s.SCPM_ID 
-      WHERE irs.IRS_RandomNo = ?`,
-      [rsnval]
-    );
+    const labeldata = await getLabelDataByRSN(rsnval);
 
     if (labeldata.length === 0) {
-      return res.status(404).json({ message: "No records found for given RSN" });
+      return res.status(404).json({ message: "Invalid RSN please enter valid RSN." });
     }
 
-    /* 3️⃣ Read PRN template */
-    // const templatePath = path.join(__dirname, "prnfiles", "Dispatch.prn");
-    // const template = fs.readFileSync(templatePath, "utf-8");
     const template = getPrnTemplate();
 
-    // for (let i = 0; i < labeldata.length; i++) {
-    //   const record = labeldata[i];
-
-    //   const prnContent = template
-    //     .replace('{{BOX_NUMBER}}', `${record.IRS_Boxno}/${record.SHPD_ShipQty}`)
-    //     .replace('{{ORDER_NUMBER}}', record.ORDM_OrderNumber)
-    //     .replace('{{SCP_NAME}}', record.SCPM_Name)
-    //     .replace('{{ADDRESS}}', record.LCM_LocationName);
-
-    //   await sendToPrinter(printerIP, printerPort, prnContent);
-    // }
-
-    for (let i = 0; i < labeldata.length; i++) {
-      const record = labeldata[i];
-
+    for (const record of labeldata) {
       let prnContent = template;
 
-      // 🔹 All available fields
-      const placeholders = {
-        BOX_NUMBER: `${record.IRS_Boxno}/${record.SHPD_ShipQty}`,
-        ORDER_NUMBER: record.ORDM_OrderNumber,
-        SCP_NAME: record.SCPM_Name,
-        SCP_Caption: record.SCPM_Caption,
-      };
+      const prnKeys = extractPrnKeys(template);
+      const prnData = buildPrnData(record);
 
-      // 🔹 Replace dynamically
-      Object.keys(placeholders).forEach(key => {
-        const value = placeholders[key] ?? "";
+      prnKeys.forEach((key) => {
+        const value = prnData[key] ?? "";
         const regex = new RegExp(`{{${key}}}`, "g");
         prnContent = prnContent.replace(regex, value);
       });
 
-      await sendToPrinter(printerIP, printerPort, prnContent);
+      await sendToPrinter(printerIP, finalPrinterPort, prnContent);
     }
+
     res.json({
       success: true,
-      message: "Labels printed successfully",
-      printedCount: labeldata.length
+      message: "Label reprinted successfully",
+      printedCount: labeldata.length,
     });
-
   } catch (error) {
-    console.error("Reprint error:", error);
+    console.error("Reprint print error:", error);
+
     res.status(500).json({
-      message: error?.message || "Internal server error"
+      message: error?.message || "Internal server error",
     });
   }
 });
@@ -2443,16 +2499,24 @@ const sendToPrinter = (printerIP, printerPort, content) => {
   return new Promise((resolve, reject) => {
     const client = new net.Socket();
 
+    client.setTimeout(5000);
+
     client.connect(printerPort, printerIP, () => {
       client.write(Buffer.from(content, "utf8"));
       client.end();
     });
 
     client.on("close", resolve);
+    client.on("timeout", () => {
+      client.destroy();
+      reject(new Error("Printer disconnected."));
+    });
+
 
     client.on("error", (err) => {
       client.destroy();
-      reject(new Error("Printer communication failed"));
+      console.log("Printer Error:", err.message);
+      reject(new Error("Printer disconnected."));
     });
   });
 };
@@ -2469,12 +2533,12 @@ const queryPrinterStatus = (printerIp) => {
 
     socket.on("error", () => {
       socket.destroy();
-      reject("Printer not reachable");
+      reject(new Error("Printer disconnected."));
     });
 
     socket.on("timeout", () => {
       socket.destroy();
-      reject("Printer connection timeout");
+      reject(new Error("Printer disconnected."));
     });
   });
 };

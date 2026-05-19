@@ -55,17 +55,56 @@ export default function ShipmentView() {
     loadShipmentData();
   }, [shipmentCode]);
   
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const [dd, mm, yyyy] = dateString.split("-");
-    const isoDate = `${yyyy}-${mm}-${dd}`;
-    const d = new Date(isoDate);
-    if (isNaN(d)) return ""; // safety check
-    const day = d.getDate().toString().padStart(2, "0");
-    const month = (d.getMonth() + 1).toString().padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
+  const formatDate = (dateInput) => {
+  if (!dateInput) return "";
+
+  let date;
+
+  // If already Date object
+  if (dateInput instanceof Date) {
+    date = dateInput;
+  } 
+  // If number timestamp
+  else if (!isNaN(dateInput)) {
+    date = new Date(dateInput);
+  } 
+  // String handling
+  else {
+    let value = String(dateInput).trim();
+
+    // Replace separators (- .) → /
+    value = value.replace(/[-.]/g, "/");
+
+    // Handle dd/mm/yyyy manually
+    const parts = value.split("/");
+
+    if (parts.length === 3) {
+      const [a, b, c] = parts;
+
+      // yyyy/mm/dd
+      if (a.length === 4) {
+        date = new Date(`${a}-${b}-${c}`);
+      }
+      // dd/mm/yyyy
+      else if (c.length === 4) {
+        date = new Date(`${c}-${b}-${a}`);
+      }
+    } else {
+      // fallback for ISO / other formats
+      date = new Date(value);
+    }
+  }
+
+  if (!date || isNaN(date.getTime())) return "";
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  console.log(`Formatted date: ${day}/${month}/${year}`);
+
+  return `${day}/${month}/${year}`;
+};
+
 
   return (
     <>
@@ -93,7 +132,7 @@ export default function ShipmentView() {
               <label>Shipment Date</label>
               <input
                 className="form-input"
-                value={header.SHPH_ShipmentDate}
+                value={formatDate(header.SHPH_ShipmentDate)}
                 readOnly
               />
             </div>
@@ -146,7 +185,7 @@ export default function ShipmentView() {
               body={(rowData, index) => index.rowIndex + 1}
               header="Sr. No."
               className="rowx"
-              style={{width:"7%"}}
+              style={{width:"5%"}}
               
             />
             <Column
@@ -163,7 +202,7 @@ export default function ShipmentView() {
               bodyClassName="custom-description"
               headerClassName="custom-header"
               className="rowx"
-              style={{width:"12%"}}
+              style={{width:"15%"}}
             />
             <Column
               field="SHPD_ProductName"

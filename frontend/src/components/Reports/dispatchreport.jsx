@@ -15,6 +15,7 @@ import autoTable from "jspdf-autotable";
 import BhagwatiImage from "../../assest/images/Bhagwati_Logo.png";
 import { localApi } from "../../utils/api";
 import Icon8 from "../../assest/images/Icon8.png";
+import Pagination from "../common/Pagination";
 
 export default function DispatchReport() {
   const [shipmentData, setShipmentData] = useState([]);
@@ -33,6 +34,13 @@ export default function DispatchReport() {
     from: "",
     to: "",
   });
+
+
+    const [itemsPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const indexOfLastPost = currentPage * itemsPerPage;
+    const indexOfFirstPost = indexOfLastPost - itemsPerPage;
 
   // ── Internet Connection Status ───────────────────────────────────────
   const [, setIsOnline] = useState(navigator.onLine);
@@ -57,6 +65,8 @@ export default function DispatchReport() {
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
+
+
 
   // === ENHANCED STRUCTURED LOGGING ===
   const logAction = async (action, isError = false) => {
@@ -180,48 +190,47 @@ export default function DispatchReport() {
     }
   }, [filterData, shipmentData]);
 
-  useEffect(() => {
-    if (filterData.length === 0) {
-      logAction("Customizing empty message in DataTable");
-      const tr = document.querySelector(".p-datatable-emptymessage");
-      if (tr) {
-        const td = tr.querySelector("td");
-        if (td) {
-          td.innerHTML = "No Records Found";
-          td.style.textAlign = "center";
-          td.style.border = "1px solid #e4e4e4";
-        }
-      }
+  const formatDate = (dateInput) => {
+  if (!dateInput) return "";
 
-      const paginator = document.querySelector(".p-paginator-bottom");
-      if (paginator) {
-        const first = paginator.querySelector(".p-paginator-first");
-        const prev = paginator.querySelector(".p-paginator-prev");
-        const next = paginator.querySelector(".p-paginator-next");
-        const last = paginator.querySelector(".p-paginator-last");
+  let date;
 
-        if (first) first.innerHTML = "First";
-        if (prev) prev.innerHTML = "Previous";
-        if (next) next.innerHTML = "Next";
-        if (last) last.innerHTML = "Last";
+  // If already Date object
+  if (dateInput instanceof Date) {
+    date = dateInput;
+  } 
+  // If number timestamp
+  else if (!isNaN(dateInput)) {
+    date = new Date(dateInput);
+  } 
+  // String handling
+  else {
+    let value = String(dateInput).trim();
+
+    // Replace separators (- .) → /
+    value = value.replace(/[-.]/g, "/");
+
+    // Handle dd/mm/yyyy manually
+    const parts = value.split("/");
+
+    if (parts.length === 3) {
+      const [a, b, c] = parts;
+
+      // yyyy/mm/dd
+      if (a.length === 4) {
+        date = new Date(`${a}-${b}-${c}`);
       }
+      // dd/mm/yyyy
+      else if (c.length === 4) {
+        date = new Date(`${c}-${b}-${a}`);
+      }
+    } else {
+      // fallback for ISO / other formats
+      date = new Date(value);
     }
-  }, [filterData]);
+  }
 
-  
-  const formatDate = (dateString) => {
-  if (!dateString) return "";
-
-  // Normalize both formats
-  const normalized = dateString.replace(/-/g, "/");
-
-  const parts = normalized.split("/");
-  if (parts.length !== 3) return "";
-
-  const [dd, mm, yyyy] = parts;
-
-  const date = new Date(`${yyyy}-${mm}-${dd}`);
-  if (isNaN(date)) return "";
+  if (!date || isNaN(date.getTime())) return "";
 
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -315,7 +324,7 @@ export default function DispatchReport() {
 
           {showDateRow && (
             <div className="row align-items-center">
-              <div className="col">
+              <div className="col" style={{paddingTop:"0px"}}>
                 <label>From</label>
                 <div className="select-container">
                   <DatePicker
@@ -350,7 +359,7 @@ export default function DispatchReport() {
                 </div>
               </div>
 
-              <div className="col" style={{ paddingRight: "0px" }}>
+              <div className="col" style={{ paddingRight: "0px",paddingTop:"0px" }}>
                 <label>To</label>
                 <div className="select-container">
                   <DatePicker
@@ -679,27 +688,27 @@ export default function DispatchReport() {
   }, [selectedField1, selectedField2]);
   const isDateSelected =
     selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+
+   const currentRows = filterData.slice(indexOfFirstPost, indexOfLastPost);
   return (
     <>
-      <div className="main_containerreport">
+      <div className="main_container-list">
         <div style={{ display: "flex", justifyContent: "space-between", position: "static" }}>
           <h1 className="formHeading">Dispatch Report</h1>
         </div>
 
         <DataTable
-          value={filterData}
+          value={currentRows}
           header={renderHeader}
-          paginator
-          rows={10}
           emptyMessage="No Records Found"
           // className={isDateSelected ? "datatable-small" : "datatable-large"}
-          scrollHeight={isDateSelected ? "40dvh" : "54dvh"}
+          scrollHeight={isDateSelected ? "32dvh" : "47dvh"}
           scrollable
           className="report-table"
         >
           <Column
             header="Sr. No."
-            body={(d, o) => o.rowIndex + 1}
+            body={(d, o) => indexOfFirstPost+o.rowIndex + 1}
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
@@ -711,7 +720,7 @@ export default function DispatchReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            style={{width:"150px"}}
+            style={{ textWrap:"auto", width:"180px"}}
           />
           <Column
             field="SHPH_Date"
@@ -719,7 +728,7 @@ export default function DispatchReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            style={{width:"150px"}}
+             style={{ textWrap:"auto", width:"170px"}}
             body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
@@ -729,7 +738,7 @@ export default function DispatchReport() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
-            style={{ textWrap:"auto", width:"180px"}}
+            style={{ textWrap:"auto", width:"160px"}}
           />
           <Column
             field="LGCM_Name"
@@ -746,7 +755,7 @@ export default function DispatchReport() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            style={{width:"150px"}}
+           style={{ textWrap:"auto",width:"150px"}}
             body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
@@ -780,6 +789,12 @@ export default function DispatchReport() {
           />
         </DataTable>
       </div>
+       < Pagination
+        totalRows={filterData.length}
+        rowsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
     </>
   );
 }

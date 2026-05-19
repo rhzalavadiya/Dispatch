@@ -6,14 +6,14 @@ import { Column } from "primereact/column";
 import Select from "react-select";
 import { toast } from "react-toastify";
 // import { LuRefreshCcw } from "react-icons/lu";
-import { FaSyncAlt } from "react-icons/fa";
 import { config } from "../config/config";
 import { FaEye } from "react-icons/fa";
 import Icon3 from "../../assest/images/Icon3.png";
 import { IoCaretUpOutline, IoCaretDownOutline } from "react-icons/io5";
 import "react-datepicker/dist/react-datepicker.css";
 import { IoCalendarOutline } from "react-icons/io5";
-import { localApi, vpsApi, showSuccess } from "../../utils/api";  // ← Centralized API import
+import { localApi, vpsApi } from "../../utils/api";  // ← Centralized API import
+import Pagination from "../common/Pagination";
 
 export default function ShipmentScanning() {
   const [manualLoading, setManualLoading] = useState(false);
@@ -40,6 +40,11 @@ export default function ShipmentScanning() {
     { value: 10, label: "Pending" },
   ];
 
+  const [itemsPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const indexOfLastPost = currentPage * itemsPerPage;
+  const indexOfFirstPost = indexOfLastPost - itemsPerPage;
 
   const logAction = async (action, isError = false) => {
     try {
@@ -245,20 +250,20 @@ export default function ShipmentScanning() {
 
   // ────────────────────────────────────────────────
 
- const parseShipmentDate = (dateString) => {
-  if (!dateString) return null;
+  const parseShipmentDate = (dateString) => {
+    if (!dateString) return null;
 
-  // Convert "-" → "/" so both formats work
-  const normalized = dateString.replace(/-/g, "/");
+    // Convert "-" → "/" so both formats work
+    const normalized = dateString.replace(/-/g, "/");
 
-  const parts = normalized.split("/");
-  if (parts.length !== 3) return null;
+    const parts = normalized.split("/");
+    if (parts.length !== 3) return null;
 
-  const [dd, mm, yyyy] = parts;
+    const [dd, mm, yyyy] = parts;
 
-  const date = new Date(`${yyyy}-${mm}-${dd}`);
-  return isNaN(date) ? null : date;
-};
+    const date = new Date(`${yyyy}-${mm}-${dd}`);
+    return isNaN(date) ? null : date;
+  };
   const searchOptions = [
     { value: null, label: "--Select--" },
     { value: "SHPH_ShipmentCode", label: "Shipment Code" },
@@ -318,57 +323,81 @@ export default function ShipmentScanning() {
 
     });
 
-  useEffect(() => {
-    logAction(`Filtering applied - Total: ${shipmentData.length}, After filter: ${filterData.length}`);
-    if (filterData.length === 0) {
-      logAction("No records found after filtering");
-      const tr = document.querySelector(".p-datatable-emptymessage");
-      const td = tr.querySelector("td");
-      td.innerHTML = "No Records Found";
-      td.style.textAlign = "center";
-      td.style.border = "1px solid #e4e4e4";
+  //  const formatDate = (dateString) => {
+  //   if (!dateString) return "";
 
-      const first = document.querySelector(".p-paginator-bottom");
+  //   // Normalize both formats
+  //   const normalized = dateString.replace(/-/g, "/");
 
-      const data1 = first.querySelector(".p-paginator-first");
-      data1.innerHTML = "First";
+  //   const parts = normalized.split("/");
+  //   if (parts.length !== 3) return "";
 
-      const data2 = first.querySelector(".p-paginator-prev");
-      data2.innerHTML = "Previous";
+  //   const [dd, mm, yyyy] = parts;
 
-      const data3 = first.querySelector(".p-paginator-next");
-      data3.innerHTML = "Next";
+  //   const date = new Date(`${yyyy}-${mm}-${dd}`);
+  //   if (isNaN(date)) return "";
 
-      const data4 = first.querySelector(".p-paginator-last");
-      data4.innerHTML = "Last";
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   const month = String(date.getMonth() + 1).padStart(2, "0");
+  //   const year = date.getFullYear();
+
+  //   return `${day}/${month}/${year}`;
+  // };
+
+
+
+  const formatDate = (dateInput) => {
+    if (!dateInput) return "";
+
+    let date;
+
+    // If already Date object
+    if (dateInput instanceof Date) {
+      date = dateInput;
     }
-  }, [filterData]);
+    // If number timestamp
+    else if (!isNaN(dateInput)) {
+      date = new Date(dateInput);
+    }
+    // String handling
+    else {
+      let value = String(dateInput).trim();
 
- const formatDate = (dateString) => {
-  if (!dateString) return "";
+      // Replace separators (- .) → /
+      value = value.replace(/[-.]/g, "/");
 
-  // Normalize both formats
-  const normalized = dateString.replace(/-/g, "/");
+      // Handle dd/mm/yyyy manually
+      const parts = value.split("/");
 
-  const parts = normalized.split("/");
-  if (parts.length !== 3) return "";
+      if (parts.length === 3) {
+        const [a, b, c] = parts;
 
-  const [dd, mm, yyyy] = parts;
+        // yyyy/mm/dd
+        if (a.length === 4) {
+          date = new Date(`${a}-${b}-${c}`);
+        }
+        // dd/mm/yyyy
+        else if (c.length === 4) {
+          date = new Date(`${c}-${b}-${a}`);
+        }
+      } else {
+        // fallback for ISO / other formats
+        date = new Date(value);
+      }
+    }
 
-  const date = new Date(`${yyyy}-${mm}-${dd}`);
-  if (isNaN(date)) return "";
+    if (!date || isNaN(date.getTime())) return "";
 
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
 
-  return `${day}/${month}/${year}`;
-};
-
+    return `${day}/${month}/${year}`;
+  };
   useEffect(() => {
     const isDateSelected =
       selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
-      
+
     if (!isDateSelected) {
       setFormData((prev) => ({
         ...prev,
@@ -511,7 +540,7 @@ export default function ShipmentScanning() {
           {showDateRow && (
             <div className="row align-items-center">
               {/* FROM DATE */}
-              <div className="col">
+              <div className="col" style={{ paddingTop: "0px" }}>
                 <label>From</label>
                 <div className="select-container">
                   <DatePicker
@@ -548,7 +577,7 @@ export default function ShipmentScanning() {
               </div>
 
               {/* TO DATE */}
-              <div className="col" style={{ paddingRight: "0px" }}>
+              <div className="col" style={{ paddingRight: "0px", paddingTop: "0px" }}>
                 <label>To</label>
                 <div className="select-container">
                   <DatePicker
@@ -596,6 +625,8 @@ export default function ShipmentScanning() {
   };
   const isDateSelected =
     selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+
+  const currentRows = filterData.slice(indexOfFirstPost, indexOfLastPost);
   return (
     <>
       {manualLoading && (
@@ -603,42 +634,50 @@ export default function ShipmentScanning() {
           <div className="spinner"></div>
         </div>
       )}
-      <div className="main_container">
+      <div className="main_container-list">
         <div style={{ display: "flex", justifyContent: "space-between", position: 'static' }}>
           <h1 className="formHeading">Shipment Scanning</h1>
 
-          <button
-            onClick={handleRefresh}
-            disabled={manualLoading}
-            style={{ background: "none", border: "none", cursor: "pointer" }}
-          >
-            <FaSyncAlt
-              className={manualLoading ? "spin" : "sync"}
-              // style={{ fontSize: "38px", color: "#295a80" }}
-              title="Shipment Sync"
-            />
-          </button>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" ,width:"25%"}}>
+            <button className="list_btn" onClick={CompletedOutward}>
+              COMPLETED LIST
+            </button>
+
+            <button
+              onClick={handleRefresh}
+              disabled={manualLoading}
+              className="save_btn"
+              style={{ width: "50%", cursor: "pointer" ,marginBottom:"0px"}}
+            >
+              {/* <FaSyncAlt
+                className={manualLoading ? "spin" : "sync"}
+                // style={{ fontSize: "38px", color: "#295a80" }}
+                title="Shipment Sync"
+              /> */}
+              SYNC
+            </button>
+          </div>
         </div>
+
+
+
         <DataTable
-          value={filterData}
+          value={currentRows}
           header={renderHeader}
-          paginator
-          rows={10}
           emptyMessage="No Records Found"
           // className={isDateSelected ? "datatable-small" : "datatable-large"}
-          scrollHeight={isDateSelected ? "32dvh" : "44dvh"}
+          scrollHeight={isDateSelected ? "32dvh" : "47dvh"}
           scrollable
-           className={`custom-table ${
-    isDateSelected ? "paginator-filtered" : "paginator-normal"
-  }`}
+          className={`custom-table ${isDateSelected ? "paginator-filtered" : "paginator-normal"
+            }`}
         >
           <Column
             header="Sr. No."
-            body={(d, o) => o.rowIndex + 1}
+            body={(d, o) => indexOfFirstPost + o.rowIndex + 1}
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            style={{width:"65px"}}
+            style={{ width: "65px" }}
           />
           <Column
             field="SHPH_ShipmentCode"
@@ -646,6 +685,7 @@ export default function ShipmentScanning() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
+            style={{ textWrap: "auto", width: "150px" }}
           />
           <Column
             field="SHPH_Date"
@@ -654,6 +694,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => formatDate(row.SHPH_Date)}
+            style={{ textWrap: "auto", width: "170px" }}
           />
           <Column
             field="RUTL_Name"
@@ -662,7 +703,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
-            style={{ textWrap:"auto", width:"100px"}}
+            style={{ textWrap: "auto", width: "160px" }}
           />
           <Column
             field="LGCM_Name"
@@ -671,7 +712,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.LGCM_Name || "-"}
-            style={{ textWrap:"auto"}}
+            style={{ textWrap: "auto" }}
           />
           <Column
             field="LGCVM_VehicleNumber"
@@ -680,6 +721,7 @@ export default function ShipmentScanning() {
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.LGCVM_VehicleNumber || "-"}
+            style={{ textWrap: "auto", width: "150px" }}
 
           />
           <Column
@@ -688,18 +730,16 @@ export default function ShipmentScanning() {
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-             style={{width:"100px"}}
+            style={{ width: "100px" }}
           />
           <Column
             header="Action"
             className="rowx"
             headerClassName="custom-header"
             bodyClassName="custom-description"
-            style={{width:"75px"}}
+            style={{ width: "75px" }}
             body={(rowData) => {
               const canEditRow = canEdit(rowData);
-              const showSync =
-                rowData.SHPH_Status === 12 && rowData.SHPH_IsSync === 0;
 
               return (
                 <div className="d-flex align-items-center" style={{ gap: "10px" }}>
@@ -743,11 +783,12 @@ export default function ShipmentScanning() {
           />
         </DataTable>
       </div>
-      <div className="button-container">
-        <button className="list_btn" onClick={CompletedOutward}>
-          COMPLETED LIST
-        </button>
-      </div>
+      < Pagination
+        totalRows={filterData.length}
+        rowsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
     </>
   );
 }

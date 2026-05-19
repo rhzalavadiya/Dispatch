@@ -20,11 +20,11 @@ const loginWithPassword = async (req, res) => {
           companyitpolicymaster.CITPM_PolicyName,
           companyitpolicymaster.CITPM_SessionTimeOut
    FROM usermaster
-   JOIN groupmaster 
+   LEFT JOIN groupmaster 
      ON groupmaster.GRPM_GroupId = usermaster.UM_GroupId
-   JOIN companyitpolicymaster 
+   LEFT JOIN companyitpolicymaster 
      ON companyitpolicymaster.CITPM_PolicyID = groupmaster.GRPM_ITPolicyId
-   JOIN scpmaster on scpmaster.SCPM_ID=usermaster.UM_DefaultSCPId
+   LEFT JOIN scpmaster on scpmaster.SCPM_ID=usermaster.UM_DefaultSCPId
    WHERE UM_UserCode = ? AND scpmaster.SCPM_Code=?`,
   [UM_UserCode,process.env.SCPMCode]
 );

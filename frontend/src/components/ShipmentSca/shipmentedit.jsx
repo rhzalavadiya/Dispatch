@@ -1651,7 +1651,7 @@ useEffect(() => {
                                 <Column field="rsn" header="RSN"
                                     bodyClassName="custom-description"
                                     headerClassName="custom-header" 
-                                    style={{width:"170px"}}
+                                    style={{width:"185px"}}
                                     />
 
                                 <Column

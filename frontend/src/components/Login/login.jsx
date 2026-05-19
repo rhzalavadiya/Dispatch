@@ -121,7 +121,7 @@ const NewLogin = () => {
                 // Store session data
                 sessionStorage.setItem("userId", val.userID);
                 sessionStorage.setItem("userName", val.userName);
-                sessionStorage.setItem("sessionExpirationTime", val.sessionExpirationTime);
+                sessionStorage.setItem("sessionExpirationTime", val.sessionExpirationTime || 120);
                 sessionStorage.setItem("DisplayName", val.DisplayName);
                 sessionStorage.setItem("CompanyId", val.CompanyId);
                 sessionStorage.setItem("CompanyGroupId", val.CompanyGroupId);
@@ -134,19 +134,19 @@ const NewLogin = () => {
                     setIsPasswordExpired(true);
                     setNotiModal(true);
                     logAction("Password expired - Showing expiry notification", true);
-                    toast.warn("Your password has expired. Please reset your password.", { position: "top-right" });
+                    toast.warn("Your password has expired. Please reset your password.", { position: "top-right", toastId: "password-expired" });
                 } else if (val.showNotification && val.passwordExpiresOn) {
                     setPasswordExpiresOn(val.passwordExpiresOn);
                     setIsPasswordExpired(false);
                     setNotiModal(true);
                     logAction(`Password expiring soon on ${val.passwordExpiresOn} - Showing warning`, false);
-                    toast.warn(`Your password will expire on ${val.passwordExpiresOn}. Please change your password.`, { position: "top-right" });
+                    toast.warn(`Your password will expire on ${val.passwordExpiresOn}. Please change your password.`, { position: "top-right", toastId: "password-warning" });
                 } else if (val.wantChangePassword || pwdCheckBox) {
                     setPwdChangeModal(true);
                     logAction("User requested password change - Opening modal", false, { source: val.wantChangePassword ? "backend" : "checkbox" });
                 } else {
-                   // navigate("/shipmentscanning");
-                   await redirectResumeShipment();
+                    // navigate("/shipmentscanning");
+                    await redirectResumeShipment();
                     //logAction("LOGIN SUCCESSFUL - Navigated to shipmentscanning", false);
                 }
             }
@@ -183,7 +183,7 @@ const NewLogin = () => {
                 logAction(`Login failed: Network or server error - ${error.message}`, true);
             }
 
-            toast.error(message, { position: "top-right" });
+            toast.error(message, { position: "top-right", toastId: "login-error" });
         }
     };
 
@@ -211,13 +211,25 @@ const NewLogin = () => {
         }
         setNewPwdErrMsg(errors);
     };
+const handleChangePwd = (e) => {
+    const { name, value } = e.target;
 
-    const handleChangePwd = (e) => {
-        const { name, value } = e.target;
-        setNewPwdForm((prev) => ({ ...prev, [name]: value }));
-        validatePasswordUpdateField(name, value);
-        logAction(`Password modal input: ${name} value entered  : ${value}`);
-    };
+    setNewPwdForm((prev) => ({
+        ...prev,
+        [name]: value
+    }));
+
+    // Remove * only when user types value
+    if (value) {
+        setNewPwdErrMsg((prev) => {
+            const updated = { ...prev };
+            delete updated[name];
+            return updated;
+        });
+    }
+
+    logAction(`Password modal input: ${name} value entered  : ${value}`);
+};
 
     const setNewPassword = async (e) => {
         e.preventDefault();
@@ -243,24 +255,24 @@ const NewLogin = () => {
 
         const failures = [];
         if (!isLengthValid) failures.push("length");
-        if (!hasUppercase) failures.push("uppercase");
-        if (!hasLowercase) failures.push("lowercase");
+        if (!hasUppercase) failures.push("uppercase letter");
+        if (!hasLowercase) failures.push("lowercase letter");
         if (!hasNumber) failures.push("number");
-        if (!hasSpecialChar) failures.push("special");
+        if (!hasSpecialChar) failures.push("special character");
 
         if (failures.length > 0) {
-            const msg = failures.length > 1 
-                ? "Password must contain: uppercase, lowercase, number, special char, and be 8-12 characters."
-                : failures[0] === "length" ? "Password must be 8-12 characters." 
-                : `Password must contain at least one ${failures[0]}.`;
-            
-            toast.warn(msg, { position: "top-right" });
+            const msg = failures.length > 1
+                ? "Password must contain: uppercase letter, lowercase letter, number, special character, and be between 8 and 12 characters in length."
+                : failures[0] === "length" ? "Password must be between 8 and 12 characters in length."
+                    : `Password must contain at least one ${failures[0]}.`;
+
+            toast.warn(msg, { position: "top-right", toastId: "password-validation" });
             logAction(`Password validation failed: Missing rules - ${failures.join(", ")}`, true);
             return;
         }
 
         if (password !== cPassword) {
-            toast.warn("New Password and Confirm New Password do not match.", { position: "top-right" });
+            toast.warn("New Password and Confirm New Password do not match.", { position: "top-right", toastId: "password-mismatch" });
             logAction("Password change failed: Passwords do not match", true);
             return;
         }
@@ -272,15 +284,15 @@ const NewLogin = () => {
             const response = await localApi.post("/changepassword", data);
 
             if (response.data.message === 'User Not Found') {
-                toast.error("Invalid User Name.", { position: "top-right" });
+                toast.error("Invalid User Name.", { position: "top-right", toastId: "invalid-username" });
                 logAction("Password change failed: User not found", true);
                 return;
             } else if (response.data.message === 'User is Inactive') {
-                toast.error("Your account is inactive due to maximum password failure attempts.", { position: "top-right" });
+                toast.error("Your account is inactive due to maximum password failure attempts.", { position: "top-right", toastId: "account-inactive" });
                 logAction("Password change failed: User inactive", true);
                 return;
             } else if (response.data.message === 'You can not reuse previous three password') {
-                toast.warn("You cannot reuse the previous three passwords.", { position: "top-right" });
+                toast.warn("You cannot reuse the previous three passwords.", { position: "top-right", toastId: "password-reuse" });
                 logAction("Password change failed: Reuse of old password", true);
                 return;
             }
@@ -296,14 +308,14 @@ const NewLogin = () => {
 
                 if (!result.data.success) {
                     logAction("Password changed locally but VPS sync failed", true);
-                    toast.warn("Password changed locally but VPS sync failed", { position: "top-right" });
+                    toast.warn("Password changed locally but VPS sync failed", { position: "top-right", toastId: "vps-sync-failed" });
                 } else {
                     logAction("Password synced successfully to VPS");
                     showSuccess("Password set and synced successfully!");
                 }
             }
 
-            toast.success("Password set successfully", { autoClose: 3000, position: "top-right" });
+            toast.success("Password set successfully.", { autoClose: 3000, position: "top-right", toastId: "password-set-success" });
             logAction("Password changed successfully - Full flow completed");
 
             // Reset forms and close modal
@@ -327,7 +339,7 @@ const NewLogin = () => {
             }
 
             const errMsg = error.response?.data?.message || error.message || "An error occurred";
-            toast.error(errMsg, { position: "top-right" });
+            toast.error(errMsg, { position: "top-right", toastId: "password-change-failed" });
             logAction(`Password change failed: ${errMsg} and error ${error}`, true);
         }
     };
@@ -357,7 +369,7 @@ const NewLogin = () => {
                         logAction("Login data successfully synced from VPS to local");
                     } else {
                         logAction("Login sync to local failed", true);
-                       // toast.error("Sync failed: " + (result.data.message || "Unknown error"));
+                        // toast.error("Sync failed: " + (result.data.message || "Unknown error"));
                     }
                 }
             } catch (error) {
@@ -365,33 +377,33 @@ const NewLogin = () => {
 
                 logAction(`Login sync API failed: ${error.message} and error object: ${JSON.stringify(error)}`, true);
                 console.error("Login sync API failed", error);
-                toast.error("Failed to sync login data", { position: "top-right" });
+                toast.error("Failed to sync login data", { position: "top-right", toastId: "sync-failed" });
             }
         };
         callLoginSync();
     }, []);
 
     //-------------------------check if shipment running status for login---------------------------
-const redirectResumeShipment = async () => {
-  try {
-    logAction("Checking for resume shipment on login on this /check-resume-shipments");
-    const res = await localApi.get("/check-resume-shipments");
-    console.log("Resume shipment check response:", res);
-    const id = res.data?.data?.SHPH_ShipmentID;
+    const redirectResumeShipment = async () => {
+        try {
+            logAction("Checking for resume shipment on login on this /check-resume-shipments");
+            const res = await localApi.get("/check-resume-shipments");
+            console.log("Resume shipment check response:", res);
+            const id = res.data?.data?.SHPH_ShipmentID;
 
-    if (id) {
-      logAction(`Resuming shipment detected - Redirecting to editShipment/${id}`, false);
-      navigate(`/editShipment/${id}`);   // ✅ FIXED
-    } else {
-      logAction(`No resume shipment - Redirecting to shipmentscanning`, false);
-      navigate("/shipmentscanning");
-    }
-  } catch (err) {
-    console.error("Resume redirect failed:", err);
-    logAction(`Resume shipment check failed: ${err.message} and error object: ${JSON.stringify(err)}`, true);
-    navigate("/shipmentscanning");
-  }
-};
+            if (id) {
+                logAction(`Resuming shipment detected - Redirecting to editShipment/${id}`, false);
+                navigate(`/editShipment/${id}`);   // ✅ FIXED
+            } else {
+                logAction(`No resume shipment - Redirecting to shipmentscanning`, false);
+                navigate("/shipmentscanning");
+            }
+        } catch (err) {
+            console.error("Resume redirect failed:", err);
+            logAction(`Resume shipment check failed: ${err.message} and error object: ${JSON.stringify(err)}`, true);
+            navigate("/shipmentscanning");
+        }
+    };
 
 
     return (
@@ -469,9 +481,10 @@ const redirectResumeShipment = async () => {
                     setNewPwdErrMsg({});
                     logAction("Closed password change modal");
                 }}
+                centered
                 backdrop="static"
                 className="custom-modal"
-            
+
             >
                 <Modal.Header draggable={false} closeButton>
                     <Modal.Title className="password-reset">Password Reset</Modal.Title>
@@ -480,18 +493,18 @@ const redirectResumeShipment = async () => {
                     <form>
                         <div className="text-center mb-3">
                             <label htmlFor="newPassword" className="form-label" style={{ width: '445px' }}>New Password
-                             <span style={{ color: "red", paddingLeft:"2px"}}>{newPwdErrMsg.pwdval}</span></label> 
+                                <span style={{ color: "red", paddingLeft: "2px" }}>{newPwdErrMsg.pwdval}</span></label>
                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <input style={{ width: "97%" }} type="password" className="form-control" onChange={handleChangePwd} name="pwdval" />
-                               
+
                             </div>
                         </div>
                         <div className="text-center mb-3">
                             <label htmlFor="confirmPassword" className="form-label" style={{ width: '445px' }}>Confirm New Password
-                             <span style={{ color: "red", paddingLeft:"2px"}}>{newPwdErrMsg.confirmPwdVal}</span> </label>
+                                <span style={{ color: "red", paddingLeft: "2px" }}>{newPwdErrMsg.confirmPwdVal}</span> </label>
                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                                 <input style={{ width: "97%" }} type="password" className="form-control" onChange={handleChangePwd} name="confirmPwdVal" />
-                               
+
                             </div>
                         </div>
                     </form>

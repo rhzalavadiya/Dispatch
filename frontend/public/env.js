@@ -5,4 +5,12 @@ window._env_ = {
   REACT_APP_CONFIG_VERSION: "1.0",
   REACT_APP_WEBSOCKET_URL: "ws://192.168.7.7:9005/ws",
   AUTOPROCESS: "true",
+
+  REACT_APP_PRINTER_DATA: JSON.stringify([
+    {
+      ip: "192.168.1.15",
+      name: "SATO WS4",
+      port: "9100"
+    }
+  ])
 };

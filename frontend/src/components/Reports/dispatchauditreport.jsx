@@ -15,6 +15,7 @@ import autoTable from "jspdf-autotable";
 import BhagwatiImage from "../../assest/images/Bhagwati_Logo.png";
 import { localApi } from "../../utils/api";
 import Icon8 from "../../assest/images/Icon8.png";
+import Pagination from "../common/Pagination";
 
 export default function DispatchAuditReport() {
   const [shipmentData, setShipmentData] = useState([]);
@@ -57,6 +58,12 @@ export default function DispatchAuditReport() {
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
+
+    const [itemsPerPage] = useState(10);
+    const [currentPage, setCurrentPage] = useState(1);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const indexOfLastPost = currentPage * itemsPerPage;
+    const indexOfFirstPost = indexOfLastPost - itemsPerPage;
 
   // === ENHANCED STRUCTURED LOGGING ===
   const logAction = async (action, isError = false) => {
@@ -205,20 +212,47 @@ const parseShipmentDate = (dateString) => {
     }
   }, [filterData]);
 
- 
-  const formatDate = (dateString) => {
-  if (!dateString) return "";
+  const formatDate = (dateInput) => {
+  if (!dateInput) return "";
 
-  // Normalize both formats
-  const normalized = dateString.replace(/-/g, "/");
+  let date;
 
-  const parts = normalized.split("/");
-  if (parts.length !== 3) return "";
+  // If already Date object
+  if (dateInput instanceof Date) {
+    date = dateInput;
+  } 
+  // If number timestamp
+  else if (!isNaN(dateInput)) {
+    date = new Date(dateInput);
+  } 
+  // String handling
+  else {
+    let value = String(dateInput).trim();
 
-  const [dd, mm, yyyy] = parts;
+    // Replace separators (- .) → /
+    value = value.replace(/[-.]/g, "/");
 
-  const date = new Date(`${yyyy}-${mm}-${dd}`);
-  if (isNaN(date)) return "";
+    // Handle dd/mm/yyyy manually
+    const parts = value.split("/");
+
+    if (parts.length === 3) {
+      const [a, b, c] = parts;
+
+      // yyyy/mm/dd
+      if (a.length === 4) {
+        date = new Date(`${a}-${b}-${c}`);
+      }
+      // dd/mm/yyyy
+      else if (c.length === 4) {
+        date = new Date(`${c}-${b}-${a}`);
+      }
+    } else {
+      // fallback for ISO / other formats
+      date = new Date(value);
+    }
+  }
+
+  if (!date || isNaN(date.getTime())) return "";
 
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -226,6 +260,27 @@ const parseShipmentDate = (dateString) => {
 
   return `${day}/${month}/${year}`;
 };
+ 
+//   const formatDate = (dateString) => {
+//   if (!dateString) return "";
+
+//   // Normalize both formats
+//   const normalized = dateString.replace(/-/g, "/");
+
+//   const parts = normalized.split("/");
+//   if (parts.length !== 3) return "";
+
+//   const [dd, mm, yyyy] = parts;
+
+//   const date = new Date(`${yyyy}-${mm}-${dd}`);
+//   if (isNaN(date)) return "";
+
+//   const day = String(date.getDate()).padStart(2, "0");
+//   const month = String(date.getMonth() + 1).padStart(2, "0");
+//   const year = date.getFullYear();
+
+//   return `${day}/${month}/${year}`;
+// };
 
   const renderHeader = () => {
     const showDateRow = selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
@@ -312,7 +367,7 @@ const parseShipmentDate = (dateString) => {
 
           {showDateRow && (
             <div className="row align-items-center">
-              <div className="col">
+              <div className="col" style={{paddingTop:"0px"}}>
                 <label>From</label>
                 <div className="select-container">
                   <DatePicker
@@ -347,7 +402,7 @@ const parseShipmentDate = (dateString) => {
                 </div>
               </div>
 
-              <div className="col" style={{ paddingRight: "0px" }}>
+              <div className="col" style={{ paddingRight: "0px" , paddingTop:"0px"}}>
                 <label>To</label>
                 <div className="select-container">
                   <DatePicker
@@ -660,39 +715,6 @@ const date = new Date();
     addFooter(doc);
   };
 
-  // function addSignatureSection(doc) {
-  //   const pageHeight = doc.internal.pageSize.getHeight();
-  //   const SIGNATURE_HEIGHT = 30;
-  //   const BOTTOM_MARGIN = 15;
-
-  //   let startY = doc.lastAutoTable
-  //     ? doc.lastAutoTable.finalY + 10
-  //     : 60;
-
-  //   autoTable(doc, {
-  //     body: [
-  //       ['', 'Name', 'Sign', 'Date'],
-  //       ['Printed By :', '_______________________________', '_______________________________', '_______________________________'],
-  //       ['Checked By :', '_______________________________', '_______________________________', '_______________________________'],
-  //       ['Verified By :', '_______________________________', '_______________________________', '_______________________________'],
-  //     ],
-  //     startY,
-  //     theme: 'plain',
-  //     pageBreak: 'avoid',
-  //     rowPageBreak: 'avoid',
-  //     styles: {
-  //       fontSize: 8,
-  //       cellPadding: 2,
-  //     },
-  //     columnStyles: {
-  //       0: { halign: 'left' },
-  //       1: { halign: 'center' },
-  //       2: { halign: 'center' },
-  //       3: { halign: 'center' },
-  //     },
-  //   });
-  // }
-
   function addSignatureSection(doc) {
   let startY = doc.lastAutoTable
     ? doc.lastAutoTable.finalY + 10
@@ -760,27 +782,27 @@ const date = new Date();
   }, [selectedField1, selectedField2]);
   const isDateSelected =
     selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
+
+   const currentRows = filterData.slice(indexOfFirstPost, indexOfLastPost);
   return (
     <>
-      <div className="main_containerreport">
+      <div className="main_container-list">
         <div style={{ display: "flex", justifyContent: "space-between", position: "static" }}>
           <h1 className="formHeading">Dispatch Audit Report</h1>
         </div>
 
         <DataTable
-          value={filterData}
+          value={currentRows}
           header={renderHeader}
-          paginator
-          rows={10}
           emptyMessage="No Records Found"
           // className={isDateSelected ? "datatable-small" : "datatable-large"}
-          scrollHeight={isDateSelected ? "40dvh" : "54dvh"}
+          scrollHeight={isDateSelected ? "32dvh" : "47dvh"}
           scrollable
           className="report-table"
         >
           <Column
             header="Sr. No."
-            body={(d, o) => o.rowIndex + 1}
+            body={(d, o) => indexOfFirstPost+o.rowIndex + 1}
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
@@ -792,7 +814,7 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            style={{width:"150px"}}
+            style={{ textWrap:"auto", width:"180px"}}
           />
           <Column
             field="SHPH_Date"
@@ -800,7 +822,7 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            style={{width:"150px"}}
+           style={{ textWrap:"auto", width:"170px"}}
             body={(row) => formatDate(row.SHPH_Date)}
           />
           <Column
@@ -810,7 +832,7 @@ const date = new Date();
             bodyClassName="custom-description"
             headerClassName="custom-header"
             body={(row) => row.RUTL_Name || "-"}
-            style={{ textWrap:"auto", width:"180px"}}
+            style={{ textWrap:"auto", width:"160px"}}
           />
           <Column
             field="LGCM_Name"
@@ -827,7 +849,7 @@ const date = new Date();
             className="rowx"
             bodyClassName="custom-description"
             headerClassName="custom-header"
-            style={{width:"150px"}}
+            style={{ textWrap:"auto", width:"150px"}}
             body={(row) => row.LGCVM_VehicleNumber || "-"}
           />
           <Column
@@ -859,6 +881,12 @@ const date = new Date();
           />
         </DataTable>
       </div>
+       < Pagination
+        totalRows={filterData.length}
+        rowsPerPage={itemsPerPage}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
     </>
   );
 }
