@@ -186,55 +186,53 @@ const parseShipmentDate = (dateString) => {
     }
   }, [filterData, shipmentData]);
 
-  const formatDate = (dateInput) => {
+const formatDate = (dateInput) => {
   if (!dateInput) return "";
 
-  let date;
+  let day, month, year;
 
-  // If already Date object
-  if (dateInput instanceof Date) {
-    date = dateInput;
-  } 
-  // If number timestamp
-  else if (!isNaN(dateInput)) {
-    date = new Date(dateInput);
-  } 
-  // String handling
-  else {
-    let value = String(dateInput).trim();
+  // If ISO string: 2026-04-16T18:30:00.000Z
+  if (
+    typeof dateInput === "string" &&
+    dateInput.includes("T")
+  ) {
+    const isoDate = dateInput.split("T")[0]; // 2026-04-16
+    [year, month, day] = isoDate.split("-");
+  }
 
-    // Replace separators (- .) → /
-    value = value.replace(/[-.]/g, "/");
-
-    // Handle dd/mm/yyyy manually
+  // If dd/mm/yyyy or dd-mm-yyyy or dd.mm.yyyy
+  else if (typeof dateInput === "string") {
+    const value = dateInput.replace(/[-.]/g, "/");
     const parts = value.split("/");
 
     if (parts.length === 3) {
-      const [a, b, c] = parts;
-
-      // yyyy/mm/dd
-      if (a.length === 4) {
-        date = new Date(`${a}-${b}-${c}`);
+      if (parts[0].length === 4) {
+        // yyyy/mm/dd
+        [year, month, day] = parts;
+      } else {
+        // dd/mm/yyyy
+        [day, month, year] = parts;
       }
-      // dd/mm/yyyy
-      else if (c.length === 4) {
-        date = new Date(`${c}-${b}-${a}`);
-      }
-    } else {
-      // fallback for ISO / other formats
-      date = new Date(value);
     }
   }
 
-  if (!date || isNaN(date.getTime())) return "";
+  // Date object or timestamp
+  else {
+    const date = new Date(dateInput);
 
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
+    if (isNaN(date.getTime())) return "";
 
-  return `${day}/${month}/${year}`;
+    day = String(date.getDate()).padStart(2, "0");
+    month = String(date.getMonth() + 1).padStart(2, "0");
+    year = date.getFullYear();
+  }
+
+  if (!day || !month || !year) return "";
+
+  return `${String(day).padStart(2, "0")}/${String(
+    month
+  ).padStart(2, "0")}/${year}`;
 };
-
   const renderHeader = () => {
     const showDateRow = selectedField1 === "SHPH_Date" || selectedField2 === "SHPH_Date";
     return (

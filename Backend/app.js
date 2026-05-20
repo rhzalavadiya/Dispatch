@@ -16,10 +16,6 @@ const net = require("net");
 const snmp = require("net-snmp");
 require("./dailybackup"); // Start the daily backup scheduler
 
-//console.log("RSN Sync Service Running");
-
-
-
 app.use(express.json({ limit: "1000mb" }));
 app.use(express.urlencoded({ limit: "1000mb", extended: true }));
 
@@ -325,9 +321,6 @@ app.post("/sync-vps-to-local", async (req, res) => {
       const flatValues = records.flatMap(r =>
         syncColumns.map(col => r[col])
       );
-
-      // Optional: log first record for debugging
-      // console.log(`Syncing ${table.name} — first record:`, records[0]);
 
       await conn.query(sql, flatValues);
     }
@@ -1113,95 +1106,6 @@ app.get("/get-running-csv", async (req, res) => {
     });
   }
 });
-
-// app.get("/get-running-csv", async (req, res) => {
-// //  console.log("hit")
-//   const basePath = process.env.DISPATCH_BASE_PATH;
-//   //const basePath = "D:/Project Work Space/Bhagvati/Dispatch/Backend/ProcessFiles";
-//   const dispatchFile = process.env.DispatchFile || "Dispatch_SCP.csv"; // fallback if not set
-
-//   if (!basePath) {
-//     return res.status(500).json({ error: "DISPATCH_BASE_PATH not configured" });
-//   }
-
-//   try {
-
-//     const query = `select * from shipmentlist order by SHPH_ModifiedTimestamp desc limit 1`;
-
-//     const [getData] = await conn.query(query);
-
-//     const folders = fs.readdirSync(basePath).filter(f => {
-//       const fullPath = path.join(basePath, f);
-//       return fs.lstatSync(fullPath).isDirectory();
-//     });
-
-//     // getData comes from DB
-//     const shipmentCodeval = getData[0].SHPH_ShipmentCode;
-
-//     // Decide folder name based on status
-//     let targetFolderName = null;
-
-//     if (getData[0].SHPH_Status === 10) {
-//       // Completed / normal shipment
-//       targetFolderName = shipmentCodeval;
-//     } else if (getData[0].SHPH_Status === 6) {
-//       // Running shipment
-//       targetFolderName = `${shipmentCodeval}-1`;
-//     }
-
-//     // Find that folder
-//     let runningFolder = null;
-//     for (const folder of folders) {
-
-//       if (folder === targetFolderName) {
-//         const csvPath = path.join(basePath, folder, dispatchFile);
-//         if (fs.existsSync(csvPath)) {
-//           runningFolder = folder;
-//           break;
-//         }
-//       }
-//     }
-
-
-//     // Step 2: If no "-1" folder found → no active shipment
-//     if (!runningFolder) {
-//       return res.json({
-//         shipmentCode: null,
-//         data: []
-//       });
-//     }
-
-//     // Step 3: Read the CSV from the running folder
-//     const csvPath = path.join(basePath, runningFolder, dispatchFile);
-//     const data = fs.readFileSync(csvPath, "utf8");
-//     const parsed = Papa.parse(data, { header: true, skipEmptyLines: true });
-//     let rows = parsed.data;
-
-//     // Optional: Normalize status
-//     rows = rows.map(row => ({
-//       ...row,
-//       status: (row.status || "").trim().toUpperCase()
-//     }));
-
-//     // Step 4: Get clean shipment code (remove -1 from folder name)
-//     const cleanCode = runningFolder.slice(0, -2); // "WH_7-1" → "WH_7"
-
-//     const shipmentCode = rows[0]?.SHPH_ShipmentCode?.trim() || cleanCode;
-//     //console.log("Running Shipment Code : ", shipmentCode);
-//     // Success: return current running data
-//     res.json({
-//       shipmentSatus: getData[0].SHPH_Status === 6,
-//       shipmentCode,
-//       data: rows
-//     });
-
-//   } catch (err) {
-//     console.log("Error in /get-running-csv:", err);
-//     res.status(500).json({ error: "Failed to read running shipment" });
-//   }
-// });
-
-// 6. Check internet connectivity
 app.get("/checkinternet", (req, res) => {
   res.status(200).json({ ok: true });
 });
